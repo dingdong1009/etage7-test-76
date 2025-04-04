@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -137,12 +136,6 @@ const AuthPage = () => {
         company_name: data.companyName,
         description: data.description || null,
         role: data.role,
-      });
-
-      // Show success message
-      toast({
-        title: "Registration successful",
-        description: "Your account has been created and is pending approval.",
       });
 
       // Navigate to success page

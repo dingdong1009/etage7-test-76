@@ -93,6 +93,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   async function signUp(email: string, password: string, userData: Partial<UserProfile> & { full_name: string }) {
     try {
+      // First, create the auth user with metadata for their name and role
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
@@ -114,7 +115,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       if (data.user) {
-        // Prepare profile data ensuring full_name is included
+        // Create a complete profile record
         const profileData = {
           id: data.user.id,
           email,
@@ -123,13 +124,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           company_name: userData.company_name || null,
           description: userData.description || null,
           role: userData.role || "buyer",
-          approval_status: "pending" as const,
+          approval_status: "pending",
         };
 
-        // Insert the profile data using the service role client to bypass RLS
+        // After signing up, we can use the session token to create the profile
+        // This ensures the user is authenticated when creating their profile
         const { error: profileError } = await supabase
           .from("profiles")
-          .insert(profileData);
+          .insert([profileData]);
 
         if (profileError) {
           console.error("Profile creation error:", profileError);
@@ -138,8 +140,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             description: profileError.message,
             variant: "destructive",
           });
+          
+          // If profile creation fails, delete the auth user to prevent orphaned accounts
+          await supabase.auth.admin.deleteUser(data.user.id);
           throw profileError;
         }
+        
+        toast({
+          title: "Registration successful",
+          description: "Your account has been created and is pending approval.",
+        });
       }
     } catch (error: any) {
       console.error("Error in signUp:", error);
