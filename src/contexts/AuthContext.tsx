@@ -93,6 +93,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   async function signUp(email: string, password: string, userData: Partial<UserProfile> & { full_name: string }) {
     try {
+      console.log("Starting sign up process with data:", { email, userData });
+      
       // First, create the auth user with metadata for their name and role
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -115,6 +117,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       if (data.user) {
+        console.log("User created successfully, now creating profile");
+        
         // Create a complete profile record - ensuring types match the database schema
         const profileData = {
           id: data.user.id,
@@ -123,21 +127,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           phone: userData.phone || null,
           company_name: userData.company_name || null,
           description: userData.description || null,
-          role: userData.role || "buyer" as UserRole,
+          role: (userData.role || "buyer") as UserRole,
           approval_status: "pending" as ApprovalStatus,
         };
+
+        console.log("Profile data to insert:", profileData);
 
         // After signing up, we can use the session token to create the profile
         // This ensures the user is authenticated when creating their profile
         const { error: profileError } = await supabase
           .from("profiles")
-          .insert(profileData); // Remove the array brackets
+          .insert(profileData);
 
         if (profileError) {
           console.error("Profile creation error:", profileError);
           toast({
             title: "Profile creation failed",
-            description: profileError.message,
+            description: `Error: ${profileError.message} (${profileError.code})`,
             variant: "destructive",
           });
           

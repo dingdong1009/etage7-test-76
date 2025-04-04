@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -42,6 +43,7 @@ const AuthPage = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
+  const [registerError, setRegisterError] = useState<string | null>(null);
 
   const loginForm = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -110,25 +112,11 @@ const AuthPage = () => {
 
   const onRegisterSubmit = async (data: RegisterFormValues) => {
     setLoading(true);
+    setRegisterError(null);
+    
     try {
-      // Check if email is already registered
-      const { data: existingUser, error: checkError } = await supabase.auth.signInWithPassword({
-        email: data.email,
-        password: "dummy_password_for_check",
-      });
-
-      if (existingUser?.session) {
-        // Email exists, sign out from the check
-        await supabase.auth.signOut();
-        toast({
-          title: "Email already registered",
-          description: "Please use a different email or log in with your existing account.",
-          variant: "destructive",
-        });
-        setLoading(false);
-        return;
-      }
-
+      console.log("Registration data:", data);
+      
       // Register the user with the updated signUp function
       await signUp(data.email, data.password, {
         full_name: data.fullName,
@@ -142,6 +130,7 @@ const AuthPage = () => {
       navigate("/registration-success");
     } catch (error: any) {
       console.error("Registration error:", error);
+      setRegisterError(error.message || "An error occurred during registration");
       toast({
         title: "Registration failed",
         description: error.message || "An error occurred during registration",
@@ -206,6 +195,12 @@ const AuthPage = () => {
           <TabsContent value="register">
             <Form {...registerForm}>
               <form onSubmit={registerForm.handleSubmit(onRegisterSubmit)} className="space-y-4">
+                {registerError && (
+                  <div className="bg-red-50 border border-red-200 text-red-700 p-3 text-sm">
+                    {registerError}
+                  </div>
+                )}
+                
                 <FormField
                   control={registerForm.control}
                   name="role"
