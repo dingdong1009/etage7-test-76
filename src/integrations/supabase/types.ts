@@ -9,16 +9,202 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      commissions: {
+        Row: {
+          amount: number
+          brand_id: string
+          created_at: string
+          id: string
+          sales_manager_id: string
+          status: string
+          subscription_id: string
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          brand_id: string
+          created_at?: string
+          id?: string
+          sales_manager_id: string
+          status?: string
+          subscription_id: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          brand_id?: string
+          created_at?: string
+          id?: string
+          sales_manager_id?: string
+          status?: string
+          subscription_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "commissions_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commissions_sales_manager_id_fkey"
+            columns: ["sales_manager_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "commissions_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invitations: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          inviter_id: string
+          role: Database["public"]["Enums"]["user_role"]
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          inviter_id: string
+          role: Database["public"]["Enums"]["user_role"]
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          inviter_id?: string
+          role?: Database["public"]["Enums"]["user_role"]
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          approval_status: Database["public"]["Enums"]["approval_status"]
+          company_name: string | null
+          created_at: string
+          description: string | null
+          email: string
+          full_name: string
+          id: string
+          inviter_id: string | null
+          phone: string | null
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at: string
+        }
+        Insert: {
+          approval_status?: Database["public"]["Enums"]["approval_status"]
+          company_name?: string | null
+          created_at?: string
+          description?: string | null
+          email: string
+          full_name: string
+          id: string
+          inviter_id?: string | null
+          phone?: string | null
+          role: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+        }
+        Update: {
+          approval_status?: Database["public"]["Enums"]["approval_status"]
+          company_name?: string | null
+          created_at?: string
+          description?: string | null
+          email?: string
+          full_name?: string
+          id?: string
+          inviter_id?: string | null
+          phone?: string | null
+          role?: Database["public"]["Enums"]["user_role"]
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          amount: number
+          brand_id: string
+          created_at: string
+          duration_months: number
+          end_date: string
+          id: string
+          is_active: boolean
+          plan_type: string
+          start_date: string
+          updated_at: string
+        }
+        Insert: {
+          amount: number
+          brand_id: string
+          created_at?: string
+          duration_months: number
+          end_date: string
+          id?: string
+          is_active?: boolean
+          plan_type: string
+          start_date?: string
+          updated_at?: string
+        }
+        Update: {
+          amount?: number
+          brand_id?: string
+          created_at?: string
+          duration_months?: number
+          end_date?: string
+          id?: string
+          is_active?: boolean
+          plan_type?: string
+          start_date?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_brand_id_fkey"
+            columns: ["brand_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      add_first_admin: {
+        Args: {
+          admin_email: string
+          admin_name: string
+        }
+        Returns: undefined
+      }
+      get_user_role: {
+        Args: {
+          user_id: string
+        }
+        Returns: Database["public"]["Enums"]["user_role"]
+      }
     }
     Enums: {
-      [_ in never]: never
+      approval_status: "pending" | "approved" | "rejected"
+      user_role: "admin" | "sales_manager" | "brand" | "buyer"
     }
     CompositeTypes: {
       [_ in never]: never
