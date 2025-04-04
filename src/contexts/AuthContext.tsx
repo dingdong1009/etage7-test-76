@@ -119,7 +119,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (data.user) {
         console.log("User created successfully, now creating profile");
         
-        // Create a complete profile record - ensuring types match the database schema
+        // Ensure approval_status and role are properly typed as enum values
+        const approvalStatus: ApprovalStatus = "pending";
+        const userRole: UserRole = (userData.role || "buyer") as UserRole;
+        
+        // Create a properly typed profile record
         const profileData = {
           id: data.user.id,
           email,
@@ -127,14 +131,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           phone: userData.phone || null,
           company_name: userData.company_name || null,
           description: userData.description || null,
-          role: (userData.role || "buyer") as UserRole,
-          approval_status: "pending" as ApprovalStatus,
+          role: userRole,
+          approval_status: approvalStatus,
         };
 
         console.log("Profile data to insert:", profileData);
 
-        // After signing up, we can use the session token to create the profile
-        // This ensures the user is authenticated when creating their profile
+        // Remove the deletion of auth user if profile creation fails
+        // This was causing the delete cascade to trigger and remove the profile
         const { error: profileError } = await supabase
           .from("profiles")
           .insert(profileData);
@@ -147,12 +151,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             variant: "destructive",
           });
           
-          // If profile creation fails, attempt to delete the auth user to prevent orphaned accounts
-          try {
-            await supabase.auth.admin.deleteUser(data.user.id);
-          } catch (deleteError) {
-            console.error("Failed to clean up user after profile creation error:", deleteError);
-          }
+          // Do not delete the auth user if profile creation fails
+          // Let the user try again or contact support
+          // The admin can manually clean up the auth user if needed
           
           throw profileError;
         }
