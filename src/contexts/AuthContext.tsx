@@ -115,7 +115,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       if (data.user) {
-        // Create a complete profile record
+        // Create a complete profile record - ensuring types match the database schema
         const profileData = {
           id: data.user.id,
           email,
@@ -123,15 +123,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           phone: userData.phone || null,
           company_name: userData.company_name || null,
           description: userData.description || null,
-          role: userData.role || "buyer",
-          approval_status: "pending",
+          role: userData.role || "buyer" as UserRole,
+          approval_status: "pending" as ApprovalStatus,
         };
 
         // After signing up, we can use the session token to create the profile
         // This ensures the user is authenticated when creating their profile
         const { error: profileError } = await supabase
           .from("profiles")
-          .insert([profileData]);
+          .insert(profileData); // Remove the array brackets
 
         if (profileError) {
           console.error("Profile creation error:", profileError);
@@ -141,8 +141,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             variant: "destructive",
           });
           
-          // If profile creation fails, delete the auth user to prevent orphaned accounts
-          await supabase.auth.admin.deleteUser(data.user.id);
+          // If profile creation fails, attempt to delete the auth user to prevent orphaned accounts
+          try {
+            await supabase.auth.admin.deleteUser(data.user.id);
+          } catch (deleteError) {
+            console.error("Failed to clean up user after profile creation error:", deleteError);
+          }
+          
           throw profileError;
         }
         
