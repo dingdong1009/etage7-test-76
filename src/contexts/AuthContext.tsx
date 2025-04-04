@@ -27,7 +27,7 @@ interface AuthContextType {
   profile: UserProfile | null;
   isLoading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
-  signUp: (email: string, password: string, userData: Partial<UserProfile>) => Promise<void>;
+  signUp: (email: string, password: string, userData: Partial<UserProfile> & { full_name: string }) => Promise<void>;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
 }
@@ -91,7 +91,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  async function signUp(email: string, password: string, userData: Partial<UserProfile>) {
+  async function signUp(email: string, password: string, userData: Partial<UserProfile> & { full_name: string }) {
     try {
       const { data, error } = await supabase.auth.signUp({
         email,
@@ -108,10 +108,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       if (data.user) {
+        // Prepare profile data ensuring full_name is included
         const profileData = {
           id: data.user.id,
           email,
-          ...userData,
+          full_name: userData.full_name,
+          phone: userData.phone || null,
+          company_name: userData.company_name || null,
+          description: userData.description || null,
+          role: userData.role || "buyer",
+          approval_status: "pending" as const,
         };
 
         const { error: profileError } = await supabase

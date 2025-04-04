@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -39,7 +38,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 type RegisterFormValues = z.infer<typeof registerSchema>;
 
 const AuthPage = () => {
-  const { signIn } = useAuth();
+  const { signIn, signUp } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
@@ -125,34 +124,17 @@ const AuthPage = () => {
         return;
       }
 
-      // Register the user
-      const { data: authData, error: signUpError } = await supabase.auth.signUp({
-        email: data.email,
-        password: data.password,
+      // Register the user with the updated signUp function
+      await signUp(data.email, data.password, {
+        full_name: data.fullName,
+        phone: data.phone || null,
+        company_name: data.companyName,
+        description: data.description || null,
+        role: data.role,
       });
 
-      if (signUpError) throw signUpError;
-
-      if (authData.user) {
-        // Insert profile data
-        const { error: profileError } = await supabase
-          .from("profiles")
-          .insert({
-            id: authData.user.id,
-            email: data.email,
-            full_name: data.fullName,
-            phone: data.phone || null,
-            company_name: data.companyName,
-            description: data.description || null,
-            role: data.role,
-            approval_status: "pending",
-          });
-
-        if (profileError) throw profileError;
-
-        // Navigate to success page
-        navigate("/registration-success");
-      }
+      // Navigate to success page
+      navigate("/registration-success");
     } catch (error: any) {
       console.error("Registration error:", error);
       toast({
@@ -165,7 +147,6 @@ const AuthPage = () => {
     }
   };
 
-  // Continue with the rest of the component...
   return (
     <div className="flex items-center justify-center min-h-screen px-4 py-16">
       <div className="w-full max-w-md">
