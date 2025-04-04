@@ -96,6 +96,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
+        options: {
+          data: {
+            full_name: userData.full_name,
+            role: userData.role || "buyer"
+          }
+        }
       });
 
       if (error) {
@@ -120,11 +126,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           approval_status: "pending" as const,
         };
 
+        // Insert the profile data using the service role client to bypass RLS
         const { error: profileError } = await supabase
           .from("profiles")
           .insert(profileData);
 
         if (profileError) {
+          console.error("Profile creation error:", profileError);
           toast({
             title: "Profile creation failed",
             description: profileError.message,

@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -98,6 +99,11 @@ const AuthPage = () => {
       }
     } catch (error: any) {
       console.error("Login error:", error);
+      toast({
+        title: "Login failed",
+        description: error.message || "An error occurred during login",
+        variant: "destructive",
+      });
     } finally {
       setLoading(false);
     }
@@ -133,13 +139,19 @@ const AuthPage = () => {
         role: data.role,
       });
 
+      // Show success message
+      toast({
+        title: "Registration successful",
+        description: "Your account has been created and is pending approval.",
+      });
+
       // Navigate to success page
       navigate("/registration-success");
     } catch (error: any) {
       console.error("Registration error:", error);
       toast({
         title: "Registration failed",
-        description: error.message,
+        description: error.message || "An error occurred during registration",
         variant: "destructive",
       });
     } finally {
