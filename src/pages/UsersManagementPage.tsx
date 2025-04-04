@@ -33,9 +33,20 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Tables } from "@/integrations/supabase/types";
 
-type UserProfile = Tables["profiles"]["Row"];
+// Define user profile type
+type UserProfile = {
+  id: string;
+  email: string;
+  full_name: string;
+  phone: string | null;
+  company_name: string | null;
+  description: string | null;
+  role: "admin" | "sales_manager" | "brand" | "buyer";
+  approval_status: "pending" | "approved" | "rejected";
+  created_at: string;
+  updated_at: string;
+};
 
 const inviteSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -82,9 +93,9 @@ const UsersManagementPage = () => {
       if (error) throw error;
 
       if (data) {
-        setPendingUsers(data.filter(user => user.approval_status === "pending"));
-        setApprovedUsers(data.filter(user => user.approval_status === "approved"));
-        setRejectedUsers(data.filter(user => user.approval_status === "rejected"));
+        setPendingUsers(data.filter(user => user.approval_status === "pending") as UserProfile[]);
+        setApprovedUsers(data.filter(user => user.approval_status === "approved") as UserProfile[]);
+        setRejectedUsers(data.filter(user => user.approval_status === "rejected") as UserProfile[]);
       }
     } catch (error: any) {
       console.error("Error fetching users:", error);
@@ -166,6 +177,7 @@ const UsersManagementPage = () => {
     return null;
   }
 
+  // Continue with the rest of the component...
   return (
     <div className="p-6 max-w-[1481px] mx-auto">
       <div className="flex justify-between items-center mb-8">

@@ -18,6 +18,7 @@ type UserProfile = {
   role: UserRole;
   approval_status: ApprovalStatus;
   created_at: string;
+  updated_at: string;
 };
 
 interface AuthContextType {
@@ -91,76 +92,89 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   async function signUp(email: string, password: string, userData: Partial<UserProfile>) {
-    const { data, error } = await supabase.auth.signUp({
-      email,
-      password,
-    });
-
-    if (error) {
-      toast({
-        title: "Registration failed",
-        description: error.message,
-        variant: "destructive",
-      });
-      throw error;
-    }
-
-    if (data.user) {
-      const profileData = {
-        id: data.user.id,
+    try {
+      const { data, error } = await supabase.auth.signUp({
         email,
-        ...userData,
-      };
+        password,
+      });
 
-      const { error: profileError } = await supabase
-        .from("profiles")
-        .insert(profileData);
-
-      if (profileError) {
+      if (error) {
         toast({
-          title: "Profile creation failed",
-          description: profileError.message,
+          title: "Registration failed",
+          description: error.message,
           variant: "destructive",
         });
-        throw profileError;
+        throw error;
       }
-    }
 
-    return data;
+      if (data.user) {
+        const profileData = {
+          id: data.user.id,
+          email,
+          ...userData,
+        };
+
+        const { error: profileError } = await supabase
+          .from("profiles")
+          .insert(profileData);
+
+        if (profileError) {
+          toast({
+            title: "Profile creation failed",
+            description: profileError.message,
+            variant: "destructive",
+          });
+          throw profileError;
+        }
+      }
+    } catch (error: any) {
+      console.error("Error in signUp:", error);
+      throw error;
+    }
   }
 
   async function signIn(email: string, password: string) {
-    const { data, error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    });
-
-    if (error) {
-      toast({
-        title: "Login failed",
-        description: error.message,
-        variant: "destructive",
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
       });
+
+      if (error) {
+        toast({
+          title: "Login failed",
+          description: error.message,
+          variant: "destructive",
+        });
+        throw error;
+      }
+      
+      // Custom handling of return value
+    } catch (error: any) {
+      console.error("Error in signIn:", error);
       throw error;
     }
-
-    return data;
   }
 
   async function signOut() {
-    const { error } = await supabase.auth.signOut();
-    
-    if (error) {
-      toast({
-        title: "Sign out failed",
-        description: error.message,
-        variant: "destructive",
-      });
+    try {
+      const { error } = await supabase.auth.signOut();
+      
+      if (error) {
+        toast({
+          title: "Sign out failed",
+          description: error.message,
+          variant: "destructive",
+        });
+        throw error;
+      }
+    } catch (error: any) {
+      console.error("Error in signOut:", error);
       throw error;
     }
   }
 
-  const value = {
+  const value: AuthContextType = {
     session,
     user,
     profile,

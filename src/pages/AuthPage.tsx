@@ -165,6 +165,7 @@ const AuthPage = () => {
     }
   };
 
+  // Continue with the rest of the component...
   return (
     <div className="flex items-center justify-center min-h-screen px-4 py-16">
       <div className="w-full max-w-md">
