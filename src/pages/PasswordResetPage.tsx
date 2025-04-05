@@ -221,7 +221,7 @@ const PasswordResetPage = () => {
                   name="password"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>New Password</FormLabel>
+                      <FormLabel>NEW PASSWORD</FormLabel>
                       <FormControl>
                         <Input type="password" placeholder="Enter new password" {...field} />
                       </FormControl>
@@ -235,7 +235,7 @@ const PasswordResetPage = () => {
                   name="confirmPassword"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Confirm Password</FormLabel>
+                      <FormLabel>CONFIRM PASSWORD</FormLabel>
                       <FormControl>
                         <Input type="password" placeholder="Confirm new password" {...field} />
                       </FormControl>
