@@ -82,6 +82,7 @@ const AuthPage = () => {
   const onLoginSubmit = async (data: LoginFormValues) => {
     setLoading(true);
     try {
+      console.log("Login attempt for:", data.email);
       await signIn(data.email, data.password);
       
       // Check if user is approved
@@ -92,6 +93,21 @@ const AuthPage = () => {
         .single();
       
       if (error) {
+        console.error("Error fetching profile after login:", error);
+        
+        if (error.code === 'PGRST116') {
+          // Permission error - might be RLS related
+          toast({
+            title: "Access restricted",
+            description: "Your profile access might be restricted. Please contact support.",
+            variant: "destructive",
+          });
+          
+          // Sign out if can't access profile
+          await supabase.auth.signOut();
+          return;
+        }
+        
         throw error;
       }
 
@@ -100,6 +116,8 @@ const AuthPage = () => {
           title: "Account pending approval",
           description: "Your account is pending approval by an administrator.",
         });
+        
+        navigate("/registration-success");
       } else if (profileData && profileData.approval_status === "rejected") {
         toast({
           title: "Account rejected",
@@ -109,6 +127,10 @@ const AuthPage = () => {
         // Sign out if rejected
         await supabase.auth.signOut();
       } else {
+        toast({
+          title: "Login successful",
+          description: "Welcome back!",
+        });
         navigate("/");
       }
     } catch (error: any) {

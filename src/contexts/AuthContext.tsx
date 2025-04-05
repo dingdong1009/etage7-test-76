@@ -1,3 +1,4 @@
+
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -44,6 +45,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!user) return;
 
     try {
+      console.log("Refreshing profile for user:", user.id);
+      
       const { data, error } = await supabase
         .from("profiles")
         .select("*")
@@ -52,7 +55,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (error) {
         console.error("Error fetching profile:", error);
+        
+        if (error.code === 'PGRST116') {
+          console.log("RLS policy may be preventing profile access, will retry with delay");
+          // If it's a permission error, we'll try one more time with a short delay
+          setTimeout(async () => {
+            const { data: retryData, error: retryError } = await supabase
+              .from("profiles")
+              .select("*")
+              .eq("id", user.id)
+              .single();
+              
+            if (!retryError && retryData) {
+              console.log("Profile fetch successful on retry");
+              setProfile(retryData as UserProfile);
+            } else {
+              console.error("Profile fetch failed on retry:", retryError);
+            }
+          }, 1000);
+        }
       } else if (data) {
+        console.log("Profile fetched successfully:", data);
         setProfile(data as UserProfile);
       }
     } catch (error) {
@@ -61,8 +84,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }
 
   useEffect(() => {
+    // This function sets up a subscription to auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, currentSession) => {
+        console.log("Auth state changed, event:", _event);
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
         
@@ -72,7 +97,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     );
 
+    // Initial auth check
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
+      console.log("Initial auth check, session:", currentSession ? "exists" : "null");
       setSession(currentSession);
       setUser(currentSession?.user ?? null);
       
@@ -160,18 +187,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   async function signIn(email: string, password: string) {
     try {
+      console.log("Attempting sign in for:", email);
+      
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
 
       if (error) {
+        console.error("Sign in error:", error);
         toast({
           title: "Login failed",
           description: error.message,
           variant: "destructive",
         });
         throw error;
+      }
+      
+      console.log("Sign in successful, session created");
+      
+      // Refresh profile immediately after sign in
+      if (data.user) {
+        // Small delay to allow auth state to propagate
+        setTimeout(() => refreshProfile(), 500);
       }
       
     } catch (error: any) {
