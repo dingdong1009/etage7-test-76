@@ -44,12 +44,21 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>;
 
 const AuthPage = () => {
-  const { signIn, signUp } = useAuth();
+  const { signIn, signUp, user, profile } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [registerError, setRegisterError] = useState<string | null>(null);
   const [showResetPassword, setShowResetPassword] = useState(false);
+
+  // If user is already logged in, redirect based on approval status
+  if (user && profile) {
+    if (profile.approval_status === "pending") {
+      navigate("/registration-success");
+    } else if (profile.approval_status === "approved") {
+      navigate("/");
+    }
+  }
 
   const loginForm = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -85,61 +94,12 @@ const AuthPage = () => {
       console.log("Login attempt for:", data.email);
       await signIn(data.email, data.password);
       
-      // Check if user is approved
-      const { data: profileData, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("email", data.email)
-        .single();
+      // We don't need to check the profile here anymore
+      // The auth state change listener will handle redirects based on profile status
       
-      if (error) {
-        console.error("Error fetching profile after login:", error);
-        
-        if (error.code === 'PGRST116') {
-          // Permission error - might be RLS related
-          toast({
-            title: "Access restricted",
-            description: "Your profile access might be restricted. Please contact support.",
-            variant: "destructive",
-          });
-          
-          // Sign out if can't access profile
-          await supabase.auth.signOut();
-          return;
-        }
-        
-        throw error;
-      }
-
-      if (profileData && profileData.approval_status === "pending") {
-        toast({
-          title: "Account pending approval",
-          description: "Your account is pending approval by an administrator.",
-        });
-        
-        navigate("/registration-success");
-      } else if (profileData && profileData.approval_status === "rejected") {
-        toast({
-          title: "Account rejected",
-          description: "Your account registration has been rejected.",
-          variant: "destructive",
-        });
-        // Sign out if rejected
-        await supabase.auth.signOut();
-      } else {
-        toast({
-          title: "Login successful",
-          description: "Welcome back!",
-        });
-        navigate("/");
-      }
     } catch (error: any) {
       console.error("Login error:", error);
-      toast({
-        title: "Login failed",
-        description: error.message || "An error occurred during login",
-        variant: "destructive",
-      });
+      // Toast is already shown in the signIn function
     } finally {
       setLoading(false);
     }
@@ -166,11 +126,7 @@ const AuthPage = () => {
     } catch (error: any) {
       console.error("Registration error:", error);
       setRegisterError(error.message || "An error occurred during registration");
-      toast({
-        title: "Registration failed",
-        description: error.message || "An error occurred during registration",
-        variant: "destructive",
-      });
+      // Toast is already shown in the signUp function
     } finally {
       setLoading(false);
     }
@@ -179,22 +135,21 @@ const AuthPage = () => {
   const onResetPasswordSubmit = async (data: ResetPasswordFormValues) => {
     setLoading(true);
     try {
-      // Instead of sending a reset link, we'll send a one-time code
       const { error } = await supabase.auth.resetPasswordForEmail(data.email, {
-        redirectTo: undefined, // Don't use redirectTo for code-based flow
+        redirectTo: `${window.location.origin}/password-reset`,
       });
       
       if (error) {
         throw error;
       }
       
-      // Navigate to the password reset page with the email
-      navigate(`/password-reset?email=${encodeURIComponent(data.email)}`);
-      
       toast({
-        title: "Code sent",
-        description: "Check your email for the password reset code",
+        title: "Password reset email sent",
+        description: "Check your email for the password reset link",
       });
+      
+      // Return to login view
+      setShowResetPassword(false);
     } catch (error: any) {
       console.error("Password reset error:", error);
       toast({
@@ -308,7 +263,7 @@ const AuthPage = () => {
                         className="flex-1 bg-black hover:bg-gray-800" 
                         disabled={loading}
                       >
-                        {loading ? "SENDING..." : "SEND RESET CODE"}
+                        {loading ? "SENDING..." : "SEND RESET LINK"}
                       </Button>
                     </div>
                   </form>

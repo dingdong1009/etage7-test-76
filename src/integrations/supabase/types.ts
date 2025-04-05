@@ -201,6 +201,12 @@ export type Database = {
         }
         Returns: Database["public"]["Enums"]["user_role"]
       }
+      get_user_role_safely: {
+        Args: {
+          user_id: string
+        }
+        Returns: string
+      }
     }
     Enums: {
       approval_status: "pending" | "approved" | "rejected"

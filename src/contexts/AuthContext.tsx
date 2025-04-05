@@ -47,7 +47,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       console.log("Refreshing profile for user:", user.id);
       
-      // First try with short timeout
+      // Use setTimeout to avoid potential deadlocks with auth state changes
       setTimeout(async () => {
         try {
           const { data, error } = await supabase
@@ -57,38 +57,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             .single();
 
           if (error) {
-            console.error("Initial profile fetch error:", error);
-            
-            if (error.code === 'PGRST116') {
-              console.log("Initial RLS policy may be preventing profile access, will retry with longer delay");
-              // If permission error, retry after longer delay
-              setTimeout(async () => {
-                try {
-                  const { data: retryData, error: retryError } = await supabase
-                    .from("profiles")
-                    .select("*")
-                    .eq("id", user.id)
-                    .single();
-                    
-                  if (!retryError && retryData) {
-                    console.log("Profile fetch successful on final retry:", retryData);
-                    setProfile(retryData as UserProfile);
-                  } else {
-                    console.error("Profile fetch failed on final retry:", retryError);
-                  }
-                } catch (finalError) {
-                  console.error("Final profile fetch attempt failed:", finalError);
-                }
-              }, 2000); // Longer 2 second delay for final retry
-            }
+            console.error("Profile fetch error:", error);
+            // Don't show toast for profile fetch errors to avoid confusion
           } else if (data) {
-            console.log("Profile fetched successfully on initial try:", data);
+            console.log("Profile fetched successfully:", data);
             setProfile(data as UserProfile);
           }
         } catch (innerError) {
-          console.error("Error in profile refresh (inner):", innerError);
+          console.error("Error in profile refresh:", innerError);
         }
-      }, 500); // Initial 500ms delay
+      }, 100);
     } catch (error) {
       console.error("Error setting up refreshProfile:", error);
     }
@@ -97,23 +75,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let mounted = true;
     
-    // This function sets up a subscription to auth state changes
+    // Set up the auth state change listener first
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, currentSession) => {
         console.log("Auth state changed, event:", _event);
         
         if (!mounted) return;
         
+        // Only update state synchronously here
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
         
-        if (!currentSession) {
+        // If we have a session and user, fetch profile with a delay
+        if (currentSession?.user) {
+          setTimeout(() => {
+            if (mounted) refreshProfile();
+          }, 50);
+        } else {
+          // Clear profile if no session
           setProfile(null);
         }
       }
     );
 
-    // Initial auth check
+    // Then check for existing session
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
       console.log("Initial auth check, session:", currentSession ? "exists" : "null");
       
@@ -123,12 +108,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(currentSession?.user ?? null);
       
       if (currentSession?.user) {
-        refreshProfile().finally(() => {
-          if (mounted) setIsLoading(false);
-        });
-      } else {
-        if (mounted) setIsLoading(false);
+        setTimeout(() => {
+          if (mounted) refreshProfile();
+        }, 100);
       }
+      
+      // Set loading to false regardless of auth state
+      setIsLoading(false);
     });
 
     return () => {
@@ -228,14 +214,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       console.log("Sign in successful, session created");
       
-      // Refresh profile immediately after sign in using progressive delays
-      if (data.user) {
-        // Multiple retries with increasing delays to account for potential RLS delays
-        setTimeout(() => refreshProfile(), 300);
-        setTimeout(() => refreshProfile(), 1000);
-        setTimeout(() => refreshProfile(), 2000);
-      }
-      
+      // Don't manually call refreshProfile here - let the onAuthStateChange handler handle it
+      // This prevents potential conflicts or race conditions
+      toast({
+        title: "Login successful",
+        description: "Welcome back!",
+      });
     } catch (error: any) {
       console.error("Error in signIn:", error);
       throw error;
@@ -254,6 +238,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         });
         throw error;
       }
+      
+      // Clear local state
+      setProfile(null);
+      setUser(null);
+      setSession(null);
     } catch (error: any) {
       console.error("Error in signOut:", error);
       throw error;
