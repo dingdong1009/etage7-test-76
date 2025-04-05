@@ -22,8 +22,8 @@ const RegistrationSuccessPage = () => {
         </div>
         
         <Button asChild className="bg-black text-white hover:bg-gray-800">
-          <Link to="/auth">
-            RETURN TO LOGIN
+          <Link to="/">
+            RETURN TO HOME
           </Link>
         </Button>
       </div>
