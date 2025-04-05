@@ -47,47 +47,63 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       console.log("Refreshing profile for user:", user.id);
       
-      const { data, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", user.id)
-        .single();
+      // First try with short timeout
+      setTimeout(async () => {
+        try {
+          const { data, error } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", user.id)
+            .single();
 
-      if (error) {
-        console.error("Error fetching profile:", error);
-        
-        if (error.code === 'PGRST116') {
-          console.log("RLS policy may be preventing profile access, will retry with delay");
-          // If it's a permission error, we'll try one more time with a short delay
-          setTimeout(async () => {
-            const { data: retryData, error: retryError } = await supabase
-              .from("profiles")
-              .select("*")
-              .eq("id", user.id)
-              .single();
-              
-            if (!retryError && retryData) {
-              console.log("Profile fetch successful on retry");
-              setProfile(retryData as UserProfile);
-            } else {
-              console.error("Profile fetch failed on retry:", retryError);
+          if (error) {
+            console.error("Initial profile fetch error:", error);
+            
+            if (error.code === 'PGRST116') {
+              console.log("Initial RLS policy may be preventing profile access, will retry with longer delay");
+              // If permission error, retry after longer delay
+              setTimeout(async () => {
+                try {
+                  const { data: retryData, error: retryError } = await supabase
+                    .from("profiles")
+                    .select("*")
+                    .eq("id", user.id)
+                    .single();
+                    
+                  if (!retryError && retryData) {
+                    console.log("Profile fetch successful on final retry:", retryData);
+                    setProfile(retryData as UserProfile);
+                  } else {
+                    console.error("Profile fetch failed on final retry:", retryError);
+                  }
+                } catch (finalError) {
+                  console.error("Final profile fetch attempt failed:", finalError);
+                }
+              }, 2000); // Longer 2 second delay for final retry
             }
-          }, 1000);
+          } else if (data) {
+            console.log("Profile fetched successfully on initial try:", data);
+            setProfile(data as UserProfile);
+          }
+        } catch (innerError) {
+          console.error("Error in profile refresh (inner):", innerError);
         }
-      } else if (data) {
-        console.log("Profile fetched successfully:", data);
-        setProfile(data as UserProfile);
-      }
+      }, 500); // Initial 500ms delay
     } catch (error) {
-      console.error("Error in refreshProfile:", error);
+      console.error("Error setting up refreshProfile:", error);
     }
   }
 
   useEffect(() => {
+    let mounted = true;
+    
     // This function sets up a subscription to auth state changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       (_event, currentSession) => {
         console.log("Auth state changed, event:", _event);
+        
+        if (!mounted) return;
+        
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
         
@@ -100,17 +116,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Initial auth check
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
       console.log("Initial auth check, session:", currentSession ? "exists" : "null");
+      
+      if (!mounted) return;
+      
       setSession(currentSession);
       setUser(currentSession?.user ?? null);
       
       if (currentSession?.user) {
-        refreshProfile().finally(() => setIsLoading(false));
+        refreshProfile().finally(() => {
+          if (mounted) setIsLoading(false);
+        });
       } else {
-        setIsLoading(false);
+        if (mounted) setIsLoading(false);
       }
     });
 
     return () => {
+      mounted = false;
       subscription.unsubscribe();
     };
   }, []);
@@ -206,10 +228,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       console.log("Sign in successful, session created");
       
-      // Refresh profile immediately after sign in
+      // Refresh profile immediately after sign in using progressive delays
       if (data.user) {
-        // Small delay to allow auth state to propagate
-        setTimeout(() => refreshProfile(), 500);
+        // Multiple retries with increasing delays to account for potential RLS delays
+        setTimeout(() => refreshProfile(), 300);
+        setTimeout(() => refreshProfile(), 1000);
+        setTimeout(() => refreshProfile(), 2000);
       }
       
     } catch (error: any) {
