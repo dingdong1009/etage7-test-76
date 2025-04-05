@@ -1,4 +1,3 @@
-
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -307,7 +306,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   }
 
-  async function signIn(email: string, password: string) {
+  async function signIn(email: string, password: string): Promise<void> {
     try {
       console.log("Attempting sign in for:", email);
       setProfile(null);
@@ -325,7 +324,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           description: error.message,
           variant: "destructive",
         });
-        throw error;
+        return Promise.reject(error);
       }
       
       console.log("Sign in successful, session created");
@@ -355,7 +354,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
     } catch (error: any) {
       console.error("Error in signIn:", error);
-      // FIX: Using Promise.reject() instead of throw inside a Promise chain
       return Promise.reject(error);
     }
   }
