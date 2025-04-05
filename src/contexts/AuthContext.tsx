@@ -42,10 +42,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [profileRefreshAttempts, setProfileRefreshAttempts] = useState(0);
   const { toast } = useToast();
 
-  async function refreshProfile() {
+  async function refreshProfile(): Promise<void> {
     if (!user) {
       console.log("Cannot refresh profile: No user logged in");
-      return;
+      return Promise.resolve();
     }
 
     try {
@@ -126,8 +126,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           console.error("Error in profile creation:", innerError);
         }
       }
+      return Promise.resolve();
     } catch (error) {
       console.error("Error in refreshProfile:", error);
+      return Promise.resolve(); // We still resolve since this is not a critical failure
     }
   }
 
@@ -228,7 +230,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (user && !profile && !isLoading && profileRefreshAttempts < 5) {
       console.log(`Auto retry profile fetch (attempt ${profileRefreshAttempts + 1})`);
       retryTimeout = setTimeout(() => {
-        refreshProfile();
+        refreshProfile().catch(error => {
+          console.error("Auto retry profile fetch error:", error);
+        });
       }, 1000); // Retry after 1 second
     }
     
@@ -301,6 +305,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           description: "Your account has been created and is pending approval.",
         });
       }
+      
       return Promise.resolve();
     } catch (error: any) {
       console.error("Error in signUp:", error);
