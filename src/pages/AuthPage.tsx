@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/form";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useToast } from "@/hooks/use-toast";
+import { Skeleton } from "@/components/ui/skeleton";
+import { AlertCircle } from "lucide-react";
 
 const loginSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
@@ -44,46 +46,64 @@ type RegisterFormValues = z.infer<typeof registerSchema>;
 type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>;
 
 const AuthPage = () => {
-  const { signIn, signUp, user, profile } = useAuth();
+  const { signIn, signUp, user, profile, isLoading: authLoading, refreshProfile } = useAuth();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [registerError, setRegisterError] = useState<string | null>(null);
   const [showResetPassword, setShowResetPassword] = useState(false);
+  const [redirectAttempted, setRedirectAttempted] = useState(false);
+  const [redirectError, setRedirectError] = useState<string | null>(null);
 
   // Enhanced redirect logic - this will run whenever user or profile changes
   useEffect(() => {
+    if (authLoading) {
+      console.log("Auth context is still loading...");
+      return;
+    }
+
     console.log("Auth page useEffect - User:", user?.id);
     console.log("Auth page useEffect - Profile:", profile);
+    console.log("Auth page useEffect - Auth Loading:", authLoading);
     
     if (user && profile) {
       console.log("Redirecting user with role:", profile.role, "and status:", profile.approval_status);
+      setRedirectError(null);
       
-      if (profile.approval_status === "pending") {
-        console.log("Redirecting to registration success page");
-        navigate("/registration-success");
-      } else if (profile.approval_status === "approved") {
-        // Redirect based on role
-        if (profile.role === "brand") {
-          console.log("Redirecting to brand dashboard");
-          navigate("/brand-dashboard");
-        } else if (profile.role === "buyer") {
-          console.log("Redirecting to buyer dashboard");
-          navigate("/buyer-dashboard");
-        } else if (profile.role === "admin" || profile.role === "sales_manager") {
-          console.log("Redirecting to manage users page");
-          navigate("/manage-users");
+      try {
+        if (profile.approval_status === "pending") {
+          console.log("Redirecting to registration success page");
+          navigate("/registration-success");
+        } else if (profile.approval_status === "approved") {
+          // Redirect based on role
+          if (profile.role === "brand") {
+            console.log("Redirecting to brand dashboard");
+            navigate("/brand-dashboard");
+          } else if (profile.role === "buyer") {
+            console.log("Redirecting to buyer dashboard");
+            navigate("/buyer-dashboard");
+          } else if (profile.role === "admin" || profile.role === "sales_manager") {
+            console.log("Redirecting to manage users page");
+            navigate("/manage-users");
+          } else {
+            console.log("Unknown role, redirecting to home");
+            navigate("/");
+          }
         } else {
-          console.log("Unknown role, redirecting to home");
-          navigate("/");
+          console.log("User not approved, no redirection");
         }
-      } else {
-        console.log("User not approved, no redirection");
+        setRedirectAttempted(true);
+      } catch (error) {
+        console.error("Navigation error:", error);
+        setRedirectError("Failed to navigate. Please use the manual navigation buttons below.");
       }
+    } else if (user && !profile && !authLoading) {
+      console.log("User exists but profile not loaded yet, refreshing profile");
+      refreshProfile();
     } else {
       console.log("No user or profile yet, staying on auth page");
     }
-  }, [user, profile, navigate]);
+  }, [user, profile, navigate, authLoading, refreshProfile]);
 
   const loginForm = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -115,6 +135,8 @@ const AuthPage = () => {
 
   const onLoginSubmit = async (data: LoginFormValues) => {
     setLoading(true);
+    setRedirectAttempted(false);
+    setRedirectError(null);
     try {
       console.log("Login attempt for:", data.email);
       await signIn(data.email, data.password);
@@ -184,6 +206,75 @@ const AuthPage = () => {
       setLoading(false);
     }
   };
+
+  // Manual navigation for fallback purposes
+  const navigateToDashboard = () => {
+    if (!profile) {
+      toast({
+        title: "Cannot navigate",
+        description: "Your profile isn't loaded yet.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      if (profile.role === "brand") {
+        navigate("/brand-dashboard");
+      } else if (profile.role === "buyer") {
+        navigate("/buyer-dashboard");
+      } else if (profile.role === "admin" || profile.role === "sales_manager") {
+        navigate("/manage-users");
+      } else {
+        navigate("/");
+      }
+    } catch (error) {
+      console.error("Manual navigation error:", error);
+      toast({
+        title: "Navigation failed",
+        description: "Could not navigate to dashboard. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  // Show loading state while auth context is initializing
+  if (authLoading && user) {
+    return (
+      <div className="flex items-center justify-center min-h-screen px-4 py-16">
+        <div className="w-full max-w-md text-center space-y-4">
+          <h1 className="text-3xl uppercase font-thin mb-4">
+            <span className="font-normal">LOADING</span> PROFILE
+          </h1>
+          <Skeleton className="h-12 w-full" />
+          <Skeleton className="h-12 w-full" />
+          <p className="text-gray-500 mt-4">Verifying your credentials...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // If user is authenticated but navigation failed, show a fallback UI
+  if (user && profile && redirectAttempted && redirectError) {
+    return (
+      <div className="flex items-center justify-center min-h-screen px-4 py-16">
+        <div className="w-full max-w-md text-center space-y-6">
+          <div className="flex justify-center">
+            <AlertCircle className="h-16 w-16 text-yellow-500" />
+          </div>
+          <h1 className="text-3xl uppercase font-thin">
+            <span className="font-normal">NAVIGATION</span> ISSUE
+          </h1>
+          <p className="text-gray-600 mb-6">
+            You're logged in as {profile.full_name} ({profile.role}), but we couldn't automatically redirect you to your dashboard.
+          </p>
+          <Button onClick={navigateToDashboard} className="w-full bg-black hover:bg-gray-800">
+            GO TO DASHBOARD
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex items-center justify-center min-h-screen px-4 py-16">

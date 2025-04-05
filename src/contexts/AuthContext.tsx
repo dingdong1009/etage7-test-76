@@ -39,13 +39,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [profileRefreshAttempts, setProfileRefreshAttempts] = useState(0);
   const { toast } = useToast();
 
   async function refreshProfile() {
-    if (!user) return;
+    if (!user) {
+      console.log("Cannot refresh profile: No user logged in");
+      return;
+    }
 
     try {
       console.log("Refreshing profile for user:", user.id);
+      setProfileRefreshAttempts(prev => prev + 1);
       
       // Use setTimeout to avoid potential deadlocks with auth state changes
       setTimeout(async () => {
@@ -154,6 +159,22 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
+  // Add an effect to retry profile loading if needed
+  useEffect(() => {
+    let retryTimeout: NodeJS.Timeout | null = null;
+    
+    if (user && !profile && !isLoading && profileRefreshAttempts < 3) {
+      console.log(`Auto retry profile fetch (attempt ${profileRefreshAttempts + 1})`);
+      retryTimeout = setTimeout(() => {
+        refreshProfile();
+      }, 1000); // Retry after 1 second
+    }
+    
+    return () => {
+      if (retryTimeout) clearTimeout(retryTimeout);
+    };
+  }, [user, profile, isLoading, profileRefreshAttempts]);
+
   async function signUp(email: string, password: string, userData: Partial<UserProfile> & { full_name: string }) {
     try {
       console.log("Starting sign up process with data:", { email, userData });
@@ -245,6 +266,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       console.log("Sign in successful, session created");
       
+      // Reset profile refresh attempts
+      setProfileRefreshAttempts(0);
+      
       // Don't manually call refreshProfile here - let the onAuthStateChange handler handle it
       // This prevents potential conflicts or race conditions
       toast({
@@ -274,6 +298,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setProfile(null);
       setUser(null);
       setSession(null);
+      setProfileRefreshAttempts(0);
     } catch (error: any) {
       console.error("Error in signOut:", error);
       throw error;
