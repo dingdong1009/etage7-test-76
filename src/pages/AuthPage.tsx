@@ -286,7 +286,7 @@ const AuthPage = () => {
                         className="flex-1 bg-black hover:bg-gray-800" 
                         disabled={loading}
                       >
-                        {loading ? "SENDING..." : "SEND RESET LINK"}
+                        {loading ? "SENDING..." : "SEND RESET CODE"}
                       </Button>
                     </div>
                   </form>
