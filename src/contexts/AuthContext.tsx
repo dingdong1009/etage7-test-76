@@ -50,6 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       // Use setTimeout to avoid potential deadlocks with auth state changes
       setTimeout(async () => {
         try {
+          console.log("Fetching profile data from database for user:", user.id);
           const { data, error } = await supabase
             .from("profiles")
             .select("*")
@@ -62,6 +63,34 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           } else if (data) {
             console.log("Profile fetched successfully:", data);
             setProfile(data as UserProfile);
+          } else {
+            console.log("No profile found for user, creating one");
+            // If no profile exists, create one with defaults
+            const { error: insertError } = await supabase
+              .from("profiles")
+              .insert({
+                id: user.id,
+                email: user.email || "",
+                full_name: user.user_metadata?.full_name || "User",
+                role: user.user_metadata?.role || "buyer",
+                approval_status: "pending"
+              });
+              
+            if (insertError) {
+              console.error("Error creating default profile:", insertError);
+            } else {
+              // Fetch the newly created profile
+              const { data: newProfile, error: fetchError } = await supabase
+                .from("profiles")
+                .select("*")
+                .eq("id", user.id)
+                .single();
+                
+              if (!fetchError && newProfile) {
+                console.log("New profile created and fetched:", newProfile);
+                setProfile(newProfile as UserProfile);
+              }
+            }
           }
         } catch (innerError) {
           console.error("Error in profile refresh:", innerError);
@@ -77,8 +106,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     
     // Set up the auth state change listener first
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (_event, currentSession) => {
-        console.log("Auth state changed, event:", _event);
+      (event, currentSession) => {
+        console.log("Auth state changed, event:", event);
         
         if (!mounted) return;
         
@@ -88,6 +117,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         
         // If we have a session and user, fetch profile with a delay
         if (currentSession?.user) {
+          console.log("User is authenticated, fetching profile");
           setTimeout(() => {
             if (mounted) refreshProfile();
           }, 50);
@@ -108,6 +138,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(currentSession?.user ?? null);
       
       if (currentSession?.user) {
+        console.log("Found existing session, fetching profile");
         setTimeout(() => {
           if (mounted) refreshProfile();
         }, 100);

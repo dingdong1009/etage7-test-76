@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -50,21 +51,37 @@ const AuthPage = () => {
   const [registerError, setRegisterError] = useState<string | null>(null);
   const [showResetPassword, setShowResetPassword] = useState(false);
 
+  // Enhanced redirect logic - this will run whenever user or profile changes
   useEffect(() => {
+    console.log("Auth page useEffect - User:", user?.id);
+    console.log("Auth page useEffect - Profile:", profile);
+    
     if (user && profile) {
+      console.log("Redirecting user with role:", profile.role, "and status:", profile.approval_status);
+      
       if (profile.approval_status === "pending") {
+        console.log("Redirecting to registration success page");
         navigate("/registration-success");
       } else if (profile.approval_status === "approved") {
+        // Redirect based on role
         if (profile.role === "brand") {
+          console.log("Redirecting to brand dashboard");
           navigate("/brand-dashboard");
         } else if (profile.role === "buyer") {
+          console.log("Redirecting to buyer dashboard");
           navigate("/buyer-dashboard");
         } else if (profile.role === "admin" || profile.role === "sales_manager") {
+          console.log("Redirecting to manage users page");
           navigate("/manage-users");
         } else {
+          console.log("Unknown role, redirecting to home");
           navigate("/");
         }
+      } else {
+        console.log("User not approved, no redirection");
       }
+    } else {
+      console.log("No user or profile yet, staying on auth page");
     }
   }, [user, profile, navigate]);
 
@@ -101,10 +118,8 @@ const AuthPage = () => {
     try {
       console.log("Login attempt for:", data.email);
       await signIn(data.email, data.password);
-      
-      // We don't need to navigate here - the useEffect above will handle redirects
-      // based on user role and approval status
-      
+      // We don't navigate here - the useEffect above will handle redirects
+      // based on user role and approval status once the profile is loaded
     } catch (error: any) {
       console.error("Login error:", error);
       // Toast is already shown in the signIn function
