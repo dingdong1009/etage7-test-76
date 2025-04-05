@@ -3,10 +3,8 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { AuthProvider } from "@/contexts/AuthContext";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/Layout";
-import ProtectedRoute from "./components/ProtectedRoute";
 import Index from "./pages/Index";
 import BrandsPage from "./pages/BrandsPage";
 import BuyersPage from "./pages/BuyersPage";
@@ -14,68 +12,31 @@ import ServicesPage from "./pages/ServicesPage";
 import EventsPage from "./pages/EventsPage";
 import ResourcesPage from "./pages/ResourcesPage";
 import CuratedPage from "./pages/CuratedPage";
-import AuthPage from "./pages/AuthPage";
-import RegistrationSuccessPage from "./pages/RegistrationSuccessPage";
-import PasswordResetPage from "./pages/PasswordResetPage";
-import UsersManagementPage from "./pages/UsersManagementPage";
-import BrandDashboardPage from "./pages/BrandDashboardPage";
-import BuyerDashboardPage from "./pages/BuyerDashboardPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
-    <AuthProvider>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <Layout>
           <Routes>
-            <Route path="/auth" element={<AuthPage />} />
-            <Route path="/registration-success" element={<RegistrationSuccessPage />} />
-            <Route path="/password-reset" element={<PasswordResetPage />} />
-            
-            <Route path="/" element={<Layout><Index /></Layout>} />
-            <Route path="/brands" element={<Layout><BrandsPage /></Layout>} />
-            <Route path="/buyers" element={<Layout><BuyersPage /></Layout>} />
-            <Route path="/services" element={<Layout><ServicesPage /></Layout>} />
-            <Route path="/events" element={<Layout><EventsPage /></Layout>} />
-            <Route path="/resources" element={<Layout><ResourcesPage /></Layout>} />
-            <Route path="/curated" element={<Layout><CuratedPage /></Layout>} />
-            
-            {/* Brand Dashboard - only for approved brands */}
-            <Route path="/brand-dashboard" element={
-              <Layout>
-                <ProtectedRoute allowedRoles={["brand"]}>
-                  <BrandDashboardPage />
-                </ProtectedRoute>
-              </Layout>
-            } />
-            
-            {/* Buyer Dashboard - only for approved buyers */}
-            <Route path="/buyer-dashboard" element={
-              <Layout>
-                <ProtectedRoute allowedRoles={["buyer"]}>
-                  <BuyerDashboardPage />
-                </ProtectedRoute>
-              </Layout>
-            } />
-            
-            <Route path="/manage-users" element={
-              <Layout>
-                <ProtectedRoute allowedRoles={["admin", "sales_manager"]}>
-                  <UsersManagementPage />
-                </ProtectedRoute>
-              </Layout>
-            } />
-            
+            <Route path="/" element={<Index />} />
+            <Route path="/brands" element={<BrandsPage />} />
+            <Route path="/buyers" element={<BuyersPage />} />
+            <Route path="/services" element={<ServicesPage />} />
+            <Route path="/events" element={<EventsPage />} />
+            <Route path="/resources" element={<ResourcesPage />} />
+            <Route path="/curated" element={<CuratedPage />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </BrowserRouter>
-      </TooltipProvider>
-    </AuthProvider>
+        </Layout>
+      </BrowserRouter>
+    </TooltipProvider>
   </QueryClientProvider>
 );
 
