@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -59,6 +59,16 @@ const PasswordResetPage = () => {
       confirmPassword: "",
     },
   });
+
+  // Reset password form when code is verified
+  useEffect(() => {
+    if (codeVerified) {
+      resetPasswordForm.reset({
+        password: "",
+        confirmPassword: "",
+      });
+    }
+  }, [codeVerified, resetPasswordForm]);
 
   const onVerifyCodeSubmit = async (data: VerifyCodeFormValues) => {
     if (!email) {
@@ -215,7 +225,12 @@ const PasswordResetPage = () => {
             </p>
             
             <Form {...resetPasswordForm}>
-              <form onSubmit={resetPasswordForm.handleSubmit(onResetPasswordSubmit)} className="space-y-4">
+              <form 
+                key="password-reset-form" 
+                onSubmit={resetPasswordForm.handleSubmit(onResetPasswordSubmit)} 
+                className="space-y-4"
+                autoComplete="off"
+              >
                 <FormField
                   control={resetPasswordForm.control}
                   name="password"
@@ -223,7 +238,13 @@ const PasswordResetPage = () => {
                     <FormItem>
                       <FormLabel>NEW PASSWORD</FormLabel>
                       <FormControl>
-                        <Input type="password" placeholder="Enter new password" {...field} />
+                        <Input 
+                          type="password" 
+                          autoComplete="new-password"
+                          placeholder="Enter new password" 
+                          {...field} 
+                          autoFocus
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -237,7 +258,12 @@ const PasswordResetPage = () => {
                     <FormItem>
                       <FormLabel>CONFIRM PASSWORD</FormLabel>
                       <FormControl>
-                        <Input type="password" placeholder="Confirm new password" {...field} />
+                        <Input 
+                          type="password" 
+                          autoComplete="new-password"
+                          placeholder="Confirm new password" 
+                          {...field} 
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
