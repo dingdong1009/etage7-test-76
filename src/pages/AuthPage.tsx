@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -54,8 +53,8 @@ const AuthPage = () => {
   const [showResetPassword, setShowResetPassword] = useState(false);
   const [redirectAttempted, setRedirectAttempted] = useState(false);
   const [redirectError, setRedirectError] = useState<string | null>(null);
+  const [navigationAttempts, setNavigationAttempts] = useState(0);
 
-  // Enhanced redirect logic - this will run whenever user or profile changes
   useEffect(() => {
     if (authLoading) {
       console.log("Auth context is still loading...");
@@ -65,45 +64,83 @@ const AuthPage = () => {
     console.log("Auth page useEffect - User:", user?.id);
     console.log("Auth page useEffect - Profile:", profile);
     console.log("Auth page useEffect - Auth Loading:", authLoading);
+    console.log("Auth page useEffect - Navigation attempts:", navigationAttempts);
     
-    if (user && profile) {
-      console.log("Redirecting user with role:", profile.role, "and status:", profile.approval_status);
-      setRedirectError(null);
-      
-      try {
-        if (profile.approval_status === "pending") {
-          console.log("Redirecting to registration success page");
-          navigate("/registration-success");
-        } else if (profile.approval_status === "approved") {
-          // Redirect based on role
-          if (profile.role === "brand") {
-            console.log("Redirecting to brand dashboard");
-            navigate("/brand-dashboard");
-          } else if (profile.role === "buyer") {
-            console.log("Redirecting to buyer dashboard");
-            navigate("/buyer-dashboard");
-          } else if (profile.role === "admin" || profile.role === "sales_manager") {
-            console.log("Redirecting to manage users page");
-            navigate("/manage-users");
+    if (navigationAttempts < 10) {
+      if (user && profile) {
+        console.log("Redirecting user with role:", profile.role, "and status:", profile.approval_status);
+        setRedirectError(null);
+        
+        try {
+          if (profile.approval_status === "pending") {
+            console.log("Redirecting to registration success page");
+            navigate("/registration-success");
+          } else if (profile.approval_status === "approved") {
+            if (profile.role === "brand") {
+              console.log("Redirecting to brand dashboard");
+              navigate("/brand-dashboard");
+            } else if (profile.role === "buyer") {
+              console.log("Redirecting to buyer dashboard");
+              navigate("/buyer-dashboard");
+            } else if (profile.role === "admin" || profile.role === "sales_manager") {
+              console.log("Redirecting to manage users page");
+              navigate("/manage-users");
+            } else {
+              console.log("Unknown role, redirecting to home");
+              navigate("/");
+            }
           } else {
-            console.log("Unknown role, redirecting to home");
-            navigate("/");
+            console.log("User not approved, no redirection");
+          }
+          setRedirectAttempted(true);
+        } catch (error) {
+          console.error("Navigation error:", error);
+          setRedirectError("Failed to navigate. Please use the manual navigation buttons below.");
+          setNavigationAttempts(prev => prev + 1);
+        }
+      } else if (user && !profile && !authLoading) {
+        console.log("User exists but profile not loaded yet, refreshing profile");
+        refreshProfile();
+        setNavigationAttempts(prev => prev + 1);
+      } else {
+        console.log("No user or profile yet, staying on auth page");
+      }
+    } else {
+      console.log("Maximum navigation attempts reached, showing manual navigation UI");
+    }
+  }, [user, profile, navigate, authLoading, refreshProfile, navigationAttempts]);
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout | null = null;
+    
+    if (user && !redirectAttempted && !authLoading && navigationAttempts < 5) {
+      timeoutId = setTimeout(() => {
+        console.log("Forced navigation check running...");
+        if (user && profile) {
+          console.log("Profile found in timeout, navigating...");
+          try {
+            if (profile.approval_status === "approved") {
+              if (profile.role === "brand") navigate("/brand-dashboard");
+              else if (profile.role === "buyer") navigate("/buyer-dashboard");
+              else if (profile.role === "admin" || profile.role === "sales_manager") navigate("/manage-users");
+              else navigate("/");
+            } else if (profile.approval_status === "pending") {
+              navigate("/registration-success");
+            }
+          } catch (error) {
+            console.error("Timeout navigation error:", error);
           }
         } else {
-          console.log("User not approved, no redirection");
+          console.log("No profile in timeout, refreshing...");
+          refreshProfile();
         }
-        setRedirectAttempted(true);
-      } catch (error) {
-        console.error("Navigation error:", error);
-        setRedirectError("Failed to navigate. Please use the manual navigation buttons below.");
-      }
-    } else if (user && !profile && !authLoading) {
-      console.log("User exists but profile not loaded yet, refreshing profile");
-      refreshProfile();
-    } else {
-      console.log("No user or profile yet, staying on auth page");
+      }, 2000);
     }
-  }, [user, profile, navigate, authLoading, refreshProfile]);
+    
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, [user, profile, redirectAttempted, authLoading, navigate, refreshProfile, navigationAttempts]);
 
   const loginForm = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -137,14 +174,12 @@ const AuthPage = () => {
     setLoading(true);
     setRedirectAttempted(false);
     setRedirectError(null);
+    setNavigationAttempts(0);
     try {
       console.log("Login attempt for:", data.email);
       await signIn(data.email, data.password);
-      // We don't navigate here - the useEffect above will handle redirects
-      // based on user role and approval status once the profile is loaded
     } catch (error: any) {
       console.error("Login error:", error);
-      // Toast is already shown in the signIn function
     } finally {
       setLoading(false);
     }
@@ -157,7 +192,6 @@ const AuthPage = () => {
     try {
       console.log("Registration data:", data);
       
-      // Register the user with the updated signUp function
       await signUp(data.email, data.password, {
         full_name: data.fullName,
         phone: data.phone || null,
@@ -166,12 +200,10 @@ const AuthPage = () => {
         role: data.role,
       });
 
-      // Navigate to success page
       navigate("/registration-success");
     } catch (error: any) {
       console.error("Registration error:", error);
       setRegisterError(error.message || "An error occurred during registration");
-      // Toast is already shown in the signUp function
     } finally {
       setLoading(false);
     }
@@ -193,7 +225,6 @@ const AuthPage = () => {
         description: "Check your email for the password reset link",
       });
       
-      // Return to login view
       setShowResetPassword(false);
     } catch (error: any) {
       console.error("Password reset error:", error);
@@ -207,7 +238,6 @@ const AuthPage = () => {
     }
   };
 
-  // Manual navigation for fallback purposes
   const navigateToDashboard = () => {
     if (!profile) {
       toast({
@@ -220,13 +250,13 @@ const AuthPage = () => {
 
     try {
       if (profile.role === "brand") {
-        navigate("/brand-dashboard");
+        navigate("/brand-dashboard", { replace: true });
       } else if (profile.role === "buyer") {
-        navigate("/buyer-dashboard");
+        navigate("/buyer-dashboard", { replace: true });
       } else if (profile.role === "admin" || profile.role === "sales_manager") {
-        navigate("/manage-users");
+        navigate("/manage-users", { replace: true });
       } else {
-        navigate("/");
+        navigate("/", { replace: true });
       }
     } catch (error) {
       console.error("Manual navigation error:", error);
@@ -238,7 +268,21 @@ const AuthPage = () => {
     }
   };
 
-  // Show loading state while auth context is initializing
+  const forceRefreshAndNavigate = () => {
+    setNavigationAttempts(0);
+    refreshProfile();
+    toast({
+      title: "Retrying navigation",
+      description: "Refreshing your profile information..."
+    });
+    
+    setTimeout(() => {
+      if (profile) {
+        navigateToDashboard();
+      }
+    }, 1000);
+  };
+
   if (authLoading && user) {
     return (
       <div className="flex items-center justify-center min-h-screen px-4 py-16">
@@ -254,8 +298,7 @@ const AuthPage = () => {
     );
   }
 
-  // If user is authenticated but navigation failed, show a fallback UI
-  if (user && profile && redirectAttempted && redirectError) {
+  if (user && (redirectError || navigationAttempts >= 5)) {
     return (
       <div className="flex items-center justify-center min-h-screen px-4 py-16">
         <div className="w-full max-w-md text-center space-y-6">
@@ -266,11 +309,16 @@ const AuthPage = () => {
             <span className="font-normal">NAVIGATION</span> ISSUE
           </h1>
           <p className="text-gray-600 mb-6">
-            You're logged in as {profile.full_name} ({profile.role}), but we couldn't automatically redirect you to your dashboard.
+            You're logged in{profile ? ` as ${profile.full_name} (${profile.role})` : ''}, but we couldn't automatically redirect you to your dashboard.
           </p>
-          <Button onClick={navigateToDashboard} className="w-full bg-black hover:bg-gray-800">
-            GO TO DASHBOARD
-          </Button>
+          <div className="space-y-4">
+            <Button onClick={navigateToDashboard} className="w-full bg-black hover:bg-gray-800">
+              GO TO DASHBOARD
+            </Button>
+            <Button onClick={forceRefreshAndNavigate} variant="outline" className="w-full">
+              RETRY CONNECTION
+            </Button>
+          </div>
         </div>
       </div>
     );

@@ -1,4 +1,3 @@
-
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -52,25 +51,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       console.log("Refreshing profile for user:", user.id);
       setProfileRefreshAttempts(prev => prev + 1);
       
-      // Use setTimeout to avoid potential deadlocks with auth state changes
-      setTimeout(async () => {
-        try {
-          console.log("Fetching profile data from database for user:", user.id);
-          const { data, error } = await supabase
-            .from("profiles")
-            .select("*")
-            .eq("id", user.id)
-            .single();
+      console.log("Fetching profile data from database for user:", user.id);
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .single();
 
-          if (error) {
-            console.error("Profile fetch error:", error);
-            // Don't show toast for profile fetch errors to avoid confusion
-          } else if (data) {
-            console.log("Profile fetched successfully:", data);
-            setProfile(data as UserProfile);
-          } else {
-            console.log("No profile found for user, creating one");
-            // If no profile exists, create one with defaults
+      if (error) {
+        console.error("Profile fetch error:", error);
+        if (profileRefreshAttempts > 2) {
+          console.log("Multiple attempts failed, trying to create a default profile");
+          try {
             const { error: insertError } = await supabase
               .from("profiles")
               .insert({
@@ -84,7 +76,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             if (insertError) {
               console.error("Error creating default profile:", insertError);
             } else {
-              // Fetch the newly created profile
               const { data: newProfile, error: fetchError } = await supabase
                 .from("profiles")
                 .select("*")
@@ -96,44 +87,98 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 setProfile(newProfile as UserProfile);
               }
             }
+          } catch (innerError) {
+            console.error("Error creating default profile:", innerError);
+          }
+        }
+      } else if (data) {
+        console.log("Profile fetched successfully:", data);
+        setProfile(data as UserProfile);
+      } else {
+        console.log("No profile found for user, creating one");
+        try {
+          const { error: insertError } = await supabase
+            .from("profiles")
+            .insert({
+              id: user.id,
+              email: user.email || "",
+              full_name: user.user_metadata?.full_name || "User",
+              role: user.user_metadata?.role || "buyer",
+              approval_status: "pending"
+            });
+            
+          if (insertError) {
+            console.error("Error creating default profile:", insertError);
+          } else {
+            const { data: newProfile, error: fetchError } = await supabase
+              .from("profiles")
+              .select("*")
+              .eq("id", user.id)
+              .single();
+              
+            if (!fetchError && newProfile) {
+              console.log("New profile created and fetched:", newProfile);
+              setProfile(newProfile as UserProfile);
+            }
           }
         } catch (innerError) {
-          console.error("Error in profile refresh:", innerError);
+          console.error("Error in profile creation:", innerError);
         }
-      }, 100);
+      }
     } catch (error) {
-      console.error("Error setting up refreshProfile:", error);
+      console.error("Error in refreshProfile:", error);
     }
   }
 
   useEffect(() => {
     let mounted = true;
     
-    // Set up the auth state change listener first
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, currentSession) => {
+      async (event, currentSession) => {
         console.log("Auth state changed, event:", event);
         
         if (!mounted) return;
         
-        // Only update state synchronously here
         setSession(currentSession);
         setUser(currentSession?.user ?? null);
         
-        // If we have a session and user, fetch profile with a delay
+        if (event === 'SIGNED_IN') {
+          setProfileRefreshAttempts(0);
+        }
+        
         if (currentSession?.user) {
-          console.log("User is authenticated, fetching profile");
-          setTimeout(() => {
-            if (mounted) refreshProfile();
-          }, 50);
+          console.log("User is authenticated in auth change, fetching profile");
+          
+          if (profile && profile.id !== currentSession.user.id) {
+            setProfile(null);
+          }
+          
+          if (mounted) {
+            try {
+              const { data, error } = await supabase
+                .from("profiles")
+                .select("*")
+                .eq("id", currentSession.user.id)
+                .single();
+                
+              if (!error && data && mounted) {
+                setProfile(data as UserProfile);
+                console.log("Profile loaded during auth change:", data);
+              } else if (mounted) {
+                setTimeout(() => {
+                  if (mounted) refreshProfile();
+                }, 500);
+              }
+            } catch (error) {
+              console.error("Error in auth change profile fetch:", error);
+            }
+          }
         } else {
-          // Clear profile if no session
           setProfile(null);
         }
       }
     );
 
-    // Then check for existing session
     supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
       console.log("Initial auth check, session:", currentSession ? "exists" : "null");
       
@@ -144,13 +189,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       if (currentSession?.user) {
         console.log("Found existing session, fetching profile");
-        setTimeout(() => {
-          if (mounted) refreshProfile();
-        }, 100);
+        supabase
+          .from("profiles")
+          .select("*")
+          .eq("id", currentSession.user.id)
+          .single()
+          .then(({ data, error }) => {
+            if (!error && data && mounted) {
+              setProfile(data as UserProfile);
+              console.log("Profile loaded during initial check:", data);
+            } else if (mounted) {
+              setTimeout(() => {
+                if (mounted) refreshProfile();
+              }, 500);
+            }
+          })
+          .catch(error => {
+            console.error("Error in initial profile fetch:", error);
+          })
+          .finally(() => {
+            if (mounted) setIsLoading(false);
+          });
+      } else {
+        setIsLoading(false);
       }
-      
-      // Set loading to false regardless of auth state
-      setIsLoading(false);
     });
 
     return () => {
@@ -159,11 +221,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  // Add an effect to retry profile loading if needed
   useEffect(() => {
     let retryTimeout: NodeJS.Timeout | null = null;
     
-    if (user && !profile && !isLoading && profileRefreshAttempts < 3) {
+    if (user && !profile && !isLoading && profileRefreshAttempts < 5) {
       console.log(`Auto retry profile fetch (attempt ${profileRefreshAttempts + 1})`);
       retryTimeout = setTimeout(() => {
         refreshProfile();
@@ -248,6 +309,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   async function signIn(email: string, password: string) {
     try {
       console.log("Attempting sign in for:", email);
+      setProfile(null);
+      setProfileRefreshAttempts(0);
       
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
@@ -266,11 +329,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       
       console.log("Sign in successful, session created");
       
-      // Reset profile refresh attempts
-      setProfileRefreshAttempts(0);
+      if (data.user) {
+        try {
+          const { data: profileData, error: profileError } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", data.user.id)
+            .single();
+            
+          if (!profileError && profileData) {
+            console.log("Profile loaded immediately after login:", profileData);
+            setProfile(profileData as UserProfile);
+          } else {
+            console.log("Could not load profile immediately, will retry");
+          }
+        } catch (profileFetchError) {
+          console.error("Error fetching profile after login:", profileFetchError);
+        }
+      }
       
-      // Don't manually call refreshProfile here - let the onAuthStateChange handler handle it
-      // This prevents potential conflicts or race conditions
       toast({
         title: "Login successful",
         description: "Welcome back!",
@@ -294,7 +371,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         throw error;
       }
       
-      // Clear local state
       setProfile(null);
       setUser(null);
       setSession(null);
