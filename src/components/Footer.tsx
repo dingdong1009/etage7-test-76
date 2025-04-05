@@ -1,5 +1,5 @@
-
 import { Link } from "react-router-dom";
+import { Instagram, MessageCircle, Send } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -13,8 +13,15 @@ const Footer = () => {
               platform with curated experiences and tailored consulting services.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-black hover:underline">Instagram</a>
-              <a href="#" className="text-black hover:underline">LinkedIn</a>
+              <a href="https://t.me/etage7" aria-label="Telegram" className="text-black hover:underline">
+                <Send size={20} />
+              </a>
+              <a href="https://wa.me/etage7" aria-label="WhatsApp" className="text-black hover:underline">
+                <MessageCircle size={20} />
+              </a>
+              <a href="https://instagram.com/etage7" aria-label="Instagram" className="text-black hover:underline">
+                <Instagram size={20} />
+              </a>
             </div>
           </div>
           
