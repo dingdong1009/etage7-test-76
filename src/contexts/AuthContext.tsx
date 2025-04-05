@@ -1,3 +1,4 @@
+
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
@@ -236,7 +237,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     };
   }, [user, profile, isLoading, profileRefreshAttempts]);
 
-  async function signUp(email: string, password: string, userData: Partial<UserProfile> & { full_name: string }) {
+  async function signUp(email: string, password: string, userData: Partial<UserProfile> & { full_name: string }): Promise<void> {
     try {
       console.log("Starting sign up process with data:", { email, userData });
       
@@ -257,7 +258,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           description: error.message,
           variant: "destructive",
         });
-        throw error;
+        return Promise.reject(error);
       }
 
       if (data.user) {
@@ -292,7 +293,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             variant: "destructive",
           });
           
-          throw profileError;
+          return Promise.reject(profileError);
         }
         
         toast({
@@ -300,9 +301,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           description: "Your account has been created and is pending approval.",
         });
       }
+      return Promise.resolve();
     } catch (error: any) {
       console.error("Error in signUp:", error);
-      throw error;
+      return Promise.reject(error);
     }
   }
 
@@ -352,13 +354,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         title: "Login successful",
         description: "Welcome back!",
       });
+      
+      return Promise.resolve();
     } catch (error: any) {
       console.error("Error in signIn:", error);
       return Promise.reject(error);
     }
   }
 
-  async function signOut() {
+  async function signOut(): Promise<void> {
     try {
       const { error } = await supabase.auth.signOut();
       
@@ -368,16 +372,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           description: error.message,
           variant: "destructive",
         });
-        throw error;
+        return Promise.reject(error);
       }
       
       setProfile(null);
       setUser(null);
       setSession(null);
       setProfileRefreshAttempts(0);
+      
+      return Promise.resolve();
     } catch (error: any) {
       console.error("Error in signOut:", error);
-      throw error;
+      return Promise.reject(error);
     }
   }
 
