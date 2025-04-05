@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -35,8 +34,13 @@ const registerSchema = z.object({
   role: z.enum(["brand", "buyer"]),
 });
 
+const resetPasswordSchema = z.object({
+  email: z.string().email("Please enter a valid email address"),
+});
+
 type LoginFormValues = z.infer<typeof loginSchema>;
 type RegisterFormValues = z.infer<typeof registerSchema>;
+type ResetPasswordFormValues = z.infer<typeof resetPasswordSchema>;
 
 const AuthPage = () => {
   const { signIn, signUp } = useAuth();
@@ -44,6 +48,7 @@ const AuthPage = () => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
   const [registerError, setRegisterError] = useState<string | null>(null);
+  const [showResetPassword, setShowResetPassword] = useState(false);
 
   const loginForm = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -63,6 +68,13 @@ const AuthPage = () => {
       companyName: "",
       description: "",
       role: "brand",
+    },
+  });
+
+  const resetPasswordForm = useForm<ResetPasswordFormValues>({
+    resolver: zodResolver(resetPasswordSchema),
+    defaultValues: {
+      email: "",
     },
   });
 
@@ -141,6 +153,35 @@ const AuthPage = () => {
     }
   };
 
+  const onResetPasswordSubmit = async (data: ResetPasswordFormValues) => {
+    setLoading(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(data.email, {
+        redirectTo: `${window.location.origin}/auth?reset=true`,
+      });
+      
+      if (error) {
+        throw error;
+      }
+      
+      toast({
+        title: "Password reset email sent",
+        description: "Check your email for the password reset link",
+      });
+      
+      setShowResetPassword(false);
+    } catch (error: any) {
+      console.error("Password reset error:", error);
+      toast({
+        title: "Password reset failed",
+        description: error.message || "An error occurred during password reset",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen px-4 py-16">
       <div className="w-full max-w-md">
@@ -155,41 +196,100 @@ const AuthPage = () => {
           </TabsList>
           
           <TabsContent value="login">
-            <Form {...loginForm}>
-              <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4">
-                <FormField
-                  control={loginForm.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Your email" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            {!showResetPassword ? (
+              <>
+                <Form {...loginForm}>
+                  <form onSubmit={loginForm.handleSubmit(onLoginSubmit)} className="space-y-4">
+                    <FormField
+                      control={loginForm.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Your email" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={loginForm.control}
+                      name="password"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Password</FormLabel>
+                          <FormControl>
+                            <Input type="password" placeholder="Your password" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <Button type="submit" className="w-full bg-black hover:bg-gray-800" disabled={loading}>
+                      {loading ? "LOGGING IN..." : "LOGIN"}
+                    </Button>
+                  </form>
+                </Form>
                 
-                <FormField
-                  control={loginForm.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl>
-                        <Input type="password" placeholder="Your password" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <div className="mt-4 text-center">
+                  <button 
+                    type="button" 
+                    onClick={() => setShowResetPassword(true)}
+                    className="text-sm text-gray-600 hover:underline focus:outline-none"
+                  >
+                    Forgot your password?
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="mb-4">
+                  <h2 className="text-xl font-thin mb-2">Reset Your Password</h2>
+                  <p className="text-sm text-gray-600">
+                    Enter your email and we'll send you a link to reset your password.
+                  </p>
+                </div>
                 
-                <Button type="submit" className="w-full bg-black hover:bg-gray-800" disabled={loading}>
-                  {loading ? "LOGGING IN..." : "LOGIN"}
-                </Button>
-              </form>
-            </Form>
+                <Form {...resetPasswordForm}>
+                  <form onSubmit={resetPasswordForm.handleSubmit(onResetPasswordSubmit)} className="space-y-4">
+                    <FormField
+                      control={resetPasswordForm.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Your email" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <div className="flex gap-2">
+                      <Button 
+                        type="button" 
+                        variant="outline" 
+                        className="flex-1"
+                        onClick={() => setShowResetPassword(false)}
+                      >
+                        BACK
+                      </Button>
+                      <Button 
+                        type="submit" 
+                        className="flex-1 bg-black hover:bg-gray-800" 
+                        disabled={loading}
+                      >
+                        {loading ? "SENDING..." : "SEND RESET LINK"}
+                      </Button>
+                    </div>
+                  </form>
+                </Form>
+              </>
+            )}
           </TabsContent>
           
           <TabsContent value="register">
