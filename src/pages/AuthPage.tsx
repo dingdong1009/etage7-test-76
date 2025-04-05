@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
@@ -156,20 +157,22 @@ const AuthPage = () => {
   const onResetPasswordSubmit = async (data: ResetPasswordFormValues) => {
     setLoading(true);
     try {
+      // Instead of sending a reset link, we'll send a one-time code
       const { error } = await supabase.auth.resetPasswordForEmail(data.email, {
-        redirectTo: `${window.location.origin}/auth?reset=true`,
+        redirectTo: undefined, // Don't use redirectTo for code-based flow
       });
       
       if (error) {
         throw error;
       }
       
-      toast({
-        title: "Password reset email sent",
-        description: "Check your email for the password reset link",
-      });
+      // Navigate to the password reset page with the email
+      navigate(`/password-reset?email=${encodeURIComponent(data.email)}`);
       
-      setShowResetPassword(false);
+      toast({
+        title: "Code sent",
+        description: "Check your email for the password reset code",
+      });
     } catch (error: any) {
       console.error("Password reset error:", error);
       toast({

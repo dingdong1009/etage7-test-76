@@ -16,6 +16,7 @@ import ResourcesPage from "./pages/ResourcesPage";
 import CuratedPage from "./pages/CuratedPage";
 import AuthPage from "./pages/AuthPage";
 import RegistrationSuccessPage from "./pages/RegistrationSuccessPage";
+import PasswordResetPage from "./pages/PasswordResetPage";
 import UsersManagementPage from "./pages/UsersManagementPage";
 import NotFound from "./pages/NotFound";
 
@@ -31,6 +32,7 @@ const App = () => (
           <Routes>
             <Route path="/auth" element={<AuthPage />} />
             <Route path="/registration-success" element={<RegistrationSuccessPage />} />
+            <Route path="/password-reset" element={<PasswordResetPage />} />
             
             <Route path="/" element={<Layout><Index /></Layout>} />
             <Route path="/brands" element={<Layout><BrandsPage /></Layout>} />
