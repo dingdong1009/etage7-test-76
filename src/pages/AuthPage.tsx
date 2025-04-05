@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -51,14 +50,23 @@ const AuthPage = () => {
   const [registerError, setRegisterError] = useState<string | null>(null);
   const [showResetPassword, setShowResetPassword] = useState(false);
 
-  // If user is already logged in, redirect based on approval status
-  if (user && profile) {
-    if (profile.approval_status === "pending") {
-      navigate("/registration-success");
-    } else if (profile.approval_status === "approved") {
-      navigate("/");
+  useEffect(() => {
+    if (user && profile) {
+      if (profile.approval_status === "pending") {
+        navigate("/registration-success");
+      } else if (profile.approval_status === "approved") {
+        if (profile.role === "brand") {
+          navigate("/brand-dashboard");
+        } else if (profile.role === "buyer") {
+          navigate("/buyer-dashboard");
+        } else if (profile.role === "admin" || profile.role === "sales_manager") {
+          navigate("/manage-users");
+        } else {
+          navigate("/");
+        }
+      }
     }
-  }
+  }, [user, profile, navigate]);
 
   const loginForm = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -94,8 +102,8 @@ const AuthPage = () => {
       console.log("Login attempt for:", data.email);
       await signIn(data.email, data.password);
       
-      // We don't need to check the profile here anymore
-      // The auth state change listener will handle redirects based on profile status
+      // We don't need to navigate here - the useEffect above will handle redirects
+      // based on user role and approval status
       
     } catch (error: any) {
       console.error("Login error:", error);

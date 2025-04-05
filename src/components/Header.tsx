@@ -11,7 +11,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { UserCircle, LogOut, Users } from "lucide-react";
+import { UserCircle, LogOut, Users, LayoutDashboard } from "lucide-react";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -39,7 +39,21 @@ const Header = () => {
 
   const isAdmin = profile?.role === "admin";
   const isSalesManager = profile?.role === "sales_manager";
+  const isBrand = profile?.role === "brand";
+  const isBuyer = profile?.role === "buyer";
   const isApproved = profile?.approval_status === "approved";
+
+  const getDashboardLink = () => {
+    if (!isApproved) return null;
+    
+    if (isBrand) return "/brand-dashboard";
+    if (isBuyer) return "/buyer-dashboard";
+    if (isAdmin || isSalesManager) return "/manage-users";
+    
+    return null;
+  };
+
+  const dashboardLink = getDashboardLink();
 
   return (
     <header 
@@ -106,15 +120,21 @@ const Header = () => {
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     
-                    {(isAdmin || isSalesManager) && isApproved && (
-                      <>
-                        <DropdownMenuItem onClick={() => navigate("/manage-users")}>
-                          <Users className="mr-2 h-4 w-4" />
-                          Manage Users
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                      </>
+                    {dashboardLink && (
+                      <DropdownMenuItem onClick={() => navigate(dashboardLink)}>
+                        <LayoutDashboard className="mr-2 h-4 w-4" />
+                        Dashboard
+                      </DropdownMenuItem>
                     )}
+                    
+                    {(isAdmin || isSalesManager) && isApproved && (
+                      <DropdownMenuItem onClick={() => navigate("/manage-users")}>
+                        <Users className="mr-2 h-4 w-4" />
+                        Manage Users
+                      </DropdownMenuItem>
+                    )}
+                    
+                    <DropdownMenuSeparator />
                     
                     <DropdownMenuItem onClick={handleSignOut}>
                       <LogOut className="mr-2 h-4 w-4" />
@@ -150,6 +170,19 @@ const Header = () => {
                 </Link>
               </li>
             ))}
+            
+            {user && dashboardLink && (
+              <li className="py-2 border-b border-gray-100">
+                <Link 
+                  to={dashboardLink} 
+                  className="text-black uppercase flex items-center"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <LayoutDashboard className="mr-2 h-4 w-4" />
+                  DASHBOARD
+                </Link>
+              </li>
+            )}
             
             {!user ? (
               <li className="py-4">

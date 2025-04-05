@@ -18,6 +18,8 @@ import AuthPage from "./pages/AuthPage";
 import RegistrationSuccessPage from "./pages/RegistrationSuccessPage";
 import PasswordResetPage from "./pages/PasswordResetPage";
 import UsersManagementPage from "./pages/UsersManagementPage";
+import BrandDashboardPage from "./pages/BrandDashboardPage";
+import BuyerDashboardPage from "./pages/BuyerDashboardPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -41,6 +43,24 @@ const App = () => (
             <Route path="/events" element={<Layout><EventsPage /></Layout>} />
             <Route path="/resources" element={<Layout><ResourcesPage /></Layout>} />
             <Route path="/curated" element={<Layout><CuratedPage /></Layout>} />
+            
+            {/* Brand Dashboard - only for approved brands */}
+            <Route path="/brand-dashboard" element={
+              <Layout>
+                <ProtectedRoute allowedRoles={["brand"]}>
+                  <BrandDashboardPage />
+                </ProtectedRoute>
+              </Layout>
+            } />
+            
+            {/* Buyer Dashboard - only for approved buyers */}
+            <Route path="/buyer-dashboard" element={
+              <Layout>
+                <ProtectedRoute allowedRoles={["buyer"]}>
+                  <BuyerDashboardPage />
+                </ProtectedRoute>
+              </Layout>
+            } />
             
             <Route path="/manage-users" element={
               <Layout>
