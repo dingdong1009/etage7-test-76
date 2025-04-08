@@ -1,7 +1,5 @@
-
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from "lucide-react";
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 const ServicesPage = () => {
   return (
@@ -170,14 +168,13 @@ const ServicesPage = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="flex flex-col items-center">
-              <Avatar className="w-48 h-48 mb-4">
-                <AvatarImage 
+              <div className="w-48 h-48 bg-gray-100 mb-4 overflow-hidden">
+                <img 
                   src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=500&auto=format&fit=crop" 
-                  alt="Sophie Martin"
-                  className="object-cover filter grayscale" 
+                  alt="Sophie Martin" 
+                  className="w-full h-full object-cover"
                 />
-                <AvatarFallback>SM</AvatarFallback>
-              </Avatar>
+              </div>
               <h3 className="uppercase font-normal text-xl mb-2">SOPHIE MARTIN</h3>
               <p className="font-light text-center mb-2">Founder & CEO</p>
               <p className="font-light text-sm text-center max-w-xs">
@@ -186,14 +183,13 @@ const ServicesPage = () => {
             </div>
             
             <div className="flex flex-col items-center">
-              <Avatar className="w-48 h-48 mb-4">
-                <AvatarImage 
+              <div className="w-48 h-48 bg-gray-100 mb-4 overflow-hidden">
+                <img 
                   src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=500&auto=format&fit=crop" 
-                  alt="Alexandre Chen"
-                  className="object-cover filter grayscale" 
+                  alt="Alexandre Chen" 
+                  className="w-full h-full object-cover"
                 />
-                <AvatarFallback>AC</AvatarFallback>
-              </Avatar>
+              </div>
               <h3 className="uppercase font-normal text-xl mb-2">ALEXANDRE CHEN</h3>
               <p className="font-light text-center mb-2">Brand Relations Director</p>
               <p className="font-light text-sm text-center max-w-xs">
@@ -202,14 +198,13 @@ const ServicesPage = () => {
             </div>
             
             <div className="flex flex-col items-center">
-              <Avatar className="w-48 h-48 mb-4">
-                <AvatarImage 
+              <div className="w-48 h-48 bg-gray-100 mb-4 overflow-hidden">
+                <img 
                   src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=500&auto=format&fit=crop" 
-                  alt="Elena Dubois"
-                  className="object-cover filter grayscale" 
+                  alt="Elena Dubois" 
+                  className="w-full h-full object-cover"
                 />
-                <AvatarFallback>ED</AvatarFallback>
-              </Avatar>
+              </div>
               <h3 className="uppercase font-normal text-xl mb-2">ELENA DUBOIS</h3>
               <p className="font-light text-center mb-2">Buyer Relations Manager</p>
               <p className="font-light text-sm text-center max-w-xs">
