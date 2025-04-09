@@ -14,7 +14,6 @@ const AdminDashboard = () => {
     { title: "Subscriptions", count: 584, description: "Active plans", icon: CreditCard },
     { title: "Brands", count: 327, description: "Approved brands", icon: BadgePercent },
     { title: "Buyers", count: 921, description: "Approved buyers", icon: Users }
-    { title: "Sales Managers", count: 3, description: "Sales Managers", icon: Users }
   ];
 
   // Sample data for the charts - in a real application this would come from an API
