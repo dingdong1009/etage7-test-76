@@ -213,7 +213,6 @@ const BrandProducts = () => {
           <TabsTrigger value="list">Product List</TabsTrigger>
           <TabsTrigger value="add">Add Product</TabsTrigger>
         </TabsList>
-
         <TabsContent value="list" className="space-y-6">
           <Card className="border border-gray-200">
             <CardHeader>
