@@ -8,13 +8,13 @@ const AdminHeader = () => {
   const location = useLocation();
   
   const menuItems = [
-    { name: "DASHBOARD", path: "/admin" },
-    { name: "USERS", path: "/admin/users" },
-    { name: "CONTRACTS", path: "/admin/contracts" },
-    { name: "PAGES", path: "/admin/pages" },
-    { name: "ANNOUNCEMENTS", path: "/admin/announcements" },
-    { name: "SUBSCRIPTIONS", path: "/admin/subscriptions" },
-    { name: "SETTINGS", path: "/admin/settings" }
+    { name: "Dashboard", path: "/admin" },
+    { name: "Users", path: "/admin/users" },
+    { name: "Contracts", path: "/admin/contracts" },
+    { name: "Pages", path: "/admin/pages" },
+    { name: "Announcements", path: "/admin/announcements" },
+    { name: "Subscriptions", path: "/admin/subscriptions" },
+    { name: "Settings", path: "/admin/settings" }
   ];
 
   const toggleMenu = () => {

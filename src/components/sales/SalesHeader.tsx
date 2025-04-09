@@ -8,11 +8,11 @@ const SalesHeader = () => {
   const location = useLocation();
   
   const menuItems = [
-    { name: "DASHBOARD", path: "/sales" },
-    { name: "PERFORMANCE", path: "/sales/performance" },
-    { name: "USERS", path: "/sales/users" },
-    { name: "MESSAGES", path: "/sales/messages" },
-    { name: "SETTINGS", path: "/sales/settings" }
+    { name: "Dashboard", path: "/sales" },
+    { name: "Performance", path: "/sales/performance" },
+    { name: "Users", path: "/sales/users" },
+    { name: "Messages", path: "/sales/messages" },
+    { name: "Settings", path: "/sales/settings" }
   ];
 
   const toggleMenu = () => {

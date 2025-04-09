@@ -49,14 +49,6 @@ import BrandSubscriptions from "./pages/brand/Subscriptions";
 import BrandResources from "./pages/brand/Resources";
 import BrandSettings from "./pages/brand/Settings";
 
-// Buyer components
-import BuyerLayout from "./components/buyer/BuyerLayout";
-import BuyerDashboard from "./pages/buyer/Dashboard";
-import BuyerOrders from "./pages/buyer/Orders";
-import BuyerMessages from "./pages/buyer/Messages";
-import BuyerTeam from "./pages/buyer/Team";
-import BuyerSettings from "./pages/buyer/Settings";
-
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -110,15 +102,6 @@ const App = () => (
             <Route path="subscriptions" element={<BrandSubscriptions />} />
             <Route path="resources" element={<BrandResources />} />
             <Route path="settings" element={<BrandSettings />} />
-          </Route>
-          
-          {/* Buyer Routes */}
-          <Route path="/buyer" element={<BuyerLayout />}>
-            <Route index element={<BuyerDashboard />} />
-            <Route path="orders" element={<BuyerOrders />} />
-            <Route path="messages" element={<BuyerMessages />} />
-            <Route path="team" element={<BuyerTeam />} />
-            <Route path="settings" element={<BuyerSettings />} />
           </Route>
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
