@@ -51,7 +51,7 @@ const BuyerList = ({
             </SelectContent>
           </Select>
           <Button className="bg-black text-white border-none" onClick={handleAddUser}>
-            <Plus className="mr-1 h-4 w-4" /> Add User
+          <PlusCircleIcon className="w-4 h-4 mr-2" /> Add User
           </Button>
           <Button className="bg-grey-200 text-black border hover:text-white">Export</Button>
         </div>
