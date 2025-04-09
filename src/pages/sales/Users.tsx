@@ -23,7 +23,7 @@ const SalesUsers = () => {
           <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Managed Users</CardTitle>
           <div className="flex items-center space-x-2 mt-2 sm:mt-0">
             <Button className="bg-black text-white border-none">Add User</Button>
-            <Button className="bg-grey-200 text-black border hover:text-white">Export</Button>
+            <Button className="bg-grey text-black border-none hover:text-white">Export</Button>
           </div>
         </CardHeader>
         <CardContent className="pt-0">
