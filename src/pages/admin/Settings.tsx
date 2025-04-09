@@ -6,6 +6,7 @@ import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Plus, Settings2, Trash2, Eye, Download, X } from "lucide-react";
 
 const AdminSettings = () => {
   const integrations = [
@@ -155,8 +156,9 @@ const AdminSettings = () => {
                       {integration.apiKey || <span className="text-gray-400 italic">Not set</span>}
                     </TableCell>
                     <TableCell className="text-right">
-                      <Button variant="outline" size="sm" className="border-gray-200">
-                        Configure
+                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Settings2 className="h-4 w-4" />
+                        <span className="sr-only">Configure</span>
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -164,7 +166,8 @@ const AdminSettings = () => {
               </TableBody>
             </Table>
             <div className="p-4 flex justify-end">
-              <Button className="bg-black text-white border-none hover:underline">
+              <Button className="bg-black text-white border-none hover:underline flex items-center gap-2">
+                <Plus className="h-4 w-4" />
                 Add New Integration
               </Button>
             </div>
@@ -196,12 +199,14 @@ const AdminSettings = () => {
                         </span>
                       </div>
                     </TableCell>
-                    <TableCell className="text-right space-x-2">
-                      <Button variant="outline" size="sm" className="border-gray-200">
-                        Edit
+                    <TableCell className="text-right flex justify-end space-x-1">
+                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Settings2 className="h-4 w-4" />
+                        <span className="sr-only">Edit</span>
                       </Button>
-                      <Button variant="outline" size="sm" className="border-gray-200 text-red-600 hover:text-red-700">
-                        Delete
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-red-600 hover:text-red-700">
+                        <Trash2 className="h-4 w-4" />
+                        <span className="sr-only">Delete</span>
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -209,7 +214,8 @@ const AdminSettings = () => {
               </TableBody>
             </Table>
             <div className="p-4 flex justify-end">
-              <Button className="bg-black text-white border-none hover:underline">
+              <Button className="bg-black text-white border-none hover:underline flex items-center gap-2">
+                <Plus className="h-4 w-4" />
                 Add New Feature
               </Button>
             </div>
@@ -235,8 +241,9 @@ const AdminSettings = () => {
                     <TableCell>{log.user}</TableCell>
                     <TableCell>{log.timestamp}</TableCell>
                     <TableCell className="text-right">
-                      <Button variant="outline" size="sm" className="border-gray-200">
-                        View Details
+                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                        <Eye className="h-4 w-4" />
+                        <span className="sr-only">View Details</span>
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -244,10 +251,12 @@ const AdminSettings = () => {
               </TableBody>
             </Table>
             <div className="p-4 flex justify-between">
-              <Button variant="outline" className="border-gray-200">
+              <Button variant="outline" className="border-gray-200 flex items-center gap-2">
+                <Download className="h-4 w-4" />
                 Export Logs
               </Button>
-              <Button variant="outline" className="border-gray-200 text-red-600 hover:text-red-700">
+              <Button variant="outline" className="border-gray-200 text-red-600 hover:text-red-700 flex items-center gap-2">
+                <X className="h-4 w-4" />
                 Clear Logs
               </Button>
             </div>
