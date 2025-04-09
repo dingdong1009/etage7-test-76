@@ -49,6 +49,15 @@ type Buyer = {
 
 type User = Brand | Buyer;
 
+// Type guards
+const isBrand = (user: User): user is Brand => {
+  return 'productsCount' in user;
+};
+
+const isBuyer = (user: User): user is Buyer => {
+  return 'storeCount' in user;
+};
+
 const EditUser = () => {
   const { userType, userId } = useParams();
   const navigate = useNavigate();
@@ -396,37 +405,37 @@ const EditUser = () => {
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="text-sm text-gray-500">
-                  {userType === "brand" ? (
+                  {user && isBrand(user) ? (
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <p className="text-sm text-gray-500">Products Count</p>
-                        <p className="font-medium">{user?.productsCount}</p>
+                        <p className="font-medium">{user.productsCount}</p>
                       </div>
                       <div>
                         <p className="text-sm text-gray-500">Average Order Value</p>
-                        <p className="font-medium">{user?.avgOrderValue}</p>
+                        <p className="font-medium">{user.avgOrderValue}</p>
                       </div>
                       <div>
                         <p className="text-sm text-gray-500">Total Sales</p>
-                        <p className="font-medium">{user?.totalSales}</p>
+                        <p className="font-medium">{user.totalSales}</p>
                       </div>
                     </div>
-                  ) : (
+                  ) : user && isBuyer(user) ? (
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <p className="text-sm text-gray-500">Store Count</p>
-                        <p className="font-medium">{user?.storeCount}</p>
+                        <p className="font-medium">{user.storeCount}</p>
                       </div>
                       <div>
                         <p className="text-sm text-gray-500">Average Order Value</p>
-                        <p className="font-medium">{user?.avgOrderValue}</p>
+                        <p className="font-medium">{user.avgOrderValue}</p>
                       </div>
                       <div>
                         <p className="text-sm text-gray-500">Annual Purchases</p>
-                        <p className="font-medium">{user?.annualPurchases}</p>
+                        <p className="font-medium">{user.annualPurchases}</p>
                       </div>
                     </div>
-                  )}
+                  ) : null}
                   <p className="mt-4 italic">Performance metrics cannot be edited directly. They are calculated based on user activity.</p>
                 </div>
               </CardContent>

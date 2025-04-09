@@ -5,10 +5,50 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowLeft, Edit } from "lucide-react";
 
+// Define types for Brand and Buyer
+type Brand = {
+  id: number;
+  name: string;
+  status: string;
+  plan: string;
+  lastActivity: string;
+  contactPerson: string;
+  email: string;
+  phone: string;
+  website: string;
+  description: string;
+  marketSegment: string;
+  productsCount: number;
+  activeSince: string;
+  avgOrderValue: string;
+  totalSales: string;
+};
+
+type Buyer = {
+  id: number;
+  name: string;
+  status: string;
+  plan: string;
+  lastActivity: string;
+  contactPerson: string;
+  email: string;
+  phone: string;
+  website: string;
+  description: string;
+  marketSegment: string;
+  storeCount: number;
+  activeSince: string;
+  avgOrderValue: string;
+  annualPurchases: string;
+};
+
+// User can be either Brand or Buyer
+type User = Brand | Buyer;
+
 const ViewUser = () => {
   const { userType, userId } = useParams();
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -19,7 +59,7 @@ const ViewUser = () => {
       setTimeout(() => {
         // Sample data - in a real app, this would be fetched from an API
         if (userType === "brand") {
-          const brandUser = {
+          const brandUser: Brand = {
             id: Number(userId),
             name: "Luxury Brands Inc.",
             status: "active",
@@ -38,7 +78,7 @@ const ViewUser = () => {
           };
           setUser(brandUser);
         } else {
-          const buyerUser = {
+          const buyerUser: Buyer = {
             id: Number(userId),
             name: "Department Store Group",
             status: "active",
@@ -70,6 +110,16 @@ const ViewUser = () => {
 
   const handleEdit = () => {
     navigate(`/sales/users/${userType}/${userId}/edit`);
+  };
+
+  // Type guard to check if user is a Brand
+  const isBrand = (user: User): user is Brand => {
+    return 'productsCount' in user;
+  };
+
+  // Type guard to check if user is a Buyer
+  const isBuyer = (user: User): user is Buyer => {
+    return 'storeCount' in user;
   };
 
   if (loading) {
@@ -173,37 +223,37 @@ const ViewUser = () => {
             <CardTitle className="text-xl uppercase font-thin">Performance Metrics</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
-            {userType === "brand" ? (
+            {user && isBrand(user) ? (
               <>
                 <div>
                   <p className="text-sm text-gray-500">Products Count</p>
-                  <p className="font-medium">{user?.productsCount}</p>
+                  <p className="font-medium">{user.productsCount}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Average Order Value</p>
-                  <p className="font-medium">{user?.avgOrderValue}</p>
+                  <p className="font-medium">{user.avgOrderValue}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Total Sales</p>
-                  <p className="font-medium">{user?.totalSales}</p>
+                  <p className="font-medium">{user.totalSales}</p>
                 </div>
               </>
-            ) : (
+            ) : user && isBuyer(user) ? (
               <>
                 <div>
                   <p className="text-sm text-gray-500">Store Count</p>
-                  <p className="font-medium">{user?.storeCount}</p>
+                  <p className="font-medium">{user.storeCount}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Average Order Value</p>
-                  <p className="font-medium">{user?.avgOrderValue}</p>
+                  <p className="font-medium">{user.avgOrderValue}</p>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">Annual Purchases</p>
-                  <p className="font-medium">{user?.annualPurchases}</p>
+                  <p className="font-medium">{user.annualPurchases}</p>
                 </div>
               </>
-            )}
+            ) : null}
           </CardContent>
         </Card>
       </div>
