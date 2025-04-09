@@ -119,7 +119,7 @@ const AdminDashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="border border-gray-200">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-lg font-medium">User Growth</CardTitle>
+            <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">User Growth</CardTitle>
             <ChartLine className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent className="pt-0">
@@ -138,7 +138,7 @@ const AdminDashboard = () => {
         
         <Card className="border border-gray-200">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-lg font-medium">Subscription Growth</CardTitle>
+            <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Subscription Growth</CardTitle>
             <CreditCard className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent className="pt-0">
@@ -159,7 +159,7 @@ const AdminDashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="border border-gray-200">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-lg font-medium">Sales Manager Performance</CardTitle>
+            <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Sales Manager Performance</CardTitle>
             <BarChart3 className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent className="pt-0">
@@ -183,7 +183,7 @@ const AdminDashboard = () => {
         <Card className="border border-gray-200">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <div className="flex flex-col md:flex-row gap-2 md:items-center w-full">
-              <CardTitle className="text-lg font-medium">Individual Performance</CardTitle>
+              <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Individual Performance</CardTitle>
               <Select value={selectedSalesManager} onValueChange={setSelectedSalesManager}>
                 <SelectTrigger className="w-[180px] h-8">
                   <SelectValue placeholder="Select Manager" />
