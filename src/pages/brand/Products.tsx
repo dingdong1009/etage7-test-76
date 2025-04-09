@@ -52,9 +52,7 @@ import {
   Eye,
   ListFilter,
   ArrowUpDown,
-  Filter,
-  ShoppingBag,
-  Printer
+  Filter
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -70,116 +68,58 @@ import {
 import { Toggle } from "@/components/ui/toggle";
 import { Switch } from "@/components/ui/switch";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
-import { Badge } from "@/components/ui/badge";
-import { Link } from "react-router-dom";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 
 const BrandProducts = () => {
   const [showForm, setShowForm] = useState(false);
   const [selectedColor, setSelectedColor] = useState("");
-  const [activeTab, setActiveTab] = useState("list");
+  const [activeTab, setActiveTab] = useState("add");
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [seasonFilter, setSeasonFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
-  const [orderSearchQuery, setOrderSearchQuery] = useState("");
-  
-  // Add products state
+
   const [products, setProducts] = useState([
     {
       id: 1,
-      name: "Designer Silk Dress",
-      sku: "DS-001",
-      category: "Dresses",
+      name: "Silk Blend Tailored Blazer",
+      sku: "BL-2025-SLK",
+      category: "Outerwear",
       season: "Spring/Summer 2025",
-      color: "Primary Purple",
-      price: 299.99,
+      color: "Navy Blue",
+      price: 289.99,
       status: "active",
-      description: "Elegant silk dress for special occasions"
+      releaseDate: "2025-03-15",
+      description: "Luxurious silk blend blazer with modern tailoring and subtle texture.",
+      materials: "70% Silk, 30% Cotton"
     },
     {
       id: 2,
-      name: "Tailored Wool Blazer",
-      sku: "TW-002",
-      category: "Outerwear",
+      name: "Cashmere Wool Cardigan",
+      sku: "CW-2025-CSM",
+      category: "Tops",
       season: "Fall/Winter 2024",
-      color: "Dark Purple",
-      price: 349.99,
-      status: "active",
-      description: "Premium wool blazer with custom fit"
+      color: "Burgundy",
+      price: 199.99,
+      status: "draft",
+      releaseDate: "2024-08-30",
+      description: "Premium cashmere wool cardigan with ribbed cuffs and hem.",
+      materials: "85% Cashmere, 15% Wool"
     },
     {
       id: 3,
-      name: "Casual Linen Pants",
-      sku: "CL-003",
-      category: "Bottoms",
-      season: "Spring/Summer 2025",
-      color: "Soft Green",
-      price: 129.99,
-      status: "draft",
-      description: "Comfortable linen pants for everyday wear"
-    },
-    {
-      id: 4,
-      name: "Graphic Print T-Shirt",
-      sku: "GP-004",
-      category: "Tops",
+      name: "Leather Crossbody Bag",
+      sku: "LB-2025-CRS",
+      category: "Accessories",
       season: "Resort 2025",
-      color: "Soft Blue",
-      price: 89.99,
+      color: "Tan",
+      price: 349.99,
       status: "active",
-      description: "Bold graphic print for a statement look"
+      releaseDate: "2025-01-10",
+      description: "Artisanal leather crossbody with adjustable strap and distinctive hardware.",
+      materials: "100% Full-grain Leather"
     }
   ]);
-
-  const orders = [
-    { 
-      id: "ORD-001", 
-      date: "2023-04-01", 
-      customer: "John Smith", 
-      total: "$129.99", 
-      status: "completed",
-      items: 3 
-    },
-    { 
-      id: "ORD-002", 
-      date: "2023-04-02", 
-      customer: "Sarah Johnson", 
-      total: "$89.50", 
-      status: "processing",
-      items: 2 
-    },
-    { 
-      id: "ORD-003", 
-      date: "2023-04-03", 
-      customer: "Michael Davis", 
-      total: "$210.75", 
-      status: "completed",
-      items: 4 
-    },
-    { 
-      id: "ORD-004", 
-      date: "2023-04-05", 
-      customer: "Emily Wilson", 
-      total: "$45.99", 
-      status: "shipped",
-      items: 1 
-    },
-    { 
-      id: "ORD-005", 
-      date: "2023-04-06", 
-      customer: "Robert Brown", 
-      total: "$178.25", 
-      status: "cancelled",
-      items: 3 
-    }
-  ];
 
   const colorOptions = [
     { name: "Neutral Gray", hex: "#8E9196" },
@@ -246,11 +186,6 @@ const BrandProducts = () => {
     setProducts(products.filter(product => product.id !== id));
   };
 
-  const filteredOrders = orders.filter(order => 
-    order.id.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
-    order.customer.toLowerCase().includes(orderSearchQuery.toLowerCase())
-  );
-
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -274,18 +209,12 @@ const BrandProducts = () => {
       </div>
       
       <Tabs defaultValue="list" value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="w-full mb-6 grid grid-cols-3 bg-gray-100 p-1">
+        <TabsList className="w-full mb-6 grid grid-cols-2 bg-gray-100 p-1">
           <TabsTrigger 
             value="list" 
             className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm"
           >
             <ListFilter className="mr-2 h-4 w-4" /> Product List
-          </TabsTrigger>
-          <TabsTrigger 
-            value="orders" 
-            className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm"
-          >
-            <ShoppingBag className="mr-2 h-4 w-4" /> Orders
           </TabsTrigger>
           <TabsTrigger 
             value="add" 
@@ -546,112 +475,6 @@ const BrandProducts = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value="orders" className="space-y-6">
-          <Card className="border border-gray-200">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Recent Orders</CardTitle>
-              <div className="relative w-full max-w-sm">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
-                <input 
-                  type="search" 
-                  placeholder="Search orders..." 
-                  className="w-full rounded-md border border-gray-200 pl-8 py-2 text-sm outline-none focus:border-blue-500"
-                  value={orderSearchQuery}
-                  onChange={(e) => setOrderSearchQuery(e.target.value)}
-                />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Order ID</TableHead>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Customer</TableHead>
-                      <TableHead>Total</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Items</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredOrders.length === 0 ? (
-                      <TableRow>
-                        <TableCell colSpan={7} className="h-24 text-center">
-                          No orders found.
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      filteredOrders.map((order) => (
-                        <TableRow key={order.id}>
-                          <TableCell className="font-medium">{order.id}</TableCell>
-                          <TableCell>{order.date}</TableCell>
-                          <TableCell>{order.customer}</TableCell>
-                          <TableCell>{order.total}</TableCell>
-                          <TableCell>
-                            <Badge 
-                              className={`${
-                                order.status === "completed" ? "bg-green-100 text-green-800" :
-                                order.status === "processing" ? "bg-blue-100 text-blue-800" :
-                                order.status === "shipped" ? "bg-purple-100 text-purple-800" :
-                                "bg-red-100 text-red-800"
-                              }`}
-                            >
-                              {order.status}
-                            </Badge>
-                          </TableCell>
-                          <TableCell>{order.items}</TableCell>
-                          <TableCell className="text-right">
-                            <TooltipProvider>
-                              <div className="flex items-center justify-end space-x-2">
-                                <Tooltip>
-                                  <TooltipTrigger asChild>
-                                    <Link to={`/brand/orders/${order.id}`}>
-                                      <Button variant="ghost" size="icon" className="h-8 w-8">
-                                        <Eye size={16} />
-                                      </Button>
-                                    </Link>
-                                  </TooltipTrigger>
-                                  <TooltipContent>
-                                    <p>View order details</p>
-                                  </TooltipContent>
-                                </Tooltip>
-                                
-                                <Tooltip>
-                                  <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="icon" className="h-8 w-8">
-                                      <Printer size={16} />
-                                    </Button>
-                                  </TooltipTrigger>
-                                  <TooltipContent>
-                                    <p>Print order</p>
-                                  </TooltipContent>
-                                </Tooltip>
-                              </div>
-                            </TooltipProvider>
-                          </TableCell>
-                        </TableRow>
-                      ))
-                    )}
-                  </TableBody>
-                </Table>
-              </div>
-              
-              <div className="flex items-center justify-between mt-4">
-                <p className="text-sm text-gray-500">Showing {filteredOrders.length} of {orders.length} orders</p>
-                <div className="flex space-x-1">
-                  <button className="px-2 py-1 text-sm border rounded">Previous</button>
-                  <button className="px-2 py-1 text-sm border rounded bg-black-50">1</button>
-                  <button className="px-2 py-1 text-sm border rounded">2</button>
-                  <button className="px-2 py-1 text-sm border rounded">3</button>
-                  <button className="px-2 py-1 text-sm border rounded">Next</button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
         <TabsContent value="add" className="space-y-6 mt-4">
           <Card className="border border-gray-200">
             <CardHeader>
@@ -829,11 +652,241 @@ const BrandProducts = () => {
                                 ))}
                               </DropdownMenuContent>
                             </DropdownMenu>
+                            <p className="text-xs text-gray-500 mt-1">
+                              Select primary product color
+                            </p>
                           </div>
                         </div>
                       </div>
+
+                      <div>
+                        <Label htmlFor="release" className="text-sm font-medium">
+                          Release Date
+                        </Label>
+                        <Input
+                          id="release"
+                          type="date" 
+                        />
+                        <p className="text-xs text-gray-500 mt-1">
+                          When the product will be available to buyers
+                        </p>
+                      </div>
                     </div>
                   </TabsContent>
+
+                  <TabsContent value="materials" className="space-y-6 mt-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="materials" className="text-sm font-medium">
+                          Materials/Fabric*
+                        </Label>
+                        <Input
+                          id="materials"
+                          placeholder="e.g., 70% Silk, 30% Cotton"
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="origin" className="text-sm font-medium">
+                          Country of Origin
+                        </Label>
+                        <Select>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select country" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="italy">Italy</SelectItem>
+                            <SelectItem value="france">France</SelectItem>
+                            <SelectItem value="portugal">Portugal</SelectItem>
+                            <SelectItem value="turkey">Turkey</SelectItem>
+                            <SelectItem value="china">China</SelectItem>
+                            <SelectItem value="india">India</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="col-span-1 md:col-span-2">
+                        <Label htmlFor="care" className="text-sm font-medium">
+                          Care Instructions
+                        </Label>
+                        <Input
+                          id="care"
+                          placeholder="e.g., Dry clean only" 
+                        />
+                      </div>
+
+                      <div className="col-span-1 md:col-span-2">
+                        <Label htmlFor="sustainInfo" className="text-sm font-medium">
+                          Sustainability Information
+                        </Label>
+                        <Input
+                          id="sustainInfo"
+                          placeholder="e.g., GOTS certified organic cotton" 
+                        />
+                        <p className="text-xs text-gray-500 mt-1">
+                          Certifications, sustainable practices, etc.
+                        </p>
+                      </div>
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="pricing" className="space-y-6 mt-4">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                      <div>
+                        <Label htmlFor="wholesalePrice" className="text-sm font-medium">
+                          Wholesale Price*
+                        </Label>
+                        <div className="relative">
+                          <DollarSign className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+                          <Input
+                            id="wholesalePrice"
+                            className="pl-8"
+                            placeholder="0.00" 
+                          />
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="msrp" className="text-sm font-medium">
+                          MSRP*
+                        </Label>
+                        <div className="relative">
+                          <DollarSign className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+                          <Input
+                            id="msrp"
+                            className="pl-8"
+                            placeholder="0.00" 
+                          />
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="currency" className="text-sm font-medium">
+                          Currency
+                        </Label>
+                        <Select>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="USD" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="usd">USD</SelectItem>
+                            <SelectItem value="eur">EUR</SelectItem>
+                            <SelectItem value="gbp">GBP</SelectItem>
+                            <SelectItem value="jpy">JPY</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="minOrder" className="text-sm font-medium">
+                          Minimum Order
+                        </Label>
+                        <Input
+                          id="minOrder"
+                          type="number"
+                          placeholder="e.g., 5" 
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="availableUnits" className="text-sm font-medium">
+                          Available Units*
+                        </Label>
+                        <Input
+                          id="availableUnits"
+                          type="number"
+                          placeholder="0" 
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="leadTime" className="text-sm font-medium">
+                          Lead Time (days)
+                        </Label>
+                        <Input
+                          id="leadTime"
+                          type="number"
+                          placeholder="e.g., 30" 
+                        />
+                        <p className="text-xs text-gray-500 mt-1">
+                          Production to delivery time
+                        </p>
+                      </div>
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="shipping" className="space-y-6 mt-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="weight" className="text-sm font-medium">
+                          Weight (kg)
+                        </Label>
+                        <Input
+                          id="weight"
+                          type="number"
+                          step="0.01"
+                          placeholder="0.00" 
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="dimensions" className="text-sm font-medium">
+                          Dimensions (cm)
+                        </Label>
+                        <Input
+                          id="dimensions"
+                          placeholder="L x W x H" 
+                        />
+                      </div>
+                      
+                      <div className="col-span-1 md:col-span-2">
+                        <Label htmlFor="sizeGuide" className="text-sm font-medium">
+                          Size Guide
+                        </Label>
+                        <Input
+                          id="sizeGuide"
+                          placeholder="e.g., S (36), M (38), L (40)" 
+                        />
+                        <p className="text-xs text-gray-500 mt-1">
+                          Include international size conversions
+                        </p>
+                      </div>
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="details" className="space-y-6 mt-4">
+                    <div className="space-y-4">
+                      <div>
+                        <Label htmlFor="shortDescription" className="text-sm font-medium">
+                          Short Description*
+                        </Label>
+                        <Input
+                          id="shortDescription"
+                          placeholder="Brief product highlight (1-2 sentences)" 
+                        />
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="description" className="text-sm font-medium">
+                          Full Description*
+                        </Label>
+                        <textarea 
+                          id="description"
+                          className="w-full p-2 border border-gray-200 h-24"
+                          placeholder="Detailed description including key selling points, fit information, and styling suggestions" 
+                        ></textarea>
+                      </div>
+                    </div>
+                  </TabsContent>
+
+                  <div className="flex justify-end pt-4 mt-6 border-t">
+                    <Button variant="outline" className="mr-2">
+                      Save Draft
+                    </Button>
+                    <Button className="bg-black hover:bg-black-600">
+                      Publish Product
+                    </Button>
+                  </div>
                 </Tabs>
               </div>
             </CardContent>
@@ -845,3 +898,4 @@ const BrandProducts = () => {
 };
 
 export default BrandProducts;
+

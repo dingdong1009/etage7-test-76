@@ -1,4 +1,5 @@
-import React, { useRef } from "react";
+
+import { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -54,19 +55,20 @@ interface Order {
 
 const BrandOrderDetails = () => {
   const { orderId } = useParams<{ orderId: string }>();
-  const [order, setOrder] = React.useState<Order | null>(null);
-  const [loading, setLoading] = React.useState(true);
-  const printRef = useRef<HTMLDivElement>(null);
+  const [order, setOrder] = useState<Order | null>(null);
+  const [loading, setLoading] = useState(true);
+  const printRef = React.useRef(null);
 
   // Function to handle printing
   const handlePrint = useReactToPrint({
+    content: () => printRef.current,
     documentTitle: `Order-${orderId}`,
     onAfterPrint: () => console.log('Print completed'),
-    contentRef: printRef,
   });
 
   // Fetch order data (in a real app, this would be an API call)
-  React.useEffect(() => {
+  useEffect(() => {
+    // Simulating API fetch with setTimeout
     setTimeout(() => {
       // This is sample data - in a real app this would come from an API
       const sampleOrder: Order = {
@@ -141,7 +143,7 @@ const BrandOrderDetails = () => {
       <div className="flex flex-col items-center justify-center h-96 space-y-4">
         <div className="text-xl">Order not found</div>
         <Button asChild>
-          <Link to="/brand/products?tab=orders">Back to Orders</Link>
+          <Link to="/brand/orders">Back to Orders</Link>
         </Button>
       </div>
     );
@@ -163,23 +165,19 @@ const BrandOrderDetails = () => {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center space-x-4">
           <Button variant="outline" size="sm" asChild>
-            <Link to="/brand/products?tab=orders">
+            <Link to="/brand/orders">
               <ArrowLeft size={16} className="mr-2" />
               Back to Orders
             </Link>
           </Button>
           
           <h1 className="text-2xl md:text-3xl font-semibold">
-            Order {order?.id}
+            Order {order.id}
           </h1>
         </div>
         
         <div className="flex flex-wrap items-center gap-2">
-          <Button 
-            variant="outline" 
-            size="sm" 
-            onClick={() => handlePrint()}
-          >
+          <Button variant="outline" size="sm" onClick={handlePrint}>
             <Printer size={16} className="mr-2" />
             Print Order
           </Button>
@@ -381,16 +379,16 @@ const BrandOrderDetails = () => {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
-            <Button variant={order?.status === "processing" ? "default" : "outline"}>
+            <Button variant={order.status === "processing" ? "default" : "outline"}>
               Processing
             </Button>
-            <Button variant={order?.status === "shipped" ? "default" : "outline"}>
+            <Button variant={order.status === "shipped" ? "default" : "outline"}>
               Shipped
             </Button>
-            <Button variant={order?.status === "completed" ? "default" : "outline"}>
+            <Button variant={order.status === "completed" ? "default" : "outline"}>
               Completed
             </Button>
-            <Button variant={order?.status === "cancelled" ? "default" : "outline"} 
+            <Button variant={order.status === "cancelled" ? "default" : "outline"} 
                     className="bg-red-100 text-red-800 border-red-200 hover:bg-red-200">
               Cancelled
             </Button>
