@@ -2,7 +2,6 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -19,11 +18,8 @@ import {
   RefreshCw, 
   Trash,
   Mail,
-  Palette,
   PenTool,
-  Image,
   Eye,
-  Clock,
   Send,
   ChevronDown,
   User,
@@ -36,6 +32,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { format } from "date-fns";
 import { toast } from "sonner";
+import RichTextEditor from "./components/RichTextEditor";
 
 type AnnouncementType = "general" | "brand" | "newsletter" | "maintenance" | "update";
 
@@ -195,6 +192,20 @@ const AdminAnnouncements = () => {
     }
   };
 
+  const handleImageUpload = async (file: File): Promise<string> => {
+    // Mock image upload - in a real app, you would upload to a server
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setTimeout(() => {
+          // Simulate server delay
+          resolve(reader.result as string);
+        }, 500);
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
   const onSubmit = (data: AnnouncementFormData) => {
     const actionText = data.isScheduled ? "scheduled" : "sent";
     const timeInfo = data.isScheduled ? 
@@ -323,7 +334,7 @@ const AdminAnnouncements = () => {
                       )}
                     </div>
                   </div>
-                  <div className="whitespace-pre-wrap text-sm">{form.watch("content")}</div>
+                  <div className="announcement-content" dangerouslySetInnerHTML={{ __html: form.watch("content") }}></div>
                   <div className="mt-4 text-xs text-gray-500">
                     Visible to: {audienceOptions.find(o => o.value === form.watch("audience"))?.label || "All Users"}
                   </div>
@@ -351,10 +362,10 @@ const AdminAnnouncements = () => {
                       <FormItem>
                         <FormLabel>Content</FormLabel>
                         <FormControl>
-                          <Textarea 
-                            placeholder="Enter your announcement content" 
-                            className="h-32" 
-                            {...field} 
+                          <RichTextEditor
+                            value={field.value}
+                            onChange={field.onChange}
+                            onImageUpload={handleImageUpload}
                           />
                         </FormControl>
                         <FormMessage />
