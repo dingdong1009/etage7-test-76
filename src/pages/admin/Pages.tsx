@@ -19,14 +19,21 @@ import {
 import { 
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue 
 } from "@/components/ui/select";
-import { Share2, Edit, Trash2, Tag } from "lucide-react";
+import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription } from "@/components/ui/form";
+import { Share2, Edit, Trash2, Tag, PaperclipIcon, X, FileText, FileImage } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Switch } from "@/components/ui/switch";
 
 interface Event {
   id: number;
   title: string;
   date: string;
   location: string;
+  description?: string;
+  documents?: string[];
+  taggedBrands?: string[];
+  sendToBuyers?: boolean;
+  sendToBrands?: boolean;
 }
 
 interface Story {
@@ -55,18 +62,41 @@ const AdminPages = () => {
   ]);
 
   // Form State
-  const [newEvent, setNewEvent] = useState<Omit<Event, 'id'>>({ title: "", date: "", location: "" });
+  const [newEvent, setNewEvent] = useState<Omit<Event, 'id'>>({ 
+    title: "", 
+    date: "", 
+    location: "", 
+    description: "",
+    documents: [],
+    taggedBrands: [],
+    sendToBuyers: false,
+    sendToBrands: false
+  });
   const [editEvent, setEditEvent] = useState<Event | null>(null);
   const [newStory, setNewStory] = useState<Omit<Story, 'id'>>({ title: "", publishDate: "", tags: [], content: "" });
   const [editStory, setEditStory] = useState<Story | null>(null);
   const [newTag, setNewTag] = useState("");
+  const [newBrand, setNewBrand] = useState("");
+  const [newDocument, setNewDocument] = useState("");
+  
+  // Available brands (in a real app, this would come from the database)
+  const availableBrands = ["Brand One", "Brand Two", "Brand Three", "Brand Four", "Brand Five"];
   
   // Event Handlers
   const handleAddEvent = () => {
     if (newEvent.title && newEvent.date && newEvent.location) {
       const id = Math.max(0, ...events.map(e => e.id)) + 1;
       setEvents([...events, { id, ...newEvent }]);
-      setNewEvent({ title: "", date: "", location: "" });
+      setNewEvent({ 
+        title: "", 
+        date: "", 
+        location: "", 
+        description: "",
+        documents: [],
+        taggedBrands: [],
+        sendToBuyers: false,
+        sendToBrands: false
+      });
       toast({
         title: "Event Created",
         description: "The new event has been added successfully."
@@ -130,6 +160,68 @@ const AdminPages = () => {
       });
     }
   };
+
+  const handleAddBrand = () => {
+    if (newBrand.trim()) {
+      if (editEvent && !editEvent.taggedBrands?.includes(newBrand.trim())) {
+        setEditEvent({
+          ...editEvent,
+          taggedBrands: [...(editEvent.taggedBrands || []), newBrand.trim()]
+        });
+      } else if (!editEvent && !newEvent.taggedBrands?.includes(newBrand.trim())) {
+        setNewEvent({
+          ...newEvent,
+          taggedBrands: [...(newEvent.taggedBrands || []), newBrand.trim()]
+        });
+      }
+      setNewBrand("");
+    }
+  };
+
+  const handleDeleteBrand = (brandToDelete: string, isEditing: boolean) => {
+    if (isEditing && editEvent) {
+      setEditEvent({
+        ...editEvent,
+        taggedBrands: editEvent.taggedBrands?.filter(brand => brand !== brandToDelete) || []
+      });
+    } else if (!isEditing) {
+      setNewEvent({
+        ...newEvent,
+        taggedBrands: newEvent.taggedBrands?.filter(brand => brand !== brandToDelete) || []
+      });
+    }
+  };
+
+  const handleAddDocument = (isEditing: boolean) => {
+    if (newDocument.trim()) {
+      if (isEditing && editEvent) {
+        setEditEvent({
+          ...editEvent,
+          documents: [...(editEvent.documents || []), newDocument.trim()]
+        });
+      } else if (!isEditing) {
+        setNewEvent({
+          ...newEvent,
+          documents: [...(newEvent.documents || []), newDocument.trim()]
+        });
+      }
+      setNewDocument("");
+    }
+  };
+
+  const handleDeleteDocument = (docToDelete: string, isEditing: boolean) => {
+    if (isEditing && editEvent) {
+      setEditEvent({
+        ...editEvent,
+        documents: editEvent.documents?.filter(doc => doc !== docToDelete) || []
+      });
+    } else if (!isEditing) {
+      setNewEvent({
+        ...newEvent,
+        documents: newEvent.documents?.filter(doc => doc !== docToDelete) || []
+      });
+    }
+  };
   
   return (
     <div className="space-y-6">
@@ -152,7 +244,7 @@ const AdminPages = () => {
                     + Add Event
                   </Button>
                 </DialogTrigger>
-                <DialogContent>
+                <DialogContent className="max-w-2xl">
                   <DialogHeader>
                     <DialogTitle>Add New Event</DialogTitle>
                     <DialogDescription>
@@ -160,6 +252,7 @@ const AdminPages = () => {
                     </DialogDescription>
                   </DialogHeader>
                   <div className="grid gap-4 py-4">
+                    {/* Basic Event Details */}
                     <div className="grid grid-cols-4 items-center gap-4">
                       <Label htmlFor="event-title" className="text-right">
                         Title
@@ -193,6 +286,142 @@ const AdminPages = () => {
                         value={newEvent.location}
                         onChange={(e) => setNewEvent({...newEvent, location: e.target.value})}
                       />
+                    </div>
+                    
+                    {/* Description Field */}
+                    <div className="grid grid-cols-4 items-start gap-4">
+                      <Label htmlFor="event-description" className="text-right pt-2">
+                        Description
+                      </Label>
+                      <Textarea
+                        id="event-description"
+                        className="col-span-3"
+                        rows={4}
+                        placeholder="Enter event description"
+                        value={newEvent.description || ""}
+                        onChange={(e) => setNewEvent({...newEvent, description: e.target.value})}
+                      />
+                    </div>
+                    
+                    {/* Attached Documents */}
+                    <div className="grid grid-cols-4 items-start gap-4">
+                      <Label className="text-right pt-2">
+                        Attached Documents
+                      </Label>
+                      <div className="col-span-3 space-y-2">
+                        <div className="flex flex-wrap gap-2">
+                          {newEvent.documents?.map((doc, index) => (
+                            <div key={index} className="bg-gray-100 text-xs px-2 py-1 rounded flex items-center gap-1">
+                              <span className="flex items-center">
+                                {doc.toLowerCase().endsWith('.jpg') || doc.toLowerCase().endsWith('.png') ? 
+                                  <FileImage className="h-3 w-3 mr-1" /> : 
+                                  <FileText className="h-3 w-3 mr-1" />
+                                }
+                                {doc}
+                              </span>
+                              <button
+                                type="button"
+                                className="text-gray-500 hover:text-gray-700"
+                                onClick={() => handleDeleteDocument(doc, false)}
+                              >
+                                <X className="h-3 w-3" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="flex gap-2">
+                          <Input
+                            placeholder="Document name (e.g., event-flyer.pdf)"
+                            className="flex-1"
+                            value={newDocument}
+                            onChange={(e) => setNewDocument(e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' && newDocument.trim()) {
+                                e.preventDefault();
+                                handleAddDocument(false);
+                              }
+                            }}
+                          />
+                          <Button 
+                            type="button" 
+                            variant="outline"
+                            onClick={() => handleAddDocument(false)}
+                          >
+                            <PaperclipIcon className="h-4 w-4 mr-1" /> Add
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Tag Brands */}
+                    <div className="grid grid-cols-4 items-start gap-4">
+                      <Label className="text-right pt-2">
+                        Tag Brands
+                      </Label>
+                      <div className="col-span-3 space-y-2">
+                        <div className="flex flex-wrap gap-2">
+                          {newEvent.taggedBrands?.map((brand, index) => (
+                            <div key={index} className="bg-gray-100 text-xs px-2 py-1 rounded flex items-center gap-1">
+                              <span>{brand}</span>
+                              <button
+                                type="button"
+                                className="text-gray-500 hover:text-gray-700"
+                                onClick={() => handleDeleteBrand(brand, false)}
+                              >
+                                <X className="h-3 w-3" />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="flex gap-2">
+                          <Select 
+                            value={newBrand} 
+                            onValueChange={setNewBrand}
+                          >
+                            <SelectTrigger className="flex-1">
+                              <SelectValue placeholder="Select brand" />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {availableBrands.map((brand) => (
+                                <SelectItem key={brand} value={brand}>{brand}</SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          <Button 
+                            type="button" 
+                            variant="outline"
+                            onClick={handleAddBrand}
+                            disabled={!newBrand}
+                          >
+                            <Tag className="h-4 w-4 mr-1" /> Add
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Send To Options */}
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label className="text-right">
+                        Send To
+                      </Label>
+                      <div className="col-span-3 space-y-2">
+                        <div className="flex items-center space-x-2">
+                          <Switch 
+                            id="send-buyers"
+                            checked={newEvent.sendToBuyers}
+                            onCheckedChange={(checked) => setNewEvent({...newEvent, sendToBuyers: checked})}
+                          />
+                          <Label htmlFor="send-buyers">Send to Buyers</Label>
+                        </div>
+                        <div className="flex items-center space-x-2">
+                          <Switch 
+                            id="send-brands"
+                            checked={newEvent.sendToBrands}
+                            onCheckedChange={(checked) => setNewEvent({...newEvent, sendToBrands: checked})}
+                          />
+                          <Label htmlFor="send-brands">Send to Brands</Label>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <DialogFooter>
@@ -284,7 +513,7 @@ const AdminPages = () => {
                             </Button>
                           </DialogTrigger>
                           {editEvent && (
-                            <DialogContent>
+                            <DialogContent className="max-w-2xl">
                               <DialogHeader>
                                 <DialogTitle>Edit Event</DialogTitle>
                                 <DialogDescription>
@@ -325,6 +554,142 @@ const AdminPages = () => {
                                     value={editEvent.location}
                                     onChange={(e) => setEditEvent({...editEvent, location: e.target.value})}
                                   />
+                                </div>
+                                
+                                {/* Description Field for Edit */}
+                                <div className="grid grid-cols-4 items-start gap-4">
+                                  <Label htmlFor="edit-description" className="text-right pt-2">
+                                    Description
+                                  </Label>
+                                  <Textarea
+                                    id="edit-description"
+                                    className="col-span-3"
+                                    rows={4}
+                                    placeholder="Enter event description"
+                                    value={editEvent.description || ""}
+                                    onChange={(e) => setEditEvent({...editEvent, description: e.target.value})}
+                                  />
+                                </div>
+                                
+                                {/* Attached Documents for Edit */}
+                                <div className="grid grid-cols-4 items-start gap-4">
+                                  <Label className="text-right pt-2">
+                                    Attached Documents
+                                  </Label>
+                                  <div className="col-span-3 space-y-2">
+                                    <div className="flex flex-wrap gap-2">
+                                      {editEvent.documents?.map((doc, index) => (
+                                        <div key={index} className="bg-gray-100 text-xs px-2 py-1 rounded flex items-center gap-1">
+                                          <span className="flex items-center">
+                                            {doc.toLowerCase().endsWith('.jpg') || doc.toLowerCase().endsWith('.png') ? 
+                                              <FileImage className="h-3 w-3 mr-1" /> : 
+                                              <FileText className="h-3 w-3 mr-1" />
+                                            }
+                                            {doc}
+                                          </span>
+                                          <button
+                                            type="button"
+                                            className="text-gray-500 hover:text-gray-700"
+                                            onClick={() => handleDeleteDocument(doc, true)}
+                                          >
+                                            <X className="h-3 w-3" />
+                                          </button>
+                                        </div>
+                                      ))}
+                                    </div>
+                                    <div className="flex gap-2">
+                                      <Input
+                                        placeholder="Document name (e.g., event-flyer.pdf)"
+                                        className="flex-1"
+                                        value={newDocument}
+                                        onChange={(e) => setNewDocument(e.target.value)}
+                                        onKeyDown={(e) => {
+                                          if (e.key === 'Enter' && newDocument.trim()) {
+                                            e.preventDefault();
+                                            handleAddDocument(true);
+                                          }
+                                        }}
+                                      />
+                                      <Button 
+                                        type="button" 
+                                        variant="outline"
+                                        onClick={() => handleAddDocument(true)}
+                                      >
+                                        <PaperclipIcon className="h-4 w-4 mr-1" /> Add
+                                      </Button>
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                                {/* Tag Brands for Edit */}
+                                <div className="grid grid-cols-4 items-start gap-4">
+                                  <Label className="text-right pt-2">
+                                    Tag Brands
+                                  </Label>
+                                  <div className="col-span-3 space-y-2">
+                                    <div className="flex flex-wrap gap-2">
+                                      {editEvent.taggedBrands?.map((brand, index) => (
+                                        <div key={index} className="bg-gray-100 text-xs px-2 py-1 rounded flex items-center gap-1">
+                                          <span>{brand}</span>
+                                          <button
+                                            type="button"
+                                            className="text-gray-500 hover:text-gray-700"
+                                            onClick={() => handleDeleteBrand(brand, true)}
+                                          >
+                                            <X className="h-3 w-3" />
+                                          </button>
+                                        </div>
+                                      ))}
+                                    </div>
+                                    <div className="flex gap-2">
+                                      <Select 
+                                        value={newBrand} 
+                                        onValueChange={setNewBrand}
+                                      >
+                                        <SelectTrigger className="flex-1">
+                                          <SelectValue placeholder="Select brand" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                          {availableBrands.map((brand) => (
+                                            <SelectItem key={brand} value={brand}>{brand}</SelectItem>
+                                          ))}
+                                        </SelectContent>
+                                      </Select>
+                                      <Button 
+                                        type="button" 
+                                        variant="outline"
+                                        onClick={handleAddBrand}
+                                        disabled={!newBrand}
+                                      >
+                                        <Tag className="h-4 w-4 mr-1" /> Add
+                                      </Button>
+                                    </div>
+                                  </div>
+                                </div>
+                                
+                                {/* Send To Options for Edit */}
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                  <Label className="text-right">
+                                    Send To
+                                  </Label>
+                                  <div className="col-span-3 space-y-2">
+                                    <div className="flex items-center space-x-2">
+                                      <Switch 
+                                        id="edit-send-buyers"
+                                        checked={editEvent.sendToBuyers || false}
+                                        onCheckedChange={(checked) => setEditEvent({...editEvent, sendToBuyers: checked})}
+                                      />
+                                      <Label htmlFor="edit-send-buyers">Send to Buyers</Label>
+                                    </div>
+                                    <div className="flex items-center space-x-2">
+                                      <Switch 
+                                        id="edit-send-brands"
+                                        checked={editEvent.sendToBrands || false}
+                                        onCheckedChange={(checked) => setEditEvent({...editEvent, sendToBrands: checked})}
+                                      />
+                                      <Label htmlFor="edit-send-brands">Send to Brands</Label>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                               <DialogFooter>
@@ -386,7 +751,7 @@ const AdminPages = () => {
           </Card>
         </TabsContent>
         
-        <TabsContent value="curated" className="space-y-4">    
+        <TabsContent value="curated" className="space-y-4">  
           {/* Curated Stories Management Section */}
           <Card className="p-6 border border-gray-200">
             <div className="flex justify-between items-center mb-4">
