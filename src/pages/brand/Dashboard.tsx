@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LineChart, BarChart } from "recharts";
 
@@ -29,52 +28,48 @@ const BrandDashboard = () => {
       <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Brand Dashboard</h1>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="border border-gray-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Views</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">1,234</div>
-            <p className="text-xs text-green-500 flex items-center mt-1">
-              +12.5% from last month
-            </p>
-          </CardContent>
+        <Card className="p-4 border border-gray-200">
+          <div className="flex justify-between items-start">
+            <div>
+              <h2 className="text-1xl md:text-2xl uppercase font-thin">Views</h2>
+              <div className="mt-2 text-3xl">1,234</div>
+              <p className="mt-2 text-sm text-green-500">+12.5% from last month</p>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8 text-gray-400"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+          </div>
         </Card>
         
-        <Card className="border border-gray-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Conversions</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">42</div>
-            <p className="text-xs text-green-500 flex items-center mt-1">
-              +5.2% from last month
-            </p>
-          </CardContent>
+        <Card className="p-4 border border-gray-200">
+          <div className="flex justify-between items-start">
+            <div>
+              <h2 className="text-1xl md:text-2xl uppercase font-thin">Conversions</h2>
+              <div className="mt-2 text-3xl">42</div>
+              <p className="mt-2 text-sm text-green-500">+5.2% from last month</p>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8 text-gray-400"><path d="M12 2v20"></path><path d="m17 5-5-3-5 3"></path><path d="m17 19-5 3-5-3"></path><path d="M20 10h-8"></path><path d="m16 7-3 3 3 3"></path><path d="M4 14h8"></path><path d="m8 11-3 3 3 3"></path></svg>
+          </div>
         </Card>
         
-        <Card className="border border-gray-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Sales</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">$12,345</div>
-            <p className="text-xs text-green-500 flex items-center mt-1">
-              +8.4% from last month
-            </p>
-          </CardContent>
+        <Card className="p-4 border border-gray-200">
+          <div className="flex justify-between items-start">
+            <div>
+              <h2 className="text-1xl md:text-2xl uppercase font-thin">Sales</h2>
+              <div className="mt-2 text-3xl">$12,345</div>
+              <p className="mt-2 text-sm text-green-500">+8.4% from last month</p>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8 text-gray-400"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
+          </div>
         </Card>
         
-        <Card className="border border-gray-200">
-          <CardHeader className="pb-2">
-            <CardTitle className="text-sm font-medium text-gray-500">Inventory</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">86</div>
-            <p className="text-xs text-red-500 flex items-center mt-1">
-              -2.3% from last month
-            </p>
-          </CardContent>
+        <Card className="p-4 border border-gray-200">
+          <div className="flex justify-between items-start">
+            <div>
+              <h2 className="text-1xl md:text-2xl uppercase font-thin">Inventory</h2>
+              <div className="mt-2 text-3xl">86</div>
+              <p className="mt-2 text-sm text-red-500">-2.3% from last month</p>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8 text-gray-400"><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"></path><rect width="20" height="12" x="2" y="10" rx="2"></rect></svg>
+          </div>
         </Card>
       </div>
       
@@ -96,7 +91,6 @@ const BrandDashboard = () => {
                   bottom: 5,
                 }}
               >
-                {/* Chart components would go here */}
                 <p className="text-center text-gray-500 pt-32">Views trend visualization</p>
               </LineChart>
             </div>
@@ -120,7 +114,6 @@ const BrandDashboard = () => {
                   bottom: 5,
                 }}
               >
-                {/* Chart components would go here */}
                 <p className="text-center text-gray-500 pt-32">Conversion rate visualization</p>
               </BarChart>
             </div>
