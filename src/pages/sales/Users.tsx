@@ -22,8 +22,8 @@ const SalesUsers = () => {
         <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between pb-2">
           <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Managed Users</CardTitle>
           <div className="flex items-center space-x-2 mt-2 sm:mt-0">
-            <Button className="bg-black text-white border-none hover:underline">Add User</Button>
-            <Button className="bg-grey-200 text-black border-none hover:underline hover:text-white">Export</Button>
+            <Button className="bg-black text-white border-none">Add User</Button>
+            <Button className="bg-grey-20 text-black border-none hover:text-white">Export</Button>
           </div>
         </CardHeader>
         <CardContent className="pt-0">
