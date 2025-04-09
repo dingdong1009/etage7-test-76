@@ -10,7 +10,7 @@ const AdminLayout = () => {
         <Outlet />
       </main>
       <footer className="py-4 px-4 md:px-6 text-center text-sm text-gray-500 border-t border-gray-200 bg-white">
-        <p>© {new Date().getFullYear()} ETAGE7 Admin Panel. All rights reserved.</p>
+        <p>© {new Date().getFullYear()} ETAGE7 | Admin Panel. All rights reserved.</p>
       </footer>
     </div>
   );
