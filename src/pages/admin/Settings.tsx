@@ -32,7 +32,7 @@ const AdminSettings = () => {
       <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Settings</h1>
       
       <Tabs defaultValue="general" className="w-full">
-        <TabsList className="grid w-full grid-cols-1 md:grid-cols-4 mb-4">
+        <TabsList className="mb-4">
           <TabsTrigger value="general">General</TabsTrigger>
           <TabsTrigger value="integrations">Integrations</TabsTrigger>
           <TabsTrigger value="features">Features</TabsTrigger>
@@ -41,7 +41,7 @@ const AdminSettings = () => {
         
         <TabsContent value="general" className="space-y-4">
           <Card className="p-6 border border-gray-200">
-            <h2 className="text-lg font-medium mb-4">General Settings</h2>
+            <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">General Settings</h2>
             
             <form className="space-y-4">
               <div>
@@ -129,7 +129,7 @@ const AdminSettings = () => {
         
         <TabsContent value="integrations" className="space-y-4">
           <Card className="border border-gray-200">
-            <h2 className="text-lg font-medium p-6 pb-4">API Integrations</h2>
+            <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">API Integrations</h2>
             <Table>
               <TableHeader>
                 <TableRow className="bg-gray-50">
@@ -173,7 +173,7 @@ const AdminSettings = () => {
         
         <TabsContent value="features" className="space-y-4">
           <Card className="border border-gray-200">
-            <h2 className="text-lg font-medium p-6 pb-4">Feature Management</h2>
+            <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">Feature Management</h2>
             <Table>
               <TableHeader>
                 <TableRow className="bg-gray-50">
@@ -218,7 +218,7 @@ const AdminSettings = () => {
         
         <TabsContent value="logs" className="space-y-4">
           <Card className="border border-gray-200">
-            <h2 className="text-lg font-medium p-6 pb-4">System Logs</h2>
+            <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">System Logs</h2>
             <Table>
               <TableHeader>
                 <TableRow className="bg-gray-50">
