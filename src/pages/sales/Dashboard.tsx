@@ -40,7 +40,7 @@ const SalesDashboard = () => {
           <Card key={index} className="p-4 border border-gray-200">
             <div className="flex justify-between items-start">
               <div>
-                <h2 className="text-xl font-bold">{stat.title}</h2>
+                <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">{stat.title}</h2>
                 <div className="mt-2 text-3xl">{stat.count}</div>
                 <p className="mt-2 text-sm text-gray-500">{stat.description}</p>
               </div>
@@ -53,7 +53,7 @@ const SalesDashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="border border-gray-200">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-lg font-medium">Brands Growth</CardTitle>
+            <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Brands Growth</CardTitle>
             <ChartLine className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent className="pt-0">
@@ -72,7 +72,7 @@ const SalesDashboard = () => {
         
         <Card className="border border-gray-200">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-lg font-medium">Commission Growth</CardTitle>
+            <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Commission Growth</CardTitle>
             <BadgeDollarSign className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent className="pt-0">
