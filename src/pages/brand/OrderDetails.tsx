@@ -1,5 +1,5 @@
 
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -57,13 +57,13 @@ const BrandOrderDetails = () => {
   const { orderId } = useParams<{ orderId: string }>();
   const [order, setOrder] = useState<Order | null>(null);
   const [loading, setLoading] = useState(true);
-  const printRef = React.useRef(null);
+  const printRef = useRef<HTMLDivElement>(null);
 
   // Function to handle printing
   const handlePrint = useReactToPrint({
-    content: () => printRef.current,
     documentTitle: `Order-${orderId}`,
     onAfterPrint: () => console.log('Print completed'),
+    content: () => printRef.current,
   });
 
   // Fetch order data (in a real app, this would be an API call)
@@ -177,7 +177,7 @@ const BrandOrderDetails = () => {
         </div>
         
         <div className="flex flex-wrap items-center gap-2">
-          <Button variant="outline" size="sm" onClick={handlePrint}>
+          <Button variant="outline" size="sm" onClick={() => handlePrint()}>
             <Printer size={16} className="mr-2" />
             Print Order
           </Button>
