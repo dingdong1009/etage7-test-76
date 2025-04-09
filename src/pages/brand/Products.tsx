@@ -65,7 +65,7 @@ const BrandProducts = () => {
         </CardHeader>
         <CardContent className="space-y-6">
           {/* Drag and drop area */}
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors">
+          <div className="border-2 border-dashed border-gray-300 p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors">
             <div className="flex flex-col items-center gap-2">
               <Upload className="h-10 w-10 text-gray-400" />
               <h3 className="font-medium">Drag and drop product images here</h3>
@@ -86,9 +86,9 @@ const BrandProducts = () => {
           </div>
           
           {/* Tabbed Fashion Product Form */}
-          <div className="border rounded-lg p-4">
+          <div className="border p-4">
             <Tabs defaultValue="basic" className="w-full">
-              <TabsList className="w-full mb-6 grid grid-cols-2 md:grid-cols-5 bg-gray-100 p-1 rounded-md">
+              <TabsList className="w-full mb-6 grid grid-cols-2 md:grid-cols-5 bg-gray-100 p-1">
                 <TabsTrigger 
                   value="basic" 
                   className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm"
@@ -415,7 +415,7 @@ const BrandProducts = () => {
                     </Label>
                     <textarea 
                       id="description"
-                      className="w-full p-2 border border-gray-200 rounded h-24"
+                      className="w-full p-2 border border-gray-200 h-24"
                       placeholder="Detailed description including key selling points, fit information, and styling suggestions" 
                     ></textarea>
                   </div>
