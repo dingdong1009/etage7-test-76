@@ -257,12 +257,12 @@ const SalesUsers = () => {
     }
   });
 
-  // Form for editing a user
+  // Form for editing a user - FIX: Updated the type to accept all possible status values
   const editUserForm = useForm({
     defaultValues: {
       id: 0,
       name: "",
-      status: "active" as const,
+      status: "active" as "active" | "pending" | "inactive",
       plan: "",
       contactPerson: "",
       email: "",
@@ -317,7 +317,8 @@ const SalesUsers = () => {
       setSelectedUser(user);
       editUserForm.reset({
         ...user,
-        status: user.status as "active" | "pending" | "inactive"
+        // FIX: No need to cast the status as it's already correctly typed
+        status: user.status
       });
       setViewMode("edit");
     }
