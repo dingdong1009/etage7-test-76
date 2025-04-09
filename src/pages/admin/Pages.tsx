@@ -50,8 +50,8 @@ const AdminPages = () => {
           <Card className="p-6 border border-gray-200">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-medium">Events List</h2>
-              <Button className="bg-black text-white border-none hover:underline">
-                Add Event
+              <Button className="bg-black text-white border-none">
+                + Add Event
               </Button>
             </div>
             
@@ -159,8 +159,8 @@ const AdminPages = () => {
           <Card className="p-6 border border-gray-200">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-medium">Curated Stories</h2>
-              <Button className="bg-black text-white border-none hover:underline">
-                Add Story
+              <Button className="bg-black text-white border-none">
+                + Add Story
               </Button>
             </div>
             
