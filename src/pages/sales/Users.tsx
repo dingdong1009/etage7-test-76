@@ -56,6 +56,7 @@ const SalesUsers = () => {
   const [activeTab, setActiveTab] = useState<UserType>("brand");
   const [viewMode, setViewMode] = useState<ViewMode>("list");
   const [selectedUser, setSelectedUser] = useState<Brand | Buyer | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string>("all");
   
   // Sample brands data
   const brands: Brand[] = [
@@ -343,6 +344,11 @@ const SalesUsers = () => {
   const renderListView = (userType: UserType) => {
     const userList = userType === "brand" ? brands : buyers;
     
+    // Filter users based on status
+    const filteredUsers = statusFilter === "all" 
+      ? userList 
+      : userList.filter(user => user.status.toLowerCase() === statusFilter.toLowerCase());
+    
     return (
       <Card className="border border-gray-200">
         <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between pb-2">
@@ -357,6 +363,23 @@ const SalesUsers = () => {
           </div>
         </CardHeader>
         <CardContent className="pt-0">
+          <div className="mb-4">
+            <Select
+              value={statusFilter}
+              onValueChange={(value) => setStatusFilter(value)}
+            >
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Filter by status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Statuses</SelectItem>
+                <SelectItem value="active">Active</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="inactive">Inactive</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+          
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
@@ -370,7 +393,7 @@ const SalesUsers = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {userList.map((user) => (
+                {filteredUsers.map((user) => (
                   <TableRow key={user.id}>
                     <TableCell className="font-medium">{user.id}</TableCell>
                     <TableCell>{user.name}</TableCell>
