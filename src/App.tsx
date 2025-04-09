@@ -33,8 +33,6 @@ import SalesLayout from "./components/sales/SalesLayout";
 import SalesDashboard from "./pages/sales/Dashboard";
 import SalesPerformance from "./pages/sales/Performance";
 import SalesUsers from "./pages/sales/Users";
-import SalesViewUser from "./pages/sales/ViewUser";
-import SalesEditUser from "./pages/sales/EditUser";
 import SalesMessages from "./pages/sales/Messages";
 import SalesSettings from "./pages/sales/Settings";
 
@@ -96,8 +94,6 @@ const App = () => (
             <Route index element={<SalesDashboard />} />
             <Route path="performance" element={<SalesPerformance />} />
             <Route path="users" element={<SalesUsers />} />
-            <Route path="users/:userType/:userId/view" element={<SalesViewUser />} />
-            <Route path="users/:userType/:userId/edit" element={<SalesEditUser />} />
             <Route path="messages" element={<SalesMessages />} />
             <Route path="settings" element={<SalesSettings />} />
           </Route>

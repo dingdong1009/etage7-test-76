@@ -5,22 +5,60 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm } from "react-hook-form";
-import { useNavigate } from "react-router-dom";
-import { Plus } from "lucide-react";
+import { ChevronLeft, Plus } from "lucide-react";
+
+// Define the types for brands and buyers
+interface Brand {
+  id: number;
+  name: string;
+  status: "active" | "pending" | "inactive";
+  plan: string;
+  lastActivity: string;
+  contactPerson: string;
+  email: string;
+  phone: string;
+  website: string;
+  description: string;
+  marketSegment: string;
+  productsCount: number;
+  activeSince: string;
+  avgOrderValue: string;
+  totalSales: string;
+}
+
+interface Buyer {
+  id: number;
+  name: string;
+  status: "active" | "pending" | "inactive";
+  plan: string;
+  lastActivity: string;
+  contactPerson: string;
+  email: string;
+  phone: string;
+  website: string;
+  description: string;
+  marketSegment: string;
+  storeCount: number;
+  activeSince: string;
+  avgOrderValue: string;
+  annualPurchases: string;
+}
+
+type UserType = "brand" | "buyer";
+type ViewMode = "list" | "view" | "edit" | "add";
 
 const SalesUsers = () => {
-  const [activeTab, setActiveTab] = useState("brand");
-  const [isAddUserDialogOpen, setIsAddUserDialogOpen] = useState(false);
-  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState<UserType>("brand");
+  const [viewMode, setViewMode] = useState<ViewMode>("list");
+  const [selectedUser, setSelectedUser] = useState<Brand | Buyer | null>(null);
   
   // Sample brands data
-  const brands = [
+  const brands: Brand[] = [
     { 
       id: 1, 
       name: "Luxury Brands Inc.", 
@@ -109,7 +147,7 @@ const SalesUsers = () => {
   ];
 
   // Sample buyers data
-  const buyers = [
+  const buyers: Buyer[] = [
     { 
       id: 1, 
       name: "Department Store Group", 
@@ -207,182 +245,675 @@ const SalesUsers = () => {
       description: "",
       marketSegment: "",
       website: "",
-      userType: activeTab
+      userType: activeTab,
+      // Brand specific fields
+      productsCount: 0,
+      activeSince: "",
+      avgOrderValue: "",
+      totalSales: "",
+      // Buyer specific fields
+      storeCount: 0,
+      annualPurchases: ""
+    }
+  });
+
+  // Form for editing a user
+  const editUserForm = useForm({
+    defaultValues: {
+      id: 0,
+      name: "",
+      status: "active" as const,
+      plan: "",
+      contactPerson: "",
+      email: "",
+      phone: "",
+      website: "",
+      description: "",
+      marketSegment: "",
+      // Brand specific fields
+      productsCount: 0,
+      activeSince: "",
+      avgOrderValue: "",
+      totalSales: "",
+      // Buyer specific fields
+      storeCount: 0,
+      annualPurchases: ""
     }
   });
 
   const handleAddUserSubmit = (data) => {
     console.log("Form submitted:", data);
-    setIsAddUserDialogOpen(false);
+    setViewMode("list");
     addUserForm.reset();
     // In a real app, you would add the user to the appropriate list
   };
 
-  const openAddUserDialog = () => {
+  const handleEditUserSubmit = (data) => {
+    console.log("Edit form submitted:", data);
+    setViewMode("list");
+    // In a real app, you would update the user data
+  };
+
+  const handleGoBack = () => {
+    setViewMode("list");
+    setSelectedUser(null);
+  };
+
+  const handleViewUser = (userType: UserType, userId: number) => {
+    const userList = userType === "brand" ? brands : buyers;
+    const user = userList.find(u => u.id === userId);
+    
+    if (user) {
+      setSelectedUser(user);
+      setViewMode("view");
+    }
+  };
+
+  const handleEditUser = (userType: UserType, userId: number) => {
+    const userList = userType === "brand" ? brands : buyers;
+    const user = userList.find(u => u.id === userId);
+    
+    if (user) {
+      setSelectedUser(user);
+      editUserForm.reset({
+        ...user,
+        status: user.status as "active" | "pending" | "inactive"
+      });
+      setViewMode("edit");
+    }
+  };
+
+  const handleAddUser = () => {
     addUserForm.setValue("userType", activeTab);
-    setIsAddUserDialogOpen(true);
+    setViewMode("add");
   };
 
-  // Function to view user details
-  const handleViewUser = (userType, userId) => {
-    navigate(`/sales/users/${userType}/${userId}/view`);
+  // Type guard to check if user is a Brand
+  const isBrand = (user: any): user is Brand => {
+    return 'productsCount' in user && 'totalSales' in user;
   };
 
-  // Function to edit user
-  const handleEditUser = (userType, userId) => {
-    navigate(`/sales/users/${userType}/${userId}/edit`);
+  // Type guard to check if user is a Buyer
+  const isBuyer = (user: any): user is Buyer => {
+    return 'storeCount' in user && 'annualPurchases' in user;
   };
 
-  return (
-    <div className="space-y-6">
-      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">User Management</h1>
-      
-      <Tabs defaultValue="brand" className="w-full" onValueChange={setActiveTab}>
-        <TabsList className="mb-4">
-          <TabsTrigger value="brand">Managed Brands</TabsTrigger>
-          <TabsTrigger value="buyer">Managed Buyers</TabsTrigger>
-        </TabsList>
+  // Render list view
+  const renderListView = (userType: UserType) => {
+    const userList = userType === "brand" ? brands : buyers;
+    
+    return (
+      <Card className="border border-gray-200">
+        <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between pb-2">
+          <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">
+            Managed {userType === "brand" ? "Brands" : "Buyers"}
+          </CardTitle>
+          <div className="flex items-center space-x-2 mt-2 sm:mt-0">
+            <Button className="bg-black text-white border-none" onClick={handleAddUser}>
+              <Plus className="mr-1 h-4 w-4" /> Add User
+            </Button>
+            <Button className="bg-grey-200 text-black border hover:text-white">Export</Button>
+          </div>
+        </CardHeader>
+        <CardContent className="pt-0">
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[100px]">ID</TableHead>
+                  <TableHead>Name</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Plan</TableHead>
+                  <TableHead>Last Activity</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {userList.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell className="font-medium">{user.id}</TableCell>
+                    <TableCell>{user.name}</TableCell>
+                    <TableCell>
+                      <Badge 
+                        className={`${
+                          user.status === "active" ? "bg-green-100 text-green-800" :
+                          user.status === "pending" ? "bg-yellow-100 text-yellow-800" :
+                          "bg-gray-100 text-gray-800"
+                        }`}
+                      >
+                        {user.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{user.plan}</TableCell>
+                    <TableCell>{user.lastActivity}</TableCell>
+                    <TableCell className="flex justify-end space-x-2">
+                      <Button 
+                        className="text-xs text-black px-2 py-1 bg-gray-100 rounded hover:text-white"
+                        onClick={() => handleViewUser(userType, user.id)}
+                      >
+                        View
+                      </Button>
+                      <Button 
+                        className="text-xs text-black px-2 py-1 bg-gray-100 rounded hover:text-white"
+                        onClick={() => handleEditUser(userType, user.id)}
+                      >
+                        Edit
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
 
-        <TabsContent value="brand">
-          <Card className="border border-gray-200">
-            <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between pb-2">
-              <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Managed Brands</CardTitle>
-              <div className="flex items-center space-x-2 mt-2 sm:mt-0">
-                <Button className="bg-black text-white border-none" onClick={openAddUserDialog}>
-                  <Plus className="mr-1 h-4 w-4" /> Add User
-                </Button>
-                <Button className="bg-grey-200 text-black border hover:text-white">Export</Button>
+  // Render view user details
+  const renderViewUser = () => {
+    if (!selectedUser) return null;
+    
+    return (
+      <Card className="border border-gray-200">
+        <CardHeader className="flex items-center justify-between pb-2">
+          <div className="flex items-center space-x-4">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={handleGoBack}
+              className="bg-gray-100 hover:bg-gray-200"
+            >
+              <ChevronLeft className="mr-1 h-4 w-4" /> Back
+            </Button>
+            <CardTitle className="text-1xl md:text-2xl uppercase font-thin">
+              {selectedUser.name}
+            </CardTitle>
+          </div>
+          <Button 
+            className="text-xs text-black px-3 py-1.5 bg-gray-100 rounded hover:text-white"
+            onClick={() => handleEditUser(activeTab, selectedUser.id)}
+          >
+            Edit
+          </Button>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Company Information</h3>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-sm text-gray-500">Company Name</p>
+                  <p>{selectedUser.name}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Status</p>
+                  <Badge 
+                    className={`${
+                      selectedUser.status === "active" ? "bg-green-100 text-green-800" :
+                      selectedUser.status === "pending" ? "bg-yellow-100 text-yellow-800" :
+                      "bg-gray-100 text-gray-800"
+                    }`}
+                  >
+                    {selectedUser.status}
+                  </Badge>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Plan</p>
+                  <p>{selectedUser.plan}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Market Segment</p>
+                  <p>{selectedUser.marketSegment}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Website</p>
+                  <p>{selectedUser.website}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Active Since</p>
+                  <p>{selectedUser.activeSince}</p>
+                </div>
               </div>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-[100px]">ID</TableHead>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Plan</TableHead>
-                      <TableHead>Last Activity</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {brands.map((user) => (
-                      <TableRow key={user.id}>
-                        <TableCell className="font-medium">{user.id}</TableCell>
-                        <TableCell>{user.name}</TableCell>
-                        <TableCell>
-                          <Badge 
-                            className={`${
-                              user.status === "active" ? "bg-green-100 text-green-800" :
-                              user.status === "pending" ? "bg-yellow-100 text-yellow-800" :
-                              "bg-gray-100 text-gray-800"
-                            }`}
-                          >
-                            {user.status}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>{user.plan}</TableCell>
-                        <TableCell>{user.lastActivity}</TableCell>
-                        <TableCell className="flex justify-end space-x-2">
-                          <Button 
-                            className="text-xs text-black px-2 py-1 bg-gray-100 rounded hover:text-white"
-                            onClick={() => handleViewUser("brand", user.id)}
-                          >
-                            View
-                          </Button>
-                          <Button 
-                            className="text-xs text-black px-2 py-1 bg-gray-100 rounded hover:text-white"
-                            onClick={() => handleEditUser("brand", user.id)}
-                          >
-                            Edit
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
+              <div className="space-y-4">
+                <div>
+                  <p className="text-sm text-gray-500">Contact Person</p>
+                  <p>{selectedUser.contactPerson}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Email</p>
+                  <p>{selectedUser.email}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Phone</p>
+                  <p>{selectedUser.phone}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Last Activity</p>
+                  <p>{selectedUser.lastActivity}</p>
+                </div>
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="buyer">
-          <Card className="border border-gray-200">
-            <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between pb-2">
-              <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Managed Buyers</CardTitle>
-              <div className="flex items-center space-x-2 mt-2 sm:mt-0">
-                <Button className="bg-black text-white border-none" onClick={openAddUserDialog}>
-                  <Plus className="mr-1 h-4 w-4" /> Add User
-                </Button>
-                <Button className="bg-grey-200 text-black border hover:text-white">Export</Button>
-              </div>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="w-[100px]">ID</TableHead>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Plan</TableHead>
-                      <TableHead>Last Activity</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {buyers.map((user) => (
-                      <TableRow key={user.id}>
-                        <TableCell className="font-medium">{user.id}</TableCell>
-                        <TableCell>{user.name}</TableCell>
-                        <TableCell>
-                          <Badge 
-                            className={`${
-                              user.status === "active" ? "bg-green-100 text-green-800" :
-                              user.status === "pending" ? "bg-yellow-100 text-yellow-800" :
-                              "bg-gray-100 text-gray-800"
-                            }`}
-                          >
-                            {user.status}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>{user.plan}</TableCell>
-                        <TableCell>{user.lastActivity}</TableCell>
-                        <TableCell className="flex justify-end space-x-2">
-                          <Button 
-                            className="text-xs text-black px-2 py-1 bg-gray-100 rounded hover:text-white"
-                            onClick={() => handleViewUser("buyer", user.id)}
-                          >
-                            View
-                          </Button>
-                          <Button 
-                            className="text-xs text-black px-2 py-1 bg-gray-100 rounded hover:text-white"
-                            onClick={() => handleEditUser("buyer", user.id)}
-                          >
-                            Edit
-                          </Button>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
-
-      {/* Add User Dialog */}
-      <Dialog open={isAddUserDialogOpen} onOpenChange={setIsAddUserDialogOpen}>
-        <DialogContent className="max-w-3xl">
-          <DialogHeader>
-            <DialogTitle className="text-2xl uppercase font-thin">
-              Add New {activeTab === "brand" ? "Brand" : "Buyer"}
-            </DialogTitle>
-          </DialogHeader>
+            </div>
+          </div>
           
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Description</h3>
+            <p className="text-gray-700 mb-8">{selectedUser.description}</p>
+          </div>
+          
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Performance Metrics</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+              {isBrand(selectedUser) && (
+                <>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-sm text-gray-500">Products Count</p>
+                    <p className="text-2xl font-semibold">{selectedUser.productsCount}</p>
+                  </div>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-sm text-gray-500">Average Order Value</p>
+                    <p className="text-2xl font-semibold">{selectedUser.avgOrderValue}</p>
+                  </div>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-sm text-gray-500">Total Sales</p>
+                    <p className="text-2xl font-semibold">{selectedUser.totalSales}</p>
+                  </div>
+                </>
+              )}
+              
+              {isBuyer(selectedUser) && (
+                <>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-sm text-gray-500">Store Count</p>
+                    <p className="text-2xl font-semibold">{selectedUser.storeCount}</p>
+                  </div>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-sm text-gray-500">Average Order Value</p>
+                    <p className="text-2xl font-semibold">{selectedUser.avgOrderValue}</p>
+                  </div>
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-sm text-gray-500">Annual Purchases</p>
+                    <p className="text-2xl font-semibold">{selectedUser.annualPurchases}</p>
+                  </div>
+                </>
+              )}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
+
+  // Render edit user form
+  const renderEditUser = () => {
+    if (!selectedUser) return null;
+    
+    return (
+      <Card className="border border-gray-200">
+        <CardHeader className="flex items-center justify-between pb-2">
+          <div className="flex items-center space-x-4">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={handleGoBack}
+              className="bg-gray-100 hover:bg-gray-200"
+            >
+              <ChevronLeft className="mr-1 h-4 w-4" /> Back
+            </Button>
+            <CardTitle className="text-1xl md:text-2xl uppercase font-thin">
+              Edit {selectedUser.name}
+            </CardTitle>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <Form {...editUserForm}>
+            <form onSubmit={editUserForm.handleSubmit(handleEditUserSubmit)} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <h3 className="text-lg font-semibold mb-4">Company Information</h3>
+                  <div className="space-y-4">
+                    <FormField
+                      control={editUserForm.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Company Name</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={editUserForm.control}
+                      name="status"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Status</FormLabel>
+                          <Select 
+                            onValueChange={field.onChange} 
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select status" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="active">Active</SelectItem>
+                              <SelectItem value="pending">Pending</SelectItem>
+                              <SelectItem value="inactive">Inactive</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={editUserForm.control}
+                      name="plan"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Plan</FormLabel>
+                          <Select 
+                            onValueChange={field.onChange} 
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select plan" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="Basic">Basic</SelectItem>
+                              <SelectItem value="Professional">Professional</SelectItem>
+                              <SelectItem value="Premium">Premium</SelectItem>
+                              <SelectItem value="Enterprise">Enterprise</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={editUserForm.control}
+                      name="marketSegment"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Market Segment</FormLabel>
+                          <Select 
+                            onValueChange={field.onChange} 
+                            defaultValue={field.value}
+                          >
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select market segment" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              {activeTab === "brand" ? (
+                                <>
+                                  <SelectItem value="Luxury Apparel">Luxury Apparel</SelectItem>
+                                  <SelectItem value="Contemporary Fashion">Contemporary Fashion</SelectItem>
+                                  <SelectItem value="Formal Wear">Formal Wear</SelectItem>
+                                  <SelectItem value="Heritage Fashion">Heritage Fashion</SelectItem>
+                                  <SelectItem value="Sustainable Fashion">Sustainable Fashion</SelectItem>
+                                </>
+                              ) : (
+                                <>
+                                  <SelectItem value="Department Stores">Department Stores</SelectItem>
+                                  <SelectItem value="Boutiques">Boutiques</SelectItem>
+                                  <SelectItem value="International Retail">International Retail</SelectItem>
+                                  <SelectItem value="Outlet Retail">Outlet Retail</SelectItem>
+                                  <SelectItem value="Luxury Retail">Luxury Retail</SelectItem>
+                                </>
+                              )}
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={editUserForm.control}
+                      name="website"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Website</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={editUserForm.control}
+                      name="activeSince"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Active Since</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
+                  <div className="space-y-4">
+                    <FormField
+                      control={editUserForm.control}
+                      name="contactPerson"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Contact Person</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={editUserForm.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email</FormLabel>
+                          <FormControl>
+                            <Input type="email" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    
+                    <FormField
+                      control={editUserForm.control}
+                      name="phone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Phone</FormLabel>
+                          <FormControl>
+                            <Input {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                </div>
+              </div>
+              
+              <FormField
+                control={editUserForm.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Textarea className="min-h-32" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Performance Metrics</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {isBrand(selectedUser) && (
+                    <>
+                      <FormField
+                        control={editUserForm.control}
+                        name="productsCount"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Products Count</FormLabel>
+                            <FormControl>
+                              <Input type="number" {...field} value={field.value?.toString()} onChange={e => field.onChange(parseInt(e.target.value) || 0)} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={editUserForm.control}
+                        name="avgOrderValue"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Average Order Value</FormLabel>
+                            <FormControl>
+                              <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={editUserForm.control}
+                        name="totalSales"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Total Sales</FormLabel>
+                            <FormControl>
+                              <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </>
+                  )}
+                  
+                  {isBuyer(selectedUser) && (
+                    <>
+                      <FormField
+                        control={editUserForm.control}
+                        name="storeCount"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Store Count</FormLabel>
+                            <FormControl>
+                              <Input type="number" {...field} value={field.value?.toString()} onChange={e => field.onChange(parseInt(e.target.value) || 0)} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={editUserForm.control}
+                        name="avgOrderValue"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Average Order Value</FormLabel>
+                            <FormControl>
+                              <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={editUserForm.control}
+                        name="annualPurchases"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Annual Purchases</FormLabel>
+                            <FormControl>
+                              <Input {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </>
+                  )}
+                </div>
+              </div>
+              
+              <div className="flex justify-end space-x-3 pt-4">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={handleGoBack}
+                >
+                  Cancel
+                </Button>
+                <Button 
+                  type="submit" 
+                  className="bg-black text-white"
+                >
+                  Save Changes
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </CardContent>
+      </Card>
+    );
+  };
+
+  // Render add user form
+  const renderAddUser = () => {
+    return (
+      <Card className="border border-gray-200">
+        <CardHeader className="flex items-center justify-between pb-2">
+          <div className="flex items-center space-x-4">
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={handleGoBack}
+              className="bg-gray-100 hover:bg-gray-200"
+            >
+              <ChevronLeft className="mr-1 h-4 w-4" /> Back
+            </Button>
+            <CardTitle className="text-1xl md:text-2xl uppercase font-thin">
+              Add New {activeTab === "brand" ? "Brand" : "Buyer"}
+            </CardTitle>
+          </div>
+        </CardHeader>
+        <CardContent>
           <Form {...addUserForm}>
             <form onSubmit={addUserForm.handleSubmit(handleAddUserSubmit)} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -512,18 +1043,53 @@ const SalesUsers = () => {
                 )}
               />
               
-              <DialogFooter>
-                <Button type="button" variant="outline" onClick={() => setIsAddUserDialogOpen(false)}>
+              <div className="flex justify-end space-x-3 pt-4">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={handleGoBack}
+                >
                   Cancel
                 </Button>
-                <Button type="submit" className="bg-black text-white">
+                <Button 
+                  type="submit" 
+                  className="bg-black text-white"
+                >
                   Send Invitation & Save
                 </Button>
-              </DialogFooter>
+              </div>
             </form>
           </Form>
-        </DialogContent>
-      </Dialog>
+        </CardContent>
+      </Card>
+    );
+  };
+
+  // Main render function
+  return (
+    <div className="space-y-6">
+      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">User Management</h1>
+      
+      <Tabs defaultValue="brand" className="w-full" onValueChange={(value) => setActiveTab(value as UserType)}>
+        <TabsList className="mb-4">
+          <TabsTrigger value="brand">Managed Brands</TabsTrigger>
+          <TabsTrigger value="buyer">Managed Buyers</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="brand">
+          {viewMode === "list" && renderListView("brand")}
+          {viewMode === "view" && selectedUser && renderViewUser()}
+          {viewMode === "edit" && selectedUser && renderEditUser()}
+          {viewMode === "add" && renderAddUser()}
+        </TabsContent>
+
+        <TabsContent value="buyer">
+          {viewMode === "list" && renderListView("buyer")}
+          {viewMode === "view" && selectedUser && renderViewUser()}
+          {viewMode === "edit" && selectedUser && renderEditUser()}
+          {viewMode === "add" && renderAddUser()}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
