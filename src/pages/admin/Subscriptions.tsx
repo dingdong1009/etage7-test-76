@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
@@ -9,7 +8,7 @@ import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "
 import { Input } from "@/components/ui/input";
 import { PencilIcon, Trash2Icon, PlusCircleIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
-import { toast } from "@/components/ui/sonner";
+import { toast } from "@/hooks/use-toast";
 
 const AdminSubscriptions = () => {
   // State for dialogs
@@ -56,7 +55,10 @@ const AdminSubscriptions = () => {
     };
     
     setSubscriptionPlans([...subscriptionPlans, newPlan]);
-    toast.success("Subscription plan added successfully");
+    toast({
+      title: "Success",
+      description: "Subscription plan added successfully",
+    });
     planForm.reset();
     setIsNewPlanDialogOpen(false);
   };
@@ -70,7 +72,10 @@ const AdminSubscriptions = () => {
     };
     
     setAdditionalServices([...additionalServices, newService]);
-    toast.success("Service added successfully");
+    toast({
+      title: "Success",
+      description: "Service added successfully",
+    });
     serviceForm.reset();
     setIsNewServiceDialogOpen(false);
   };
