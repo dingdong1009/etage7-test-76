@@ -1,83 +1,92 @@
+
 import { useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { PencilIcon, Trash2Icon, PlusCircleIcon } from "lucide-react";
+import { PencilIcon, Trash2Icon, PlusCircleIcon, CalendarIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "@/hooks/use-toast";
+import { Switch } from "@/components/ui/switch";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 const AdminSubscriptions = () => {
   // State for dialogs
   const [isNewPlanDialogOpen, setIsNewPlanDialogOpen] = useState(false);
   const [isNewServiceDialogOpen, setIsNewServiceDialogOpen] = useState(false);
   const [subscriptionPlans, setSubscriptionPlans] = useState([
-    { id: 1, name: "Basic", price: "$99/month", features: ["Feature 1", "Feature 2"], active: true },
-    { id: 2, name: "Premium", price: "$199/month", features: ["Feature 1", "Feature 2", "Feature 3"], active: true },
-    { id: 3, name: "Enterprise", price: "$499/month", features: ["All Features", "Priority Support"], active: true },
+    { id: 1, name: "Basic", price: "$99/month", features: ["Feature 1", "Feature 2"], active: true, duration: "Monthly", renewable: true, type: "plan" },
+    { id: 2, name: "Premium", price: "$199/month", features: ["Feature 1", "Feature 2", "Feature 3"], active: true, duration: "Annual", renewable: true, type: "plan" },
+    { id: 3, name: "Enterprise", price: "$499/month", features: ["All Features", "Priority Support"], active: true, duration: "Annual", renewable: true, type: "plan" },
   ]);
 
   const [additionalServices, setAdditionalServices] = useState([
-    { id: 1, name: "Premium Support", price: "$50/month", description: "24/7 priority support" },
-    { id: 2, name: "Custom Development", price: "$120/hour", description: "Custom feature development" },
-    { id: 3, name: "Consulting", price: "$200/hour", description: "Strategic business consulting" },
+    { id: 1, name: "Premium Support", price: "$50/month", description: "24/7 priority support", active: true, duration: "Monthly", renewable: true, type: "service" },
+    { id: 2, name: "Custom Development", price: "$120/hour", description: "Custom feature development", active: true, duration: "Per hour", renewable: false, type: "service" },
+    { id: 3, name: "Consulting", price: "$200/hour", description: "Strategic business consulting", active: true, duration: "Per hour", renewable: false, type: "service" },
   ]);
 
-  // Create form for new plan
-  const planForm = useForm({
+  // Create unified form with shared fields
+  const itemForm = useForm({
     defaultValues: {
       name: "",
       price: "",
-      feature1: "",
-      feature2: "",
-    },
-  });
-
-  // Create form for new service
-  const serviceForm = useForm({
-    defaultValues: {
-      name: "",
-      price: "",
+      features: "",
       description: "",
+      active: true,
+      duration: "Monthly",
+      renewable: true,
+      type: "plan"
     },
   });
 
-  const handleAddPlan = (data) => {
-    const newPlan = {
-      id: subscriptionPlans.length + 1,
-      name: data.name,
-      price: data.price,
-      features: [data.feature1, data.feature2].filter(Boolean),
-      active: true,
-    };
+  const handleAddItem = (data) => {
+    const features = data.features.split('\n').filter(Boolean);
     
-    setSubscriptionPlans([...subscriptionPlans, newPlan]);
-    toast({
-      title: "Success",
-      description: "Subscription plan added successfully",
-    });
-    planForm.reset();
-    setIsNewPlanDialogOpen(false);
-  };
-
-  const handleAddService = (data) => {
-    const newService = {
-      id: additionalServices.length + 1,
-      name: data.name,
-      price: data.price,
-      description: data.description,
-    };
+    if (data.type === "plan") {
+      const newPlan = {
+        id: subscriptionPlans.length + 1,
+        name: data.name,
+        price: data.price,
+        features: features,
+        active: data.active,
+        duration: data.duration,
+        renewable: data.renewable,
+        type: "plan"
+      };
+      
+      setSubscriptionPlans([...subscriptionPlans, newPlan]);
+      toast({
+        title: "Success",
+        description: "Subscription plan added successfully",
+      });
+      setIsNewPlanDialogOpen(false);
+    } else {
+      const newService = {
+        id: additionalServices.length + 1,
+        name: data.name,
+        price: data.price,
+        description: data.description || features.join(', '),
+        active: data.active,
+        duration: data.duration,
+        renewable: data.renewable,
+        type: "service"
+      };
+      
+      setAdditionalServices([...additionalServices, newService]);
+      toast({
+        title: "Success",
+        description: "Service added successfully",
+      });
+      setIsNewServiceDialogOpen(false);
+    }
     
-    setAdditionalServices([...additionalServices, newService]);
-    toast({
-      title: "Success",
-      description: "Service added successfully",
-    });
-    serviceForm.reset();
-    setIsNewServiceDialogOpen(false);
+    itemForm.reset();
   };
 
   return (
@@ -94,7 +103,19 @@ const AdminSubscriptions = () => {
           <div className="flex justify-end mb-4">
             <Button 
               className="bg-black text-white border-none hover:underline"
-              onClick={() => setIsNewPlanDialogOpen(true)}
+              onClick={() => {
+                itemForm.reset({
+                  name: "",
+                  price: "",
+                  features: "",
+                  description: "",
+                  active: true,
+                  duration: "Monthly",
+                  renewable: true,
+                  type: "plan"
+                });
+                setIsNewPlanDialogOpen(true);
+              }}
             >
               <PlusCircleIcon className="w-4 h-4 mr-2" />
               Add New Plan
@@ -111,6 +132,10 @@ const AdminSubscriptions = () => {
                   </div>
                 </div>
                 <div className="text-2xl font-bold mt-2">{plan.price}</div>
+                <div className="flex items-center mt-2 text-sm text-gray-500">
+                  <CalendarIcon className="w-4 h-4 mr-1" />
+                  <span>{plan.duration} {plan.renewable ? '• Renewable' : '• Non-renewable'}</span>
+                </div>
                 <ul className="mt-4 space-y-2">
                   {plan.features.map((feature, idx) => (
                     <li key={idx} className="flex items-center text-sm">
@@ -135,7 +160,19 @@ const AdminSubscriptions = () => {
           <div className="flex justify-end mb-4">
             <Button 
               className="bg-black text-white border-none hover:underline"
-              onClick={() => setIsNewServiceDialogOpen(true)}
+              onClick={() => {
+                itemForm.reset({
+                  name: "",
+                  price: "",
+                  features: "",
+                  description: "",
+                  active: true,
+                  duration: "Per hour",
+                  renewable: false,
+                  type: "service"
+                });
+                setIsNewServiceDialogOpen(true);
+              }}
             >
               <PlusCircleIcon className="w-4 h-4 mr-2" />
               Add New Service
@@ -149,6 +186,8 @@ const AdminSubscriptions = () => {
                   <TableHead className="font-medium">Service Name</TableHead>
                   <TableHead className="font-medium">Price</TableHead>
                   <TableHead className="font-medium">Description</TableHead>
+                  <TableHead className="font-medium">Duration</TableHead>
+                  <TableHead className="font-medium w-24 text-center">Status</TableHead>
                   <TableHead className="font-medium text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
@@ -158,6 +197,14 @@ const AdminSubscriptions = () => {
                     <TableCell className="font-medium">{service.name}</TableCell>
                     <TableCell>{service.price}</TableCell>
                     <TableCell>{service.description}</TableCell>
+                    <TableCell>
+                      {service.duration} {service.renewable ? '• Renewable' : '• Non-renewable'}
+                    </TableCell>
+                    <TableCell className="text-center">
+                      <div className={`inline-block px-2 py-1 text-xs rounded-full ${service.active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                        {service.active ? 'Active' : 'Inactive'}
+                      </div>
+                    </TableCell>
                     <TableCell className="text-right space-x-2">
                       <Button variant="outline" size="icon" className="border-gray-200 h-8 w-8">
                         <PencilIcon className="h-4 w-4" />
@@ -174,29 +221,70 @@ const AdminSubscriptions = () => {
         </TabsContent>
       </Tabs>
 
-      {/* New Plan Dialog */}
-      <Dialog open={isNewPlanDialogOpen} onOpenChange={setIsNewPlanDialogOpen}>
+      {/* Unified Item Dialog */}
+      <Dialog 
+        open={isNewPlanDialogOpen || isNewServiceDialogOpen} 
+        onOpenChange={(open) => {
+          if (!open) {
+            setIsNewPlanDialogOpen(false);
+            setIsNewServiceDialogOpen(false);
+          }
+        }}
+      >
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Add New Subscription Plan</DialogTitle>
+            <DialogTitle>
+              {itemForm.watch("type") === "plan" ? "Add New Subscription Plan" : "Add New Service"}
+            </DialogTitle>
           </DialogHeader>
-          <Form {...planForm}>
-            <form onSubmit={planForm.handleSubmit(handleAddPlan)} className="space-y-4">
+          <Form {...itemForm}>
+            <form onSubmit={itemForm.handleSubmit(handleAddItem)} className="space-y-4">
               <FormField
-                control={planForm.control}
+                control={itemForm.control}
+                name="type"
+                render={({ field }) => (
+                  <FormItem className="space-y-3">
+                    <FormLabel>Item Type</FormLabel>
+                    <FormControl>
+                      <RadioGroup
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                        className="flex flex-row space-x-4"
+                      >
+                        <FormItem className="flex items-center space-x-2 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="plan" />
+                          </FormControl>
+                          <FormLabel className="font-normal">Subscription Plan</FormLabel>
+                        </FormItem>
+                        <FormItem className="flex items-center space-x-2 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value="service" />
+                          </FormControl>
+                          <FormLabel className="font-normal">Additional Service</FormLabel>
+                        </FormItem>
+                      </RadioGroup>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={itemForm.control}
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Plan Name</FormLabel>
+                    <FormLabel>Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. Pro Plan" {...field} />
+                      <Input placeholder={field.value === "plan" ? "e.g. Pro Plan" : "e.g. Premium Support"} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+              
               <FormField
-                control={planForm.control}
+                control={itemForm.control}
                 name="price"
                 render={({ field }) => (
                   <FormItem>
@@ -208,91 +296,103 @@ const AdminSubscriptions = () => {
                   </FormItem>
                 )}
               />
+              
               <FormField
-                control={planForm.control}
-                name="feature1"
+                control={itemForm.control}
+                name="features"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Feature 1</FormLabel>
+                    <FormLabel>{itemForm.watch("type") === "plan" ? "Features" : "Details"}</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. Unlimited Projects" {...field} />
+                      <Textarea 
+                        placeholder={itemForm.watch("type") === "plan" 
+                          ? "Add features (one per line)" 
+                          : "Add service details (one per line)"
+                        }
+                        className="min-h-[80px]"
+                        {...field} 
+                      />
                     </FormControl>
+                    <FormDescription className="text-xs">
+                      Enter each feature on a new line
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
+              
               <FormField
-                control={planForm.control}
-                name="feature2"
+                control={itemForm.control}
+                name="duration"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Feature 2</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g. Premium Support" {...field} />
-                    </FormControl>
+                    <FormLabel>Duration</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select duration" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Monthly">Monthly</SelectItem>
+                        <SelectItem value="Annual">Annual</SelectItem>
+                        <SelectItem value="One-time">One-time</SelectItem>
+                        <SelectItem value="Per hour">Per hour</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <DialogFooter>
-                <Button type="button" variant="outline" onClick={() => setIsNewPlanDialogOpen(false)}>Cancel</Button>
-                <Button type="submit">Add Plan</Button>
-              </DialogFooter>
-            </form>
-          </Form>
-        </DialogContent>
-      </Dialog>
 
-      {/* New Service Dialog */}
-      <Dialog open={isNewServiceDialogOpen} onOpenChange={setIsNewServiceDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Add New Service</DialogTitle>
-          </DialogHeader>
-          <Form {...serviceForm}>
-            <form onSubmit={serviceForm.handleSubmit(handleAddService)} className="space-y-4">
-              <FormField
-                control={serviceForm.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Service Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g. Premium Support" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={serviceForm.control}
-                name="price"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Price</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g. $50/month" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={serviceForm.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g. 24/7 priority support" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="flex space-x-4">
+                <FormField
+                  control={itemForm.control}
+                  name="renewable"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-center space-x-2 space-y-0">
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormLabel className="font-normal">Renewable</FormLabel>
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={itemForm.control}
+                  name="active"
+                  render={({ field }) => (
+                    <FormItem className="flex flex-row items-center space-x-2 space-y-0">
+                      <FormControl>
+                        <Switch
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormLabel className="font-normal">Active</FormLabel>
+                    </FormItem>
+                  )}
+                />
+              </div>
+
               <DialogFooter>
-                <Button type="button" variant="outline" onClick={() => setIsNewServiceDialogOpen(false)}>Cancel</Button>
-                <Button type="submit">Add Service</Button>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => {
+                    setIsNewPlanDialogOpen(false);
+                    setIsNewServiceDialogOpen(false);
+                  }}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit">
+                  {itemForm.watch("type") === "plan" ? "Add Plan" : "Add Service"}
+                </Button>
               </DialogFooter>
             </form>
           </Form>
