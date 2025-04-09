@@ -31,7 +31,7 @@ const BrandDashboard = () => {
         <Card className="p-4 border border-gray-200">
           <div className="flex justify-between items-start">
             <div>
-              <h2 className="text-1xl md:text-2xl uppercase font-thin">Views</h2>
+              <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">Views</h2>
               <div className="mt-2 text-3xl">1,234</div>
               <p className="mt-2 text-sm text-green-500">+12.5% from last month</p>
             </div>
