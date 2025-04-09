@@ -111,7 +111,7 @@ const AdminContracts = () => {
         </Card>
         
         <div>
-          <Card className="border border-gray-200">
+          <Card className="p-6 border border-gray-200">
             <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">Existing Templates</h2>
             <Table>
               <TableHeader>
