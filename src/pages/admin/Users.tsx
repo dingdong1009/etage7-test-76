@@ -1,7 +1,9 @@
 
+import { useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const AdminUsers = () => {
   const users = [
@@ -11,6 +13,13 @@ const AdminUsers = () => {
     { id: 4, name: "Bob Wilson", email: "bob@example.com", role: "Buyer", status: "Inactive" },
   ];
 
+  const [statusFilter, setStatusFilter] = useState<string>("all");
+
+  // Filter users based on status
+  const filteredUsers = statusFilter === "all" 
+    ? users 
+    : users.filter(user => user.status.toLowerCase() === statusFilter.toLowerCase());
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -18,6 +27,23 @@ const AdminUsers = () => {
         <Button className="bg-black text-white border-none">
           + Add New User
         </Button>
+      </div>
+
+      <div className="mb-4">
+        <Select
+          value={statusFilter}
+          onValueChange={(value) => setStatusFilter(value)}
+        >
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Filter by status" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All Statuses</SelectItem>
+            <SelectItem value="active">Active</SelectItem>
+            <SelectItem value="pending">Pending</SelectItem>
+            <SelectItem value="inactive">Inactive</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       <div className="rounded-none border border-gray-200 overflow-hidden">
@@ -32,7 +58,7 @@ const AdminUsers = () => {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {users.map((user) => (
+            {filteredUsers.map((user) => (
               <TableRow key={user.id} className="border-t border-gray-200">
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.email}</TableCell>
