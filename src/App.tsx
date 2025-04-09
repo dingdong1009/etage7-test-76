@@ -17,6 +17,14 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ThankYouPage from "./pages/ThankYouPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+import AdminLayout from "./components/admin/AdminLayout";
+import AdminDashboard from "./pages/admin/Dashboard";
+import AdminUsers from "./pages/admin/Users";
+import AdminContracts from "./pages/admin/Contracts";
+import AdminPages from "./pages/admin/Pages";
+import AdminAnnouncements from "./pages/admin/Announcements";
+import AdminSettings from "./pages/admin/Settings";
+import AdminSubscriptions from "./pages/admin/Subscriptions";
 
 const queryClient = new QueryClient();
 
@@ -26,23 +34,33 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Layout>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/brands" element={<BrandsPage />} />
-            <Route path="/buyers" element={<BuyersPage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/events" element={<EventsPage />} />
-            <Route path="/resources" element={<ResourcesPage />} />
-            <Route path="/curated" element={<CuratedPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/register" element={<RegisterPage />} />
-            <Route path="/thank-you" element={<ThankYouPage />} />
-            <Route path="/reset-password" element={<ResetPasswordPage />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </Layout>
+        <Routes>
+          <Route path="/" element={<Layout><Index /></Layout>} />
+          <Route path="/brands" element={<Layout><BrandsPage /></Layout>} />
+          <Route path="/buyers" element={<Layout><BuyersPage /></Layout>} />
+          <Route path="/services" element={<Layout><ServicesPage /></Layout>} />
+          <Route path="/events" element={<Layout><EventsPage /></Layout>} />
+          <Route path="/resources" element={<Layout><ResourcesPage /></Layout>} />
+          <Route path="/curated" element={<Layout><CuratedPage /></Layout>} />
+          <Route path="/login" element={<Layout><LoginPage /></Layout>} />
+          <Route path="/register" element={<Layout><RegisterPage /></Layout>} />
+          <Route path="/thank-you" element={<Layout><ThankYouPage /></Layout>} />
+          <Route path="/reset-password" element={<Layout><ResetPasswordPage /></Layout>} />
+          
+          {/* Admin Routes */}
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<AdminDashboard />} />
+            <Route path="users" element={<AdminUsers />} />
+            <Route path="contracts" element={<AdminContracts />} />
+            <Route path="pages" element={<AdminPages />} />
+            <Route path="announcements" element={<AdminAnnouncements />} />
+            <Route path="settings" element={<AdminSettings />} />
+            <Route path="subscriptions" element={<AdminSubscriptions />} />
+          </Route>
+          
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
