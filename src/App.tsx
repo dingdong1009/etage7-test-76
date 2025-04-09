@@ -17,6 +17,8 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ThankYouPage from "./pages/ThankYouPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
+
+// Admin components
 import AdminLayout from "./components/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminUsers from "./pages/admin/Users";
@@ -25,6 +27,14 @@ import AdminPages from "./pages/admin/Pages";
 import AdminAnnouncements from "./pages/admin/Announcements";
 import AdminSettings from "./pages/admin/Settings";
 import AdminSubscriptions from "./pages/admin/Subscriptions";
+
+// Sales components
+import SalesLayout from "./components/sales/SalesLayout";
+import SalesDashboard from "./pages/sales/Dashboard";
+import SalesPerformance from "./pages/sales/Performance";
+import SalesUsers from "./pages/sales/Users";
+import SalesMessages from "./pages/sales/Messages";
+import SalesSettings from "./pages/sales/Settings";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +66,15 @@ const App = () => (
             <Route path="announcements" element={<AdminAnnouncements />} />
             <Route path="settings" element={<AdminSettings />} />
             <Route path="subscriptions" element={<AdminSubscriptions />} />
+          </Route>
+          
+          {/* Sales Routes */}
+          <Route path="/sales" element={<SalesLayout />}>
+            <Route index element={<SalesDashboard />} />
+            <Route path="performance" element={<SalesPerformance />} />
+            <Route path="users" element={<SalesUsers />} />
+            <Route path="messages" element={<SalesMessages />} />
+            <Route path="settings" element={<SalesSettings />} />
           </Route>
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
