@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,7 +11,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useForm } from "react-hook-form";
 import { ChevronLeft, Plus } from "lucide-react";
 
-// Define the types for brands and buyers
 interface Brand {
   id: number;
   name: string;
@@ -58,7 +56,6 @@ const SalesUsers = () => {
   const [selectedUser, setSelectedUser] = useState<Brand | Buyer | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>("all");
   
-  // Sample brands data
   const brands: Brand[] = [
     { 
       id: 1, 
@@ -147,7 +144,6 @@ const SalesUsers = () => {
     }
   ];
 
-  // Sample buyers data
   const buyers: Buyer[] = [
     { 
       id: 1, 
@@ -236,7 +232,6 @@ const SalesUsers = () => {
     }
   ];
 
-  // Form for adding a new user
   const addUserForm = useForm({
     defaultValues: {
       contactPerson: "",
@@ -247,18 +242,15 @@ const SalesUsers = () => {
       marketSegment: "",
       website: "",
       userType: activeTab,
-      // Brand specific fields
       productsCount: 0,
       activeSince: "",
       avgOrderValue: "",
       totalSales: "",
-      // Buyer specific fields
       storeCount: 0,
       annualPurchases: ""
     }
   });
 
-  // Form for editing a user - FIX: Updated the type to accept all possible status values
   const editUserForm = useForm({
     defaultValues: {
       id: 0,
@@ -271,12 +263,10 @@ const SalesUsers = () => {
       website: "",
       description: "",
       marketSegment: "",
-      // Brand specific fields
       productsCount: 0,
       activeSince: "",
       avgOrderValue: "",
       totalSales: "",
-      // Buyer specific fields
       storeCount: 0,
       annualPurchases: ""
     }
@@ -286,13 +276,11 @@ const SalesUsers = () => {
     console.log("Form submitted:", data);
     setViewMode("list");
     addUserForm.reset();
-    // In a real app, you would add the user to the appropriate list
   };
 
   const handleEditUserSubmit = (data) => {
     console.log("Edit form submitted:", data);
     setViewMode("list");
-    // In a real app, you would update the user data
   };
 
   const handleGoBack = () => {
@@ -318,7 +306,6 @@ const SalesUsers = () => {
       setSelectedUser(user);
       editUserForm.reset({
         ...user,
-        // FIX: No need to cast the status as it's already correctly typed
         status: user.status
       });
       setViewMode("edit");
@@ -330,21 +317,17 @@ const SalesUsers = () => {
     setViewMode("add");
   };
 
-  // Type guard to check if user is a Brand
   const isBrand = (user: any): user is Brand => {
     return 'productsCount' in user && 'totalSales' in user;
   };
 
-  // Type guard to check if user is a Buyer
   const isBuyer = (user: any): user is Buyer => {
     return 'storeCount' in user && 'annualPurchases' in user;
   };
 
-  // Render list view
   const renderListView = (userType: UserType) => {
     const userList = userType === "brand" ? brands : buyers;
     
-    // Filter users based on status
     const filteredUsers = statusFilter === "all" 
       ? userList 
       : userList.filter(user => user.status.toLowerCase() === statusFilter.toLowerCase());
@@ -356,19 +339,11 @@ const SalesUsers = () => {
             Managed {userType === "brand" ? "Brands" : "Buyers"}
           </CardTitle>
           <div className="flex items-center space-x-2 mt-2 sm:mt-0">
-            <Button className="bg-black text-white border-none" onClick={handleAddUser}>
-              <Plus className="mr-1 h-4 w-4" /> Add User
-            </Button>
-            <Button className="bg-grey-200 text-black border hover:text-white">Export</Button>
-          </div>
-        </CardHeader>
-        <CardContent className="pt-0">
-          <div className="mb-4">
             <Select
               value={statusFilter}
               onValueChange={(value) => setStatusFilter(value)}
             >
-              <SelectTrigger className="w-[180px]">
+              <SelectTrigger className="w-[150px]">
                 <SelectValue placeholder="Filter by status" />
               </SelectTrigger>
               <SelectContent>
@@ -378,8 +353,13 @@ const SalesUsers = () => {
                 <SelectItem value="inactive">Inactive</SelectItem>
               </SelectContent>
             </Select>
+            <Button className="bg-black text-white border-none" onClick={handleAddUser}>
+              <Plus className="mr-1 h-4 w-4" /> Add User
+            </Button>
+            <Button className="bg-grey-200 text-black border hover:text-white">Export</Button>
           </div>
-          
+        </CardHeader>
+        <CardContent className="pt-0">
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
@@ -434,7 +414,6 @@ const SalesUsers = () => {
     );
   };
 
-  // Render view user details
   const renderViewUser = () => {
     if (!selectedUser) return null;
     
@@ -572,7 +551,6 @@ const SalesUsers = () => {
     );
   };
 
-  // Render edit user form
   const renderEditUser = () => {
     if (!selectedUser) return null;
     
@@ -918,7 +896,6 @@ const SalesUsers = () => {
     );
   };
 
-  // Render add user form
   const renderAddUser = () => {
     return (
       <Card className="border border-gray-200">
@@ -1089,7 +1066,6 @@ const SalesUsers = () => {
     );
   };
 
-  // Main render function
   return (
     <div className="space-y-6">
       <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">User Management</h1>
