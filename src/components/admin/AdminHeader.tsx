@@ -50,7 +50,7 @@ const AdminHeader = () => {
               <li key={item.name}>
                 <Link
                   to={item.path}
-                  className={`text-sm font-medium transition-all relative group ${
+                  className={`text-sm font-light transition-all relative group ${
                     isActive(item.path) ? "text-black" : "text-gray-600 hover:text-black"
                   }`}
                 >
