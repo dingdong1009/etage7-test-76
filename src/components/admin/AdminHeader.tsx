@@ -54,7 +54,7 @@ const AdminHeader = () => {
                     isActive(item.path) ? "text-black" : "text-gray-600 hover:text-black"
                   }`}
                 >
-                  {item.name}
+                  {item.name.toUpperCase()}
                   <span
                     className={`absolute left-0 bottom-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full ${
                       isActive(item.path) ? "w-full" : ""
@@ -69,7 +69,7 @@ const AdminHeader = () => {
         {/* User options on desktop */}
         <div className="hidden md:flex items-center space-x-4">
           <Link to="/" className="text-gray-600 hover:text-black text-sm">
-            Back to Site
+            BACK TO SITE
           </Link>
         </div>
       </div>
@@ -87,7 +87,7 @@ const AdminHeader = () => {
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  {item.name}
+                  {item.name.toUpperCase()}
                 </Link>
               </li>
             ))}
@@ -97,7 +97,7 @@ const AdminHeader = () => {
                 className="block py-3 px-4 text-gray-600"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Back to Site
+                BACK TO SITE
               </Link>
             </li>
           </ul>
