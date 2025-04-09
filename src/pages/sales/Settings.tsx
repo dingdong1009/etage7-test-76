@@ -86,7 +86,7 @@ const SalesSettings = () => {
                   className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
-              <Button type="submit" className="bg-black text-white px-4 py-2 hover:bg-black-600">
+              <Button type="submit" className="bg-black text-white border-none">
                 Update Profile
               </Button>
             </form>
@@ -132,10 +132,7 @@ const SalesSettings = () => {
                   className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
-              <Button 
-                type="submit" 
-                className="bg-black text-white px-4 py-2 hover:bg-black-600"
-              >
+              <Button type="submit" className="bg-black text-white border-none">
                 Update Password
               </Button>
             </form>
