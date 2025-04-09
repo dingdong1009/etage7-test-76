@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { Eye, Pencil, Plus } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Brand } from "@/types/users";
@@ -89,16 +89,22 @@ const BrandList = ({
                   <TableCell>{user.lastActivity}</TableCell>
                   <TableCell className="flex justify-end space-x-2">
                     <Button 
-                      className="text-xs text-black px-2 py-1 bg-gray-100 rounded hover:text-white"
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 p-0"
                       onClick={() => handleViewUser("brand", user.id)}
+                      title="View"
                     >
-                      View
+                      <Eye className="h-4 w-4" />
                     </Button>
                     <Button 
-                      className="text-xs text-black px-2 py-1 bg-gray-100 rounded hover:text-white"
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 p-0"
                       onClick={() => handleEditUser("brand", user.id)}
+                      title="Edit"
                     >
-                      Edit
+                      <Pencil className="h-4 w-4" />
                     </Button>
                   </TableCell>
                 </TableRow>
