@@ -1,15 +1,11 @@
+
 import { useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { Eye, Pencil, Plus } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useForm } from "react-hook-form";
-import { ChevronLeft, Plus } from "lucide-react";
 import { Buyer } from "@/types/users";
 
 interface BuyerListProps {
@@ -55,7 +51,7 @@ const BuyerList = ({
             </SelectContent>
           </Select>
           <Button className="bg-black text-white border-none" onClick={handleAddUser}>
-          <PlusCircleIcon className="w-4 h-4 mr-2" /> Add User
+            <Plus className="mr-1 h-4 w-4" /> Add User
           </Button>
           <Button className="bg-grey-200 text-black border hover:text-white">Export</Button>
         </div>
