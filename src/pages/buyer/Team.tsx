@@ -35,7 +35,7 @@ const Team = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Team</h1>
+        <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Team</h1>
         <Button className="bg-black text-white hover:bg-gray-800">
           <UserPlus size={16} className="mr-2" />
           Add Member

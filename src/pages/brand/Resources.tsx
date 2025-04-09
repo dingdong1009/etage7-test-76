@@ -27,7 +27,7 @@ const BrandResources = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Resources</h1>
+      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Resources</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="border border-gray-200">

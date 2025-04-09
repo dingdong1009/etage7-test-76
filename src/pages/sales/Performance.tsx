@@ -20,7 +20,7 @@ const SalesPerformance = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Performance</h1>
+      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Performance</h1>
 
       <Card className="border border-gray-200">
         <CardHeader className="flex flex-row items-center justify-between pb-2">

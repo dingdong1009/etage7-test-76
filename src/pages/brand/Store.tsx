@@ -10,7 +10,7 @@ const BrandStore = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="border border-gray-200 md:col-span-2">
           <CardHeader>
-            <CardTitle className="text-lg font-medium">Store Information</CardTitle>
+            <CardTitle className="text-4xl md:text-6xl uppercase font-thin mb-6">Store Information</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div>

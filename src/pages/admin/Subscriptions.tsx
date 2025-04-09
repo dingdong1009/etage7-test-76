@@ -19,7 +19,7 @@ const AdminSubscriptions = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Subscription Management</h1>
+      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Subscription Management</h1>
 
       <Tabs defaultValue="plans" className="w-full">
         <TabsList className="grid w-full grid-cols-2 mb-4">

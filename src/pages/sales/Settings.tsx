@@ -43,7 +43,7 @@ const SalesSettings = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Settings</h1>
+      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Settings</h1>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="border border-gray-200">

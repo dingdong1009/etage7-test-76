@@ -15,7 +15,7 @@ const AdminAnnouncements = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Announcements</h1>
+      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Announcements</h1>
       
       <Card className="p-6 border border-gray-200">
         <h2 className="text-lg font-medium mb-4">Create New Announcement</h2>

@@ -15,7 +15,7 @@ const SalesUsers = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">User Management</h1>
+      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">User Management</h1>
       
       <Card className="border border-gray-200">
         <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between pb-2">

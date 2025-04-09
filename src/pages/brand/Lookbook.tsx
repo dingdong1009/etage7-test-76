@@ -14,7 +14,7 @@ const BrandLookbook = () => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold">Lookbook</h1>
+        <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Lookbook</h1>
         <button className="text-xs px-3 py-2 bg-blue-500 text-white rounded flex items-center gap-1 w-full sm:w-auto justify-center">
           <Plus size={16} />
           Create New Lookbook

@@ -26,7 +26,7 @@ const Dashboard = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Products</h1>
+        <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Products</h1>
         <div className="flex gap-4">
           <select className="border border-gray-200 rounded px-3 py-1.5 text-sm bg-white">
             <option>All Categories</option>

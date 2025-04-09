@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card";
 const AdminPages = () => {
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Page Management</h1>
+      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Page Management</h1>
       
       <Tabs defaultValue="events" className="w-full">
         <TabsList className="grid w-full grid-cols-2 mb-4">

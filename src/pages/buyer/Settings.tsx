@@ -24,7 +24,7 @@ const Settings = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Settings</h1>
+      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Settings</h1>
       
       <Tabs defaultValue="profile" className="w-full">
         <TabsList className="grid w-full md:w-auto md:inline-flex grid-cols-2 md:grid-cols-none mb-4">

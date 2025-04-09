@@ -48,7 +48,7 @@ const Messages = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-2xl font-bold">Messages</h1>
+      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Messages</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Contacts list - hidden on mobile for simplicity */}

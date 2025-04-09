@@ -52,7 +52,7 @@ const BrandOrders = () => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold">Orders</h1>
+        <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Orders</h1>
         <button className="text-xs px-3 py-2 bg-gray-200 rounded flex items-center gap-1 w-full sm:w-auto justify-center">
           <FileText size={16} />
           Export Orders

@@ -33,7 +33,7 @@ const Orders = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold">Orders</h1>
+        <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Orders</h1>
         <div className="flex gap-2">
           <input 
             type="text" 

@@ -43,7 +43,7 @@ const BrandProducts = () => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold">Products</h1>
+        <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Products</h1>
         <div className="flex gap-2">
           <Button 
             onClick={() => setShowForm(true)} 
