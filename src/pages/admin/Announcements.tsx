@@ -259,9 +259,6 @@ const AdminAnnouncements = () => {
           <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">
             Create New Announcement
           </CardTitle>
-          <CardDescription>
-            Craft and send announcements to your platform users
-          </CardDescription>
         </CardHeader>
         
         <CardContent className="pt-6">
@@ -269,7 +266,6 @@ const AdminAnnouncements = () => {
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               {/* Announcement Type Selector */}
               <div className="space-y-4">
-                <h3 className="text-sm font-medium text-gray-600">Announcement Type</h3>
                 <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
                   <Button
                     type="button"
