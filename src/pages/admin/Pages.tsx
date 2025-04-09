@@ -199,56 +199,8 @@ const AdminPages = () => {
             </Table>
           </Card>
         </TabsContent>
-        
-        <TabsContent value="curated" className="space-y-4">
-          <Card className="p-6 border border-gray-200">
-            <h2 className="text-lg font-medium mb-4">Edit Curated Page</h2>
-            
-            <div className="space-y-4">
-              <div>
-                <label htmlFor="curatedTitle" className="block text-sm font-medium mb-1">
-                  Page Title
-                </label>
-                <input
-                  id="curatedTitle"
-                  className="w-full border border-gray-300 rounded-none p-2 focus:outline-none focus:ring-2 focus:ring-black"
-                  defaultValue="Curated"
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="curatedHero" className="block text-sm font-medium mb-1">
-                  Hero Text
-                </label>
-                <Textarea
-                  id="curatedHero"
-                  className="h-24 border-gray-300 rounded-none"
-                  defaultValue="Discover our curated selection of premium brands and products."
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="curatedContent" className="block text-sm font-medium mb-1">
-                  Page Content
-                </label>
-                <div className="border border-gray-300 rounded-none p-2 h-64 bg-gray-100 flex items-center justify-center">
-                  <span className="text-gray-500 text-center">Placeholder for Rich Text Editor</span>
-                </div>
-              </div>
-              
-              <div className="flex justify-end space-x-2">
-                <Button variant="outline" className="border-gray-300">
-                  Cancel
-                </Button>
-                <Button className="bg-black text-white border-none hover:underline">
-                  Save Changes
-                </Button>
-              </div>
-            </div>
-          </Card>
-          
-          {/* Curated Stories Management Section */}
-          <Card className="p-6 border border-gray-200">
+        {/* Curated Stories Management Section */}
+        <Card className="p-6 border border-gray-200">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-lg font-medium">Curated Stories</h2>
               <Button className="bg-black text-white border-none hover:underline">
@@ -413,6 +365,54 @@ const AdminPages = () => {
               </TableBody>
             </Table>
           </Card>
+        <TabsContent value="curated" className="space-y-4">
+          <Card className="p-6 border border-gray-200">
+            <h2 className="text-lg font-medium mb-4">Edit Curated Page</h2>
+            
+            <div className="space-y-4">
+              <div>
+                <label htmlFor="curatedTitle" className="block text-sm font-medium mb-1">
+                  Page Title
+                </label>
+                <input
+                  id="curatedTitle"
+                  className="w-full border border-gray-300 rounded-none p-2 focus:outline-none focus:ring-2 focus:ring-black"
+                  defaultValue="Curated"
+                />
+              </div>
+              
+              <div>
+                <label htmlFor="curatedHero" className="block text-sm font-medium mb-1">
+                  Hero Text
+                </label>
+                <Textarea
+                  id="curatedHero"
+                  className="h-24 border-gray-300 rounded-none"
+                  defaultValue="Discover our curated selection of premium brands and products."
+                />
+              </div>
+              
+              <div>
+                <label htmlFor="curatedContent" className="block text-sm font-medium mb-1">
+                  Page Content
+                </label>
+                <div className="border border-gray-300 rounded-none p-2 h-64 bg-gray-100 flex items-center justify-center">
+                  <span className="text-gray-500 text-center">Placeholder for Rich Text Editor</span>
+                </div>
+              </div>
+              
+              <div className="flex justify-end space-x-2">
+                <Button variant="outline" className="border-gray-300">
+                  Cancel
+                </Button>
+                <Button className="bg-black text-white border-none hover:underline">
+                  Save Changes
+                </Button>
+              </div>
+            </div>
+          </Card>
+          
+          
         </TabsContent>
       </Tabs>
     </div>
