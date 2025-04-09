@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -256,7 +257,7 @@ const BrandProducts = () => {
                               <SelectValue placeholder="All categories" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="">All categories</SelectItem>
+                              <SelectItem value="all">All categories</SelectItem>
                               <SelectItem value="Outerwear">Outerwear</SelectItem>
                               <SelectItem value="Tops">Tops</SelectItem>
                               <SelectItem value="Bottoms">Bottoms</SelectItem>
@@ -272,7 +273,7 @@ const BrandProducts = () => {
                               <SelectValue placeholder="All seasons" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="">All seasons</SelectItem>
+                              <SelectItem value="all">All seasons</SelectItem>
                               <SelectItem value="Spring/Summer 2025">Spring/Summer 2025</SelectItem>
                               <SelectItem value="Fall/Winter 2024">Fall/Winter 2024</SelectItem>
                               <SelectItem value="Resort 2025">Resort 2025</SelectItem>
@@ -286,7 +287,7 @@ const BrandProducts = () => {
                               <SelectValue placeholder="All statuses" />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="">All statuses</SelectItem>
+                              <SelectItem value="all">All statuses</SelectItem>
                               <SelectItem value="active">Active</SelectItem>
                               <SelectItem value="draft">Draft</SelectItem>
                             </SelectContent>
@@ -897,3 +898,4 @@ const BrandProducts = () => {
 };
 
 export default BrandProducts;
+
