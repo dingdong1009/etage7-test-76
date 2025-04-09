@@ -99,10 +99,10 @@ const AdminContracts = () => {
             </div>
             
             <div className="flex space-x-2">
-              <Button className="bg-black text-white border-none hover:underline">
+              <Button className="bg-black text-white border-none">
                 Save Template
               </Button>
-              <Button variant="outline" className="border-gray-300 hover:bg-gray-50">
+              <Button variant="outline" className="border-gray-300 hover:bg-black hover:text-white">
                 <Wand className="mr-2 h-4 w-4" />
                 Generate with AI
               </Button>
