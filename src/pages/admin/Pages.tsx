@@ -11,8 +11,8 @@ const AdminPages = () => {
       
       <Tabs defaultValue="brand" className="w-full" onValueChange={(value) => setActiveTab(value as UserType)}>
         <TabsList className="mb-4">
-          <TabsTrigger value="brand">Events</TabsTrigger>
-          <TabsTrigger value="buyer">Curated</TabsTrigger>
+          <TabsTrigger value="events">Events</TabsTrigger>
+          <TabsTrigger value="curated">Curated</TabsTrigger>
         </TabsList>
         
         <TabsContent value="events" className="space-y-4">
