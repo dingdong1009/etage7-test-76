@@ -25,7 +25,7 @@ const BrandSubscriptions = () => {
           <CardContent className="space-y-6">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg bg-black-50 border-blue-100">
               <div>
-                <Badge className="mb-2 bg-black-500">Professional</Badge>
+                <Badge className="mb-2 bg-black">Professional</Badge>
                 <h3 className="text-xl font-bold">$49.99<span className="text-sm font-normal text-gray-500">/month</span></h3>
                 <p className="text-sm text-gray-600 mt-1">Billed monthly</p>
               </div>
@@ -97,7 +97,7 @@ const BrandSubscriptions = () => {
               <div className="border rounded-md p-3 bg-black-50 border-blue-500 transition-colors cursor-pointer shadow-sm">
                 <div className="flex justify-between items-start">
                   <h3 className="font-medium">Professional</h3>
-                  <Badge className="bg-black-500">$49.99/mo</Badge>
+                  <Badge className="bg-black">$49.99/mo</Badge>
                 </div>
                 <p className="text-xs text-gray-500 mt-1">For growing brands with multiple products</p>
                 <div className="mt-1">

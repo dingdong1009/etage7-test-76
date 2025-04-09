@@ -63,7 +63,7 @@ const BrandMessages = () => {
                   <p className="text-sm text-gray-500 truncate">{contact.lastMessage}</p>
                   {contact.unread > 0 && (
                     <div className="flex justify-end mt-1">
-                      <span className="bg-black-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      <span className="bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                         {contact.unread}
                       </span>
                     </div>
@@ -107,7 +107,7 @@ const BrandMessages = () => {
                     className={`max-w-[70%] rounded-lg p-3 ${
                       msg.incoming 
                         ? 'bg-gray-100 text-gray-800' 
-                        : 'bg-black-500 text-white'
+                        : 'bg-black text-white'
                     }`}
                   >
                     <p className="text-sm">{msg.content}</p>
@@ -138,7 +138,7 @@ const BrandMessages = () => {
                 <button 
                   type="submit" 
                   className={`p-2 rounded-full ${
-                    message.trim() ? 'bg-black-500 text-white' : 'bg-gray-100 text-gray-400'
+                    message.trim() ? 'bg-black text-white' : 'bg-gray-100 text-gray-400'
                   }`}
                   disabled={!message.trim()}
                 >

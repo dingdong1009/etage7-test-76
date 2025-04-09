@@ -47,7 +47,7 @@ const BrandProducts = () => {
         <div className="flex gap-2">
           <Button 
             onClick={() => setShowForm(true)} 
-            className="h-9 text-xs bg-black-500 hover:bg-black-600 text-white"
+            className="h-9 text-xs bg-black hover:bg-black-600 text-white"
           >
             <Plus size={16} className="mr-1" />
             Add Product
@@ -77,7 +77,7 @@ const BrandProducts = () => {
           
           {/* Mass upload button */}
           <div className="flex flex-col sm:flex-row gap-2 items-center">
-            <Button variant="default" className="w-full sm:w-auto bg-black-500 hover:bg-black-600">
+            <Button variant="default" className="w-full sm:w-auto bg-black hover:bg-black-600">
               Mass Upload from CSV
             </Button>
             <Button variant="outline" className="w-full sm:w-auto">
@@ -426,7 +426,7 @@ const BrandProducts = () => {
                 <Button variant="outline" className="mr-2">
                   Save Draft
                 </Button>
-                <Button className="bg-black-500 hover:bg-black-600">
+                <Button className="bg-black hover:bg-black-600">
                   Publish Product
                 </Button>
               </div>

@@ -151,7 +151,7 @@ const BrandResources = () => {
               </div>
               
               <div className="flex justify-end">
-                <button type="submit" className="px-4 py-2 bg-black-500 text-white rounded hover:bg-black-600">
+                <button type="submit" className="px-4 py-2 bg-black text-white rounded hover:bg-black-600">
                   Submit Request
                 </button>
               </div>

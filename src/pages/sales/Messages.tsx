@@ -55,7 +55,7 @@ const SalesMessages = () => {
                   <div className="flex items-center justify-between mt-1">
                     <p className="text-xs text-gray-500 truncate max-w-[180px]">{chat.lastMessage}</p>
                     {chat.unread > 0 && (
-                      <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-black-500 rounded-full">
+                      <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-black rounded-full">
                         {chat.unread}
                       </span>
                     )}
@@ -97,7 +97,7 @@ const SalesMessages = () => {
                   <div 
                     className={`max-w-[70%] rounded-lg px-4 py-2 ${
                       message.senderId === "me" 
-                        ? "bg-black-500 text-white" 
+                        ? "bg-black text-white" 
                         : "bg-gray-100"
                     }`}
                   >
@@ -114,7 +114,7 @@ const SalesMessages = () => {
                   placeholder="Type a message..." 
                   className="flex-1 border border-gray-200 rounded-l px-4 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
-                <button className="bg-black-500 text-white px-4 rounded-r">
+                <button className="bg-black text-white px-4 rounded-r">
                   Send
                 </button>
               </div>

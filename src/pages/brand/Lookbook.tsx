@@ -15,7 +15,7 @@ const BrandLookbook = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Lookbook</h1>
-        <button className="text-xs px-3 py-2 bg-black-500 text-white rounded flex items-center gap-1 w-full sm:w-auto justify-center">
+        <button className="text-xs px-3 py-2 bg-black text-white rounded flex items-center gap-1 w-full sm:w-auto justify-center">
           <Plus size={16} />
           Create New Lookbook
         </button>
@@ -34,7 +34,7 @@ const BrandLookbook = () => {
                     Lookbook Thumbnail
                   </div>
                   <div className="absolute inset-0 bg-black bg-opacity-50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                    <button className="text-white bg-black-500 px-3 py-1 rounded text-sm">
+                    <button className="text-white bg-black px-3 py-1 rounded text-sm">
                       View
                     </button>
                   </div>
