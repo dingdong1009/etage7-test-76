@@ -30,7 +30,7 @@ const SalesMessages = () => {
         {/* Chat List */}
         <Card className="border border-gray-200 lg:col-span-1">
           <CardHeader className="flex flex-col space-y-2 pb-2">
-            <CardTitle className="text-lg font-medium">Conversations</CardTitle>
+            <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Conversations</CardTitle>
             <div className="relative">
               <Search className="absolute left-2 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
               <input 
@@ -70,7 +70,7 @@ const SalesMessages = () => {
         <Card className="border border-gray-200 lg:col-span-2">
           <CardHeader className="flex flex-row items-center justify-between pb-2 border-b">
             <div>
-              <CardTitle className="text-lg font-medium">{chats.find(c => c.id === activeChat)?.name}</CardTitle>
+              <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">{chats.find(c => c.id === activeChat)?.name}</CardTitle>
               <p className="text-xs text-gray-500">Online now</p>
             </div>
             <div className="flex space-x-2">
