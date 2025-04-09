@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -89,7 +90,7 @@ const BrandProducts = () => {
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
   const [orderSearchQuery, setOrderSearchQuery] = useState("");
   
-  // Add missing products state
+  // Add products state
   const [products, setProducts] = useState([
     {
       id: 1,
@@ -826,3 +827,21 @@ const BrandProducts = () => {
                                     <span>{color.name}</span>
                                   </DropdownMenuItem>
                                 ))}
+                              </DropdownMenuContent>
+                            </DropdownMenu>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+    </div>
+  );
+};
+
+export default BrandProducts;

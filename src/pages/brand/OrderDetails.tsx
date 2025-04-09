@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -54,21 +54,19 @@ interface Order {
 
 const BrandOrderDetails = () => {
   const { orderId } = useParams<{ orderId: string }>();
-  const [order, setOrder] = useState<Order | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [order, setOrder] = React.useState<Order | null>(null);
+  const [loading, setLoading] = React.useState(true);
   const printRef = useRef<HTMLDivElement>(null);
 
-  // Function to handle printing - fixed to use the correct TypeScript types
+  // Function to handle printing
   const handlePrint = useReactToPrint({
     documentTitle: `Order-${orderId}`,
     onAfterPrint: () => console.log('Print completed'),
-    // Use contentRef instead of content function
     contentRef: printRef,
   });
 
   // Fetch order data (in a real app, this would be an API call)
-  useEffect(() => {
-    // ... keep existing code (order fetching logic)
+  React.useEffect(() => {
     setTimeout(() => {
       // This is sample data - in a real app this would come from an API
       const sampleOrder: Order = {
@@ -143,7 +141,7 @@ const BrandOrderDetails = () => {
       <div className="flex flex-col items-center justify-center h-96 space-y-4">
         <div className="text-xl">Order not found</div>
         <Button asChild>
-          <Link to="/brand/orders">Back to Orders</Link>
+          <Link to="/brand/products?tab=orders">Back to Orders</Link>
         </Button>
       </div>
     );
@@ -180,7 +178,7 @@ const BrandOrderDetails = () => {
           <Button 
             variant="outline" 
             size="sm" 
-            onClick={handlePrint}
+            onClick={() => handlePrint()}
           >
             <Printer size={16} className="mr-2" />
             Print Order
