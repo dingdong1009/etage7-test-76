@@ -9,10 +9,10 @@ const AdminPages = () => {
     <div className="space-y-6">
       <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Page Management</h1>
       
-      <Tabs defaultValue="events" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 mb-4">
-          <TabsTrigger value="events">Events</TabsTrigger>
-          <TabsTrigger value="curated">Curated</TabsTrigger>
+      <Tabs defaultValue="brand" className="w-full" onValueChange={(value) => setActiveTab(value as UserType)}>
+        <TabsList className="mb-4">
+          <TabsTrigger value="brand">Events</TabsTrigger>
+          <TabsTrigger value="buyer">Curated</TabsTrigger>
         </TabsList>
         
         <TabsContent value="events" className="space-y-4">
