@@ -7,7 +7,7 @@ import { Card } from "@/components/ui/card";
 const AdminPages = () => {
   return (
     <div className="space-y-6">
-      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Page Management</h1>
+      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">User Management</h1>
       
       <Tabs defaultValue="brand" className="w-full" onValueChange={(value) => setActiveTab(value as UserType)}>
         <TabsList className="mb-4">
