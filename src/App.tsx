@@ -36,6 +36,19 @@ import SalesUsers from "./pages/sales/Users";
 import SalesMessages from "./pages/sales/Messages";
 import SalesSettings from "./pages/sales/Settings";
 
+// Brand components
+import BrandLayout from "./components/brand/BrandLayout";
+import BrandDashboard from "./pages/brand/Dashboard";
+import BrandProducts from "./pages/brand/Products";
+import BrandOrders from "./pages/brand/Orders";
+import BrandLookbook from "./pages/brand/Lookbook";
+import BrandTeam from "./pages/brand/Team";
+import BrandStore from "./pages/brand/Store";
+import BrandMessages from "./pages/brand/Messages";
+import BrandSubscriptions from "./pages/brand/Subscriptions";
+import BrandResources from "./pages/brand/Resources";
+import BrandSettings from "./pages/brand/Settings";
+
 const queryClient = new QueryClient();
 
 const App = () => (
@@ -75,6 +88,20 @@ const App = () => (
             <Route path="users" element={<SalesUsers />} />
             <Route path="messages" element={<SalesMessages />} />
             <Route path="settings" element={<SalesSettings />} />
+          </Route>
+          
+          {/* Brand Routes */}
+          <Route path="/brand" element={<BrandLayout />}>
+            <Route index element={<BrandDashboard />} />
+            <Route path="products" element={<BrandProducts />} />
+            <Route path="orders" element={<BrandOrders />} />
+            <Route path="lookbook" element={<BrandLookbook />} />
+            <Route path="team" element={<BrandTeam />} />
+            <Route path="store" element={<BrandStore />} />
+            <Route path="messages" element={<BrandMessages />} />
+            <Route path="subscriptions" element={<BrandSubscriptions />} />
+            <Route path="resources" element={<BrandResources />} />
+            <Route path="settings" element={<BrandSettings />} />
           </Route>
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
