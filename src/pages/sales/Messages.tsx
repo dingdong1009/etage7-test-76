@@ -2,6 +2,7 @@
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Search } from "lucide-react";
+import { Button } from "@/components/ui/button"
 
 const SalesMessages = () => {
   const [activeChat, setActiveChat] = useState(1);
