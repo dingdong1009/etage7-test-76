@@ -42,7 +42,7 @@ const BrandDashboard = () => {
         <Card className="p-4 border border-gray-200">
           <div className="flex justify-between items-start">
             <div>
-              <h2 className="text-1xl md:text-2xl uppercase font-thin">Conversions</h2>
+              <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">Conversions</h2>
               <div className="mt-2 text-3xl">42</div>
               <p className="mt-2 text-sm text-green-500">+5.2% from last month</p>
             </div>
@@ -53,7 +53,7 @@ const BrandDashboard = () => {
         <Card className="p-4 border border-gray-200">
           <div className="flex justify-between items-start">
             <div>
-              <h2 className="text-1xl md:text-2xl uppercase font-thin">Sales</h2>
+              <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">Sales</h2>
               <div className="mt-2 text-3xl">$12,345</div>
               <p className="mt-2 text-sm text-green-500">+8.4% from last month</p>
             </div>
@@ -64,7 +64,7 @@ const BrandDashboard = () => {
         <Card className="p-4 border border-gray-200">
           <div className="flex justify-between items-start">
             <div>
-              <h2 className="text-1xl md:text-2xl uppercase font-thin">Inventory</h2>
+              <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">Inventory</h2>
               <div className="mt-2 text-3xl">86</div>
               <p className="mt-2 text-sm text-red-500">-2.3% from last month</p>
             </div>
@@ -76,7 +76,7 @@ const BrandDashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="border border-gray-200">
           <CardHeader>
-            <CardTitle className="text-lg font-medium">Product Views</CardTitle>
+            <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Product Views</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-[300px] w-full">
@@ -99,7 +99,7 @@ const BrandDashboard = () => {
         
         <Card className="border border-gray-200">
           <CardHeader>
-            <CardTitle className="text-lg font-medium">Conversion Rates</CardTitle>
+            <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Conversion Rates</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-[300px] w-full">
