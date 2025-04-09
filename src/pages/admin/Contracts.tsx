@@ -180,14 +180,14 @@ const AdminContracts = () => {
               <label htmlFor="edit-type" className="block text-sm font-medium mb-1">
                 Template Type
               </label>
-              <Select defaultValue={contractTemplates.find(c => c.id === selectedContract)?.type.toLowerCase().replace(' ', '')}>
+              <Select defaultValue={contractTemplates.find(c => c.id === selectedContract)?.type.toLowerCase().replace(' ', '-')}>
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="brand">Brand Agreement</SelectItem>
-                  <SelectItem value="buyer">Buyer Agreement</SelectItem>
-                  <SelectItem value="partnership">Partnership Agreement</SelectItem>
+                  <SelectItem value="brand-agreement">Brand Agreement</SelectItem>
+                  <SelectItem value="buyer-agreement">Buyer Agreement</SelectItem>
+                  <SelectItem value="partnership-agreement">Partnership Agreement</SelectItem>
                 </SelectContent>
               </Select>
             </div>

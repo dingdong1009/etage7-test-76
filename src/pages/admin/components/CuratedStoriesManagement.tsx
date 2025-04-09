@@ -1,42 +1,25 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
-import { 
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, 
-  DialogTrigger, DialogClose, DialogDescription
-} from "@/components/ui/dialog";
-import { 
-  AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader,
-  AlertDialogTitle, AlertDialogDescription, AlertDialogFooter,
-  AlertDialogCancel, AlertDialogAction 
-} from "@/components/ui/alert-dialog";
-import { 
-  Select, SelectContent, SelectItem, SelectTrigger, SelectValue 
-} from "@/components/ui/select";
-import { Edit, Trash2, Tag, X, ImageIcon, Film } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger, DialogClose } from "@/components/ui/dialog";
+import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from "@/components/ui/alert-dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Edit, Trash2, Tag, Image, X } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-export interface Media {
-  id: string;
-  type: 'image' | 'video';
-  url: string;
-  brandName?: string;
-  caption?: string;
-}
-
-export interface Story {
+interface Story {
   id: number;
   title: string;
-  publishDate: string;
-  tags: string[];
-  content?: string;
+  excerpt: string;
+  status: "published" | "draft";
+  lastUpdated: string;
   taggedBrands?: string[];
-  media?: Media[];
+  content?: string;
+  media?: {name: string, type: "image" | "video"}[];
 }
 
 interface CuratedStoriesManagementProps {
@@ -46,43 +29,42 @@ interface CuratedStoriesManagementProps {
 const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementProps) => {
   const { toast } = useToast();
   
-  // Story State
-  const [curatedStories, setCuratedStories] = useState<Story[]>([
-    { id: 1, title: "Emerging Designers 2025", publishDate: "2025-05-10", tags: ["Sustainable", "New Talent"] },
-    { id: 2, title: "Ethical Fashion Trends", publishDate: "2025-06-22", tags: ["Ethical", "Sustainable"] },
-    { id: 3, title: "Summer Accessories Guide", publishDate: "2025-07-15", tags: ["Accessories", "Trending"] }
+  // Stories State
+  const [stories, setStories] = useState<Story[]>([
+    { id: 1, title: "Latest Men's Fashion Trends", excerpt: "Discover the latest trends in men's fashion for the upcoming season", status: "published", lastUpdated: "2025-03-15" },
+    { id: 2, title: "Women's Summer Collection", excerpt: "Explore our curated collection of summer fashion for women", status: "published", lastUpdated: "2025-03-10" },
+    { id: 3, title: "Sustainable Fashion Guide", excerpt: "Learn how to shop sustainably for your fashion needs", status: "draft", lastUpdated: "2025-03-05" },
   ]);
-
-  // Form State
-  const [newStory, setNewStory] = useState<Omit<Story, 'id'>>({ 
-    title: "", 
-    publishDate: "", 
-    tags: [], 
-    content: "",
-    taggedBrands: [],
-    media: [] 
-  });
   
-  const [editStory, setEditStory] = useState<Story | null>(null);
-  const [newTag, setNewTag] = useState("");
-  const [newBrand, setNewBrand] = useState("");
-  const [newMediaUrl, setNewMediaUrl] = useState("");
-  const [newMediaType, setNewMediaType] = useState<"image" | "video">("image");
-  const [newMediaCaption, setNewMediaCaption] = useState("");
-  const [newMediaBrand, setNewMediaBrand] = useState("");
+  // Form State
+  const [newStory, setNewStory] = useState<Omit<Story, 'id'>>({
+    title: "",
+    excerpt: "",
+    content: "",
+    status: "draft",
+    lastUpdated: new Date().toISOString().split('T')[0],
+    taggedBrands: [],
+    media: []
+  });
 
-  // Story Handlers
+  const [editStory, setEditStory] = useState<Story | null>(null);
+  const [selectedBrand, setSelectedBrand] = useState("");
+  const [mediaName, setMediaName] = useState("");
+  const [mediaType, setMediaType] = useState<"image" | "video">("image");
+
+  // Event Handlers
   const handleAddStory = () => {
-    if (newStory.title && newStory.publishDate) {
-      const id = Math.max(0, ...curatedStories.map(s => s.id)) + 1;
-      setCuratedStories([...curatedStories, { id, ...newStory }]);
-      setNewStory({ 
-        title: "", 
-        publishDate: "", 
-        tags: [], 
-        content: "", 
+    if (newStory.title) {
+      const id = Math.max(0, ...stories.map(s => s.id)) + 1;
+      setStories([...stories, { id, ...newStory }]);
+      setNewStory({
+        title: "",
+        excerpt: "",
+        content: "",
+        status: "draft",
+        lastUpdated: new Date().toISOString().split('T')[0],
         taggedBrands: [],
-        media: [] 
+        media: []
       });
       toast({
         title: "Story Created",
@@ -92,10 +74,11 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
   };
 
   const handleUpdateStory = () => {
-    if (editStory && editStory.title && editStory.publishDate) {
-      setCuratedStories(curatedStories.map(story => 
-        story.id === editStory.id ? editStory : story
-      ));
+    if (editStory && editStory.title) {
+      setStories(stories.map(story => story.id === editStory.id ? {
+        ...editStory,
+        lastUpdated: new Date().toISOString().split('T')[0]
+      } : story));
       setEditStory(null);
       toast({
         title: "Story Updated",
@@ -104,96 +87,81 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
     }
   };
 
-  const handleAddTag = () => {
-    if (newTag.trim() && editStory) {
-      if (!editStory.tags.includes(newTag.trim())) {
-        setEditStory({
-          ...editStory,
-          tags: [...editStory.tags, newTag.trim()]
-        });
-      }
-      setNewTag("");
-    }
+  const handleDeleteStory = (id: number) => {
+    setStories(stories.filter(story => story.id !== id));
+    toast({
+      title: "Story Deleted",
+      description: "The story has been deleted successfully.",
+      variant: "destructive"
+    });
   };
 
-  const handleDeleteTag = (tagToDelete: string) => {
-    if (editStory) {
-      setEditStory({
-        ...editStory,
-        tags: editStory.tags.filter(tag => tag !== tagToDelete)
-      });
-    }
-  };
-
-  const handleAddBrand = (event: React.MouseEvent<HTMLButtonElement>, isEditing: boolean = false) => {
-    if (newBrand.trim()) {
-      if (isEditing && editStory && !editStory.taggedBrands?.includes(newBrand.trim())) {
-        setEditStory({
-          ...editStory,
-          taggedBrands: [...(editStory.taggedBrands || []), newBrand.trim()]
-        });
-      } else if (!isEditing && !newStory.taggedBrands?.includes(newBrand.trim())) {
-        setNewStory({
-          ...newStory,
-          taggedBrands: [...(newStory.taggedBrands || []), newBrand.trim()]
-        });
-      }
-      setNewBrand("");
-    }
-  };
-
-  const handleDeleteBrand = (brandToDelete: string, isEditing: boolean) => {
-    if (isEditing && editStory) {
-      setEditStory({
-        ...editStory,
-        taggedBrands: editStory.taggedBrands?.filter(brand => brand !== brandToDelete) || []
-      });
-    } else if (!isEditing) {
-      setNewStory({
-        ...newStory,
-        taggedBrands: newStory.taggedBrands?.filter(brand => brand !== brandToDelete) || []
-      });
-    }
-  };
-
-  const handleAddMedia = (isEditing: boolean) => {
-    if (newMediaUrl.trim()) {
-      const newMedia = {
-        id: Date.now().toString(),
-        type: newMediaType,
-        url: newMediaUrl.trim(),
-        brandName: newMediaBrand || undefined,
-        caption: newMediaCaption.trim() || undefined
-      };
-      
+  const handleAddBrand = (isEditing: boolean = false) => {
+    if (selectedBrand) {
       if (isEditing && editStory) {
-        setEditStory({
-          ...editStory,
-          media: [...(editStory.media || []), newMedia]
-        });
-      } else if (!isEditing) {
-        setNewStory({
-          ...newStory,
-          media: [...(newStory.media || []), newMedia]
-        });
+        const updatedBrands = editStory.taggedBrands || [];
+        if (!updatedBrands.includes(selectedBrand)) {
+          setEditStory({
+            ...editStory,
+            taggedBrands: [...updatedBrands, selectedBrand]
+          });
+        }
+      } else {
+        const updatedBrands = newStory.taggedBrands || [];
+        if (!updatedBrands.includes(selectedBrand)) {
+          setNewStory({
+            ...newStory,
+            taggedBrands: [...updatedBrands, selectedBrand]
+          });
+        }
       }
-      
-      setNewMediaUrl("");
-      setNewMediaCaption("");
-      setNewMediaBrand("");
+      setSelectedBrand("");
     }
   };
 
-  const handleDeleteMedia = (mediaId: string, isEditing: boolean) => {
+  const handleRemoveBrand = (brand: string, isEditing: boolean = false) => {
     if (isEditing && editStory) {
       setEditStory({
         ...editStory,
-        media: editStory.media?.filter(m => m.id !== mediaId) || []
+        taggedBrands: (editStory.taggedBrands || []).filter(b => b !== brand)
       });
-    } else if (!isEditing) {
+    } else {
       setNewStory({
         ...newStory,
-        media: newStory.media?.filter(m => m.id !== mediaId) || []
+        taggedBrands: (newStory.taggedBrands || []).filter(b => b !== brand)
+      });
+    }
+  };
+
+  const handleAddMedia = (isEditing: boolean = false) => {
+    if (mediaName) {
+      if (isEditing && editStory) {
+        const updatedMedia = editStory.media || [];
+        setEditStory({
+          ...editStory,
+          media: [...updatedMedia, { name: mediaName, type: mediaType }]
+        });
+      } else {
+        const updatedMedia = newStory.media || [];
+        setNewStory({
+          ...newStory,
+          media: [...updatedMedia, { name: mediaName, type: mediaType }]
+        });
+      }
+      setMediaName("");
+    }
+  };
+
+  const handleRemoveMedia = (name: string, isEditing: boolean = false) => {
+    if (isEditing && editStory) {
+      setEditStory({
+        ...editStory,
+        media: (editStory.media || []).filter(m => m.name !== name)
+      });
+    } else {
+      setNewStory({
+        ...newStory,
+        media: (newStory.media || []).filter(m => m.name !== name)
       });
     }
   };
@@ -210,56 +178,67 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
           </DialogTrigger>
           <DialogContent className="max-w-2xl">
             <DialogHeader>
-              <DialogTitle>Add New Curated Story</DialogTitle>
-              <DialogDescription>
-                Create a new curated story to showcase brands and products.
-              </DialogDescription>
+              <DialogTitle>Add New Story</DialogTitle>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="story-title" className="text-right">
+                <label htmlFor="title" className="text-right font-medium text-sm">
                   Title
-                </Label>
+                </label>
                 <Input
-                  id="story-title"
-                  className="col-span-3"
+                  id="title"
                   value={newStory.title}
                   onChange={(e) => setNewStory({...newStory, title: e.target.value})}
+                  className="col-span-3"
                 />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="publish-date" className="text-right">
-                  Publish Date
-                </Label>
-                <Input
-                  id="publish-date"
-                  type="date"
+                <label htmlFor="status" className="text-right font-medium text-sm">
+                  Status
+                </label>
+                <Select
+                  value={newStory.status}
+                  onValueChange={(value: "published" | "draft") => setNewStory({...newStory, status: value})}
+                >
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="published">Published</SelectItem>
+                    <SelectItem value="draft">Draft</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <div className="grid grid-cols-4 items-start gap-4">
+                <label htmlFor="excerpt" className="text-right font-medium text-sm pt-2">
+                  Excerpt
+                </label>
+                <Textarea
+                  id="excerpt"
+                  value={newStory.excerpt}
+                  onChange={(e) => setNewStory({...newStory, excerpt: e.target.value})}
                   className="col-span-3"
-                  value={newStory.publishDate}
-                  onChange={(e) => setNewStory({...newStory, publishDate: e.target.value})}
+                  rows={2}
+                />
+              </div>
+              <div className="grid grid-cols-4 items-start gap-4">
+                <label htmlFor="content" className="text-right font-medium text-sm pt-2">
+                  Content
+                </label>
+                <Textarea
+                  id="content"
+                  value={newStory.content}
+                  onChange={(e) => setNewStory({...newStory, content: e.target.value})}
+                  className="col-span-3"
+                  rows={6}
                 />
               </div>
               
-              {/* Content Field */}
+              {/* Tagged Brands Section */}
               <div className="grid grid-cols-4 items-start gap-4">
-                <Label htmlFor="story-content" className="text-right pt-2">
-                  Content
-                </Label>
-                <Textarea
-                  id="story-content"
-                  className="col-span-3"
-                  rows={6}
-                  placeholder="Enter story content"
-                  value={newStory.content || ""}
-                  onChange={(e) => setNewStory({...newStory, content: e.target.value})}
-                />
-              </div>
-
-              {/* Tag Brands for Story */}
-              <div className="grid grid-cols-4 items-start gap-4">
-                <Label className="text-right pt-2">
-                  Tag Brands
-                </Label>
+                <label className="text-right font-medium text-sm pt-2">
+                  Tagged Brands
+                </label>
                 <div className="col-span-3 space-y-2">
                   <div className="flex flex-wrap gap-2">
                     {newStory.taggedBrands?.map((brand, index) => (
@@ -268,7 +247,7 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
                         <button
                           type="button"
                           className="text-gray-500 hover:text-gray-700"
-                          onClick={() => handleDeleteBrand(brand, false)}
+                          onClick={() => handleRemoveBrand(brand)}
                         >
                           <X className="h-3 w-3" />
                         </button>
@@ -276,9 +255,9 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
                     ))}
                   </div>
                   <div className="flex gap-2">
-                    <Select 
-                      value={newBrand} 
-                      onValueChange={setNewBrand}
+                    <Select
+                      value={selectedBrand}
+                      onValueChange={setSelectedBrand}
                     >
                       <SelectTrigger className="flex-1">
                         <SelectValue placeholder="Select brand" />
@@ -289,130 +268,75 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
                         ))}
                       </SelectContent>
                     </Select>
-                    <Button 
-                      type="button" 
+                    <Button
+                      type="button"
                       variant="outline"
-                      onClick={(e) => handleAddBrand(e, false)}
-                      disabled={!newBrand}
+                      onClick={() => handleAddBrand()}
+                      disabled={!selectedBrand}
                     >
                       <Tag className="h-4 w-4 mr-1" /> Add
                     </Button>
                   </div>
                 </div>
               </div>
-
-              {/* Add Media */}
+              
+              {/* Media Section */}
               <div className="grid grid-cols-4 items-start gap-4">
-                <Label className="text-right pt-2">
+                <label className="text-right font-medium text-sm pt-2">
                   Media
-                </Label>
-                <div className="col-span-3 space-y-4">
-                  <div className="flex flex-wrap gap-4">
-                    {newStory.media?.map((media) => (
-                      <div key={media.id} className="relative border rounded p-2 w-40">
-                        <div className="aspect-square bg-gray-100 flex items-center justify-center overflow-hidden mb-2">
-                          {media.type === 'image' ? (
-                            <div className="relative w-full h-full">
-                              <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                                <ImageIcon className="h-8 w-8" />
-                              </div>
-                              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1">
-                                Image
-                              </div>
-                            </div>
-                          ) : (
-                            <div className="relative w-full h-full">
-                              <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                                <Film className="h-8 w-8" />
-                              </div>
-                              <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1">
-                                Video
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                        <div className="text-xs truncate mb-1" title={media.url}>{media.url}</div>
-                        {media.caption && (
-                          <div className="text-xs text-gray-500 truncate mb-1" title={media.caption}>
-                            {media.caption}
-                          </div>
-                        )}
-                        {media.brandName && (
-                          <div className="text-xs bg-gray-100 px-1 py-0.5 rounded inline-block mb-1">
-                            {media.brandName}
-                          </div>
-                        )}
+                </label>
+                <div className="col-span-3 space-y-2">
+                  <div className="flex flex-wrap gap-2">
+                    {newStory.media?.map((item, index) => (
+                      <div key={index} className="bg-gray-100 text-xs px-2 py-1 rounded flex items-center gap-1">
+                        <span>{item.name} ({item.type})</span>
                         <button
                           type="button"
-                          className="absolute top-1 right-1 bg-white rounded-full p-0.5 shadow text-gray-500 hover:text-red-500"
-                          onClick={() => handleDeleteMedia(media.id, false)}
+                          className="text-gray-500 hover:text-gray-700"
+                          onClick={() => handleRemoveMedia(item.name)}
                         >
                           <X className="h-3 w-3" />
                         </button>
                       </div>
                     ))}
                   </div>
-                  
-                  <div className="border-t pt-4 space-y-2">
-                    <div className="flex gap-2">
-                      <Select 
-                        value={newMediaType} 
-                        onValueChange={(value: "image" | "video") => setNewMediaType(value)}
-                      >
-                        <SelectTrigger className="w-24">
-                          <SelectValue placeholder="Type" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="image">Image</SelectItem>
-                          <SelectItem value="video">Video</SelectItem>
-                        </SelectContent>
-                      </Select>
-                      <Input
-                        placeholder="Media URL"
-                        className="flex-1"
-                        value={newMediaUrl}
-                        onChange={(e) => setNewMediaUrl(e.target.value)}
-                      />
-                    </div>
+                  <div className="flex gap-2 items-center">
                     <Input
-                      placeholder="Caption (optional)"
-                      value={newMediaCaption}
-                      onChange={(e) => setNewMediaCaption(e.target.value)}
+                      placeholder="Media name"
+                      className="flex-1"
+                      value={mediaName}
+                      onChange={(e) => setMediaName(e.target.value)}
                     />
-                    <div className="flex gap-2">
-                      <Select 
-                        value={newMediaBrand} 
-                        onValueChange={setNewMediaBrand}
-                      >
-                        <SelectTrigger className="flex-1">
-                          <SelectValue placeholder="Select brand (optional)" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="">No brand</SelectItem>
-                          {availableBrands.map((brand) => (
-                            <SelectItem key={brand} value={brand}>{brand}</SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                      <Button 
-                        type="button" 
-                        variant="outline"
-                        onClick={() => handleAddMedia(false)}
-                        disabled={!newMediaUrl.trim()}
-                      >
-                        Add Media
-                      </Button>
-                    </div>
+                    <Select
+                      value={mediaType}
+                      onValueChange={(value: "image" | "video") => setMediaType(value)}
+                    >
+                      <SelectTrigger className="w-28">
+                        <SelectValue placeholder="Type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="image">Image</SelectItem>
+                        <SelectItem value="video">Video</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={() => handleAddMedia()}
+                      disabled={!mediaName}
+                    >
+                      <Image className="h-4 w-4 mr-1" /> Add
+                    </Button>
                   </div>
                 </div>
               </div>
             </div>
             <DialogFooter>
               <DialogClose asChild>
-                <Button variant="outline" className="border-gray-300">Cancel</Button>
+                <Button variant="outline">Cancel</Button>
               </DialogClose>
               <DialogClose asChild>
-                <Button className="bg-black text-white border-none hover:underline" onClick={handleAddStory}>
+                <Button className="bg-black text-white" onClick={handleAddStory}>
                   Save Story
                 </Button>
               </DialogClose>
@@ -425,32 +349,33 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
         <TableHeader>
           <TableRow>
             <TableHead>Title</TableHead>
-            <TableHead>Publish Date</TableHead>
-            <TableHead>Tags</TableHead>
+            <TableHead>Excerpt</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Last Updated</TableHead>
             <TableHead className="text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {curatedStories.map((story) => (
+          {stories.map((story) => (
             <TableRow key={story.id}>
               <TableCell className="font-medium">{story.title}</TableCell>
-              <TableCell>{story.publishDate}</TableCell>
+              <TableCell className="max-w-xs truncate">{story.excerpt}</TableCell>
               <TableCell>
-                <div className="flex flex-wrap gap-1">
-                  {story.tags.map((tag, index) => (
-                    <span key={index} className="bg-gray-100 text-xs px-1.5 py-0.5 rounded">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
+                <span className={`px-2 py-1 rounded-full text-xs ${
+                  story.status === 'published' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+                }`}>
+                  {story.status}
+                </span>
               </TableCell>
+              <TableCell>{story.lastUpdated}</TableCell>
               <TableCell className="text-right">
                 <div className="flex justify-end space-x-2">
+                  {/* Edit Dialog */}
                   <Dialog>
                     <DialogTrigger asChild>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
+                      <Button
+                        variant="ghost"
+                        size="sm"
                         className="h-8 w-8 p-0"
                         onClick={() => setEditStory({...story})}
                       >
@@ -460,101 +385,67 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
                     {editStory && (
                       <DialogContent className="max-w-2xl">
                         <DialogHeader>
-                          <DialogTitle>Edit Curated Story</DialogTitle>
-                          <DialogDescription>
-                            Update the story details below.
-                          </DialogDescription>
+                          <DialogTitle>Edit Story</DialogTitle>
                         </DialogHeader>
                         <div className="grid gap-4 py-4">
                           <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="edit-story-title" className="text-right">
+                            <label htmlFor="edit-title" className="text-right font-medium text-sm">
                               Title
-                            </Label>
+                            </label>
                             <Input
-                              id="edit-story-title"
-                              className="col-span-3"
+                              id="edit-title"
                               value={editStory.title}
                               onChange={(e) => setEditStory({...editStory, title: e.target.value})}
+                              className="col-span-3"
                             />
                           </div>
                           <div className="grid grid-cols-4 items-center gap-4">
-                            <Label htmlFor="edit-publish-date" className="text-right">
-                              Publish Date
-                            </Label>
-                            <Input
-                              id="edit-publish-date"
-                              type="date"
+                            <label htmlFor="edit-status" className="text-right font-medium text-sm">
+                              Status
+                            </label>
+                            <Select
+                              value={editStory.status}
+                              onValueChange={(value: "published" | "draft") => setEditStory({...editStory, status: value})}
+                            >
+                              <SelectTrigger className="col-span-3">
+                                <SelectValue placeholder="Select status" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="published">Published</SelectItem>
+                                <SelectItem value="draft">Draft</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                          <div className="grid grid-cols-4 items-start gap-4">
+                            <label htmlFor="edit-excerpt" className="text-right font-medium text-sm pt-2">
+                              Excerpt
+                            </label>
+                            <Textarea
+                              id="edit-excerpt"
+                              value={editStory.excerpt}
+                              onChange={(e) => setEditStory({...editStory, excerpt: e.target.value})}
                               className="col-span-3"
-                              value={editStory.publishDate}
-                              onChange={(e) => setEditStory({...editStory, publishDate: e.target.value})}
+                              rows={2}
                             />
                           </div>
-
-                          {/* Content Field for Edit */}
                           <div className="grid grid-cols-4 items-start gap-4">
-                            <Label htmlFor="edit-story-content" className="text-right pt-2">
+                            <label htmlFor="edit-content" className="text-right font-medium text-sm pt-2">
                               Content
-                            </Label>
+                            </label>
                             <Textarea
-                              id="edit-story-content"
-                              className="col-span-3"
-                              rows={6}
-                              placeholder="Enter story content"
+                              id="edit-content"
                               value={editStory.content || ""}
                               onChange={(e) => setEditStory({...editStory, content: e.target.value})}
+                              className="col-span-3"
+                              rows={6}
                             />
                           </div>
                           
-                          {/* Tags Field for Edit */}
+                          {/* Tagged Brands Section for Edit */}
                           <div className="grid grid-cols-4 items-start gap-4">
-                            <Label className="text-right pt-2">
-                              Tags
-                            </Label>
-                            <div className="col-span-3 space-y-2">
-                              <div className="flex flex-wrap gap-2">
-                                {editStory.tags.map((tag, index) => (
-                                  <div key={index} className="bg-gray-100 text-xs px-2 py-1 rounded flex items-center gap-1">
-                                    <span>{tag}</span>
-                                    <button
-                                      type="button"
-                                      className="text-gray-500 hover:text-gray-700"
-                                      onClick={() => handleDeleteTag(tag)}
-                                    >
-                                      <X className="h-3 w-3" />
-                                    </button>
-                                  </div>
-                                ))}
-                              </div>
-                              <div className="flex gap-2">
-                                <Input
-                                  placeholder="Add tag"
-                                  className="flex-1"
-                                  value={newTag}
-                                  onChange={(e) => setNewTag(e.target.value)}
-                                  onKeyDown={(e) => {
-                                    if (e.key === 'Enter' && newTag.trim()) {
-                                      e.preventDefault();
-                                      handleAddTag();
-                                    }
-                                  }}
-                                />
-                                <Button 
-                                  type="button" 
-                                  variant="outline"
-                                  onClick={handleAddTag}
-                                  disabled={!newTag.trim()}
-                                >
-                                  Add Tag
-                                </Button>
-                              </div>
-                            </div>
-                          </div>
-
-                          {/* Tag Brands for Edit Story */}
-                          <div className="grid grid-cols-4 items-start gap-4">
-                            <Label className="text-right pt-2">
-                              Tag Brands
-                            </Label>
+                            <label className="text-right font-medium text-sm pt-2">
+                              Tagged Brands
+                            </label>
                             <div className="col-span-3 space-y-2">
                               <div className="flex flex-wrap gap-2">
                                 {editStory.taggedBrands?.map((brand, index) => (
@@ -563,7 +454,7 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
                                     <button
                                       type="button"
                                       className="text-gray-500 hover:text-gray-700"
-                                      onClick={() => handleDeleteBrand(brand, true)}
+                                      onClick={() => handleRemoveBrand(brand, true)}
                                     >
                                       <X className="h-3 w-3" />
                                     </button>
@@ -571,9 +462,9 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
                                 ))}
                               </div>
                               <div className="flex gap-2">
-                                <Select 
-                                  value={newBrand} 
-                                  onValueChange={setNewBrand}
+                                <Select
+                                  value={selectedBrand}
+                                  onValueChange={setSelectedBrand}
                                 >
                                   <SelectTrigger className="flex-1">
                                     <SelectValue placeholder="Select brand" />
@@ -584,130 +475,75 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
                                     ))}
                                   </SelectContent>
                                 </Select>
-                                <Button 
-                                  type="button" 
+                                <Button
+                                  type="button"
                                   variant="outline"
-                                  onClick={(e) => handleAddBrand(e, true)}
-                                  disabled={!newBrand}
+                                  onClick={() => handleAddBrand(true)}
+                                  disabled={!selectedBrand}
                                 >
                                   <Tag className="h-4 w-4 mr-1" /> Add
                                 </Button>
                               </div>
                             </div>
                           </div>
-
-                          {/* Edit Media */}
+                          
+                          {/* Media Section for Edit */}
                           <div className="grid grid-cols-4 items-start gap-4">
-                            <Label className="text-right pt-2">
+                            <label className="text-right font-medium text-sm pt-2">
                               Media
-                            </Label>
-                            <div className="col-span-3 space-y-4">
-                              <div className="flex flex-wrap gap-4">
-                                {editStory.media?.map((media) => (
-                                  <div key={media.id} className="relative border rounded p-2 w-40">
-                                    <div className="aspect-square bg-gray-100 flex items-center justify-center overflow-hidden mb-2">
-                                      {media.type === 'image' ? (
-                                        <div className="relative w-full h-full">
-                                          <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                                            <ImageIcon className="h-8 w-8" />
-                                          </div>
-                                          <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1">
-                                            Image
-                                          </div>
-                                        </div>
-                                      ) : (
-                                        <div className="relative w-full h-full">
-                                          <div className="absolute inset-0 flex items-center justify-center text-gray-400">
-                                            <Film className="h-8 w-8" />
-                                          </div>
-                                          <div className="absolute bottom-0 left-0 right-0 bg-black bg-opacity-50 text-white text-xs p-1">
-                                            Video
-                                          </div>
-                                        </div>
-                                      )}
-                                    </div>
-                                    <div className="text-xs truncate mb-1" title={media.url}>{media.url}</div>
-                                    {media.caption && (
-                                      <div className="text-xs text-gray-500 truncate mb-1" title={media.caption}>
-                                        {media.caption}
-                                      </div>
-                                    )}
-                                    {media.brandName && (
-                                      <div className="text-xs bg-gray-100 px-1 py-0.5 rounded inline-block mb-1">
-                                        {media.brandName}
-                                      </div>
-                                    )}
+                            </label>
+                            <div className="col-span-3 space-y-2">
+                              <div className="flex flex-wrap gap-2">
+                                {editStory.media?.map((item, index) => (
+                                  <div key={index} className="bg-gray-100 text-xs px-2 py-1 rounded flex items-center gap-1">
+                                    <span>{item.name} ({item.type})</span>
                                     <button
                                       type="button"
-                                      className="absolute top-1 right-1 bg-white rounded-full p-0.5 shadow text-gray-500 hover:text-red-500"
-                                      onClick={() => handleDeleteMedia(media.id, true)}
+                                      className="text-gray-500 hover:text-gray-700"
+                                      onClick={() => handleRemoveMedia(item.name, true)}
                                     >
                                       <X className="h-3 w-3" />
                                     </button>
                                   </div>
                                 ))}
                               </div>
-                              
-                              <div className="border-t pt-4 space-y-2">
-                                <div className="flex gap-2">
-                                  <Select 
-                                    value={newMediaType} 
-                                    onValueChange={(value: "image" | "video") => setNewMediaType(value)}
-                                  >
-                                    <SelectTrigger className="w-24">
-                                      <SelectValue placeholder="Type" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                      <SelectItem value="image">Image</SelectItem>
-                                      <SelectItem value="video">Video</SelectItem>
-                                    </SelectContent>
-                                  </Select>
-                                  <Input
-                                    placeholder="Media URL"
-                                    className="flex-1"
-                                    value={newMediaUrl}
-                                    onChange={(e) => setNewMediaUrl(e.target.value)}
-                                  />
-                                </div>
+                              <div className="flex gap-2 items-center">
                                 <Input
-                                  placeholder="Caption (optional)"
-                                  value={newMediaCaption}
-                                  onChange={(e) => setNewMediaCaption(e.target.value)}
+                                  placeholder="Media name"
+                                  className="flex-1"
+                                  value={mediaName}
+                                  onChange={(e) => setMediaName(e.target.value)}
                                 />
-                                <div className="flex gap-2">
-                                  <Select 
-                                    value={newMediaBrand} 
-                                    onValueChange={setNewMediaBrand}
-                                  >
-                                    <SelectTrigger className="flex-1">
-                                      <SelectValue placeholder="Select brand (optional)" />
-                                    </SelectTrigger>
-                                    <SelectContent>
-                                      <SelectItem value="">No brand</SelectItem>
-                                      {availableBrands.map((brand) => (
-                                        <SelectItem key={brand} value={brand}>{brand}</SelectItem>
-                                      ))}
-                                    </SelectContent>
-                                  </Select>
-                                  <Button 
-                                    type="button" 
-                                    variant="outline"
-                                    onClick={() => handleAddMedia(true)}
-                                    disabled={!newMediaUrl.trim()}
-                                  >
-                                    Add Media
-                                  </Button>
-                                </div>
+                                <Select
+                                  value={mediaType}
+                                  onValueChange={(value: "image" | "video") => setMediaType(value)}
+                                >
+                                  <SelectTrigger className="w-28">
+                                    <SelectValue placeholder="Type" />
+                                  </SelectTrigger>
+                                  <SelectContent>
+                                    <SelectItem value="image">Image</SelectItem>
+                                    <SelectItem value="video">Video</SelectItem>
+                                  </SelectContent>
+                                </Select>
+                                <Button
+                                  type="button"
+                                  variant="outline"
+                                  onClick={() => handleAddMedia(true)}
+                                  disabled={!mediaName}
+                                >
+                                  <Image className="h-4 w-4 mr-1" /> Add
+                                </Button>
                               </div>
                             </div>
                           </div>
                         </div>
                         <DialogFooter>
                           <DialogClose asChild>
-                            <Button variant="outline" className="border-gray-300">Cancel</Button>
+                            <Button variant="outline">Cancel</Button>
                           </DialogClose>
                           <DialogClose asChild>
-                            <Button className="bg-black text-white border-none hover:underline" onClick={handleUpdateStory}>
+                            <Button className="bg-black text-white" onClick={handleUpdateStory}>
                               Update Story
                             </Button>
                           </DialogClose>
@@ -716,6 +552,7 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
                     )}
                   </Dialog>
                   
+                  {/* Delete Dialog */}
                   <AlertDialog>
                     <AlertDialogTrigger asChild>
                       <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
@@ -731,16 +568,9 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
                       </AlertDialogHeader>
                       <AlertDialogFooter>
                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                        <AlertDialogAction 
+                        <AlertDialogAction
                           className="bg-red-500 text-white hover:bg-red-600"
-                          onClick={() => {
-                            setCuratedStories(curatedStories.filter(s => s.id !== story.id));
-                            toast({
-                              title: "Story Deleted",
-                              description: "The story has been permanently deleted.",
-                              variant: "destructive"
-                            });
-                          }}
+                          onClick={() => handleDeleteStory(story.id)}
                         >
                           Delete
                         </AlertDialogAction>
