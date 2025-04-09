@@ -88,7 +88,7 @@ const BrandProducts = () => {
       
       <Card className="border border-gray-200">
         <CardHeader>
-          <CardTitle className="text-lg font-medium">Add New Products</CardTitle>
+          <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Add New Products</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
           <div className="border-2 border-dashed border-gray-300 p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors">
