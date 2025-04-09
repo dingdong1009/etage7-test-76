@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft } from "lucide-react";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 interface UserDetailsProps {
   user: Brand | Buyer | SalesManager;
@@ -22,7 +23,7 @@ const UserDetails = ({ user, activeTab, handleGoBack, handleEditUser }: UserDeta
   };
 
   const isSalesManager = (user: any): user is SalesManager => {
-    return 'quarterlyPerformance' in user && 'seniorityLevel' in user;
+    return 'commissionRate' in user && 'ytdCommissions' in user;
   };
 
   return (
@@ -81,6 +82,18 @@ const UserDetails = ({ user, activeTab, handleGoBack, handleEditUser }: UserDeta
               )}
               {isSalesManager(user) && (
                 <div>
+                  <p className="text-sm text-gray-500">Start Date</p>
+                  <p>{user.startDate}</p>
+                </div>
+              )}
+              {isSalesManager(user) && (
+                <div>
+                  <p className="text-sm text-gray-500">Years in Company</p>
+                  <p>{user.yearsInCompany}</p>
+                </div>
+              )}
+              {isSalesManager(user) && user.seniorityLevel && (
+                <div>
                   <p className="text-sm text-gray-500">Seniority Level</p>
                   <p>{user.seniorityLevel}</p>
                 </div>
@@ -97,16 +110,18 @@ const UserDetails = ({ user, activeTab, handleGoBack, handleEditUser }: UserDeta
                   <p>{user.website}</p>
                 </div>
               )}
-              {isSalesManager(user) && (
+              {isSalesManager(user) && user.region && (
                 <div>
                   <p className="text-sm text-gray-500">Region</p>
                   <p>{user.region}</p>
                 </div>
               )}
-              <div>
-                <p className="text-sm text-gray-500">Active Since</p>
-                <p>{user.activeSince}</p>
-              </div>
+              {(isBrand(user) || isBuyer(user)) && (
+                <div>
+                  <p className="text-sm text-gray-500">Active Since</p>
+                  <p>{user.activeSince}</p>
+                </div>
+              )}
             </div>
           </div>
           
@@ -127,18 +142,22 @@ const UserDetails = ({ user, activeTab, handleGoBack, handleEditUser }: UserDeta
                 <p className="text-sm text-gray-500">Phone</p>
                 <p>{user.phone}</p>
               </div>
-              <div>
-                <p className="text-sm text-gray-500">Last Activity</p>
-                <p>{user.lastActivity}</p>
-              </div>
+              {user.lastActivity && (
+                <div>
+                  <p className="text-sm text-gray-500">Last Activity</p>
+                  <p>{user.lastActivity}</p>
+                </div>
+              )}
             </div>
           </div>
         </div>
         
-        <div>
-          <h3 className="text-lg font-semibold mb-4">Description</h3>
-          <p className="text-gray-700 mb-8">{user.description}</p>
-        </div>
+        {user.description && (
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Description</h3>
+            <p className="text-gray-700 mb-8">{user.description}</p>
+          </div>
+        )}
         
         <div>
           <h3 className="text-lg font-semibold mb-4">Performance Metrics</h3>
@@ -180,21 +199,67 @@ const UserDetails = ({ user, activeTab, handleGoBack, handleEditUser }: UserDeta
             {isSalesManager(user) && (
               <>
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-500">Managed Accounts</p>
-                  <p className="text-2xl font-semibold">{user.managedAccounts}</p>
+                  <p className="text-sm text-gray-500">Salary per Month</p>
+                  <p className="text-2xl font-semibold">{user.salaryPerMonth}</p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-500">Monthly Target</p>
-                  <p className="text-2xl font-semibold">{user.monthlyTarget}</p>
+                  <p className="text-sm text-gray-500">Current Commission Rate</p>
+                  <p className="text-2xl font-semibold">{user.commissionRate}</p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-500">Quarterly Performance</p>
-                  <p className="text-2xl font-semibold">{user.quarterlyPerformance}</p>
+                  <p className="text-sm text-gray-500">Total Commissions</p>
+                  <p className="text-2xl font-semibold">{user.totalCommissions}</p>
                 </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <p className="text-sm text-gray-500">YTD Commissions</p>
+                  <p className="text-2xl font-semibold">{user.ytdCommissions}</p>
+                </div>
+                {user.managedAccounts && (
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-sm text-gray-500">Managed Accounts</p>
+                    <p className="text-2xl font-semibold">{user.managedAccounts}</p>
+                  </div>
+                )}
+                {user.monthlyTarget && (
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-sm text-gray-500">Monthly Target</p>
+                    <p className="text-2xl font-semibold">{user.monthlyTarget}</p>
+                  </div>
+                )}
+                {user.quarterlyPerformance && (
+                  <div className="bg-gray-50 p-4 rounded-lg">
+                    <p className="text-sm text-gray-500">Quarterly Performance</p>
+                    <p className="text-2xl font-semibold">{user.quarterlyPerformance}</p>
+                  </div>
+                )}
               </>
             )}
           </div>
         </div>
+
+        {isSalesManager(user) && user.commissionHistory && user.commissionHistory.length > 0 && (
+          <div className="mt-8">
+            <h3 className="text-lg font-semibold mb-4">Commission History</h3>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Rate</TableHead>
+                  <TableHead>Effective Date</TableHead>
+                  <TableHead>Notes</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {user.commissionHistory.map((change) => (
+                  <TableRow key={change.id}>
+                    <TableCell>{change.rate}</TableCell>
+                    <TableCell>{change.effectiveDate}</TableCell>
+                    <TableCell>{change.notes}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

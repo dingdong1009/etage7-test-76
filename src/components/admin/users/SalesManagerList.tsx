@@ -63,9 +63,12 @@ const SalesManagerList = ({
               <TableRow>
                 <TableHead className="w-[100px]">ID</TableHead>
                 <TableHead>Name</TableHead>
+                <TableHead>Start Date</TableHead>
+                <TableHead>Years in Company</TableHead>
+                <TableHead>Salary/Month</TableHead>
+                <TableHead>Commission Rate</TableHead>
+                <TableHead>YTD Commissions</TableHead>
                 <TableHead>Status</TableHead>
-                <TableHead>Level</TableHead>
-                <TableHead>Last Activity</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -74,6 +77,11 @@ const SalesManagerList = ({
                 <TableRow key={user.id}>
                   <TableCell className="font-medium">{user.id}</TableCell>
                   <TableCell>{user.name}</TableCell>
+                  <TableCell>{user.startDate}</TableCell>
+                  <TableCell>{user.yearsInCompany}</TableCell>
+                  <TableCell>{user.salaryPerMonth}</TableCell>
+                  <TableCell>{user.commissionRate}</TableCell>
+                  <TableCell>{user.ytdCommissions}</TableCell>
                   <TableCell>
                     <Badge 
                       className={`${
@@ -85,8 +93,6 @@ const SalesManagerList = ({
                       {user.status}
                     </Badge>
                   </TableCell>
-                  <TableCell>{user.seniorityLevel}</TableCell>
-                  <TableCell>{user.lastActivity}</TableCell>
                   <TableCell className="flex justify-end space-x-2">
                     <Button 
                       className="text-xs text-black px-2 py-1 bg-gray-100 rounded hover:text-white"

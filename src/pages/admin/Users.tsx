@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Brand, Buyer, SalesManager, UserType, ViewMode } from "@/types/users";
+import { Brand, Buyer, CommissionChange, SalesManager, UserType, ViewMode } from "@/types/users";
 import BrandList from "@/components/admin/users/BrandList";
 import BuyerList from "@/components/admin/users/BuyerList";
 import SalesManagerList from "@/components/admin/users/SalesManagerList";
@@ -196,76 +196,194 @@ const SalesUsers = () => {
       id: 1, 
       name: "Jessica Thompson", 
       status: "active", 
-      lastActivity: "30 minutes ago",
       email: "jessica@etage7.com",
       phone: "+1 (555) 123-4567",
+      startDate: "March 2017",
+      yearsInCompany: 6,
+      salaryPerMonth: "$7,500",
+      totalCommissions: "$230,000",
+      ytdCommissions: "$78,500",
+      commissionRate: "3.2%",
       description: "Senior sales manager specializing in luxury brand accounts",
       seniorityLevel: "Senior",
       region: "North America",
       managedAccounts: 12,
       activeSince: "March 2017",
       monthlyTarget: "$500K",
-      quarterlyPerformance: "105%"
+      quarterlyPerformance: "105%",
+      lastActivity: "30 minutes ago",
+      commissionHistory: [
+        {
+          id: 1,
+          rate: "2.5%",
+          effectiveDate: "March 2017",
+          notes: "Initial commission rate"
+        },
+        {
+          id: 2,
+          rate: "3.0%",
+          effectiveDate: "January 2019",
+          notes: "Performance increase after exceeding targets for 4 consecutive quarters"
+        },
+        {
+          id: 3,
+          rate: "3.2%",
+          effectiveDate: "January 2022",
+          notes: "Annual review adjustment"
+        }
+      ]
     },
     { 
       id: 2, 
       name: "Marcus Rodriguez", 
       status: "active", 
-      lastActivity: "2 hours ago",
       email: "marcus@etage7.com",
       phone: "+1 (555) 234-5678",
+      startDate: "June 2019",
+      yearsInCompany: 4,
+      salaryPerMonth: "$6,500",
+      totalCommissions: "$120,000",
+      ytdCommissions: "$45,200",
+      commissionRate: "2.8%",
       description: "Mid-level sales manager focused on department store accounts",
       seniorityLevel: "Mid-level",
       region: "Europe",
       managedAccounts: 8,
       activeSince: "June 2019",
       monthlyTarget: "$350K",
-      quarterlyPerformance: "98%"
+      quarterlyPerformance: "98%",
+      lastActivity: "2 hours ago",
+      commissionHistory: [
+        {
+          id: 1,
+          rate: "2.2%",
+          effectiveDate: "June 2019",
+          notes: "Initial commission rate"
+        },
+        {
+          id: 2,
+          rate: "2.5%",
+          effectiveDate: "June 2020",
+          notes: "First year performance review"
+        },
+        {
+          id: 3,
+          rate: "2.8%",
+          effectiveDate: "January 2022",
+          notes: "Promotion to mid-level manager"
+        }
+      ]
     },
     { 
       id: 3, 
       name: "Aisha Johnson", 
       status: "pending", 
-      lastActivity: "2 days ago",
       email: "aisha@etage7.com",
       phone: "+1 (555) 345-6789",
+      startDate: "January 2023",
+      yearsInCompany: 1,
+      salaryPerMonth: "$5,500",
+      totalCommissions: "$28,000",
+      ytdCommissions: "$16,300",
+      commissionRate: "2.0%",
       description: "New sales manager currently onboarding with initial client portfolio",
       seniorityLevel: "Junior",
       region: "Asia Pacific",
       managedAccounts: 5,
       activeSince: "January 2023",
       monthlyTarget: "$200K",
-      quarterlyPerformance: "87%"
+      quarterlyPerformance: "87%",
+      lastActivity: "2 days ago",
+      commissionHistory: [
+        {
+          id: 1,
+          rate: "2.0%",
+          effectiveDate: "January 2023",
+          notes: "Initial commission rate"
+        }
+      ]
     },
     { 
       id: 4, 
       name: "Richard Chen", 
       status: "active", 
-      lastActivity: "1 day ago",
       email: "richard@etage7.com",
       phone: "+1 (555) 456-7890",
+      startDate: "April 2016",
+      yearsInCompany: 7,
+      salaryPerMonth: "$8,500",
+      totalCommissions: "$350,000",
+      ytdCommissions: "$112,500",
+      commissionRate: "3.5%",
       description: "Senior sales manager with expertise in international markets",
       seniorityLevel: "Senior",
       region: "Global",
       managedAccounts: 15,
       activeSince: "April 2016",
       monthlyTarget: "$650K",
-      quarterlyPerformance: "112%"
+      quarterlyPerformance: "112%",
+      lastActivity: "1 day ago",
+      commissionHistory: [
+        {
+          id: 1,
+          rate: "2.2%",
+          effectiveDate: "April 2016",
+          notes: "Initial commission rate"
+        },
+        {
+          id: 2,
+          rate: "2.8%",
+          effectiveDate: "April 2018",
+          notes: "Performance increase after two years"
+        },
+        {
+          id: 3,
+          rate: "3.2%",
+          effectiveDate: "January 2020",
+          notes: "Promotion to senior sales manager"
+        },
+        {
+          id: 4,
+          rate: "3.5%",
+          effectiveDate: "January 2022",
+          notes: "Exceptional performance adjustment"
+        }
+      ]
     },
     { 
       id: 5, 
       name: "Sarah Miller", 
       status: "inactive", 
-      lastActivity: "3 weeks ago",
       email: "sarah@etage7.com",
       phone: "+1 (555) 567-8901",
+      startDate: "August 2020",
+      yearsInCompany: 3,
+      salaryPerMonth: "$6,200",
+      totalCommissions: "$82,000",
+      ytdCommissions: "$8,400",
+      commissionRate: "2.5%",
       description: "Sales manager currently on extended leave",
       seniorityLevel: "Mid-level",
       region: "Middle East",
       managedAccounts: 7,
       activeSince: "August 2020",
       monthlyTarget: "$300K",
-      quarterlyPerformance: "92%"
+      quarterlyPerformance: "92%",
+      lastActivity: "3 weeks ago",
+      commissionHistory: [
+        {
+          id: 1,
+          rate: "2.0%",
+          effectiveDate: "August 2020",
+          notes: "Initial commission rate"
+        },
+        {
+          id: 2,
+          rate: "2.5%",
+          effectiveDate: "September 2021",
+          notes: "Annual performance review increase"
+        }
+      ]
     }
   ];
 

@@ -1,4 +1,3 @@
-
 import { useForm } from "react-hook-form";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -37,7 +36,11 @@ const UserAddForm = ({ activeTab, handleGoBack, handleAddUserSubmit }: UserAddFo
       region: "",
       managedAccounts: 0,
       monthlyTarget: "",
-      quarterlyPerformance: ""
+      quarterlyPerformance: "",
+      // New sales manager fields
+      startDate: "",
+      salaryPerMonth: "",
+      commissionRate: "",
     }
   });
 
@@ -108,6 +111,48 @@ const UserAddForm = ({ activeTab, handleGoBack, handleAddUserSubmit }: UserAddFo
                 
                 <FormField
                   control={addUserForm.control}
+                  name="startDate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Start Date</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g. January 2023" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={addUserForm.control}
+                  name="salaryPerMonth"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Salary per Month</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g. $5,500" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={addUserForm.control}
+                  name="commissionRate"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Commission Rate</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g. 2.5%" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={addUserForm.control}
                   name="seniorityLevel"
                   render={({ field }) => (
                     <FormItem>
@@ -151,48 +196,6 @@ const UserAddForm = ({ activeTab, handleGoBack, handleAddUserSubmit }: UserAddFo
                           <SelectItem value="Global">Global</SelectItem>
                         </SelectContent>
                       </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={addUserForm.control}
-                  name="activeSince"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Active Since</FormLabel>
-                      <FormControl>
-                        <Input placeholder="Month Year" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={addUserForm.control}
-                  name="managedAccounts"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Managed Accounts</FormLabel>
-                      <FormControl>
-                        <Input type="number" placeholder="0" {...field} value={field.value?.toString()} onChange={e => field.onChange(parseInt(e.target.value) || 0)} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={addUserForm.control}
-                  name="monthlyTarget"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Monthly Target</FormLabel>
-                      <FormControl>
-                        <Input placeholder="$0K" {...field} />
-                      </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}

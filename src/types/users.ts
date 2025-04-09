@@ -42,14 +42,28 @@ export interface SalesManager {
   id: number;
   name: string;
   status: "active" | "pending" | "inactive";
-  lastActivity: string;
   email: string;
   phone: string;
-  description: string;
-  seniorityLevel: string;
-  region: string;
-  managedAccounts: number;
-  activeSince: string;
-  monthlyTarget: string;
-  quarterlyPerformance: string;
+  startDate: string;
+  yearsInCompany: number;
+  salaryPerMonth: string;
+  totalCommissions: string;
+  ytdCommissions: string;
+  commissionRate: string;
+  commissionHistory?: CommissionChange[];
+  description?: string;
+  seniorityLevel?: string;
+  region?: string;
+  managedAccounts?: number;
+  activeSince?: string;
+  monthlyTarget?: string;
+  quarterlyPerformance?: string;
+  lastActivity?: string;
+}
+
+export interface CommissionChange {
+  id: number;
+  rate: string;
+  effectiveDate: string;
+  notes?: string;
 }
