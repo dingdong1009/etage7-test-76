@@ -112,11 +112,11 @@ const SalesMessages = () => {
                 <input 
                   type="text" 
                   placeholder="Type a message..." 
-                  className="flex-1 border border-gray-200 rounded-l px-4 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="flex-1 border border-gray-200 px-4 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
-                <button className="bg-black text-white px-4 rounded-r">
+                <Button className="bg-black text-white px-4">
                   Send
-                </button>
+                </Button>
               </div>
             </div>
           </CardContent>
