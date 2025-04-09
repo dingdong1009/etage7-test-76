@@ -164,7 +164,7 @@ const AdminContracts = () => {
       <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
         <DialogContent className="sm:max-w-[600px]">
           <DialogHeader>
-            <DialogTitle>Edit Contract Template</DialogTitle>
+            <DialogTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Edit Contract Template</DialogTitle>
             <DialogDescription>
               Make changes to the contract template here.
             </DialogDescription>
