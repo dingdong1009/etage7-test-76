@@ -27,7 +27,7 @@ const SalesHeader = () => {
     <header className="sticky top-0 left-0 right-0 z-40 bg-white border-b border-gray-200">
       <div className="max-w-full px-4 flex justify-between items-center h-16">
         <div className="flex items-center gap-2">
-        <Link to="/" className="text-black text-xl font-bold uppercase">ETAGE7</Link> | sales manager
+        <Link to="/" className="text-black text-2xl font-bold uppercase">ETAGE7</Link> | SALES MANAGER
 
         </div>
         
