@@ -174,7 +174,7 @@ const AdminSubscriptions = () => {
       <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Subscription Management</h1>
 
       <Tabs defaultValue="plans" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 mb-4">
+        <TabsList className="grid grid-cols-2 mb-4">
           <TabsTrigger value="plans">Subscription Plans</TabsTrigger>
           <TabsTrigger value="additional">Additional Services</TabsTrigger>
         </TabsList>
