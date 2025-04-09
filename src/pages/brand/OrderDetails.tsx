@@ -7,50 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Printer, FileText, Mail } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
-
-// Define Order Type
-interface OrderItem {
-  id: string;
-  name: string;
-  sku: string;
-  quantity: number;
-  price: string;
-  total: string;
-  size?: string;
-  color?: string;
-  image?: string;
-}
-
-interface Order {
-  id: string;
-  date: string;
-  customer: string;
-  email: string;
-  phone: string;
-  status: string;
-  total: string;
-  subtotal: string;
-  tax: string;
-  shipping: string;
-  shippingMethod: string;
-  items: OrderItem[];
-  billingAddress: {
-    street: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    country: string;
-  };
-  shippingAddress: {
-    street: string;
-    city: string;
-    state: string;
-    zipCode: string;
-    country: string;
-  };
-  paymentMethod: string;
-  notes?: string;
-}
+import { Order } from "@/types/orders";
 
 const BrandOrderDetails = () => {
   const { orderId } = useParams<{ orderId: string }>();
@@ -62,7 +19,7 @@ const BrandOrderDetails = () => {
   const handlePrint = useReactToPrint({
     documentTitle: `Order-${orderId}`,
     onAfterPrint: () => console.log('Print completed'),
-    contentRef: printRef,
+    content: () => printRef.current,
   });
 
   // Fetch order data (in a real app, this would be an API call)
@@ -178,7 +135,7 @@ const BrandOrderDetails = () => {
           <Button 
             variant="outline" 
             size="sm" 
-            onClick={() => handlePrint()}
+            onClick={handlePrint}
           >
             <Printer size={16} className="mr-2" />
             Print Order

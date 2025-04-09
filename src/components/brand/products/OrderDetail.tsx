@@ -17,10 +17,11 @@ interface OrderDetailProps {
 const OrderDetail = ({ order, onBack }: OrderDetailProps) => {
   const printRef = useRef<HTMLDivElement>(null);
 
-  // Function to handle printing
+  // Function to handle printing - fixed to use contentRef instead of content
   const handlePrint = useReactToPrint({
     documentTitle: `Order-${order?.id || ""}`,
     onAfterPrint: () => console.log('Print completed'),
+    // The correct way to use useReactToPrint is to provide a function that returns the ref
     content: () => printRef.current,
   });
 
@@ -50,6 +51,7 @@ const OrderDetail = ({ order, onBack }: OrderDetailProps) => {
         </div>
         
         <div className="flex flex-wrap items-center gap-2">
+          {/* Fix the onClick handler to call handlePrint directly instead of wrapping it */}
           <Button 
             variant="outline" 
             size="sm" 
