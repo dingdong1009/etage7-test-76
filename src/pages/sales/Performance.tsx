@@ -24,7 +24,7 @@ const SalesPerformance = () => {
 
       <Card className="border border-gray-200">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-lg font-medium">Monthly Commission</CardTitle>
+          <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Monthly Commission</CardTitle>
           <BarChart3 className="h-4 w-4 text-gray-500" />
         </CardHeader>
         <CardContent className="pt-0">
@@ -48,13 +48,13 @@ const SalesPerformance = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Card className="border border-gray-200">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-lg font-medium">Key Performance Indicators</CardTitle>
+            <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Key Performance Indicators</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
               <div>
                 <div className="flex justify-between mb-1">
-                  <span className="text-sm font-medium">Conversion Rate</span>
+                  <span className="text-1xl md:text-2xl uppercase font-thin mb-6">Conversion Rate</span>
                   <span className="text-sm font-medium">78%</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2.5">
