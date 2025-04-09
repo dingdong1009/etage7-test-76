@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Legend, PieChart, Pie, Cell } from "recharts";
-import { ChevronDown, Users, CreditCard, BadgePercent, BarChart3, ChartLineUp, ChartPie } from "lucide-react";
+import { ChevronDown, Users, CreditCard, BadgePercent, BarChart3, ChartLine, PieChart as PieChartIcon } from "lucide-react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const AdminDashboard = () => {
@@ -120,7 +120,7 @@ const AdminDashboard = () => {
         <Card className="border border-gray-200">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-lg font-medium">User Growth</CardTitle>
-            <ChartLineUp className="h-4 w-4 text-gray-500" />
+            <ChartLine className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent className="pt-0">
             <ChartContainer config={{}}>
@@ -200,7 +200,7 @@ const AdminDashboard = () => {
                 </SelectContent>
               </Select>
             </div>
-            <ChartPie className="h-4 w-4 text-gray-500" />
+            <PieChartIcon className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent className="pt-0">
             <ChartContainer config={{}}>
