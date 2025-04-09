@@ -106,7 +106,7 @@ const AdminDashboard = () => {
           <Card key={index} className="p-4 border border-gray-200">
             <div className="flex justify-between items-start">
               <div>
-                <h2 className="text-2xl md:text-4xl uppercase font-thin mb-6">{stat.title}</h2>
+                <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">{stat.title}</h2>
                 <div className="mt-2 text-3xl">{stat.count.toLocaleString()}</div>
                 <p className="mt-2 text-sm text-gray-500">{stat.description}</p>
               </div>
