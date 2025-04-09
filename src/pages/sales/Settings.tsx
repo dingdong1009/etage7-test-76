@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button"
 
 const SalesSettings = () => {
   const [passwordForm, setPasswordForm] = useState({
@@ -85,12 +86,9 @@ const SalesSettings = () => {
                   className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
-              <button 
-                type="submit" 
-                className="bg-black text-white px-4 py-2 hover:bg-black-600"
-              >
+              <Button type="submit" className="bg-black text-white px-4 py-2 hover:bg-black-600">
                 Update Profile
-              </button>
+              </Button>
             </form>
           </CardContent>
         </Card>
@@ -134,12 +132,12 @@ const SalesSettings = () => {
                   className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
-              <button 
+              <Button 
                 type="submit" 
                 className="bg-black text-white px-4 py-2 hover:bg-black-600"
               >
                 Update Password
-              </button>
+              </Button>
             </form>
           </CardContent>
         </Card>
