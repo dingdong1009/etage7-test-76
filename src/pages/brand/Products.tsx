@@ -190,7 +190,8 @@ const BrandProducts = () => {
     }
   ]);
 
-  const orders = [
+  // Updated orders data with correct structure matching the Order interface
+  const orders: Order[] = [
     { 
       id: "ORD-001", 
       date: "2023-04-01", 
@@ -203,23 +204,7 @@ const BrandProducts = () => {
       shipping: "$5.00",
       shippingMethod: "Standard Shipping",
       status: "completed",
-      items: 3,
-      billingAddress: {
-        street: "123 Main St",
-        city: "New York",
-        state: "NY",
-        zipCode: "10001",
-        country: "USA"
-      },
-      shippingAddress: {
-        street: "123 Main St",
-        city: "New York",
-        state: "NY",
-        zipCode: "10001",
-        country: "USA"
-      },
-      paymentMethod: "Credit Card (ending in 4242)",
-      orderItems: [
+      items: [
         {
           id: "ITEM-001",
           name: "Designer T-Shirt",
@@ -242,7 +227,23 @@ const BrandProducts = () => {
           color: "Blue",
           image: "https://via.placeholder.com/50"
         }
-      ]
+      ],
+      billingAddress: {
+        street: "123 Main St",
+        city: "New York",
+        state: "NY",
+        zipCode: "10001",
+        country: "USA"
+      },
+      shippingAddress: {
+        street: "123 Main St",
+        city: "New York",
+        state: "NY",
+        zipCode: "10001",
+        country: "USA"
+      },
+      paymentMethod: "Credit Card (ending in 4242)",
+      notes: "Please leave package at the front door"
     },
     { 
       id: "ORD-002", 
@@ -256,23 +257,7 @@ const BrandProducts = () => {
       shipping: "$6.00",
       shippingMethod: "Express Shipping",
       status: "processing",
-      items: 2,
-      billingAddress: {
-        street: "456 Oak Ave",
-        city: "Boston",
-        state: "MA",
-        zipCode: "02115",
-        country: "USA"
-      },
-      shippingAddress: {
-        street: "456 Oak Ave",
-        city: "Boston",
-        state: "MA",
-        zipCode: "02115",
-        country: "USA"
-      },
-      paymentMethod: "PayPal",
-      orderItems: [
+      items: [
         {
           id: "ITEM-003",
           name: "Cotton Sweater",
@@ -294,7 +279,22 @@ const BrandProducts = () => {
           color: "Natural",
           image: "https://via.placeholder.com/50"
         }
-      ]
+      ],
+      billingAddress: {
+        street: "456 Oak Ave",
+        city: "Boston",
+        state: "MA",
+        zipCode: "02115",
+        country: "USA"
+      },
+      shippingAddress: {
+        street: "456 Oak Ave",
+        city: "Boston",
+        state: "MA",
+        zipCode: "02115",
+        country: "USA"
+      },
+      paymentMethod: "PayPal"
     },
     { 
       id: "ORD-003", 
@@ -308,23 +308,7 @@ const BrandProducts = () => {
       shipping: "$5.00",
       shippingMethod: "Standard Shipping",
       status: "completed",
-      items: 4,
-      billingAddress: {
-        street: "789 Pine St",
-        city: "Chicago",
-        state: "IL",
-        zipCode: "60601",
-        country: "USA"
-      },
-      shippingAddress: {
-        street: "789 Pine St",
-        city: "Chicago",
-        state: "IL",
-        zipCode: "60601",
-        country: "USA"
-      },
-      paymentMethod: "Credit Card (ending in 1234)",
-      orderItems: [
+      items: [
         {
           id: "ITEM-005",
           name: "Leather Jacket",
@@ -346,7 +330,22 @@ const BrandProducts = () => {
           color: "Red",
           image: "https://via.placeholder.com/50"
         }
-      ]
+      ],
+      billingAddress: {
+        street: "789 Pine St",
+        city: "Chicago",
+        state: "IL",
+        zipCode: "60601",
+        country: "USA"
+      },
+      shippingAddress: {
+        street: "789 Pine St",
+        city: "Chicago",
+        state: "IL",
+        zipCode: "60601",
+        country: "USA"
+      },
+      paymentMethod: "Credit Card (ending in 1234)"
     },
     { 
       id: "ORD-004", 
@@ -360,7 +359,19 @@ const BrandProducts = () => {
       shipping: "$4.00",
       shippingMethod: "Standard Shipping",
       status: "shipped",
-      items: 1,
+      items: [
+        {
+          id: "ITEM-007",
+          name: "Graphic Print Hoodie",
+          sku: "HD-BLK-L",
+          quantity: 1,
+          price: "$45.99",
+          total: "$45.99",
+          size: "L",
+          color: "Black",
+          image: "https://via.placeholder.com/50"
+        }
+      ],
       billingAddress: {
         street: "101 Maple Dr",
         city: "Seattle",
@@ -375,20 +386,7 @@ const BrandProducts = () => {
         zipCode: "98101",
         country: "USA"
       },
-      paymentMethod: "Debit Card",
-      orderItems: [
-        {
-          id: "ITEM-007",
-          name: "Graphic Print Hoodie",
-          sku: "HD-BLK-L",
-          quantity: 1,
-          price: "$45.99",
-          total: "$45.99",
-          size: "L",
-          color: "Black",
-          image: "https://via.placeholder.com/50"
-        }
-      ]
+      paymentMethod: "Debit Card"
     },
     { 
       id: "ORD-005", 
@@ -402,23 +400,7 @@ const BrandProducts = () => {
       shipping: "$5.00",
       shippingMethod: "Standard Shipping",
       status: "cancelled",
-      items: 3,
-      billingAddress: {
-        street: "222 Cedar Ln",
-        city: "Austin",
-        state: "TX",
-        zipCode: "78701",
-        country: "USA"
-      },
-      shippingAddress: {
-        street: "222 Cedar Ln",
-        city: "Austin",
-        state: "TX",
-        zipCode: "78701",
-        country: "USA"
-      },
-      paymentMethod: "Credit Card (ending in 5678)",
-      orderItems: [
+      items: [
         {
           id: "ITEM-008",
           name: "Denim Jacket",
@@ -441,7 +423,22 @@ const BrandProducts = () => {
           color: "White",
           image: "https://via.placeholder.com/50"
         }
-      ]
+      ],
+      billingAddress: {
+        street: "222 Cedar Ln",
+        city: "Austin",
+        state: "TX",
+        zipCode: "78701",
+        country: "USA"
+      },
+      shippingAddress: {
+        street: "222 Cedar Ln",
+        city: "Austin",
+        state: "TX",
+        zipCode: "78701",
+        country: "USA"
+      },
+      paymentMethod: "Credit Card (ending in 5678)"
     }
   ];
 
@@ -530,11 +527,11 @@ const BrandProducts = () => {
     setSelectedOrder(null);
   };
 
-  // Function to handle printing/PDF generation
+  // Function to handle printing/PDF generation - fixed to handle the correct type
   const handlePrint = useReactToPrint({
     documentTitle: `Order-${selectedOrder?.id || ""}`,
     onAfterPrint: () => console.log('Print completed'),
-    contentRef: printRef,
+    content: () => printRef.current,
   });
 
   // Function to get status color
@@ -900,7 +897,7 @@ const BrandProducts = () => {
                                   {order.status}
                                 </Badge>
                               </TableCell>
-                              <TableCell>{order.items}</TableCell>
+                              <TableCell>{order.items.length}</TableCell>
                               <TableCell className="text-right">
                                 <TooltipProvider>
                                   <div className="flex items-center justify-end space-x-2">
@@ -972,7 +969,7 @@ const BrandProducts = () => {
                       <Button 
                         variant="outline" 
                         size="sm" 
-                        onClick={handlePrint}
+                        onClick={() => handlePrint()}
                       >
                         <Printer size={16} className="mr-2" />
                         Download PDF
@@ -1088,7 +1085,7 @@ const BrandProducts = () => {
                               </TableRow>
                             </TableHeader>
                             <TableBody>
-                              {selectedOrder?.orderItems.map((item) => (
+                              {selectedOrder?.items.map((item) => (
                                 <TableRow key={item.id}>
                                   <TableCell>
                                     <div className="flex items-center space-x-3">
