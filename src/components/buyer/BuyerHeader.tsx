@@ -54,7 +54,7 @@ const BuyerHeader = () => {
                 >
                   {item.name.toUpperCase()}
                   <span
-                    className={`absolute left-0 bottom-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full ${
+                    className={`absolute left-0 -bottom-2 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full ${
                       isActive(item.path) ? "w-full" : ""
                     }`}
                   ></span>
