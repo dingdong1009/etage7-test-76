@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -52,7 +51,9 @@ import {
   Eye,
   ListFilter,
   ArrowUpDown,
-  Filter
+  Filter,
+  ShoppingBag,
+  Printer
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -68,58 +69,68 @@ import {
 import { Toggle } from "@/components/ui/toggle";
 import { Switch } from "@/components/ui/switch";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
+import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const BrandProducts = () => {
   const [showForm, setShowForm] = useState(false);
   const [selectedColor, setSelectedColor] = useState("");
-  const [activeTab, setActiveTab] = useState("add");
+  const [activeTab, setActiveTab] = useState("list");
   const [searchQuery, setSearchQuery] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("");
   const [seasonFilter, setSeasonFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
+  const [orderSearchQuery, setOrderSearchQuery] = useState("");
 
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      name: "Silk Blend Tailored Blazer",
-      sku: "BL-2025-SLK",
-      category: "Outerwear",
-      season: "Spring/Summer 2025",
-      color: "Navy Blue",
-      price: 289.99,
-      status: "active",
-      releaseDate: "2025-03-15",
-      description: "Luxurious silk blend blazer with modern tailoring and subtle texture.",
-      materials: "70% Silk, 30% Cotton"
+  const orders = [
+    { 
+      id: "ORD-001", 
+      date: "2023-04-01", 
+      customer: "John Smith", 
+      total: "$129.99", 
+      status: "completed",
+      items: 3 
     },
-    {
-      id: 2,
-      name: "Cashmere Wool Cardigan",
-      sku: "CW-2025-CSM",
-      category: "Tops",
-      season: "Fall/Winter 2024",
-      color: "Burgundy",
-      price: 199.99,
-      status: "draft",
-      releaseDate: "2024-08-30",
-      description: "Premium cashmere wool cardigan with ribbed cuffs and hem.",
-      materials: "85% Cashmere, 15% Wool"
+    { 
+      id: "ORD-002", 
+      date: "2023-04-02", 
+      customer: "Sarah Johnson", 
+      total: "$89.50", 
+      status: "processing",
+      items: 2 
     },
-    {
-      id: 3,
-      name: "Leather Crossbody Bag",
-      sku: "LB-2025-CRS",
-      category: "Accessories",
-      season: "Resort 2025",
-      color: "Tan",
-      price: 349.99,
-      status: "active",
-      releaseDate: "2025-01-10",
-      description: "Artisanal leather crossbody with adjustable strap and distinctive hardware.",
-      materials: "100% Full-grain Leather"
+    { 
+      id: "ORD-003", 
+      date: "2023-04-03", 
+      customer: "Michael Davis", 
+      total: "$210.75", 
+      status: "completed",
+      items: 4 
+    },
+    { 
+      id: "ORD-004", 
+      date: "2023-04-05", 
+      customer: "Emily Wilson", 
+      total: "$45.99", 
+      status: "shipped",
+      items: 1 
+    },
+    { 
+      id: "ORD-005", 
+      date: "2023-04-06", 
+      customer: "Robert Brown", 
+      total: "$178.25", 
+      status: "cancelled",
+      items: 3 
     }
-  ]);
+  ];
 
   const colorOptions = [
     { name: "Neutral Gray", hex: "#8E9196" },
@@ -186,6 +197,11 @@ const BrandProducts = () => {
     setProducts(products.filter(product => product.id !== id));
   };
 
+  const filteredOrders = orders.filter(order => 
+    order.id.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
+    order.customer.toLowerCase().includes(orderSearchQuery.toLowerCase())
+  );
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -209,12 +225,18 @@ const BrandProducts = () => {
       </div>
       
       <Tabs defaultValue="list" value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="w-full mb-6 grid grid-cols-2 bg-gray-100 p-1">
+        <TabsList className="w-full mb-6 grid grid-cols-3 bg-gray-100 p-1">
           <TabsTrigger 
             value="list" 
             className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm"
           >
             <ListFilter className="mr-2 h-4 w-4" /> Product List
+          </TabsTrigger>
+          <TabsTrigger 
+            value="orders" 
+            className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm"
+          >
+            <ShoppingBag className="mr-2 h-4 w-4" /> Orders
           </TabsTrigger>
           <TabsTrigger 
             value="add" 
@@ -470,6 +492,112 @@ const BrandProducts = () => {
                     )}
                   </TableBody>
                 </Table>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="orders" className="space-y-6">
+          <Card className="border border-gray-200">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Recent Orders</CardTitle>
+              <div className="relative w-full max-w-sm">
+                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+                <input 
+                  type="search" 
+                  placeholder="Search orders..." 
+                  className="w-full rounded-md border border-gray-200 pl-8 py-2 text-sm outline-none focus:border-blue-500"
+                  value={orderSearchQuery}
+                  onChange={(e) => setOrderSearchQuery(e.target.value)}
+                />
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Order ID</TableHead>
+                      <TableHead>Date</TableHead>
+                      <TableHead>Customer</TableHead>
+                      <TableHead>Total</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Items</TableHead>
+                      <TableHead className="text-right">Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {filteredOrders.length === 0 ? (
+                      <TableRow>
+                        <TableCell colSpan={7} className="h-24 text-center">
+                          No orders found.
+                        </TableCell>
+                      </TableRow>
+                    ) : (
+                      filteredOrders.map((order) => (
+                        <TableRow key={order.id}>
+                          <TableCell className="font-medium">{order.id}</TableCell>
+                          <TableCell>{order.date}</TableCell>
+                          <TableCell>{order.customer}</TableCell>
+                          <TableCell>{order.total}</TableCell>
+                          <TableCell>
+                            <Badge 
+                              className={`${
+                                order.status === "completed" ? "bg-green-100 text-green-800" :
+                                order.status === "processing" ? "bg-blue-100 text-blue-800" :
+                                order.status === "shipped" ? "bg-purple-100 text-purple-800" :
+                                "bg-red-100 text-red-800"
+                              }`}
+                            >
+                              {order.status}
+                            </Badge>
+                          </TableCell>
+                          <TableCell>{order.items}</TableCell>
+                          <TableCell className="text-right">
+                            <TooltipProvider>
+                              <div className="flex items-center justify-end space-x-2">
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <Link to={`/brand/orders/${order.id}`}>
+                                      <Button variant="ghost" size="icon" className="h-8 w-8">
+                                        <Eye size={16} />
+                                      </Button>
+                                    </Link>
+                                  </TooltipTrigger>
+                                  <TooltipContent>
+                                    <p>View order details</p>
+                                  </TooltipContent>
+                                </Tooltip>
+                                
+                                <Tooltip>
+                                  <TooltipTrigger asChild>
+                                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                                      <Printer size={16} />
+                                    </Button>
+                                  </TooltipTrigger>
+                                  <TooltipContent>
+                                    <p>Print order</p>
+                                  </TooltipContent>
+                                </Tooltip>
+                              </div>
+                            </TooltipProvider>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    )}
+                  </TableBody>
+                </Table>
+              </div>
+              
+              <div className="flex items-center justify-between mt-4">
+                <p className="text-sm text-gray-500">Showing {filteredOrders.length} of {orders.length} orders</p>
+                <div className="flex space-x-1">
+                  <button className="px-2 py-1 text-sm border rounded">Previous</button>
+                  <button className="px-2 py-1 text-sm border rounded bg-black-50">1</button>
+                  <button className="px-2 py-1 text-sm border rounded">2</button>
+                  <button className="px-2 py-1 text-sm border rounded">3</button>
+                  <button className="px-2 py-1 text-sm border rounded">Next</button>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -898,4 +1026,3 @@ const BrandProducts = () => {
 };
 
 export default BrandProducts;
-

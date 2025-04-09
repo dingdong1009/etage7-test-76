@@ -63,6 +63,7 @@ const BrandOrderDetails = () => {
   const handlePrint = useReactToPrint({
     documentTitle: `Order-${orderId}`,
     onAfterPrint: () => console.log('Print completed'),
+    // The content prop expects a function that returns the element to be printed
     content: () => printRef.current,
   });
 
@@ -165,19 +166,27 @@ const BrandOrderDetails = () => {
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div className="flex items-center space-x-4">
           <Button variant="outline" size="sm" asChild>
-            <Link to="/brand/orders">
+            <Link to="/brand/products?tab=orders">
               <ArrowLeft size={16} className="mr-2" />
               Back to Orders
             </Link>
           </Button>
           
           <h1 className="text-2xl md:text-3xl font-semibold">
-            Order {order.id}
+            Order {order?.id}
           </h1>
         </div>
         
         <div className="flex flex-wrap items-center gap-2">
-          <Button variant="outline" size="sm" onClick={() => handlePrint()}>
+          <Button 
+            variant="outline" 
+            size="sm" 
+            onClick={() => {
+              if (handlePrint) {
+                handlePrint();
+              }
+            }}
+          >
             <Printer size={16} className="mr-2" />
             Print Order
           </Button>
@@ -379,16 +388,16 @@ const BrandOrderDetails = () => {
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2">
-            <Button variant={order.status === "processing" ? "default" : "outline"}>
+            <Button variant={order?.status === "processing" ? "default" : "outline"}>
               Processing
             </Button>
-            <Button variant={order.status === "shipped" ? "default" : "outline"}>
+            <Button variant={order?.status === "shipped" ? "default" : "outline"}>
               Shipped
             </Button>
-            <Button variant={order.status === "completed" ? "default" : "outline"}>
+            <Button variant={order?.status === "completed" ? "default" : "outline"}>
               Completed
             </Button>
-            <Button variant={order.status === "cancelled" ? "default" : "outline"} 
+            <Button variant={order?.status === "cancelled" ? "default" : "outline"} 
                     className="bg-red-100 text-red-800 border-red-200 hover:bg-red-200">
               Cancelled
             </Button>
