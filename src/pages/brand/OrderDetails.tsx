@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
@@ -59,17 +58,17 @@ const BrandOrderDetails = () => {
   const [loading, setLoading] = useState(true);
   const printRef = useRef<HTMLDivElement>(null);
 
-  // Function to handle printing
+  // Function to handle printing - fixed to use the correct TypeScript types
   const handlePrint = useReactToPrint({
     documentTitle: `Order-${orderId}`,
     onAfterPrint: () => console.log('Print completed'),
-    // The content prop expects a function that returns the element to be printed
-    content: () => printRef.current,
+    // Use contentRef instead of content function
+    contentRef: printRef,
   });
 
   // Fetch order data (in a real app, this would be an API call)
   useEffect(() => {
-    // Simulating API fetch with setTimeout
+    // ... keep existing code (order fetching logic)
     setTimeout(() => {
       // This is sample data - in a real app this would come from an API
       const sampleOrder: Order = {
@@ -181,11 +180,7 @@ const BrandOrderDetails = () => {
           <Button 
             variant="outline" 
             size="sm" 
-            onClick={() => {
-              if (handlePrint) {
-                handlePrint();
-              }
-            }}
+            onClick={handlePrint}
           >
             <Printer size={16} className="mr-2" />
             Print Order

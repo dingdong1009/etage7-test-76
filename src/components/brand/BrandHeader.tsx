@@ -10,7 +10,7 @@ const BrandHeader = () => {
   const menuItems = [
     { name: "Dashboard", path: "/brand" },
     { name: "Products", path: "/brand/products" },
-    // Removed Orders from navigation
+    // Orders is now integrated into the Products page
     { name: "Lookbook", path: "/brand/lookbook" },
     { name: "Team", path: "/brand/team" },
     { name: "Store", path: "/brand/store" },

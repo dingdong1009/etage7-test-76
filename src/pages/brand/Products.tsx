@@ -88,6 +88,54 @@ const BrandProducts = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
   const [orderSearchQuery, setOrderSearchQuery] = useState("");
+  
+  // Add missing products state
+  const [products, setProducts] = useState([
+    {
+      id: 1,
+      name: "Designer Silk Dress",
+      sku: "DS-001",
+      category: "Dresses",
+      season: "Spring/Summer 2025",
+      color: "Primary Purple",
+      price: 299.99,
+      status: "active",
+      description: "Elegant silk dress for special occasions"
+    },
+    {
+      id: 2,
+      name: "Tailored Wool Blazer",
+      sku: "TW-002",
+      category: "Outerwear",
+      season: "Fall/Winter 2024",
+      color: "Dark Purple",
+      price: 349.99,
+      status: "active",
+      description: "Premium wool blazer with custom fit"
+    },
+    {
+      id: 3,
+      name: "Casual Linen Pants",
+      sku: "CL-003",
+      category: "Bottoms",
+      season: "Spring/Summer 2025",
+      color: "Soft Green",
+      price: 129.99,
+      status: "draft",
+      description: "Comfortable linen pants for everyday wear"
+    },
+    {
+      id: 4,
+      name: "Graphic Print T-Shirt",
+      sku: "GP-004",
+      category: "Tops",
+      season: "Resort 2025",
+      color: "Soft Blue",
+      price: 89.99,
+      status: "active",
+      description: "Bold graphic print for a statement look"
+    }
+  ]);
 
   const orders = [
     { 
@@ -778,251 +826,3 @@ const BrandProducts = () => {
                                     <span>{color.name}</span>
                                   </DropdownMenuItem>
                                 ))}
-                              </DropdownMenuContent>
-                            </DropdownMenu>
-                            <p className="text-xs text-gray-500 mt-1">
-                              Select primary product color
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div>
-                        <Label htmlFor="release" className="text-sm font-medium">
-                          Release Date
-                        </Label>
-                        <Input
-                          id="release"
-                          type="date" 
-                        />
-                        <p className="text-xs text-gray-500 mt-1">
-                          When the product will be available to buyers
-                        </p>
-                      </div>
-                    </div>
-                  </TabsContent>
-
-                  <TabsContent value="materials" className="space-y-6 mt-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="materials" className="text-sm font-medium">
-                          Materials/Fabric*
-                        </Label>
-                        <Input
-                          id="materials"
-                          placeholder="e.g., 70% Silk, 30% Cotton"
-                        />
-                      </div>
-                      
-                      <div>
-                        <Label htmlFor="origin" className="text-sm font-medium">
-                          Country of Origin
-                        </Label>
-                        <Select>
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="Select country" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="italy">Italy</SelectItem>
-                            <SelectItem value="france">France</SelectItem>
-                            <SelectItem value="portugal">Portugal</SelectItem>
-                            <SelectItem value="turkey">Turkey</SelectItem>
-                            <SelectItem value="china">China</SelectItem>
-                            <SelectItem value="india">India</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-
-                      <div className="col-span-1 md:col-span-2">
-                        <Label htmlFor="care" className="text-sm font-medium">
-                          Care Instructions
-                        </Label>
-                        <Input
-                          id="care"
-                          placeholder="e.g., Dry clean only" 
-                        />
-                      </div>
-
-                      <div className="col-span-1 md:col-span-2">
-                        <Label htmlFor="sustainInfo" className="text-sm font-medium">
-                          Sustainability Information
-                        </Label>
-                        <Input
-                          id="sustainInfo"
-                          placeholder="e.g., GOTS certified organic cotton" 
-                        />
-                        <p className="text-xs text-gray-500 mt-1">
-                          Certifications, sustainable practices, etc.
-                        </p>
-                      </div>
-                    </div>
-                  </TabsContent>
-
-                  <TabsContent value="pricing" className="space-y-6 mt-4">
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                      <div>
-                        <Label htmlFor="wholesalePrice" className="text-sm font-medium">
-                          Wholesale Price*
-                        </Label>
-                        <div className="relative">
-                          <DollarSign className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
-                          <Input
-                            id="wholesalePrice"
-                            className="pl-8"
-                            placeholder="0.00" 
-                          />
-                        </div>
-                      </div>
-                      
-                      <div>
-                        <Label htmlFor="msrp" className="text-sm font-medium">
-                          MSRP*
-                        </Label>
-                        <div className="relative">
-                          <DollarSign className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
-                          <Input
-                            id="msrp"
-                            className="pl-8"
-                            placeholder="0.00" 
-                          />
-                        </div>
-                      </div>
-                      
-                      <div>
-                        <Label htmlFor="currency" className="text-sm font-medium">
-                          Currency
-                        </Label>
-                        <Select>
-                          <SelectTrigger className="w-full">
-                            <SelectValue placeholder="USD" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="usd">USD</SelectItem>
-                            <SelectItem value="eur">EUR</SelectItem>
-                            <SelectItem value="gbp">GBP</SelectItem>
-                            <SelectItem value="jpy">JPY</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      
-                      <div>
-                        <Label htmlFor="minOrder" className="text-sm font-medium">
-                          Minimum Order
-                        </Label>
-                        <Input
-                          id="minOrder"
-                          type="number"
-                          placeholder="e.g., 5" 
-                        />
-                      </div>
-                      
-                      <div>
-                        <Label htmlFor="availableUnits" className="text-sm font-medium">
-                          Available Units*
-                        </Label>
-                        <Input
-                          id="availableUnits"
-                          type="number"
-                          placeholder="0" 
-                        />
-                      </div>
-                      
-                      <div>
-                        <Label htmlFor="leadTime" className="text-sm font-medium">
-                          Lead Time (days)
-                        </Label>
-                        <Input
-                          id="leadTime"
-                          type="number"
-                          placeholder="e.g., 30" 
-                        />
-                        <p className="text-xs text-gray-500 mt-1">
-                          Production to delivery time
-                        </p>
-                      </div>
-                    </div>
-                  </TabsContent>
-
-                  <TabsContent value="shipping" className="space-y-6 mt-4">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div>
-                        <Label htmlFor="weight" className="text-sm font-medium">
-                          Weight (kg)
-                        </Label>
-                        <Input
-                          id="weight"
-                          type="number"
-                          step="0.01"
-                          placeholder="0.00" 
-                        />
-                      </div>
-                      
-                      <div>
-                        <Label htmlFor="dimensions" className="text-sm font-medium">
-                          Dimensions (cm)
-                        </Label>
-                        <Input
-                          id="dimensions"
-                          placeholder="L x W x H" 
-                        />
-                      </div>
-                      
-                      <div className="col-span-1 md:col-span-2">
-                        <Label htmlFor="sizeGuide" className="text-sm font-medium">
-                          Size Guide
-                        </Label>
-                        <Input
-                          id="sizeGuide"
-                          placeholder="e.g., S (36), M (38), L (40)" 
-                        />
-                        <p className="text-xs text-gray-500 mt-1">
-                          Include international size conversions
-                        </p>
-                      </div>
-                    </div>
-                  </TabsContent>
-
-                  <TabsContent value="details" className="space-y-6 mt-4">
-                    <div className="space-y-4">
-                      <div>
-                        <Label htmlFor="shortDescription" className="text-sm font-medium">
-                          Short Description*
-                        </Label>
-                        <Input
-                          id="shortDescription"
-                          placeholder="Brief product highlight (1-2 sentences)" 
-                        />
-                      </div>
-                      
-                      <div>
-                        <Label htmlFor="description" className="text-sm font-medium">
-                          Full Description*
-                        </Label>
-                        <textarea 
-                          id="description"
-                          className="w-full p-2 border border-gray-200 h-24"
-                          placeholder="Detailed description including key selling points, fit information, and styling suggestions" 
-                        ></textarea>
-                      </div>
-                    </div>
-                  </TabsContent>
-
-                  <div className="flex justify-end pt-4 mt-6 border-t">
-                    <Button variant="outline" className="mr-2">
-                      Save Draft
-                    </Button>
-                    <Button className="bg-black hover:bg-black-600">
-                      Publish Product
-                    </Button>
-                  </div>
-                </Tabs>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
-    </div>
-  );
-};
-
-export default BrandProducts;
