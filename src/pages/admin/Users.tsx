@@ -16,7 +16,7 @@ const AdminUsers = () => {
       <div className="flex justify-between items-center">
         <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">User Management</h1>
         <Button className="bg-black text-white border-none hover:underline">
-          Add New User
+          + Add New User
         </Button>
       </div>
 
