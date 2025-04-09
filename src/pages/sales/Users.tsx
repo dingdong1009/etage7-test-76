@@ -58,8 +58,8 @@ const SalesUsers = () => {
                     <TableCell>{user.plan}</TableCell>
                     <TableCell>{user.lastActivity}</TableCell>
                     <TableCell className="flex justify-end space-x-2">
-                      <Button className="text-xs text-black px-2 py-1 bg-gray-100 rounded">View</Button>
-                      <Button className="text-xs text-black px-2 py-1 bg-gray-100 rounded">Edit</Button>
+                      <Button className="text-xs text-black px-2 py-1 bg-gray-100 rounded hover:text-white">View</Button>
+                      <Button className="text-xs text-black px-2 py-1 bg-gray-100 rounded hover:text-white">Edit</Button>
                     </TableCell>
                   </TableRow>
                 ))}
