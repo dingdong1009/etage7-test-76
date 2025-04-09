@@ -254,7 +254,7 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
   return (
     <Card className="p-6 border border-gray-200">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-medium">Curated Stories</h2>
+        <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">Curated Stories</h2>
         <Dialog>
           <DialogTrigger asChild>
             <Button className="bg-black text-white border-none">

@@ -167,7 +167,7 @@ const EventsManagement = ({ availableBrands }: EventsManagementProps) => {
   return (
     <Card className="p-6 border border-gray-200">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-medium">Events List</h2>
+        <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">Events List</h2>
         <Dialog>
           <DialogTrigger asChild>
             <Button className="bg-black text-white border-none">
