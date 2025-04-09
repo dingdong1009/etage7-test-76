@@ -96,7 +96,7 @@ const BrandOrders = () => {
                       <Badge 
                         className={`${
                           order.status === "completed" ? "bg-green-100 text-green-800" :
-                          order.status === "processing" ? "bg-blue-100 text-blue-800" :
+                          order.status === "processing" ? "bg-black-100 text-blue-800" :
                           order.status === "shipped" ? "bg-purple-100 text-purple-800" :
                           "bg-red-100 text-red-800"
                         }`}
@@ -119,7 +119,7 @@ const BrandOrders = () => {
             <p className="text-sm text-gray-500">Showing 5 of 25 orders</p>
             <div className="flex space-x-1">
               <button className="px-2 py-1 text-sm border rounded">Previous</button>
-              <button className="px-2 py-1 text-sm border rounded bg-blue-50">1</button>
+              <button className="px-2 py-1 text-sm border rounded bg-black-50">1</button>
               <button className="px-2 py-1 text-sm border rounded">2</button>
               <button className="px-2 py-1 text-sm border rounded">3</button>
               <button className="px-2 py-1 text-sm border rounded">Next</button>

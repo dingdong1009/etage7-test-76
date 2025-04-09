@@ -101,7 +101,7 @@ const BrandResources = () => {
                   key={resource.id}
                   className="p-4 border rounded-md hover:border-blue-500 transition-colors cursor-pointer hover:shadow-sm flex flex-col h-full"
                 >
-                  <div className="h-10 w-10 bg-blue-100 rounded-md flex items-center justify-center mb-3 text-blue-800">
+                  <div className="h-10 w-10 bg-black-100 rounded-md flex items-center justify-center mb-3 text-blue-800">
                     {resource.type === 'article' && <FileText />}
                     {resource.type === 'webinar' && <Youtube />}
                     {resource.type === 'course' && <Book />}
@@ -151,7 +151,7 @@ const BrandResources = () => {
               </div>
               
               <div className="flex justify-end">
-                <button type="submit" className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+                <button type="submit" className="px-4 py-2 bg-black-500 text-white rounded hover:bg-black-600">
                   Submit Request
                 </button>
               </div>

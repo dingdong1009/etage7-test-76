@@ -58,7 +58,7 @@ const SalesPerformance = () => {
                   <span className="text-sm font-medium">78%</span>
                 </div>
                 <div className="w-full bg-gray-200 rounded-full h-2.5">
-                  <div className="bg-blue-600 h-2.5 rounded-full" style={{ width: '78%' }}></div>
+                  <div className="bg-black-600 h-2.5 rounded-full" style={{ width: '78%' }}></div>
                 </div>
               </div>
               <div>

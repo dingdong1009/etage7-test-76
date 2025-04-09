@@ -55,7 +55,7 @@ const SalesMessages = () => {
                   <div className="flex items-center justify-between mt-1">
                     <p className="text-xs text-gray-500 truncate max-w-[180px]">{chat.lastMessage}</p>
                     {chat.unread > 0 && (
-                      <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-blue-500 rounded-full">
+                      <span className="inline-flex items-center justify-center w-5 h-5 text-xs font-medium text-white bg-black-500 rounded-full">
                         {chat.unread}
                       </span>
                     )}
@@ -74,7 +74,7 @@ const SalesMessages = () => {
               <p className="text-xs text-gray-500">Online now</p>
             </div>
             <div className="flex space-x-2">
-              <button className="p-1 rounded hover:bg-gray-100">
+              <button className="p-1 hover:bg-gray-100">
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                   <path d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" />
                   <path d="M14 6a2 2 0 012-2h2a2 2 0 012 2v8a2 2 0 01-2 2h-2a2 2 0 01-2-2V6z" />
@@ -97,7 +97,7 @@ const SalesMessages = () => {
                   <div 
                     className={`max-w-[70%] rounded-lg px-4 py-2 ${
                       message.senderId === "me" 
-                        ? "bg-blue-500 text-white" 
+                        ? "bg-black-500 text-white" 
                         : "bg-gray-100"
                     }`}
                   >
@@ -114,7 +114,7 @@ const SalesMessages = () => {
                   placeholder="Type a message..." 
                   className="flex-1 border border-gray-200 rounded-l px-4 py-2 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
-                <button className="bg-blue-500 text-white px-4 rounded-r">
+                <button className="bg-black-500 text-white px-4 rounded-r">
                   Send
                 </button>
               </div>

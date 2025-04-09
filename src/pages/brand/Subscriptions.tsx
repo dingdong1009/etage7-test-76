@@ -23,14 +23,14 @@ const BrandSubscriptions = () => {
             <CardDescription>Your subscription details and billing information</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg bg-blue-50 border-blue-100">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border rounded-lg bg-black-50 border-blue-100">
               <div>
-                <Badge className="mb-2 bg-blue-500">Professional</Badge>
+                <Badge className="mb-2 bg-black-500">Professional</Badge>
                 <h3 className="text-xl font-bold">$49.99<span className="text-sm font-normal text-gray-500">/month</span></h3>
                 <p className="text-sm text-gray-600 mt-1">Billed monthly</p>
               </div>
               <div className="mt-4 sm:mt-0">
-                <button className="px-4 py-2 border border-blue-500 text-blue-500 rounded hover:bg-blue-50">
+                <button className="px-4 py-2 border border-blue-500 text-blue-500 rounded hover:bg-black-50">
                   Change Plan
                 </button>
               </div>
@@ -94,10 +94,10 @@ const BrandSubscriptions = () => {
                 <p className="text-xs text-gray-500 mt-1">For small brands just getting started</p>
               </div>
               
-              <div className="border rounded-md p-3 bg-blue-50 border-blue-500 transition-colors cursor-pointer shadow-sm">
+              <div className="border rounded-md p-3 bg-black-50 border-blue-500 transition-colors cursor-pointer shadow-sm">
                 <div className="flex justify-between items-start">
                   <h3 className="font-medium">Professional</h3>
-                  <Badge className="bg-blue-500">$49.99/mo</Badge>
+                  <Badge className="bg-black-500">$49.99/mo</Badge>
                 </div>
                 <p className="text-xs text-gray-500 mt-1">For growing brands with multiple products</p>
                 <div className="mt-1">

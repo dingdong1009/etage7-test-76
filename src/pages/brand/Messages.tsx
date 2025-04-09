@@ -54,7 +54,7 @@ const BrandMessages = () => {
               {contacts.map((contact) => (
                 <div 
                   key={contact.id}
-                  className={`p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${contact.id === 1 ? 'bg-blue-50' : ''}`}
+                  className={`p-3 border-b border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors ${contact.id === 1 ? 'bg-black-50' : ''}`}
                 >
                   <div className="flex justify-between items-start">
                     <h3 className="font-medium">{contact.name}</h3>
@@ -63,7 +63,7 @@ const BrandMessages = () => {
                   <p className="text-sm text-gray-500 truncate">{contact.lastMessage}</p>
                   {contact.unread > 0 && (
                     <div className="flex justify-end mt-1">
-                      <span className="bg-blue-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                      <span className="bg-black-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
                         {contact.unread}
                       </span>
                     </div>
@@ -78,7 +78,7 @@ const BrandMessages = () => {
             {/* Chat header */}
             <div className="p-3 border-b border-gray-200 flex justify-between items-center">
               <div className="flex items-center gap-2">
-                <div className="h-8 w-8 bg-blue-100 rounded-full flex items-center justify-center text-blue-800 font-medium">
+                <div className="h-8 w-8 bg-black-100 rounded-full flex items-center justify-center text-blue-800 font-medium">
                   ST
                 </div>
                 <h3 className="font-medium">Support Team</h3>
@@ -107,7 +107,7 @@ const BrandMessages = () => {
                     className={`max-w-[70%] rounded-lg p-3 ${
                       msg.incoming 
                         ? 'bg-gray-100 text-gray-800' 
-                        : 'bg-blue-500 text-white'
+                        : 'bg-black-500 text-white'
                     }`}
                   >
                     <p className="text-sm">{msg.content}</p>
@@ -138,7 +138,7 @@ const BrandMessages = () => {
                 <button 
                   type="submit" 
                   className={`p-2 rounded-full ${
-                    message.trim() ? 'bg-blue-500 text-white' : 'bg-gray-100 text-gray-400'
+                    message.trim() ? 'bg-black-500 text-white' : 'bg-gray-100 text-gray-400'
                   }`}
                   disabled={!message.trim()}
                 >
