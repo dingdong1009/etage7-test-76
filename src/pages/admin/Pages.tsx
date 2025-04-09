@@ -9,8 +9,8 @@ const AdminPages = () => {
     <div className="space-y-6">
       <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">User Management</h1>
       
-      <Tabs defaultValue="brand" className="w-full" onValueChange={(value) => setActiveTab(value as UserType)}>
-        <TabsList className="mb-4">
+      <Tabs defaultValue="events" className="w-full">
+      <TabsList className="mb-4">
           <TabsTrigger value="events">Events</TabsTrigger>
           <TabsTrigger value="curated">Curated</TabsTrigger>
         </TabsList>
