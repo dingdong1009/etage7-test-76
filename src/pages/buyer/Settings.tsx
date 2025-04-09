@@ -207,7 +207,7 @@ const Settings = () => {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Language</label>
-                  <select className="w-full border border-gray-200 rounded px-3 py-2">
+                  <select className="w-full border border-gray-200 px-3 py-2">
                     <option>English</option>
                     <option>French</option>
                     <option>German</option>
@@ -216,7 +216,7 @@ const Settings = () => {
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Currency</label>
-                  <select className="w-full border border-gray-200 rounded px-3 py-2">
+                  <select className="w-full border border-gray-200 px-3 py-2">
                     <option>EUR (€)</option>
                     <option>USD ($)</option>
                     <option>GBP (£)</option>
@@ -225,7 +225,7 @@ const Settings = () => {
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-medium">Time Zone</label>
-                  <select className="w-full border border-gray-200 rounded px-3 py-2">
+                  <select className="w-full border border-gray-200 px-3 py-2">
                     <option>Central European Time (CET)</option>
                     <option>Eastern Time (ET)</option>
                     <option>Pacific Time (PT)</option>
