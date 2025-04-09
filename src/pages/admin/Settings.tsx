@@ -128,7 +128,7 @@ const AdminSettings = () => {
         </TabsContent>
         
         <TabsContent value="integrations" className="space-y-4">
-          <Card className="border border-gray-200">
+          <Card className="p-6 border border-gray-200">
             <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">API Integrations</h2>
             <Table>
               <TableHeader>
@@ -172,7 +172,7 @@ const AdminSettings = () => {
         </TabsContent>
         
         <TabsContent value="features" className="space-y-4">
-          <Card className="border border-gray-200">
+          <Card className="p-6 border border-gray-200">
             <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">Feature Management</h2>
             <Table>
               <TableHeader>
@@ -217,8 +217,8 @@ const AdminSettings = () => {
         </TabsContent>
         
         <TabsContent value="logs" className="space-y-4">
-          <Card className="border border-gray-200">
-            <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6 pb-2">System Logs</h2>
+          <Card className="p-6 border border-gray-200">
+            <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">System Logs</h2>
             <Table>
               <TableHeader>
                 <TableRow className="bg-gray-50">
