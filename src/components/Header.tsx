@@ -40,12 +40,15 @@ const Header = () => {
         <nav className="hidden md:block">
           <ul className="flex space-x-8">
             {[
+              { name: "HOME", path: "/" },
               { name: "BRANDS", path: "/brands" },
               { name: "BUYERS", path: "/buyers" },
               { name: "SERVICES", path: "/services" },
               { name: "EVENTS", path: "/events" },
               { name: "RESOURCES", path: "/resources" },
               { name: "CURATED", path: "/curated" },
+              { name: "LOGIN", path: "/login" },
+              { name: "REGISTER", path: "/register" },
             ].map((item) => (
               <li key={item.name}>
                 <Link 
@@ -66,12 +69,15 @@ const Header = () => {
         <div className="md:hidden bg-white w-full">
           <ul className="flex flex-col p-4">
             {[
+              { name: "HOME", path: "/" },
               { name: "BRANDS", path: "/brands" },
               { name: "BUYERS", path: "/buyers" },
               { name: "SERVICES", path: "/services" },
               { name: "EVENTS", path: "/events" },
               { name: "RESOURCES", path: "/resources" },
               { name: "CURATED", path: "/curated" },
+              { name: "LOGIN", path: "/login" },
+              { name: "REGISTER", path: "/register" },
             ].map((item) => (
               <li key={item.name} className="py-2 border-b border-gray-100">
                 <Link 
