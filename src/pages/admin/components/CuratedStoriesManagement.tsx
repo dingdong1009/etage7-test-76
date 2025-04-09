@@ -2,14 +2,15 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger, DialogClose } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader, AlertDialogTitle, AlertDialogDescription, AlertDialogFooter, AlertDialogCancel, AlertDialogAction } from "@/components/ui/alert-dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Edit, Trash2, Tag, Image, X } from "lucide-react";
+import { Edit, Trash2, Tag, Image, X, Bell } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import RichTextEditor from "./RichTextEditor";
+import NotificationsHandler, { NotificationTarget } from "./NotificationsHandler";
 
 interface Story {
   id: number;
@@ -29,11 +30,41 @@ interface CuratedStoriesManagementProps {
 const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementProps) => {
   const { toast } = useToast();
   
+  // Mock buyer data (in a real app, this would come from the database)
+  const mockBuyers = [
+    { id: "b1", name: "Buyer One" },
+    { id: "b2", name: "Buyer Two" },
+    { id: "b3", name: "Buyer Three" }
+  ];
+  
   // Stories State
   const [stories, setStories] = useState<Story[]>([
-    { id: 1, title: "Latest Men's Fashion Trends", excerpt: "Discover the latest trends in men's fashion for the upcoming season", status: "published", lastUpdated: "2025-03-15" },
-    { id: 2, title: "Women's Summer Collection", excerpt: "Explore our curated collection of summer fashion for women", status: "published", lastUpdated: "2025-03-10" },
-    { id: 3, title: "Sustainable Fashion Guide", excerpt: "Learn how to shop sustainably for your fashion needs", status: "draft", lastUpdated: "2025-03-05" },
+    { 
+      id: 1, 
+      title: "Latest Men's Fashion Trends", 
+      excerpt: "Discover the latest trends in men's fashion for the upcoming season", 
+      status: "published", 
+      lastUpdated: "2025-03-15",
+      taggedBrands: ["Brand One", "Brand Two"],
+      content: "<p>This is some sample content for the men's fashion trends article.</p>"
+    },
+    { 
+      id: 2, 
+      title: "Women's Summer Collection", 
+      excerpt: "Explore our curated collection of summer fashion for women", 
+      status: "published", 
+      lastUpdated: "2025-03-10",
+      taggedBrands: ["Brand Three"],
+      content: "<p>This is some sample content for the women's summer collection article.</p>"
+    },
+    { 
+      id: 3, 
+      title: "Sustainable Fashion Guide", 
+      excerpt: "Learn how to shop sustainably for your fashion needs", 
+      status: "draft", 
+      lastUpdated: "2025-03-05",
+      content: "<p>This is some sample content for the sustainable fashion guide article.</p>"
+    },
   ]);
   
   // Form State
@@ -51,6 +82,10 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
   const [selectedBrand, setSelectedBrand] = useState("");
   const [mediaName, setMediaName] = useState("");
   const [mediaType, setMediaType] = useState<"image" | "video">("image");
+  
+  // Notifications state
+  const [isNotificationDialogOpen, setIsNotificationDialogOpen] = useState(false);
+  const [notificationTargets, setNotificationTargets] = useState<NotificationTarget[]>([]);
 
   // Event Handlers
   const handleAddStory = () => {
@@ -79,11 +114,34 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
         ...editStory,
         lastUpdated: new Date().toISOString().split('T')[0]
       } : story));
-      setEditStory(null);
-      toast({
-        title: "Story Updated",
-        description: "The story has been updated successfully."
-      });
+      
+      // Ask if user wants to send notifications about the update
+      if (editStory.status === "published" && editStory.taggedBrands && editStory.taggedBrands.length > 0) {
+        // Get notification targets
+        const targets: NotificationTarget[] = [
+          // Add brand targets
+          ...(editStory.taggedBrands || []).map(brand => ({
+            type: "brand" as const,
+            id: brand,
+            name: brand
+          })),
+          // Add buyer targets
+          ...mockBuyers.map(buyer => ({
+            type: "buyer" as const,
+            id: buyer.id,
+            name: buyer.name
+          }))
+        ];
+        
+        setNotificationTargets(targets);
+        setIsNotificationDialogOpen(true);
+      } else {
+        setEditStory(null);
+        toast({
+          title: "Story Updated",
+          description: "The story has been updated successfully."
+        });
+      }
     }
   };
 
@@ -166,6 +224,33 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
     }
   };
 
+  // Mock function to handle image uploads (in a real app, this would upload to a server)
+  const handleImageUpload = async (file: File): Promise<string> => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        if (e.target?.result) {
+          // In a real app, you would upload the file and get a URL back
+          setTimeout(() => {
+            resolve(e.target.result.toString());
+          }, 500); // Simulate upload delay
+        }
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  // Mock function to send notifications
+  const sendNotifications = async (targets: NotificationTarget[]): Promise<void> => {
+    // In a real app, this would send actual notifications via an API
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        console.log("Sending notifications to:", targets);
+        resolve();
+      }, 1000); // Simulate API delay
+    });
+  };
+
   return (
     <Card className="p-6 border border-gray-200">
       <div className="flex justify-between items-center mb-4">
@@ -176,7 +261,7 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
               + Add Story
             </Button>
           </DialogTrigger>
-          <DialogContent className="max-w-2xl">
+          <DialogContent className="max-w-3xl">
             <DialogHeader>
               <DialogTitle>Add New Story</DialogTitle>
             </DialogHeader>
@@ -213,25 +298,24 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
                 <label htmlFor="excerpt" className="text-right font-medium text-sm pt-2">
                   Excerpt
                 </label>
-                <Textarea
+                <Input
                   id="excerpt"
                   value={newStory.excerpt}
                   onChange={(e) => setNewStory({...newStory, excerpt: e.target.value})}
                   className="col-span-3"
-                  rows={2}
                 />
               </div>
               <div className="grid grid-cols-4 items-start gap-4">
                 <label htmlFor="content" className="text-right font-medium text-sm pt-2">
                   Content
                 </label>
-                <Textarea
-                  id="content"
-                  value={newStory.content}
-                  onChange={(e) => setNewStory({...newStory, content: e.target.value})}
-                  className="col-span-3"
-                  rows={6}
-                />
+                <div className="col-span-3">
+                  <RichTextEditor
+                    value={newStory.content || ""}
+                    onChange={(content) => setNewStory({...newStory, content})}
+                    onImageUpload={handleImageUpload}
+                  />
+                </div>
               </div>
               
               {/* Tagged Brands Section */}
@@ -283,7 +367,7 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
               {/* Media Section */}
               <div className="grid grid-cols-4 items-start gap-4">
                 <label className="text-right font-medium text-sm pt-2">
-                  Media
+                  Additional Media
                 </label>
                 <div className="col-span-3 space-y-2">
                   <div className="flex flex-wrap gap-2">
@@ -383,7 +467,7 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
                       </Button>
                     </DialogTrigger>
                     {editStory && (
-                      <DialogContent className="max-w-2xl">
+                      <DialogContent className="max-w-3xl">
                         <DialogHeader>
                           <DialogTitle>Edit Story</DialogTitle>
                         </DialogHeader>
@@ -416,29 +500,28 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
                               </SelectContent>
                             </Select>
                           </div>
-                          <div className="grid grid-cols-4 items-start gap-4">
-                            <label htmlFor="edit-excerpt" className="text-right font-medium text-sm pt-2">
+                          <div className="grid grid-cols-4 items-center gap-4">
+                            <label htmlFor="edit-excerpt" className="text-right font-medium text-sm">
                               Excerpt
                             </label>
-                            <Textarea
+                            <Input
                               id="edit-excerpt"
                               value={editStory.excerpt}
                               onChange={(e) => setEditStory({...editStory, excerpt: e.target.value})}
                               className="col-span-3"
-                              rows={2}
                             />
                           </div>
                           <div className="grid grid-cols-4 items-start gap-4">
                             <label htmlFor="edit-content" className="text-right font-medium text-sm pt-2">
                               Content
                             </label>
-                            <Textarea
-                              id="edit-content"
-                              value={editStory.content || ""}
-                              onChange={(e) => setEditStory({...editStory, content: e.target.value})}
-                              className="col-span-3"
-                              rows={6}
-                            />
+                            <div className="col-span-3">
+                              <RichTextEditor
+                                value={editStory.content || ""}
+                                onChange={(content) => setEditStory({...editStory, content})}
+                                onImageUpload={handleImageUpload}
+                              />
+                            </div>
                           </div>
                           
                           {/* Tagged Brands Section for Edit */}
@@ -490,7 +573,7 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
                           {/* Media Section for Edit */}
                           <div className="grid grid-cols-4 items-start gap-4">
                             <label className="text-right font-medium text-sm pt-2">
-                              Media
+                              Additional Media
                             </label>
                             <div className="col-span-3 space-y-2">
                               <div className="flex flex-wrap gap-2">
@@ -537,6 +620,33 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
                               </div>
                             </div>
                           </div>
+
+                          {/* Notifications section */}
+                          <div className="grid grid-cols-4 items-start gap-4">
+                            <label className="text-right font-medium text-sm pt-2">
+                              Notifications
+                            </label>
+                            <div className="col-span-3">
+                              <div className="p-3 bg-gray-50 rounded-md">
+                                <p className="text-sm mb-2">
+                                  When you publish this story, you can send notifications to:
+                                </p>
+                                <ul className="text-xs space-y-1 mb-2">
+                                  <li className="flex items-center gap-1">
+                                    <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+                                    Tagged brands ({editStory.taggedBrands?.length || 0})
+                                  </li>
+                                  <li className="flex items-center gap-1">
+                                    <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+                                    All buyers ({mockBuyers.length})
+                                  </li>
+                                </ul>
+                                <p className="text-xs text-gray-600">
+                                  Notifications will be sent after updating if the story is published.
+                                </p>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                         <DialogFooter>
                           <DialogClose asChild>
@@ -551,6 +661,52 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
                       </DialogContent>
                     )}
                   </Dialog>
+                  
+                  {/* Notification Button (for published stories) */}
+                  {story.status === "published" && (
+                    <Dialog>
+                      <DialogTrigger asChild>
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          className="h-8 w-8 p-0"
+                          onClick={() => {
+                            const targets: NotificationTarget[] = [
+                              // Add brand targets
+                              ...(story.taggedBrands || []).map(brand => ({
+                                type: "brand" as const,
+                                id: brand,
+                                name: brand
+                              })),
+                              // Add buyer targets
+                              ...mockBuyers.map(buyer => ({
+                                type: "buyer" as const,
+                                id: buyer.id,
+                                name: buyer.name
+                              }))
+                            ];
+                            setNotificationTargets(targets);
+                          }}
+                        >
+                          <Bell className="h-4 w-4" />
+                        </Button>
+                      </DialogTrigger>
+                      <DialogContent className="max-w-lg">
+                        <DialogHeader>
+                          <DialogTitle>Send Notifications</DialogTitle>
+                        </DialogHeader>
+                        <div className="py-4">
+                          <NotificationsHandler
+                            targets={notificationTargets}
+                            onSend={sendNotifications}
+                            onClose={() => {
+                              setEditStory(null);
+                            }}
+                          />
+                        </div>
+                      </DialogContent>
+                    </Dialog>
+                  )}
                   
                   {/* Delete Dialog */}
                   <AlertDialog>
@@ -583,6 +739,33 @@ const CuratedStoriesManagement = ({ availableBrands }: CuratedStoriesManagementP
           ))}
         </TableBody>
       </Table>
+
+      {/* Notifications Dialog for story updates */}
+      {isNotificationDialogOpen && (
+        <Dialog open={isNotificationDialogOpen} onOpenChange={setIsNotificationDialogOpen}>
+          <DialogContent className="max-w-lg">
+            <DialogHeader>
+              <DialogTitle>Send Update Notifications</DialogTitle>
+            </DialogHeader>
+            <div className="py-4">
+              <NotificationsHandler
+                targets={notificationTargets}
+                onSend={async (targets) => {
+                  await sendNotifications(targets);
+                }}
+                onClose={() => {
+                  setIsNotificationDialogOpen(false);
+                  setEditStory(null);
+                  toast({
+                    title: "Story Updated",
+                    description: "The story has been updated successfully."
+                  });
+                }}
+              />
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}
     </Card>
   );
 };
