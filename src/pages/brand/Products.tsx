@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -34,11 +33,39 @@ import {
   Tag, 
   DollarSign, 
   Package, 
-  Truck
+  Truck,
+  Palette
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const BrandProducts = () => {
   const [showForm, setShowForm] = useState(false);
+  const [selectedColor, setSelectedColor] = useState("");
+
+  const colorOptions = [
+    { name: "Neutral Gray", hex: "#8E9196" },
+    { name: "Primary Purple", hex: "#9b87f5" },
+    { name: "Secondary Purple", hex: "#7E69AB" },
+    { name: "Tertiary Purple", hex: "#6E59A5" },
+    { name: "Dark Purple", hex: "#1A1F2C" },
+    { name: "Light Purple", hex: "#D6BCFA" },
+    { name: "Soft Green", hex: "#F2FCE2" },
+    { name: "Soft Yellow", hex: "#FEF7CD" },
+    { name: "Soft Orange", hex: "#FEC6A1" },
+    { name: "Soft Purple", hex: "#E5DEFF" },
+    { name: "Soft Pink", hex: "#FFDEE2" },
+    { name: "Soft Blue", hex: "#D3E4FD" },
+    { name: "Vivid Purple", hex: "#8B5CF6" },
+    { name: "Magenta Pink", hex: "#D946EF" },
+    { name: "Bright Orange", hex: "#F97316" },
+    { name: "Ocean Blue", hex: "#0EA5E9" },
+    { name: "Charcoal Gray", hex: "#403E43" },
+  ];
 
   return (
     <div className="space-y-6">
@@ -64,7 +91,6 @@ const BrandProducts = () => {
           <CardTitle className="text-lg font-medium">Add New Products</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Drag and drop area */}
           <div className="border-2 border-dashed border-gray-300 p-8 text-center cursor-pointer hover:bg-gray-50 transition-colors">
             <div className="flex flex-col items-center gap-2">
               <Upload className="h-10 w-10 text-gray-400" />
@@ -75,7 +101,6 @@ const BrandProducts = () => {
             </div>
           </div>
           
-          {/* Mass upload button */}
           <div className="flex flex-col sm:flex-row gap-2 items-center">
             <Button variant="default" className="w-full sm:w-auto bg-black hover:bg-black-600">
               Mass Upload from CSV
@@ -85,7 +110,6 @@ const BrandProducts = () => {
             </Button>
           </div>
           
-          {/* Tabbed Fashion Product Form */}
           <div className="border p-4">
             <Tabs defaultValue="basic" className="w-full">
               <TabsList className="w-full mb-6 grid grid-cols-2 md:grid-cols-5 bg-gray-100 p-1">
@@ -121,7 +145,6 @@ const BrandProducts = () => {
                 </TabsTrigger>
               </TabsList>
 
-              {/* Basic Information Tab */}
               <TabsContent value="basic" className="space-y-6 mt-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -176,26 +199,74 @@ const BrandProducts = () => {
                     </Label>
                     <Input
                       id="designer"
-                      placeholder="e.g., Summer 2025 Collection" 
+                      placeholder="e.g. Summer 2025 Collection" 
                     />
                   </div>
 
-                  <div>
-                    <Label htmlFor="season" className="text-sm font-medium">
-                      Season/Year*
-                    </Label>
-                    <Select>
-                      <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select season" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="ss25">Spring/Summer 2025</SelectItem>
-                        <SelectItem value="fw24">Fall/Winter 2024</SelectItem>
-                        <SelectItem value="resort25">Resort 2025</SelectItem>
-                        <SelectItem value="pre-fall24">Pre-Fall 2024</SelectItem>
-                        <SelectItem value="timeless">Timeless/Non-seasonal</SelectItem>
-                      </SelectContent>
-                    </Select>
+                  <div className="col-span-1 md:col-span-2">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="season" className="text-sm font-medium">
+                          Season/Year*
+                        </Label>
+                        <Select>
+                          <SelectTrigger className="w-full">
+                            <SelectValue placeholder="Select season" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="ss25">Spring/Summer 2025</SelectItem>
+                            <SelectItem value="fw24">Fall/Winter 2024</SelectItem>
+                            <SelectItem value="resort25">Resort 2025</SelectItem>
+                            <SelectItem value="pre-fall24">Pre-Fall 2024</SelectItem>
+                            <SelectItem value="timeless">Timeless/Non-seasonal</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="color" className="text-sm font-medium">
+                          Colors
+                        </Label>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button variant="outline" className="w-full flex justify-between">
+                              <div className="flex items-center gap-2">
+                                <Palette className="h-4 w-4" />
+                                {selectedColor ? (
+                                  <>
+                                    <div 
+                                      className="h-4 w-4 rounded-full mr-1" 
+                                      style={{ backgroundColor: colorOptions.find(c => c.name === selectedColor)?.hex || '#FFFFFF' }} 
+                                    />
+                                    {selectedColor}
+                                  </>
+                                ) : (
+                                  "Select color"
+                                )}
+                              </div>
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent className="w-56 max-h-[300px] overflow-y-auto">
+                            {colorOptions.map((color) => (
+                              <DropdownMenuItem 
+                                key={color.name}
+                                onClick={() => setSelectedColor(color.name)}
+                                className="flex items-center gap-2"
+                              >
+                                <div 
+                                  className="h-4 w-4 rounded-full" 
+                                  style={{ backgroundColor: color.hex }} 
+                                />
+                                <span>{color.name}</span>
+                              </DropdownMenuItem>
+                            ))}
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                        <p className="text-xs text-gray-500 mt-1">
+                          Select primary product color
+                        </p>
+                      </div>
+                    </div>
                   </div>
 
                   <div>
@@ -213,7 +284,6 @@ const BrandProducts = () => {
                 </div>
               </TabsContent>
 
-              {/* Materials Tab */}
               <TabsContent value="materials" className="space-y-6 mt-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -270,7 +340,6 @@ const BrandProducts = () => {
                 </div>
               </TabsContent>
 
-              {/* Pricing Tab */}
               <TabsContent value="pricing" className="space-y-6 mt-4">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
@@ -356,7 +425,6 @@ const BrandProducts = () => {
                 </div>
               </TabsContent>
 
-              {/* Shipping Tab */}
               <TabsContent value="shipping" className="space-y-6 mt-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
@@ -396,7 +464,6 @@ const BrandProducts = () => {
                 </div>
               </TabsContent>
 
-              {/* Details Tab */}
               <TabsContent value="details" className="space-y-6 mt-4">
                 <div className="space-y-4">
                   <div>
