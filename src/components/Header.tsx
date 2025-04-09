@@ -53,7 +53,7 @@ const Header = () => {
               <li key={item.name}>
                 <Link 
                   to={item.path} 
-                  className="text-black font-light hover:font-normal relative group"
+                  className="text-black font-light hover:font-light relative group"
                 >
                   {item.name}
                   <span className="absolute left-0 bottom-0 w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full"></span>

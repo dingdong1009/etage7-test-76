@@ -8,16 +8,16 @@ const BrandHeader = () => {
   const location = useLocation();
   
   const menuItems = [
-    { name: "Dashboard", path: "/brand" },
-    { name: "Products", path: "/brand/products" },
-    { name: "Orders", path: "/brand/orders" },
-    { name: "Lookbook", path: "/brand/lookbook" },
-    { name: "Team", path: "/brand/team" },
-    { name: "Store", path: "/brand/store" },
-    { name: "Messages", path: "/brand/messages" },
-    { name: "Subscriptions", path: "/brand/subscriptions" },
-    { name: "Resources", path: "/brand/resources" },
-    { name: "Settings", path: "/brand/settings" }
+    { name: "DASHBOARD", path: "/brand" },
+    { name: "PRODUCTS", path: "/brand/products" },
+    { name: "ODERS", path: "/brand/orders" },
+    { name: "LOOKBOOK", path: "/brand/lookbook" },
+    { name: "TEAM", path: "/brand/team" },
+    { name: "STORE", path: "/brand/store" },
+    { name: "MESSAGES", path: "/brand/messages" },
+    { name: "SUBSCRIPTIONS", path: "/brand/subscriptions" },
+    { name: "RESOURCES", path: "/brand/resources" },
+    { name: "SETTINGS", path: "/brand/settings" }
   ];
 
   const toggleMenu = () => {

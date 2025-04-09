@@ -8,11 +8,11 @@ const BuyerHeader = () => {
   const location = useLocation();
   
   const menuItems = [
-    { name: "Dashboard", path: "/buyer" },
-    { name: "Orders", path: "/buyer/orders" },
-    { name: "Messages", path: "/buyer/messages" },
-    { name: "Team", path: "/buyer/team" },
-    { name: "Settings", path: "/buyer/settings" }
+    { name: "DASHBOARD", path: "/buyer" },
+    { name: "ORDERS", path: "/buyer/orders" },
+    { name: "MESSAGES", path: "/buyer/messages" },
+    { name: "TEAM", path: "/buyer/team" },
+    { name: "SETTINGS", path: "/buyer/settings" }
   ];
 
   const toggleMenu = () => {
