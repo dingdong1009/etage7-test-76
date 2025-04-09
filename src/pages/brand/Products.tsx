@@ -209,19 +209,9 @@ const BrandProducts = () => {
       </div>
       
       <Tabs defaultValue="list" value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="w-full mb-6 bg-gray-100 p-1">
-          <TabsTrigger 
-            value="list" 
-            className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm"
-          >
-            <ListFilter className="mr-2 h-4 w-4" /> Product List
-          </TabsTrigger>
-          <TabsTrigger 
-            value="add" 
-            className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm"
-          >
-            <Plus className="mr-2 h-4 w-4" /> Add Product
-          </TabsTrigger>
+        <TabsList className="mb-4">
+          <TabsTrigger value="list">Product List</TabsTrigger>
+          <TabsTrigger value="add">Add Product</TabsTrigger>
         </TabsList>
 
         <TabsContent value="list" className="space-y-6">

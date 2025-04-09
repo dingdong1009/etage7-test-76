@@ -389,13 +389,13 @@ const SalesUsers = () => {
                     <TableCell>{user.lastActivity}</TableCell>
                     <TableCell className="flex justify-end space-x-2">
                       <Button 
-                        className="text-xs text-black px-2 py-1 bg-gray-100 rounded hover:text-white"
+                        className="text-xs text-black px-2 py-1 bg-gray-100 hover:text-white"
                         onClick={() => handleViewUser(userType, user.id)}
                       >
                         View
                       </Button>
                       <Button 
-                        className="text-xs text-black px-2 py-1 bg-gray-100 rounded hover:text-white"
+                        className="text-xs text-black px-2 py-1 bg-gray-100 hover:text-white"
                         onClick={() => handleEditUser(userType, user.id)}
                       >
                         Edit
