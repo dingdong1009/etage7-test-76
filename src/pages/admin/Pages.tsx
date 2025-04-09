@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
@@ -20,7 +19,7 @@ import {
   Select, SelectContent, SelectItem, SelectTrigger, SelectValue 
 } from "@/components/ui/select";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription } from "@/components/ui/form";
-import { Share2, Edit, Trash2, Tag, PaperclipIcon, X, FileText, FileImage } from "lucide-react";
+import { Share2, Edit, Trash2, Tag, PaperclipIcon, X, FileText, FileImage, Image as ImageIcon, Film } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { Switch } from "@/components/ui/switch";
 
@@ -38,12 +37,22 @@ interface Event {
   sendToBrands?: boolean;
 }
 
+interface Media {
+  id: string;
+  type: 'image' | 'video';
+  url: string;
+  brandName?: string;
+  caption?: string;
+}
+
 interface Story {
   id: number;
   title: string;
   publishDate: string;
   tags: string[];
   content?: string;
+  taggedBrands?: string[];
+  media?: Media[];
 }
 
 const AdminPages = () => {
@@ -77,11 +86,22 @@ const AdminPages = () => {
     sendToBrands: false
   });
   const [editEvent, setEditEvent] = useState<Event | null>(null);
-  const [newStory, setNewStory] = useState<Omit<Story, 'id'>>({ title: "", publishDate: "", tags: [], content: "" });
+  const [newStory, setNewStory] = useState<Omit<Story, 'id'>>({ 
+    title: "", 
+    publishDate: "", 
+    tags: [], 
+    content: "",
+    taggedBrands: [],
+    media: [] 
+  });
   const [editStory, setEditStory] = useState<Story | null>(null);
   const [newTag, setNewTag] = useState("");
   const [newBrand, setNewBrand] = useState("");
   const [newDocument, setNewDocument] = useState("");
+  const [newMediaUrl, setNewMediaUrl] = useState("");
+  const [newMediaType, setNewMediaType] = useState<"image" | "video">("image");
+  const [newMediaCaption, setNewMediaCaption] = useState("");
+  const [newMediaBrand, setNewMediaBrand] = useState("");
   
   // Available brands (in a real app, this would come from the database)
   const availableBrands = ["Brand One", "Brand Two", "Brand Three", "Brand Four", "Brand Five"];
@@ -125,7 +145,14 @@ const AdminPages = () => {
     if (newStory.title && newStory.publishDate) {
       const id = Math.max(0, ...curatedStories.map(s => s.id)) + 1;
       setCuratedStories([...curatedStories, { id, ...newStory }]);
-      setNewStory({ title: "", publishDate: "", tags: [], content: "" });
+      setNewStory({ 
+        title: "", 
+        publishDate: "", 
+        tags: [], 
+        content: "", 
+        taggedBrands: [],
+        media: [] 
+      });
       toast({
         title: "Story Created",
         description: "The new story has been added successfully."
@@ -167,33 +194,53 @@ const AdminPages = () => {
     }
   };
 
-  const handleAddBrand = () => {
+  const handleAddBrand = (isEditing: boolean = false) => {
     if (newBrand.trim()) {
-      if (editEvent && !editEvent.taggedBrands?.includes(newBrand.trim())) {
+      if (isEditing && editStory && !editStory.taggedBrands?.includes(newBrand.trim())) {
+        setEditStory({
+          ...editStory,
+          taggedBrands: [...(editStory.taggedBrands || []), newBrand.trim()]
+        });
+      } else if (isEditing && editEvent && !editEvent.taggedBrands?.includes(newBrand.trim())) {
         setEditEvent({
           ...editEvent,
           taggedBrands: [...(editEvent.taggedBrands || []), newBrand.trim()]
         });
-      } else if (!editEvent && !newEvent.taggedBrands?.includes(newBrand.trim())) {
+      } else if (!isEditing && !newEvent.taggedBrands?.includes(newBrand.trim())) {
         setNewEvent({
           ...newEvent,
           taggedBrands: [...(newEvent.taggedBrands || []), newBrand.trim()]
+        });
+      } else if (!isEditing && !newStory.taggedBrands?.includes(newBrand.trim())) {
+        setNewStory({
+          ...newStory,
+          taggedBrands: [...(newStory.taggedBrands || []), newBrand.trim()]
         });
       }
       setNewBrand("");
     }
   };
 
-  const handleDeleteBrand = (brandToDelete: string, isEditing: boolean) => {
-    if (isEditing && editEvent) {
+  const handleDeleteBrand = (brandToDelete: string, isEditing: boolean, isStory: boolean = false) => {
+    if (isEditing && isStory && editStory) {
+      setEditStory({
+        ...editStory,
+        taggedBrands: editStory.taggedBrands?.filter(brand => brand !== brandToDelete) || []
+      });
+    } else if (isEditing && !isStory && editEvent) {
       setEditEvent({
         ...editEvent,
         taggedBrands: editEvent.taggedBrands?.filter(brand => brand !== brandToDelete) || []
       });
-    } else if (!isEditing) {
+    } else if (!isEditing && !isStory) {
       setNewEvent({
         ...newEvent,
         taggedBrands: newEvent.taggedBrands?.filter(brand => brand !== brandToDelete) || []
+      });
+    } else if (!isEditing && isStory) {
+      setNewStory({
+        ...newStory,
+        taggedBrands: newStory.taggedBrands?.filter(brand => brand !== brandToDelete) || []
       });
     }
   };
@@ -225,6 +272,48 @@ const AdminPages = () => {
       setNewEvent({
         ...newEvent,
         documents: newEvent.documents?.filter(doc => doc !== docToDelete) || []
+      });
+    }
+  };
+
+  const handleAddMedia = (isEditing: boolean) => {
+    if (newMediaUrl.trim()) {
+      const newMedia = {
+        id: Date.now().toString(),
+        type: newMediaType,
+        url: newMediaUrl.trim(),
+        brandName: newMediaBrand || undefined,
+        caption: newMediaCaption.trim() || undefined
+      };
+      
+      if (isEditing && editStory) {
+        setEditStory({
+          ...editStory,
+          media: [...(editStory.media || []), newMedia]
+        });
+      } else if (!isEditing) {
+        setNewStory({
+          ...newStory,
+          media: [...(newStory.media || []), newMedia]
+        });
+      }
+      
+      setNewMediaUrl("");
+      setNewMediaCaption("");
+      setNewMediaBrand("");
+    }
+  };
+
+  const handleDeleteMedia = (mediaId: string, isEditing: boolean) => {
+    if (isEditing && editStory) {
+      setEditStory({
+        ...editStory,
+        media: editStory.media?.filter(m => m.id !== mediaId) || []
+      });
+    } else if (!isEditing) {
+      setNewStory({
+        ...newStory,
+        media: newStory.media?.filter(m => m.id !== mediaId) || []
       });
     }
   };
@@ -401,7 +490,7 @@ const AdminPages = () => {
                               <button
                                 type="button"
                                 className="text-gray-500 hover:text-gray-700"
-                                onClick={() => handleDeleteBrand(brand, false)}
+                                onClick={() => handleDeleteBrand(brand, false, false)}
                               >
                                 <X className="h-3 w-3" />
                               </button>
@@ -698,7 +787,7 @@ const AdminPages = () => {
                                           <button
                                             type="button"
                                             className="text-gray-500 hover:text-gray-700"
-                                            onClick={() => handleDeleteBrand(brand, true)}
+                                            onClick={() => handleDeleteBrand(brand, true, false)}
                                           >
                                             <X className="h-3 w-3" />
                                           </button>
@@ -773,461 +862,4 @@ const AdminPages = () => {
                           )}
                         </Dialog>
                         
-                        {/* Delete Dialog */}
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-500">
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                This action cannot be undone. This will permanently delete the event
-                                "{event.title}" and remove it from the system.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel className="border-gray-300">Cancel</AlertDialogCancel>
-                              <AlertDialogAction
-                                className="bg-red-500 text-white hover:bg-red-600"
-                                onClick={() => {
-                                  setEvents(events.filter(e => e.id !== event.id));
-                                  toast({
-                                    title: "Event Deleted",
-                                    description: "The event has been permanently removed.",
-                                    variant: "destructive"
-                                  });
-                                }}
-                              >
-                                Delete
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="curated" className="space-y-4">  
-          {/* Curated Stories Management Section */}
-          <Card className="p-6 border border-gray-200">
-            <div className="flex justify-between items-center mb-4">
-              <h2 className="text-lg font-medium">Curated Stories</h2>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button className="bg-black text-white border-none">
-                    + Add Story
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-2xl">
-                  <DialogHeader>
-                    <DialogTitle>Add New Curated Story</DialogTitle>
-                    <DialogDescription>
-                      Create a new story to share with brands and buyers.
-                    </DialogDescription>
-                  </DialogHeader>
-                  <div className="grid gap-4 py-4">
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="story-title" className="text-right">
-                        Title
-                      </Label>
-                      <Input
-                        id="story-title"
-                        className="col-span-3"
-                        value={newStory.title}
-                        onChange={(e) => setNewStory({...newStory, title: e.target.value})}
-                      />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label htmlFor="story-date" className="text-right">
-                        Publish Date
-                      </Label>
-                      <Input
-                        id="story-date"
-                        type="date"
-                        className="col-span-3"
-                        value={newStory.publishDate}
-                        onChange={(e) => setNewStory({...newStory, publishDate: e.target.value})}
-                      />
-                    </div>
-                    <div className="grid grid-cols-4 items-start gap-4">
-                      <Label htmlFor="story-content" className="text-right pt-2">
-                        Content
-                      </Label>
-                      <Textarea
-                        id="story-content"
-                        className="col-span-3"
-                        rows={5}
-                        value={newStory.content}
-                        onChange={(e) => setNewStory({...newStory, content: e.target.value})}
-                      />
-                    </div>
-                    <div className="grid grid-cols-4 items-center gap-4">
-                      <Label className="text-right">
-                        Tags
-                      </Label>
-                      <div className="col-span-3 space-y-2">
-                        <div className="flex flex-wrap gap-2">
-                          {newStory.tags.map((tag, index) => (
-                            <div key={index} className="bg-gray-100 text-xs px-2 py-1 rounded flex items-center gap-1">
-                              <span>{tag}</span>
-                              <button
-                                type="button"
-                                className="text-gray-500 hover:text-gray-700"
-                                onClick={() => setNewStory({
-                                  ...newStory,
-                                  tags: newStory.tags.filter((_, i) => i !== index)
-                                })}
-                              >
-                                ×
-                              </button>
-                            </div>
-                          ))}
-                        </div>
-                        <div className="flex gap-2">
-                          <Input
-                            placeholder="New tag"
-                            className="flex-1"
-                            value={newTag}
-                            onChange={(e) => setNewTag(e.target.value)}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter' && newTag.trim()) {
-                                e.preventDefault();
-                                if (!newStory.tags.includes(newTag.trim())) {
-                                  setNewStory({
-                                    ...newStory,
-                                    tags: [...newStory.tags, newTag.trim()]
-                                  });
-                                }
-                                setNewTag("");
-                              }
-                            }}
-                          />
-                          <Button 
-                            type="button" 
-                            variant="outline"
-                            onClick={() => {
-                              if (newTag.trim() && !newStory.tags.includes(newTag.trim())) {
-                                setNewStory({
-                                  ...newStory,
-                                  tags: [...newStory.tags, newTag.trim()]
-                                });
-                                setNewTag("");
-                              }
-                            }}
-                          >
-                            Add Tag
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <DialogFooter>
-                    <DialogClose asChild>
-                      <Button variant="outline" className="border-gray-300">Cancel</Button>
-                    </DialogClose>
-                    <DialogClose asChild>
-                      <Button className="bg-black text-white border-none hover:underline" onClick={handleAddStory}>
-                        Save Story
-                      </Button>
-                    </DialogClose>
-                  </DialogFooter>
-                </DialogContent>
-              </Dialog>
-            </div>
-            
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Story Title</TableHead>
-                  <TableHead>Publish Date</TableHead>
-                  <TableHead>Tags</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {curatedStories.map((story) => (
-                  <TableRow key={story.id}>
-                    <TableCell className="font-medium">{story.title}</TableCell>
-                    <TableCell>{story.publishDate}</TableCell>
-                    <TableCell>
-                      <div className="flex flex-wrap gap-1">
-                        {story.tags.map((tag, index) => (
-                          <span 
-                            key={index} 
-                            className="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded"
-                          >
-                            {tag}
-                          </span>
-                        ))}
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex justify-end space-x-2">
-                        {/* Tag Brands Dialog */}
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                              <Tag className="h-4 w-4" />
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent>
-                            <DialogHeader>
-                              <DialogTitle>Tag Brands</DialogTitle>
-                            </DialogHeader>
-                            <div className="py-4">
-                              <p className="text-sm text-gray-500 mb-4">Select brands to tag in this story:</p>
-                              <div className="space-y-2">
-                                <label className="flex items-center space-x-2">
-                                  <input type="checkbox" className="rounded border-gray-300" />
-                                  <span>Brand One</span>
-                                </label>
-                                <label className="flex items-center space-x-2">
-                                  <input type="checkbox" className="rounded border-gray-300" />
-                                  <span>Brand Two</span>
-                                </label>
-                                <label className="flex items-center space-x-2">
-                                  <input type="checkbox" className="rounded border-gray-300" />
-                                  <span>Brand Three</span>
-                                </label>
-                                <label className="flex items-center space-x-2">
-                                  <input type="checkbox" className="rounded border-gray-300" />
-                                  <span>Brand Four</span>
-                                </label>
-                                <label className="flex items-center space-x-2">
-                                  <input type="checkbox" className="rounded border-gray-300" />
-                                  <span>Brand Five</span>
-                                </label>
-                              </div>
-                            </div>
-                            <DialogFooter>
-                              <DialogClose asChild>
-                                <Button variant="outline" className="border-gray-300">Cancel</Button>
-                              </DialogClose>
-                              <DialogClose asChild>
-                                <Button className="bg-black text-white border-none hover:underline">
-                                  Save Tags
-                                </Button>
-                              </DialogClose>
-                            </DialogFooter>
-                          </DialogContent>
-                        </Dialog>
-                        
-                        {/* Share Dialog */}
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                              <Share2 className="h-4 w-4" />
-                            </Button>
-                          </DialogTrigger>
-                          <DialogContent>
-                            <DialogHeader>
-                              <DialogTitle>Share with Buyers</DialogTitle>
-                            </DialogHeader>
-                            <div className="py-4">
-                              <p className="text-sm text-gray-500 mb-4">Choose buyers to share this story with:</p>
-                              <div className="space-y-2">
-                                <label className="flex items-center space-x-2">
-                                  <input type="checkbox" className="rounded border-gray-300" />
-                                  <span>All Buyers</span>
-                                </label>
-                                <label className="flex items-center space-x-2">
-                                  <input type="checkbox" className="rounded border-gray-300" />
-                                  <span>Selected Buyers:</span>
-                                </label>
-                              </div>
-                              <Select>
-                                <SelectTrigger className="w-full mt-2">
-                                  <SelectValue placeholder="Select buyers" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="buyer1">Buyer One</SelectItem>
-                                  <SelectItem value="buyer2">Buyer Two</SelectItem>
-                                  <SelectItem value="buyer3">Buyer Three</SelectItem>
-                                  <SelectItem value="buyer4">Buyer Four</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </div>
-                            <DialogFooter>
-                              <DialogClose asChild>
-                                <Button variant="outline" className="border-gray-300">Cancel</Button>
-                              </DialogClose>
-                              <DialogClose asChild>
-                                <Button className="bg-black text-white border-none hover:underline">
-                                  Share Story
-                                </Button>
-                              </DialogClose>
-                            </DialogFooter>
-                          </DialogContent>
-                        </Dialog>
-                        
-                        {/* Edit Dialog */}
-                        <Dialog>
-                          <DialogTrigger asChild>
-                            <Button 
-                              variant="ghost" 
-                              size="sm" 
-                              className="h-8 w-8 p-0" 
-                              onClick={() => setEditStory({...story})}
-                            >
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                          </DialogTrigger>
-                          {editStory && (
-                            <DialogContent className="max-w-2xl">
-                              <DialogHeader>
-                                <DialogTitle>Edit Story</DialogTitle>
-                                <DialogDescription>
-                                  Update story details below.
-                                </DialogDescription>
-                              </DialogHeader>
-                              <div className="grid gap-4 py-4">
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                  <Label htmlFor="edit-story-title" className="text-right">
-                                    Title
-                                  </Label>
-                                  <Input
-                                    id="edit-story-title"
-                                    className="col-span-3"
-                                    value={editStory.title}
-                                    onChange={(e) => setEditStory({...editStory, title: e.target.value})}
-                                  />
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                  <Label htmlFor="edit-story-date" className="text-right">
-                                    Publish Date
-                                  </Label>
-                                  <Input
-                                    id="edit-story-date"
-                                    type="date"
-                                    className="col-span-3"
-                                    value={editStory.publishDate}
-                                    onChange={(e) => setEditStory({...editStory, publishDate: e.target.value})}
-                                  />
-                                </div>
-                                <div className="grid grid-cols-4 items-start gap-4">
-                                  <Label htmlFor="edit-story-content" className="text-right pt-2">
-                                    Content
-                                  </Label>
-                                  <Textarea
-                                    id="edit-story-content"
-                                    className="col-span-3"
-                                    rows={5}
-                                    value={editStory.content || ""}
-                                    onChange={(e) => setEditStory({...editStory, content: e.target.value})}
-                                  />
-                                </div>
-                                <div className="grid grid-cols-4 items-center gap-4">
-                                  <Label className="text-right">
-                                    Tags
-                                  </Label>
-                                  <div className="col-span-3 space-y-2">
-                                    <div className="flex flex-wrap gap-2">
-                                      {editStory.tags.map((tag, index) => (
-                                        <div key={index} className="bg-gray-100 text-xs px-2 py-1 rounded flex items-center gap-1">
-                                          <span>{tag}</span>
-                                          <button
-                                            type="button"
-                                            className="text-gray-500 hover:text-gray-700"
-                                            onClick={() => handleDeleteTag(tag)}
-                                          >
-                                            ×
-                                          </button>
-                                        </div>
-                                      ))}
-                                    </div>
-                                    <div className="flex gap-2">
-                                      <Input
-                                        placeholder="New tag"
-                                        className="flex-1"
-                                        value={newTag}
-                                        onChange={(e) => setNewTag(e.target.value)}
-                                        onKeyDown={(e) => {
-                                          if (e.key === 'Enter' && newTag.trim()) {
-                                            e.preventDefault();
-                                            handleAddTag();
-                                          }
-                                        }}
-                                      />
-                                      <Button 
-                                        type="button" 
-                                        variant="outline"
-                                        onClick={handleAddTag}
-                                      >
-                                        Add Tag
-                                      </Button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                              <DialogFooter>
-                                <DialogClose asChild>
-                                  <Button variant="outline" className="border-gray-300">Cancel</Button>
-                                </DialogClose>
-                                <DialogClose asChild>
-                                  <Button 
-                                    className="bg-black text-white border-none hover:underline"
-                                    onClick={handleUpdateStory}
-                                  >
-                                    Update Story
-                                  </Button>
-                                </DialogClose>
-                              </DialogFooter>
-                            </DialogContent>
-                          )}
-                        </Dialog>
-                        
-                        {/* Delete Dialog */}
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-500">
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                This action cannot be undone. This will permanently delete the story
-                                "{story.title}" and remove it from the system.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel className="border-gray-300">Cancel</AlertDialogCancel>
-                              <AlertDialogAction
-                                className="bg-red-500 text-white hover:bg-red-600"
-                                onClick={() => {
-                                  setCuratedStories(curatedStories.filter(s => s.id !== story.id));
-                                  toast({
-                                    title: "Story Deleted",
-                                    description: "The story has been permanently removed.",
-                                    variant: "destructive"
-                                  });
-                                }}
-                              >
-                                Delete
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </Card>
-        </TabsContent>
-      </Tabs>
-    </div>
-  );
-};
-
-export default AdminPages;
+                        {/* Delete Dialog
