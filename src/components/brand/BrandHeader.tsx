@@ -57,7 +57,7 @@ const BrandHeader = () => {
                     isActive(item.path) ? "text-black" : "text-gray-600 hover:text-black"
                   }`}
                 >
-                  {item.name}
+                  {item.name.toUpperCase()}
                   <span
                     className={`absolute left-0 bottom-0 w-0 h-0.5 bg-black transition-all duration-300 group-hover:w-full ${
                       isActive(item.path) ? "w-full" : ""
@@ -90,7 +90,7 @@ const BrandHeader = () => {
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  {item.name}
+                  {item.name.toUpperCase()}
                 </Link>
               </li>
             ))}

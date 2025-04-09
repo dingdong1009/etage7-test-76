@@ -55,7 +55,7 @@ const Header = () => {
                   to={item.path} 
                   className="text-black font-light hover:font-normal relative group"
                 >
-                  {item.name}
+                  {item.name.toUpperCase()}
                   <span className="absolute left-0 bottom-0 w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               </li>
@@ -85,7 +85,7 @@ const Header = () => {
                   className="text-black uppercase"
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  {item.name}
+                  {item.name.toUpperCase()}
                 </Link>
               </li>
             ))}
