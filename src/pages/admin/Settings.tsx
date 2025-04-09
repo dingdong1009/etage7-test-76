@@ -120,7 +120,7 @@ const AdminSettings = () => {
                 <Button variant="outline" className="border-gray-300">
                   Cancel
                 </Button>
-                <Button className="bg-black text-white border-none hover:underline">
+                <Button className="bg-black text-white border-none">
                   Save Changes
                 </Button>
               </div>
@@ -166,7 +166,7 @@ const AdminSettings = () => {
               </TableBody>
             </Table>
             <div className="p-4 flex justify-end">
-              <Button className="bg-black text-white border-none hover:underline flex items-center gap-2">
+              <Button className="bg-black text-white border-none lex items-center gap-2">
                 <Plus className="h-4 w-4" />
                 Add New Integration
               </Button>
@@ -214,7 +214,7 @@ const AdminSettings = () => {
               </TableBody>
             </Table>
             <div className="p-4 flex justify-end">
-              <Button className="bg-black text-white border-none hover:underline flex items-center gap-2">
+              <Button className="bg-black text-white border-none flex items-center gap-2">
                 <Plus className="h-4 w-4" />
                 Add New Feature
               </Button>
