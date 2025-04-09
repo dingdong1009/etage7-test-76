@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm } from "react-hook-form";
-import { ChevronLeft, Plus } from "lucide-react";
+import { ChevronLeft, Plus, Eye, Edit, Users } from "lucide-react";
 
 interface Brand {
   id: number;
@@ -47,13 +47,34 @@ interface Buyer {
   annualPurchases: string;
 }
 
-type UserType = "brand" | "buyer";
+interface SalesManager {
+  id: number;
+  name: string;
+  status: "active" | "pending" | "inactive";
+  email: string;
+  phone: string;
+  startDate: string;
+  yearsInCompany: number;
+  salaryPerMonth: string;
+  totalCommissions: string;
+  ytdCommissions: string;
+  commissionRate: string;
+  commissionHistory: CommissionChange[];
+}
+
+interface CommissionChange {
+  rate: string;
+  effectiveDate: string;
+  notes?: string;
+}
+
+type UserType = "brand" | "buyer" | "salesManager";
 type ViewMode = "list" | "view" | "edit" | "add";
 
 const SalesUsers = () => {
   const [activeTab, setActiveTab] = useState<UserType>("brand");
   const [viewMode, setViewMode] = useState<ViewMode>("list");
-  const [selectedUser, setSelectedUser] = useState<Brand | Buyer | null>(null);
+  const [selectedUser, setSelectedUser] = useState<Brand | Buyer | SalesManager | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>("all");
   
   const brands: Brand[] = [
@@ -232,6 +253,97 @@ const SalesUsers = () => {
     }
   ];
 
+  const salesManagers: SalesManager[] = [
+    {
+      id: 1,
+      name: "James Wilson",
+      status: "active",
+      email: "james.wilson@company.com",
+      phone: "+1 (555) 123-4567",
+      startDate: "January 15, 2019",
+      yearsInCompany: 4,
+      salaryPerMonth: "$6,500",
+      totalCommissions: "$124,500",
+      ytdCommissions: "$32,800",
+      commissionRate: "5.2%",
+      commissionHistory: [
+        { rate: "5.2%", effectiveDate: "January 1, 2023", notes: "Annual review increase" },
+        { rate: "4.8%", effectiveDate: "January 1, 2022", notes: "Performance adjustment" },
+        { rate: "4.5%", effectiveDate: "January 15, 2019", notes: "Initial rate" }
+      ]
+    },
+    {
+      id: 2,
+      name: "Sarah Johnson",
+      status: "active",
+      email: "sarah.johnson@company.com",
+      phone: "+1 (555) 234-5678",
+      startDate: "March 22, 2020",
+      yearsInCompany: 3,
+      salaryPerMonth: "$5,800",
+      totalCommissions: "$98,700",
+      ytdCommissions: "$28,400",
+      commissionRate: "4.8%",
+      commissionHistory: [
+        { rate: "4.8%", effectiveDate: "April 1, 2023", notes: "Performance adjustment" },
+        { rate: "4.5%", effectiveDate: "March 22, 2020", notes: "Initial rate" }
+      ]
+    },
+    {
+      id: 3,
+      name: "Michael Brown",
+      status: "inactive",
+      email: "michael.brown@company.com",
+      phone: "+1 (555) 345-6789",
+      startDate: "June 10, 2018",
+      yearsInCompany: 5,
+      salaryPerMonth: "$7,200",
+      totalCommissions: "$156,800",
+      ytdCommissions: "$16,500",
+      commissionRate: "5.5%",
+      commissionHistory: [
+        { rate: "5.5%", effectiveDate: "July 1, 2022", notes: "Performance bonus increase" },
+        { rate: "5.0%", effectiveDate: "July 1, 2020", notes: "Merit increase" },
+        { rate: "4.8%", effectiveDate: "June 10, 2018", notes: "Initial rate" }
+      ]
+    },
+    {
+      id: 4,
+      name: "Emily Davis",
+      status: "pending",
+      email: "emily.davis@company.com",
+      phone: "+1 (555) 456-7890",
+      startDate: "November 5, 2021",
+      yearsInCompany: 2,
+      salaryPerMonth: "$5,500",
+      totalCommissions: "$62,400",
+      ytdCommissions: "$21,700",
+      commissionRate: "4.5%",
+      commissionHistory: [
+        { rate: "4.5%", effectiveDate: "November 5, 2021", notes: "Initial rate" }
+      ]
+    },
+    {
+      id: 5,
+      name: "Robert Lee",
+      status: "active",
+      email: "robert.lee@company.com",
+      phone: "+1 (555) 567-8901",
+      startDate: "August 17, 2017",
+      yearsInCompany: 6,
+      salaryPerMonth: "$8,000",
+      totalCommissions: "$215,600",
+      ytdCommissions: "$38,900",
+      commissionRate: "6.0%",
+      commissionHistory: [
+        { rate: "6.0%", effectiveDate: "September 1, 2023", notes: "Senior role adjustment" },
+        { rate: "5.5%", effectiveDate: "September 1, 2021", notes: "Team lead promotion" },
+        { rate: "5.0%", effectiveDate: "September 1, 2019", notes: "Merit increase" },
+        { rate: "4.8%", effectiveDate: "August 17, 2017", notes: "Initial rate" }
+      ]
+    }
+  ];
+
   const addUserForm = useForm({
     defaultValues: {
       contactPerson: "",
@@ -288,33 +400,41 @@ const SalesUsers = () => {
     setSelectedUser(null);
   };
 
-  const handleViewUser = (userType: UserType, userId: number) => {
-    const userList = userType === "brand" ? brands : buyers;
-    const user = userList.find(u => u.id === userId);
-    
-    if (user) {
-      setSelectedUser(user);
-      setViewMode("view");
+  const addSalesManagerForm = useForm({
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      startDate: "",
+      salaryPerMonth: "",
+      commissionRate: "",
+      status: "active" as "active" | "pending" | "inactive",
     }
+  });
+
+  const editSalesManagerForm = useForm({
+    defaultValues: {
+      id: 0,
+      name: "",
+      status: "active" as "active" | "pending" | "inactive",
+      email: "",
+      phone: "",
+      startDate: "",
+      commissionRate: "",
+      effectiveDate: "",
+      notes: "",
+    }
+  });
+
+  const handleAddSalesManagerSubmit = (data) => {
+    console.log("Sales manager form submitted:", data);
+    setViewMode("list");
+    addSalesManagerForm.reset();
   };
 
-  const handleEditUser = (userType: UserType, userId: number) => {
-    const userList = userType === "brand" ? brands : buyers;
-    const user = userList.find(u => u.id === userId);
-    
-    if (user) {
-      setSelectedUser(user);
-      editUserForm.reset({
-        ...user,
-        status: user.status
-      });
-      setViewMode("edit");
-    }
-  };
-
-  const handleAddUser = () => {
-    addUserForm.setValue("userType", activeTab);
-    setViewMode("add");
+  const handleEditSalesManagerSubmit = (data) => {
+    console.log("Edit sales manager form submitted:", data);
+    setViewMode("list");
   };
 
   const isBrand = (user: any): user is Brand => {
@@ -414,8 +534,103 @@ const SalesUsers = () => {
     );
   };
 
-  const renderViewUser = () => {
-    if (!selectedUser) return null;
+  const isSalesManager = (user: any): user is SalesManager => {
+    return 'commissionRate' in user && 'salaryPerMonth' in user;
+  };
+
+  const renderSalesManagerListView = () => {
+    const filteredUsers = statusFilter === "all" 
+      ? salesManagers 
+      : salesManagers.filter(user => user.status.toLowerCase() === statusFilter.toLowerCase());
+    
+    return (
+      <Card className="border border-gray-200">
+        <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between pb-2">
+          <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">
+            Sales Managers
+          </CardTitle>
+          <div className="flex items-center space-x-2 mt-2 sm:mt-0">
+            <Button className="bg-black text-white border-none" onClick={handleAddUser}>
+              <Plus className="mr-1 h-4 w-4" /> Add User
+            </Button>
+            <Select
+              value={statusFilter}
+              onValueChange={(value) => setStatusFilter(value)}
+            >
+              <SelectTrigger className="w-[150px]">
+                <SelectValue placeholder="Filter by status" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Statuses</SelectItem>
+                <SelectItem value="active">Active</SelectItem>
+                <SelectItem value="pending">Pending</SelectItem>
+                <SelectItem value="inactive">Inactive</SelectItem>
+              </SelectContent>
+            </Select>
+            <Button className="bg-grey-200 text-black border hover:text-white">Export</Button>
+          </div>
+        </CardHeader>
+        <CardContent className="pt-0">
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[100px]">Name</TableHead>
+                  <TableHead>Start Date</TableHead>
+                  <TableHead>Years</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Salary/Month</TableHead>
+                  <TableHead>Commission Rate</TableHead>
+                  <TableHead>YTD Commission</TableHead>
+                  <TableHead className="text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredUsers.map((user) => (
+                  <TableRow key={user.id}>
+                    <TableCell className="font-medium">{user.name}</TableCell>
+                    <TableCell>{user.startDate}</TableCell>
+                    <TableCell>{user.yearsInCompany}</TableCell>
+                    <TableCell>
+                      <Badge 
+                        className={`${
+                          user.status === "active" ? "bg-green-100 text-green-800" :
+                          user.status === "pending" ? "bg-yellow-100 text-yellow-800" :
+                          "bg-gray-100 text-gray-800"
+                        }`}
+                      >
+                        {user.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{user.salaryPerMonth}</TableCell>
+                    <TableCell>{user.commissionRate}</TableCell>
+                    <TableCell>{user.ytdCommissions}</TableCell>
+                    <TableCell className="flex justify-end space-x-2">
+                      <Button 
+                        className="text-xs text-black px-2 py-1 bg-gray-100 rounded hover:text-white"
+                        onClick={() => handleViewUser("salesManager", user.id)}
+                      >
+                        <Eye className="h-4 w-4 mr-1" /> View
+                      </Button>
+                      <Button 
+                        className="text-xs text-black px-2 py-1 bg-gray-100 rounded hover:text-white"
+                        onClick={() => handleEditUser("salesManager", user.id)}
+                      >
+                        <Edit className="h-4 w-4 mr-1" /> Edit
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  };
+
+  const renderViewSalesManager = () => {
+    if (!selectedUser || !isSalesManager(selectedUser)) return null;
     
     return (
       <Card className="border border-gray-200">
@@ -435,18 +650,18 @@ const SalesUsers = () => {
           </div>
           <Button 
             className="text-xs text-black px-3 py-1.5 bg-gray-100 rounded hover:text-white"
-            onClick={() => handleEditUser(activeTab, selectedUser.id)}
+            onClick={() => handleEditUser("salesManager", selectedUser.id)}
           >
-            Edit
+            <Edit className="h-4 w-4 mr-1" /> Edit
           </Button>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
             <div>
-              <h3 className="text-lg font-semibold mb-4">Company Information</h3>
+              <h3 className="text-lg font-semibold mb-4">Personal Information</h3>
               <div className="space-y-4">
                 <div>
-                  <p className="text-sm text-gray-500">Company Name</p>
+                  <p className="text-sm text-gray-500">Name</p>
                   <p>{selectedUser.name}</p>
                 </div>
                 <div>
@@ -462,32 +677,6 @@ const SalesUsers = () => {
                   </Badge>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">Plan</p>
-                  <p>{selectedUser.plan}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Market Segment</p>
-                  <p>{selectedUser.marketSegment}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Website</p>
-                  <p>{selectedUser.website}</p>
-                </div>
-                <div>
-                  <p className="text-sm text-gray-500">Active Since</p>
-                  <p>{selectedUser.activeSince}</p>
-                </div>
-              </div>
-            </div>
-            
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
-              <div className="space-y-4">
-                <div>
-                  <p className="text-sm text-gray-500">Contact Person</p>
-                  <p>{selectedUser.contactPerson}</p>
-                </div>
-                <div>
                   <p className="text-sm text-gray-500">Email</p>
                   <p>{selectedUser.email}</p>
                 </div>
@@ -495,55 +684,67 @@ const SalesUsers = () => {
                   <p className="text-sm text-gray-500">Phone</p>
                   <p>{selectedUser.phone}</p>
                 </div>
+              </div>
+            </div>
+            
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Employment Information</h3>
+              <div className="space-y-4">
                 <div>
-                  <p className="text-sm text-gray-500">Last Activity</p>
-                  <p>{selectedUser.lastActivity}</p>
+                  <p className="text-sm text-gray-500">Start Date</p>
+                  <p>{selectedUser.startDate}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Years in Company</p>
+                  <p>{selectedUser.yearsInCompany}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Monthly Salary</p>
+                  <p>{selectedUser.salaryPerMonth}</p>
+                </div>
+                <div>
+                  <p className="text-sm text-gray-500">Current Commission Rate</p>
+                  <p>{selectedUser.commissionRate}</p>
                 </div>
               </div>
             </div>
           </div>
           
-          <div>
-            <h3 className="text-lg font-semibold mb-4">Description</h3>
-            <p className="text-gray-700 mb-8">{selectedUser.description}</p>
+          <div className="mb-8">
+            <h3 className="text-lg font-semibold mb-4">Commission Performance</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <p className="text-sm text-gray-500">YTD Commissions</p>
+                <p className="text-2xl font-semibold">{selectedUser.ytdCommissions}</p>
+              </div>
+              <div className="bg-gray-50 p-4 rounded-lg">
+                <p className="text-sm text-gray-500">Total Commissions</p>
+                <p className="text-2xl font-semibold">{selectedUser.totalCommissions}</p>
+              </div>
+            </div>
           </div>
           
           <div>
-            <h3 className="text-lg font-semibold mb-4">Performance Metrics</h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-              {isBrand(selectedUser) && (
-                <>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-500">Products Count</p>
-                    <p className="text-2xl font-semibold">{selectedUser.productsCount}</p>
-                  </div>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-500">Average Order Value</p>
-                    <p className="text-2xl font-semibold">{selectedUser.avgOrderValue}</p>
-                  </div>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-500">Total Sales</p>
-                    <p className="text-2xl font-semibold">{selectedUser.totalSales}</p>
-                  </div>
-                </>
-              )}
-              
-              {isBuyer(selectedUser) && (
-                <>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-500">Store Count</p>
-                    <p className="text-2xl font-semibold">{selectedUser.storeCount}</p>
-                  </div>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-500">Average Order Value</p>
-                    <p className="text-2xl font-semibold">{selectedUser.avgOrderValue}</p>
-                  </div>
-                  <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-500">Annual Purchases</p>
-                    <p className="text-2xl font-semibold">{selectedUser.annualPurchases}</p>
-                  </div>
-                </>
-              )}
+            <h3 className="text-lg font-semibold mb-4">Commission History</h3>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Commission Rate</TableHead>
+                    <TableHead>Effective Date</TableHead>
+                    <TableHead>Notes</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {selectedUser.commissionHistory.map((item, index) => (
+                    <TableRow key={index}>
+                      <TableCell>{item.rate}</TableCell>
+                      <TableCell>{item.effectiveDate}</TableCell>
+                      <TableCell>{item.notes || "-"}</TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
             </div>
           </div>
         </CardContent>
@@ -551,9 +752,7 @@ const SalesUsers = () => {
     );
   };
 
-  const renderEditUser = () => {
-    if (!selectedUser) return null;
-    
+  const renderAddSalesManager = () => {
     return (
       <Card className="border border-gray-200">
         <CardHeader className="flex items-center justify-between pb-2">
@@ -567,363 +766,20 @@ const SalesUsers = () => {
               <ChevronLeft className="mr-1 h-4 w-4" /> Back
             </Button>
             <CardTitle className="text-1xl md:text-2xl uppercase font-thin">
-              Edit {selectedUser.name}
+              Add New Sales Manager
             </CardTitle>
           </div>
         </CardHeader>
         <CardContent>
-          <Form {...editUserForm}>
-            <form onSubmit={editUserForm.handleSubmit(handleEditUserSubmit)} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <h3 className="text-lg font-semibold mb-4">Company Information</h3>
-                  <div className="space-y-4">
-                    <FormField
-                      control={editUserForm.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Company Name</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={editUserForm.control}
-                      name="status"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Status</FormLabel>
-                          <Select 
-                            onValueChange={field.onChange} 
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select status" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="active">Active</SelectItem>
-                              <SelectItem value="pending">Pending</SelectItem>
-                              <SelectItem value="inactive">Inactive</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={editUserForm.control}
-                      name="plan"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Plan</FormLabel>
-                          <Select 
-                            onValueChange={field.onChange} 
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select plan" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              <SelectItem value="Basic">Basic</SelectItem>
-                              <SelectItem value="Professional">Professional</SelectItem>
-                              <SelectItem value="Premium">Premium</SelectItem>
-                              <SelectItem value="Enterprise">Enterprise</SelectItem>
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={editUserForm.control}
-                      name="marketSegment"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Market Segment</FormLabel>
-                          <Select 
-                            onValueChange={field.onChange} 
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger>
-                                <SelectValue placeholder="Select market segment" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent>
-                              {activeTab === "brand" ? (
-                                <>
-                                  <SelectItem value="Luxury Apparel">Luxury Apparel</SelectItem>
-                                  <SelectItem value="Contemporary Fashion">Contemporary Fashion</SelectItem>
-                                  <SelectItem value="Formal Wear">Formal Wear</SelectItem>
-                                  <SelectItem value="Heritage Fashion">Heritage Fashion</SelectItem>
-                                  <SelectItem value="Sustainable Fashion">Sustainable Fashion</SelectItem>
-                                </>
-                              ) : (
-                                <>
-                                  <SelectItem value="Department Stores">Department Stores</SelectItem>
-                                  <SelectItem value="Boutiques">Boutiques</SelectItem>
-                                  <SelectItem value="International Retail">International Retail</SelectItem>
-                                  <SelectItem value="Outlet Retail">Outlet Retail</SelectItem>
-                                  <SelectItem value="Luxury Retail">Luxury Retail</SelectItem>
-                                </>
-                              )}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={editUserForm.control}
-                      name="website"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Website</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={editUserForm.control}
-                      name="activeSince"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Active Since</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </div>
-                
-                <div>
-                  <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
-                  <div className="space-y-4">
-                    <FormField
-                      control={editUserForm.control}
-                      name="contactPerson"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Contact Person</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={editUserForm.control}
-                      name="email"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Email</FormLabel>
-                          <FormControl>
-                            <Input type="email" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={editUserForm.control}
-                      name="phone"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Phone</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                </div>
-              </div>
-              
-              <FormField
-                control={editUserForm.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Description</FormLabel>
-                    <FormControl>
-                      <Textarea className="min-h-32" {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <div>
-                <h3 className="text-lg font-semibold mb-4">Performance Metrics</h3>
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {isBrand(selectedUser) && (
-                    <>
-                      <FormField
-                        control={editUserForm.control}
-                        name="productsCount"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Products Count</FormLabel>
-                            <FormControl>
-                              <Input type="number" {...field} value={field.value?.toString()} onChange={e => field.onChange(parseInt(e.target.value) || 0)} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={editUserForm.control}
-                        name="avgOrderValue"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Average Order Value</FormLabel>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={editUserForm.control}
-                        name="totalSales"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Total Sales</FormLabel>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </>
-                  )}
-                  
-                  {isBuyer(selectedUser) && (
-                    <>
-                      <FormField
-                        control={editUserForm.control}
-                        name="storeCount"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Store Count</FormLabel>
-                            <FormControl>
-                              <Input type="number" {...field} value={field.value?.toString()} onChange={e => field.onChange(parseInt(e.target.value) || 0)} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={editUserForm.control}
-                        name="avgOrderValue"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Average Order Value</FormLabel>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      
-                      <FormField
-                        control={editUserForm.control}
-                        name="annualPurchases"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Annual Purchases</FormLabel>
-                            <FormControl>
-                              <Input {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                    </>
-                  )}
-                </div>
-              </div>
-              
-              <div className="flex justify-end space-x-3 pt-4">
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  onClick={handleGoBack}
-                >
-                  Cancel
-                </Button>
-                <Button 
-                  type="submit" 
-                  className="bg-black text-white"
-                >
-                  Save Changes
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-    );
-  };
-
-  const renderAddUser = () => {
-    return (
-      <Card className="border border-gray-200">
-        <CardHeader className="flex items-center justify-between pb-2">
-          <div className="flex items-center space-x-4">
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={handleGoBack}
-              className="bg-gray-100 hover:bg-gray-200"
-            >
-              <ChevronLeft className="mr-1 h-4 w-4" /> Back
-            </Button>
-            <CardTitle className="text-1xl md:text-2xl uppercase font-thin">
-              Add New {activeTab === "brand" ? "Brand" : "Buyer"}
-            </CardTitle>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <Form {...addUserForm}>
-            <form onSubmit={addUserForm.handleSubmit(handleAddUserSubmit)} className="space-y-6">
+          <Form {...addSalesManagerForm}>
+            <form onSubmit={addSalesManagerForm.handleSubmit(handleAddSalesManagerSubmit)} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <FormField
-                  control={addUserForm.control}
-                  name="contactPerson"
+                  control={addSalesManagerForm.control}
+                  name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Contact Person</FormLabel>
+                      <FormLabel>Full Name</FormLabel>
                       <FormControl>
                         <Input placeholder="Full name" {...field} />
                       </FormControl>
@@ -933,7 +789,7 @@ const SalesUsers = () => {
                 />
                 
                 <FormField
-                  control={addUserForm.control}
+                  control={addSalesManagerForm.control}
                   name="email"
                   render={({ field }) => (
                     <FormItem>
@@ -947,7 +803,7 @@ const SalesUsers = () => {
                 />
                 
                 <FormField
-                  control={addUserForm.control}
+                  control={addSalesManagerForm.control}
                   name="phone"
                   render={({ field }) => (
                     <FormItem>
@@ -961,13 +817,13 @@ const SalesUsers = () => {
                 />
                 
                 <FormField
-                  control={addUserForm.control}
-                  name="companyName"
+                  control={addSalesManagerForm.control}
+                  name="startDate"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Company Name</FormLabel>
+                      <FormLabel>Start Date</FormLabel>
                       <FormControl>
-                        <Input placeholder="Company name" {...field} />
+                        <Input placeholder="e.g., January 15, 2023" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -975,13 +831,13 @@ const SalesUsers = () => {
                 />
                 
                 <FormField
-                  control={addUserForm.control}
-                  name="website"
+                  control={addSalesManagerForm.control}
+                  name="salaryPerMonth"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Website</FormLabel>
+                      <FormLabel>Monthly Salary</FormLabel>
                       <FormControl>
-                        <Input placeholder="Website URL" {...field} />
+                        <Input placeholder="e.g., $5,500" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -989,109 +845,5 @@ const SalesUsers = () => {
                 />
                 
                 <FormField
-                  control={addUserForm.control}
-                  name="marketSegment"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Market Segment</FormLabel>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <FormControl>
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select market segment" />
-                          </SelectTrigger>
-                        </FormControl>
-                        <SelectContent>
-                          {activeTab === "brand" ? (
-                            <>
-                              <SelectItem value="luxury">Luxury Apparel</SelectItem>
-                              <SelectItem value="contemporary">Contemporary Fashion</SelectItem>
-                              <SelectItem value="formal">Formal Wear</SelectItem>
-                              <SelectItem value="heritage">Heritage Fashion</SelectItem>
-                              <SelectItem value="sustainable">Sustainable Fashion</SelectItem>
-                            </>
-                          ) : (
-                            <>
-                              <SelectItem value="department">Department Stores</SelectItem>
-                              <SelectItem value="boutiques">Boutiques</SelectItem>
-                              <SelectItem value="international">International Retail</SelectItem>
-                              <SelectItem value="outlet">Outlet Retail</SelectItem>
-                              <SelectItem value="luxury-retail">Luxury Retail</SelectItem>
-                            </>
-                          )}
-                        </SelectContent>
-                      </Select>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-              
-              <FormField
-                control={addUserForm.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Company Description</FormLabel>
-                    <FormControl>
-                      <Textarea 
-                        placeholder="Brief description of the company" 
-                        className="min-h-32" 
-                        {...field} 
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <div className="flex justify-end space-x-3 pt-4">
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  onClick={handleGoBack}
-                >
-                  Cancel
-                </Button>
-                <Button 
-                  type="submit" 
-                  className="bg-black text-white"
-                >
-                  Send Invitation & Save
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-    );
-  };
-
-  return (
-    <div className="space-y-6">
-      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">User Management</h1>
-      
-      <Tabs defaultValue="brand" className="w-full" onValueChange={(value) => setActiveTab(value as UserType)}>
-        <TabsList className="mb-4">
-          <TabsTrigger value="brand">Managed Brands</TabsTrigger>
-          <TabsTrigger value="buyer">Managed Buyers</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="brand">
-          {viewMode === "list" && renderListView("brand")}
-          {viewMode === "view" && selectedUser && renderViewUser()}
-          {viewMode === "edit" && selectedUser && renderEditUser()}
-          {viewMode === "add" && renderAddUser()}
-        </TabsContent>
-
-        <TabsContent value="buyer">
-          {viewMode === "list" && renderListView("buyer")}
-          {viewMode === "view" && selectedUser && renderViewUser()}
-          {viewMode === "edit" && selectedUser && renderEditUser()}
-          {viewMode === "add" && renderAddUser()}
-        </TabsContent>
-      </Tabs>
-    </div>
-  );
-};
-
-export default SalesUsers;
+                  control={addSalesManagerForm.control}
+                  name="commissionRate"
