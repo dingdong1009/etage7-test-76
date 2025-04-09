@@ -28,6 +28,8 @@ interface Event {
   id: number;
   title: string;
   date: string;
+  startDateTime?: string;
+  endDateTime?: string;
   location: string;
   description?: string;
   documents?: string[];
@@ -49,9 +51,9 @@ const AdminPages = () => {
   
   // Event State
   const [events, setEvents] = useState<Event[]>([
-    { id: 1, title: "Summer Fashion Showcase", date: "2025-06-15", location: "New York" },
-    { id: 2, title: "Fall Collection Preview", date: "2025-09-20", location: "Paris" },
-    { id: 3, title: "Winter Fashion Week", date: "2025-12-05", location: "Milan" }
+    { id: 1, title: "Summer Fashion Showcase", date: "2025-06-15", startDateTime: "2025-06-15T10:00", endDateTime: "2025-06-15T16:00", location: "New York" },
+    { id: 2, title: "Fall Collection Preview", date: "2025-09-20", startDateTime: "2025-09-20T14:00", endDateTime: "2025-09-20T19:00", location: "Paris" },
+    { id: 3, title: "Winter Fashion Week", date: "2025-12-05", startDateTime: "2025-12-05T09:00", endDateTime: "2025-12-07T18:00", location: "Milan" }
   ]);
   
   // Story State
@@ -65,6 +67,8 @@ const AdminPages = () => {
   const [newEvent, setNewEvent] = useState<Omit<Event, 'id'>>({ 
     title: "", 
     date: "", 
+    startDateTime: "",
+    endDateTime: "",
     location: "", 
     description: "",
     documents: [],
@@ -90,6 +94,8 @@ const AdminPages = () => {
       setNewEvent({ 
         title: "", 
         date: "", 
+        startDateTime: "",
+        endDateTime: "",
         location: "", 
         description: "",
         documents: [],
@@ -276,6 +282,35 @@ const AdminPages = () => {
                         onChange={(e) => setNewEvent({...newEvent, date: e.target.value})}
                       />
                     </div>
+
+                    {/* Start Date/Time Field */}
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="event-start-datetime" className="text-right">
+                        Start Date & Time
+                      </Label>
+                      <Input
+                        id="event-start-datetime"
+                        type="datetime-local"
+                        className="col-span-3"
+                        value={newEvent.startDateTime}
+                        onChange={(e) => setNewEvent({...newEvent, startDateTime: e.target.value})}
+                      />
+                    </div>
+
+                    {/* End Date/Time Field */}
+                    <div className="grid grid-cols-4 items-center gap-4">
+                      <Label htmlFor="event-end-datetime" className="text-right">
+                        End Date & Time
+                      </Label>
+                      <Input
+                        id="event-end-datetime"
+                        type="datetime-local"
+                        className="col-span-3"
+                        value={newEvent.endDateTime}
+                        onChange={(e) => setNewEvent({...newEvent, endDateTime: e.target.value})}
+                      />
+                    </div>
+
                     <div className="grid grid-cols-4 items-center gap-4">
                       <Label htmlFor="event-location" className="text-right">
                         Location
@@ -544,6 +579,35 @@ const AdminPages = () => {
                                     onChange={(e) => setEditEvent({...editEvent, date: e.target.value})}
                                   />
                                 </div>
+
+                                {/* Start Date/Time Field for Edit */}
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                  <Label htmlFor="edit-start-datetime" className="text-right">
+                                    Start Date & Time
+                                  </Label>
+                                  <Input
+                                    id="edit-start-datetime"
+                                    type="datetime-local"
+                                    className="col-span-3"
+                                    value={editEvent.startDateTime || ""}
+                                    onChange={(e) => setEditEvent({...editEvent, startDateTime: e.target.value})}
+                                  />
+                                </div>
+
+                                {/* End Date/Time Field for Edit */}
+                                <div className="grid grid-cols-4 items-center gap-4">
+                                  <Label htmlFor="edit-end-datetime" className="text-right">
+                                    End Date & Time
+                                  </Label>
+                                  <Input
+                                    id="edit-end-datetime"
+                                    type="datetime-local"
+                                    className="col-span-3"
+                                    value={editEvent.endDateTime || ""}
+                                    onChange={(e) => setEditEvent({...editEvent, endDateTime: e.target.value})}
+                                  />
+                                </div>
+
                                 <div className="grid grid-cols-4 items-center gap-4">
                                   <Label htmlFor="edit-location" className="text-right">
                                     Location
