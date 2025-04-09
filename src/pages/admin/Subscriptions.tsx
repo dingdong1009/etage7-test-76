@@ -182,7 +182,7 @@ const AdminSubscriptions = () => {
         <TabsContent value="plans" className="space-y-4">
           <div className="flex justify-end mb-4">
             <Button 
-              className="bg-black text-white border-none hover:underline"
+              className="bg-black text-white border-none"
               onClick={() => handleAddNew("plan")}
             >
               <PlusCircleIcon className="w-4 h-4 mr-2" />
@@ -237,7 +237,7 @@ const AdminSubscriptions = () => {
         <TabsContent value="additional" className="space-y-4">
           <div className="flex justify-end mb-4">
             <Button 
-              className="bg-black text-white border-none hover:underline"
+              className="bg-black text-white border-none"
               onClick={() => handleAddNew("service")}
             >
               <PlusCircleIcon className="w-4 h-4 mr-2" />
