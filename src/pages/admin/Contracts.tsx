@@ -8,7 +8,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
-import { Wand } from "lucide-react";
+import { Wand, Pencil, Trash } from "lucide-react";
 
 const AdminContracts = () => {
   const [editDialogOpen, setEditDialogOpen] = useState(false);
@@ -136,20 +136,22 @@ const AdminContracts = () => {
                     </TableCell>
                     <TableCell className="text-right space-x-2">
                       <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="border-gray-200"
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 p-0"
                         onClick={() => handleEdit(template.id)}
+                        title="Edit"
                       >
-                        Edit
+                        <Pencil className="h-4 w-4" />
                       </Button>
                       <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="border-gray-200 text-red-600 hover:text-red-700"
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 p-0"
                         onClick={() => handleDelete(template.id)}
+                        title="Delete"
                       >
-                        Delete
+                        <Trash className="h-4 w-4 text-red-600" />
                       </Button>
                     </TableCell>
                   </TableRow>
