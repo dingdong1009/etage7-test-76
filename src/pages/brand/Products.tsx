@@ -54,7 +54,9 @@ import {
   ArrowUpDown,
   Filter,
   ShoppingBag,
-  Printer
+  Printer,
+  ArrowLeft,
+  Mail
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -72,12 +74,59 @@ import { Switch } from "@/components/ui/switch";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
+import { Separator } from "@/components/ui/separator";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useRef } from "react";
+import { useReactToPrint } from "react-to-print";
+
+// Define Order Type
+interface OrderItem {
+  id: string;
+  name: string;
+  sku: string;
+  quantity: number;
+  price: string;
+  total: string;
+  size?: string;
+  color?: string;
+  image?: string;
+}
+
+interface Order {
+  id: string;
+  date: string;
+  customer: string;
+  email: string;
+  phone: string;
+  status: string;
+  total: string;
+  subtotal: string;
+  tax: string;
+  shipping: string;
+  shippingMethod: string;
+  items: OrderItem[];
+  billingAddress: {
+    street: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country: string;
+  };
+  shippingAddress: {
+    street: string;
+    city: string;
+    state: string;
+    zipCode: string;
+    country: string;
+  };
+  paymentMethod: string;
+  notes?: string;
+}
 
 const BrandProducts = () => {
   const [showForm, setShowForm] = useState(false);
@@ -89,6 +138,9 @@ const BrandProducts = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [sortConfig, setSortConfig] = useState({ key: "", direction: "" });
   const [orderSearchQuery, setOrderSearchQuery] = useState("");
+  const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
+  const [showOrderDetails, setShowOrderDetails] = useState(false);
+  const printRef = useRef<HTMLDivElement>(null);
   
   // Add products state
   const [products, setProducts] = useState([
@@ -143,41 +195,253 @@ const BrandProducts = () => {
       id: "ORD-001", 
       date: "2023-04-01", 
       customer: "John Smith", 
+      email: "john.smith@example.com",
+      phone: "+1 (555) 123-4567",
       total: "$129.99", 
+      subtotal: "$119.99",
+      tax: "$5.00",
+      shipping: "$5.00",
+      shippingMethod: "Standard Shipping",
       status: "completed",
-      items: 3 
+      items: 3,
+      billingAddress: {
+        street: "123 Main St",
+        city: "New York",
+        state: "NY",
+        zipCode: "10001",
+        country: "USA"
+      },
+      shippingAddress: {
+        street: "123 Main St",
+        city: "New York",
+        state: "NY",
+        zipCode: "10001",
+        country: "USA"
+      },
+      paymentMethod: "Credit Card (ending in 4242)",
+      orderItems: [
+        {
+          id: "ITEM-001",
+          name: "Designer T-Shirt",
+          sku: "TS-BLK-L",
+          quantity: 1,
+          price: "$49.99",
+          total: "$49.99",
+          size: "L",
+          color: "Black",
+          image: "https://via.placeholder.com/50"
+        },
+        {
+          id: "ITEM-002",
+          name: "Premium Jeans",
+          sku: "JN-BLU-32",
+          quantity: 2,
+          price: "$40.00",
+          total: "$80.00",
+          size: "32",
+          color: "Blue",
+          image: "https://via.placeholder.com/50"
+        }
+      ]
     },
     { 
       id: "ORD-002", 
       date: "2023-04-02", 
       customer: "Sarah Johnson", 
+      email: "sarah.j@example.com",
+      phone: "+1 (555) 987-6543",
       total: "$89.50", 
+      subtotal: "$79.50",
+      tax: "$4.00",
+      shipping: "$6.00",
+      shippingMethod: "Express Shipping",
       status: "processing",
-      items: 2 
+      items: 2,
+      billingAddress: {
+        street: "456 Oak Ave",
+        city: "Boston",
+        state: "MA",
+        zipCode: "02115",
+        country: "USA"
+      },
+      shippingAddress: {
+        street: "456 Oak Ave",
+        city: "Boston",
+        state: "MA",
+        zipCode: "02115",
+        country: "USA"
+      },
+      paymentMethod: "PayPal",
+      orderItems: [
+        {
+          id: "ITEM-003",
+          name: "Cotton Sweater",
+          sku: "SW-GRY-M",
+          quantity: 1,
+          price: "$39.50",
+          total: "$39.50",
+          size: "M",
+          color: "Gray",
+          image: "https://via.placeholder.com/50"
+        },
+        {
+          id: "ITEM-004",
+          name: "Canvas Tote Bag",
+          sku: "TB-NAT-01",
+          quantity: 1,
+          price: "$40.00",
+          total: "$40.00",
+          color: "Natural",
+          image: "https://via.placeholder.com/50"
+        }
+      ]
     },
     { 
       id: "ORD-003", 
       date: "2023-04-03", 
       customer: "Michael Davis", 
+      email: "michael.davis@example.com",
+      phone: "+1 (555) 555-1234",
       total: "$210.75", 
+      subtotal: "$195.75",
+      tax: "$10.00",
+      shipping: "$5.00",
+      shippingMethod: "Standard Shipping",
       status: "completed",
-      items: 4 
+      items: 4,
+      billingAddress: {
+        street: "789 Pine St",
+        city: "Chicago",
+        state: "IL",
+        zipCode: "60601",
+        country: "USA"
+      },
+      shippingAddress: {
+        street: "789 Pine St",
+        city: "Chicago",
+        state: "IL",
+        zipCode: "60601",
+        country: "USA"
+      },
+      paymentMethod: "Credit Card (ending in 1234)",
+      orderItems: [
+        {
+          id: "ITEM-005",
+          name: "Leather Jacket",
+          sku: "LJ-BRN-L",
+          quantity: 1,
+          price: "$150.75",
+          total: "$150.75",
+          size: "L",
+          color: "Brown",
+          image: "https://via.placeholder.com/50"
+        },
+        {
+          id: "ITEM-006",
+          name: "Wool Scarf",
+          sku: "WS-RED-01",
+          quantity: 1,
+          price: "$45.00",
+          total: "$45.00",
+          color: "Red",
+          image: "https://via.placeholder.com/50"
+        }
+      ]
     },
     { 
       id: "ORD-004", 
       date: "2023-04-05", 
       customer: "Emily Wilson", 
+      email: "emily.w@example.com",
+      phone: "+1 (555) 222-3333",
       total: "$45.99", 
+      subtotal: "$39.99",
+      tax: "$2.00",
+      shipping: "$4.00",
+      shippingMethod: "Standard Shipping",
       status: "shipped",
-      items: 1 
+      items: 1,
+      billingAddress: {
+        street: "101 Maple Dr",
+        city: "Seattle",
+        state: "WA",
+        zipCode: "98101",
+        country: "USA"
+      },
+      shippingAddress: {
+        street: "101 Maple Dr",
+        city: "Seattle",
+        state: "WA",
+        zipCode: "98101",
+        country: "USA"
+      },
+      paymentMethod: "Debit Card",
+      orderItems: [
+        {
+          id: "ITEM-007",
+          name: "Graphic Print Hoodie",
+          sku: "HD-BLK-L",
+          quantity: 1,
+          price: "$45.99",
+          total: "$45.99",
+          size: "L",
+          color: "Black",
+          image: "https://via.placeholder.com/50"
+        }
+      ]
     },
     { 
       id: "ORD-005", 
       date: "2023-04-06", 
       customer: "Robert Brown", 
+      email: "robert.b@example.com",
+      phone: "+1 (555) 444-5555",
       total: "$178.25", 
+      subtotal: "$165.25",
+      tax: "$8.00",
+      shipping: "$5.00",
+      shippingMethod: "Standard Shipping",
       status: "cancelled",
-      items: 3 
+      items: 3,
+      billingAddress: {
+        street: "222 Cedar Ln",
+        city: "Austin",
+        state: "TX",
+        zipCode: "78701",
+        country: "USA"
+      },
+      shippingAddress: {
+        street: "222 Cedar Ln",
+        city: "Austin",
+        state: "TX",
+        zipCode: "78701",
+        country: "USA"
+      },
+      paymentMethod: "Credit Card (ending in 5678)",
+      orderItems: [
+        {
+          id: "ITEM-008",
+          name: "Denim Jacket",
+          sku: "DJ-BLU-M",
+          quantity: 1,
+          price: "$89.25",
+          total: "$89.25",
+          size: "M",
+          color: "Blue",
+          image: "https://via.placeholder.com/50"
+        },
+        {
+          id: "ITEM-009",
+          name: "Cotton T-Shirt",
+          sku: "TS-WHT-M",
+          quantity: 2,
+          price: "$44.50",
+          total: "$89.00",
+          size: "M",
+          color: "White",
+          image: "https://via.placeholder.com/50"
+        }
+      ]
     }
   ];
 
@@ -250,6 +514,39 @@ const BrandProducts = () => {
     order.id.toLowerCase().includes(orderSearchQuery.toLowerCase()) ||
     order.customer.toLowerCase().includes(orderSearchQuery.toLowerCase())
   );
+
+  // Function to view order details
+  const viewOrderDetails = (orderId) => {
+    const order = orders.find(o => o.id === orderId);
+    if (order) {
+      setSelectedOrder(order);
+      setShowOrderDetails(true);
+    }
+  };
+
+  // Back to orders list
+  const backToOrders = () => {
+    setShowOrderDetails(false);
+    setSelectedOrder(null);
+  };
+
+  // Function to handle printing/PDF generation
+  const handlePrint = useReactToPrint({
+    documentTitle: `Order-${selectedOrder?.id || ""}`,
+    onAfterPrint: () => console.log('Print completed'),
+    contentRef: printRef,
+  });
+
+  // Function to get status color
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "completed": return "bg-green-100 text-green-800";
+      case "processing": return "bg-blue-100 text-blue-800";
+      case "shipped": return "bg-purple-100 text-purple-800";
+      case "cancelled": return "bg-red-100 text-red-800";
+      default: return "bg-gray-100 text-gray-800";
+    }
+  };
 
   return (
     <div className="space-y-6">
@@ -548,107 +845,354 @@ const BrandProducts = () => {
 
         <TabsContent value="orders" className="space-y-6">
           <Card className="border border-gray-200">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Recent Orders</CardTitle>
-              <div className="relative w-full max-w-sm">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
-                <input 
-                  type="search" 
-                  placeholder="Search orders..." 
-                  className="w-full rounded-md border border-gray-200 pl-8 py-2 text-sm outline-none focus:border-blue-500"
-                  value={orderSearchQuery}
-                  onChange={(e) => setOrderSearchQuery(e.target.value)}
-                />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Order ID</TableHead>
-                      <TableHead>Date</TableHead>
-                      <TableHead>Customer</TableHead>
-                      <TableHead>Total</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Items</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {filteredOrders.length === 0 ? (
-                      <TableRow>
-                        <TableCell colSpan={7} className="h-24 text-center">
-                          No orders found.
-                        </TableCell>
-                      </TableRow>
-                    ) : (
-                      filteredOrders.map((order) => (
-                        <TableRow key={order.id}>
-                          <TableCell className="font-medium">{order.id}</TableCell>
-                          <TableCell>{order.date}</TableCell>
-                          <TableCell>{order.customer}</TableCell>
-                          <TableCell>{order.total}</TableCell>
-                          <TableCell>
-                            <Badge 
-                              className={`${
-                                order.status === "completed" ? "bg-green-100 text-green-800" :
-                                order.status === "processing" ? "bg-blue-100 text-blue-800" :
-                                order.status === "shipped" ? "bg-purple-100 text-purple-800" :
-                                "bg-red-100 text-red-800"
-                              }`}
-                            >
-                              {order.status}
-                            </Badge>
-                          </TableCell>
-                          <TableCell>{order.items}</TableCell>
-                          <TableCell className="text-right">
-                            <TooltipProvider>
-                              <div className="flex items-center justify-end space-x-2">
-                                <Tooltip>
-                                  <TooltipTrigger asChild>
-                                    <Link to={`/brand/orders/${order.id}`}>
-                                      <Button variant="ghost" size="icon" className="h-8 w-8">
-                                        <Eye size={16} />
-                                      </Button>
-                                    </Link>
-                                  </TooltipTrigger>
-                                  <TooltipContent>
-                                    <p>View order details</p>
-                                  </TooltipContent>
-                                </Tooltip>
-                                
-                                <Tooltip>
-                                  <TooltipTrigger asChild>
-                                    <Button variant="ghost" size="icon" className="h-8 w-8">
-                                      <Printer size={16} />
-                                    </Button>
-                                  </TooltipTrigger>
-                                  <TooltipContent>
-                                    <p>Print order</p>
-                                  </TooltipContent>
-                                </Tooltip>
-                              </div>
-                            </TooltipProvider>
-                          </TableCell>
+            {!showOrderDetails ? (
+              <>
+                <CardHeader className="flex flex-row items-center justify-between pb-2">
+                  <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Recent Orders</CardTitle>
+                  <div className="relative w-full max-w-sm">
+                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+                    <input 
+                      type="search" 
+                      placeholder="Search orders..." 
+                      className="w-full rounded-md border border-gray-200 pl-8 py-2 text-sm outline-none focus:border-blue-500"
+                      value={orderSearchQuery}
+                      onChange={(e) => setOrderSearchQuery(e.target.value)}
+                    />
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <div className="overflow-x-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Order ID</TableHead>
+                          <TableHead>Date</TableHead>
+                          <TableHead>Customer</TableHead>
+                          <TableHead>Total</TableHead>
+                          <TableHead>Status</TableHead>
+                          <TableHead>Items</TableHead>
+                          <TableHead className="text-right">Actions</TableHead>
                         </TableRow>
-                      ))
+                      </TableHeader>
+                      <TableBody>
+                        {filteredOrders.length === 0 ? (
+                          <TableRow>
+                            <TableCell colSpan={7} className="h-24 text-center">
+                              No orders found.
+                            </TableCell>
+                          </TableRow>
+                        ) : (
+                          filteredOrders.map((order) => (
+                            <TableRow key={order.id}>
+                              <TableCell className="font-medium">{order.id}</TableCell>
+                              <TableCell>{order.date}</TableCell>
+                              <TableCell>{order.customer}</TableCell>
+                              <TableCell>{order.total}</TableCell>
+                              <TableCell>
+                                <Badge 
+                                  className={`${
+                                    order.status === "completed" ? "bg-green-100 text-green-800" :
+                                    order.status === "processing" ? "bg-blue-100 text-blue-800" :
+                                    order.status === "shipped" ? "bg-purple-100 text-purple-800" :
+                                    "bg-red-100 text-red-800"
+                                  }`}
+                                >
+                                  {order.status}
+                                </Badge>
+                              </TableCell>
+                              <TableCell>{order.items}</TableCell>
+                              <TableCell className="text-right">
+                                <TooltipProvider>
+                                  <div className="flex items-center justify-end space-x-2">
+                                    <Tooltip>
+                                      <TooltipTrigger asChild>
+                                        <Button 
+                                          variant="ghost" 
+                                          size="icon" 
+                                          className="h-8 w-8" 
+                                          onClick={() => viewOrderDetails(order.id)}
+                                        >
+                                          <Eye size={16} />
+                                        </Button>
+                                      </TooltipTrigger>
+                                      <TooltipContent>
+                                        <p>View order details</p>
+                                      </TooltipContent>
+                                    </Tooltip>
+                                    
+                                    <Tooltip>
+                                      <TooltipTrigger asChild>
+                                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                                          <Printer size={16} />
+                                        </Button>
+                                      </TooltipTrigger>
+                                      <TooltipContent>
+                                        <p>Print order</p>
+                                      </TooltipContent>
+                                    </Tooltip>
+                                  </div>
+                                </TooltipProvider>
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        )}
+                      </TableBody>
+                    </Table>
+                  </div>
+                  
+                  <div className="flex items-center justify-between mt-4">
+                    <p className="text-sm text-gray-500">Showing {filteredOrders.length} of {orders.length} orders</p>
+                    <div className="flex space-x-1">
+                      <button className="px-2 py-1 text-sm border rounded">Previous</button>
+                      <button className="px-2 py-1 text-sm border rounded bg-black-50">1</button>
+                      <button className="px-2 py-1 text-sm border rounded">2</button>
+                      <button className="px-2 py-1 text-sm border rounded">3</button>
+                      <button className="px-2 py-1 text-sm border rounded">Next</button>
+                    </div>
+                  </div>
+                </CardContent>
+              </>
+            ) : (
+              <>
+                {/* Order details view - only shown when an order is selected */}
+                <CardHeader>
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                    <div className="flex items-center space-x-4">
+                      <Button variant="outline" size="sm" onClick={backToOrders}>
+                        <ArrowLeft size={16} className="mr-2" />
+                        Back to Orders
+                      </Button>
+                      
+                      <h1 className="text-xl md:text-2xl font-semibold">
+                        Order {selectedOrder?.id}
+                      </h1>
+                    </div>
+                    
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        onClick={handlePrint}
+                      >
+                        <Printer size={16} className="mr-2" />
+                        Download PDF
+                      </Button>
+                      
+                      <Button variant="outline" size="sm">
+                        <Mail size={16} className="mr-2" />
+                        Email Customer
+                      </Button>
+                    </div>
+                  </div>
+                </CardHeader>
+                
+                <CardContent>
+                  {/* Order details printable section */}
+                  <div ref={printRef} className="space-y-6 print:p-6">
+                    {/* Print header - only visible when printing */}
+                    <div className="hidden print:block mb-8">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h1 className="text-2xl font-bold">ORDER #{selectedOrder?.id}</h1>
+                          <p>Date: {selectedOrder?.date}</p>
+                        </div>
+                        <div className="text-right">
+                          <h2 className="text-xl font-semibold">YOUR STORE NAME</h2>
+                          <p>123 Fashion Avenue</p>
+                          <p>New York, NY 10001</p>
+                          <p>store@example.com</p>
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Order summary */}
+                    <Card className="border border-gray-200">
+                      <CardHeader>
+                        <CardTitle className="flex justify-between items-center">
+                          <span>Order Summary</span>
+                          {selectedOrder && (
+                            <Badge className={getStatusColor(selectedOrder.status)}>
+                              {selectedOrder.status.charAt(0).toUpperCase() + selectedOrder.status.slice(1)}
+                            </Badge>
+                          )}
+                        </CardTitle>
+                      </CardHeader>
+                      
+                      <CardContent>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                          <div className="space-y-4">
+                            <div>
+                              <h3 className="font-medium text-gray-800">Customer Details</h3>
+                              <p>{selectedOrder?.customer}</p>
+                              <p>{selectedOrder?.email}</p>
+                              <p>{selectedOrder?.phone}</p>
+                            </div>
+                            
+                            <div>
+                              <h3 className="font-medium text-gray-800">Billing Address</h3>
+                              <p>{selectedOrder?.billingAddress.street}</p>
+                              <p>
+                                {selectedOrder?.billingAddress.city}, {selectedOrder?.billingAddress.state} {selectedOrder?.billingAddress.zipCode}
+                              </p>
+                              <p>{selectedOrder?.billingAddress.country}</p>
+                            </div>
+                            
+                            <div>
+                              <h3 className="font-medium text-gray-800">Payment Method</h3>
+                              <p>{selectedOrder?.paymentMethod}</p>
+                            </div>
+                          </div>
+                          
+                          <div className="space-y-4">
+                            <div>
+                              <h3 className="font-medium text-gray-800">Order Details</h3>
+                              <p>Order Number: {selectedOrder?.id}</p>
+                              <p>Order Date: {selectedOrder?.date}</p>
+                            </div>
+                            
+                            <div>
+                              <h3 className="font-medium text-gray-800">Shipping Address</h3>
+                              <p>{selectedOrder?.shippingAddress.street}</p>
+                              <p>
+                                {selectedOrder?.shippingAddress.city}, {selectedOrder?.shippingAddress.state} {selectedOrder?.shippingAddress.zipCode}
+                              </p>
+                              <p>{selectedOrder?.shippingAddress.country}</p>
+                            </div>
+                            
+                            <div>
+                              <h3 className="font-medium text-gray-800">Shipping Method</h3>
+                              <p>{selectedOrder?.shippingMethod}</p>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                    
+                    {/* Order items */}
+                    <Card className="border border-gray-200">
+                      <CardHeader>
+                        <CardTitle>Order Items</CardTitle>
+                      </CardHeader>
+                      
+                      <CardContent>
+                        <div className="overflow-x-auto">
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead>Product</TableHead>
+                                <TableHead>SKU</TableHead>
+                                <TableHead>Details</TableHead>
+                                <TableHead>Price</TableHead>
+                                <TableHead>Qty</TableHead>
+                                <TableHead className="text-right">Total</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {selectedOrder?.orderItems.map((item) => (
+                                <TableRow key={item.id}>
+                                  <TableCell>
+                                    <div className="flex items-center space-x-3">
+                                      {item.image && (
+                                        <img 
+                                          src={item.image} 
+                                          alt={item.name} 
+                                          className="w-12 h-12 object-cover rounded" 
+                                        />
+                                      )}
+                                      <span>{item.name}</span>
+                                    </div>
+                                  </TableCell>
+                                  <TableCell>{item.sku}</TableCell>
+                                  <TableCell>
+                                    <div className="space-y-1">
+                                      {item.size && <div>Size: {item.size}</div>}
+                                      {item.color && <div>Color: {item.color}</div>}
+                                    </div>
+                                  </TableCell>
+                                  <TableCell>{item.price}</TableCell>
+                                  <TableCell>{item.quantity}</TableCell>
+                                  <TableCell className="text-right">{item.total}</TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </div>
+                        
+                        <div className="mt-6 border-t pt-4">
+                          <div className="flex justify-end">
+                            <div className="w-full max-w-xs space-y-2">
+                              <div className="flex justify-between">
+                                <span>Subtotal:</span>
+                                <span>{selectedOrder?.subtotal}</span>
+                              </div>
+                              
+                              <div className="flex justify-between">
+                                <span>Shipping:</span>
+                                <span>{selectedOrder?.shipping}</span>
+                              </div>
+                              
+                              <div className="flex justify-between">
+                                <span>Tax:</span>
+                                <span>{selectedOrder?.tax}</span>
+                              </div>
+                              
+                              <Separator />
+                              
+                              <div className="flex justify-between font-medium">
+                                <span>Total:</span>
+                                <span>{selectedOrder?.total}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                    
+                    {/* Additional notes */}
+                    {selectedOrder?.notes && (
+                      <Card className="border border-gray-200">
+                        <CardHeader>
+                          <CardTitle>Additional Notes</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                          <p>{selectedOrder.notes}</p>
+                        </CardContent>
+                      </Card>
                     )}
-                  </TableBody>
-                </Table>
-              </div>
-              
-              <div className="flex items-center justify-between mt-4">
-                <p className="text-sm text-gray-500">Showing {filteredOrders.length} of {orders.length} orders</p>
-                <div className="flex space-x-1">
-                  <button className="px-2 py-1 text-sm border rounded">Previous</button>
-                  <button className="px-2 py-1 text-sm border rounded bg-black-50">1</button>
-                  <button className="px-2 py-1 text-sm border rounded">2</button>
-                  <button className="px-2 py-1 text-sm border rounded">3</button>
-                  <button className="px-2 py-1 text-sm border rounded">Next</button>
-                </div>
-              </div>
-            </CardContent>
+                    
+                    {/* Print footer - only visible when printing */}
+                    <div className="hidden print:block mt-8 pt-8 border-t border-gray-200 text-center text-sm text-gray-500">
+                      <p>Thank you for your business!</p>
+                      <p>For any questions regarding this order, please contact us at support@yourstore.com</p>
+                    </div>
+                  </div>
+                  
+                  {/* Order Status Update - hidden when printing */}
+                  <Card className="border border-gray-200 print:hidden mt-6">
+                    <CardHeader>
+                      <CardTitle>Update Order Status</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="flex flex-wrap gap-2">
+                        <Button variant={selectedOrder?.status === "processing" ? "default" : "outline"}>
+                          Processing
+                        </Button>
+                        <Button variant={selectedOrder?.status === "shipped" ? "default" : "outline"}>
+                          Shipped
+                        </Button>
+                        <Button variant={selectedOrder?.status === "completed" ? "default" : "outline"}>
+                          Completed
+                        </Button>
+                        <Button variant={selectedOrder?.status === "cancelled" ? "default" : "outline"} 
+                                className="bg-red-100 text-red-800 border-red-200 hover:bg-red-200">
+                          Cancelled
+                        </Button>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </CardContent>
+              </>
+            )}
           </Card>
         </TabsContent>
 
