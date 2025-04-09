@@ -17,8 +17,10 @@ import { Textarea } from "@/components/ui/textarea";
 
 const AdminSubscriptions = () => {
   // State for dialogs
-  const [isNewPlanDialogOpen, setIsNewPlanDialogOpen] = useState(false);
-  const [isNewServiceDialogOpen, setIsNewServiceDialogOpen] = useState(false);
+  const [isItemDialogOpen, setIsItemDialogOpen] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentItemId, setCurrentItemId] = useState<number | null>(null);
+  
   const [subscriptionPlans, setSubscriptionPlans] = useState([
     { id: 1, name: "Basic", price: "$99/month", features: ["Feature 1", "Feature 2"], active: true, duration: "Monthly", renewable: true, type: "plan" },
     { id: 2, name: "Premium", price: "$199/month", features: ["Feature 1", "Feature 2", "Feature 3"], active: true, duration: "Annual", renewable: true, type: "plan" },
@@ -45,12 +47,71 @@ const AdminSubscriptions = () => {
     },
   });
 
-  const handleAddItem = (data) => {
+  // Open dialog for adding a new item
+  const handleAddNew = (type) => {
+    itemForm.reset({
+      name: "",
+      price: "",
+      features: "",
+      description: "",
+      active: true,
+      duration: type === "plan" ? "Monthly" : "Per hour",
+      renewable: type === "plan",
+      type: type
+    });
+    setIsEditing(false);
+    setCurrentItemId(null);
+    setIsItemDialogOpen(true);
+  };
+
+  // Open dialog for editing an existing item
+  const handleEdit = (item) => {
+    let featureText = "";
+    
+    if (item.type === "plan" && item.features) {
+      featureText = item.features.join('\n');
+    } else if (item.description) {
+      featureText = item.description;
+    }
+    
+    itemForm.reset({
+      name: item.name,
+      price: item.price,
+      features: featureText,
+      description: item.description || "",
+      active: item.active,
+      duration: item.duration,
+      renewable: item.renewable,
+      type: item.type
+    });
+    
+    setIsEditing(true);
+    setCurrentItemId(item.id);
+    setIsItemDialogOpen(true);
+  };
+
+  const handleDeleteItem = (itemType, itemId) => {
+    if (itemType === "plan") {
+      setSubscriptionPlans(subscriptionPlans.filter(plan => plan.id !== itemId));
+      toast({
+        title: "Success",
+        description: "Subscription plan deleted successfully",
+      });
+    } else {
+      setAdditionalServices(additionalServices.filter(service => service.id !== itemId));
+      toast({
+        title: "Success",
+        description: "Service deleted successfully",
+      });
+    }
+  };
+
+  const handleSubmitItem = (data) => {
     const features = data.features.split('\n').filter(Boolean);
     
     if (data.type === "plan") {
-      const newPlan = {
-        id: subscriptionPlans.length + 1,
+      const newItem = {
+        id: isEditing ? currentItemId : subscriptionPlans.length + 1,
         name: data.name,
         price: data.price,
         features: features,
@@ -60,32 +121,51 @@ const AdminSubscriptions = () => {
         type: "plan"
       };
       
-      setSubscriptionPlans([...subscriptionPlans, newPlan]);
-      toast({
-        title: "Success",
-        description: "Subscription plan added successfully",
-      });
-      setIsNewPlanDialogOpen(false);
+      if (isEditing) {
+        setSubscriptionPlans(subscriptionPlans.map(plan => 
+          plan.id === currentItemId ? newItem : plan
+        ));
+        toast({
+          title: "Success",
+          description: "Subscription plan updated successfully",
+        });
+      } else {
+        setSubscriptionPlans([...subscriptionPlans, newItem]);
+        toast({
+          title: "Success",
+          description: "Subscription plan added successfully",
+        });
+      }
     } else {
-      const newService = {
-        id: additionalServices.length + 1,
+      const newItem = {
+        id: isEditing ? currentItemId : additionalServices.length + 1,
         name: data.name,
         price: data.price,
-        description: data.description || features.join(', '),
+        description: data.features,
         active: data.active,
         duration: data.duration,
         renewable: data.renewable,
         type: "service"
       };
       
-      setAdditionalServices([...additionalServices, newService]);
-      toast({
-        title: "Success",
-        description: "Service added successfully",
-      });
-      setIsNewServiceDialogOpen(false);
+      if (isEditing) {
+        setAdditionalServices(additionalServices.map(service => 
+          service.id === currentItemId ? newItem : service
+        ));
+        toast({
+          title: "Success",
+          description: "Service updated successfully",
+        });
+      } else {
+        setAdditionalServices([...additionalServices, newItem]);
+        toast({
+          title: "Success",
+          description: "Service added successfully",
+        });
+      }
     }
     
+    setIsItemDialogOpen(false);
     itemForm.reset();
   };
 
@@ -103,19 +183,7 @@ const AdminSubscriptions = () => {
           <div className="flex justify-end mb-4">
             <Button 
               className="bg-black text-white border-none hover:underline"
-              onClick={() => {
-                itemForm.reset({
-                  name: "",
-                  price: "",
-                  features: "",
-                  description: "",
-                  active: true,
-                  duration: "Monthly",
-                  renewable: true,
-                  type: "plan"
-                });
-                setIsNewPlanDialogOpen(true);
-              }}
+              onClick={() => handleAddNew("plan")}
             >
               <PlusCircleIcon className="w-4 h-4 mr-2" />
               Add New Plan
@@ -144,10 +212,20 @@ const AdminSubscriptions = () => {
                   ))}
                 </ul>
                 <div className="mt-6 flex gap-2">
-                  <Button variant="outline" size="icon" className="border-gray-200 h-8 w-8">
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className="border-gray-200 h-8 w-8"
+                    onClick={() => handleEdit(plan)}
+                  >
                     <PencilIcon className="h-4 w-4" />
                   </Button>
-                  <Button variant="outline" size="icon" className="border-gray-200 text-red-600 hover:text-red-700 h-8 w-8">
+                  <Button 
+                    variant="outline" 
+                    size="icon" 
+                    className="border-gray-200 text-red-600 hover:text-red-700 h-8 w-8"
+                    onClick={() => handleDeleteItem("plan", plan.id)}
+                  >
                     <Trash2Icon className="h-4 w-4" />
                   </Button>
                 </div>
@@ -160,19 +238,7 @@ const AdminSubscriptions = () => {
           <div className="flex justify-end mb-4">
             <Button 
               className="bg-black text-white border-none hover:underline"
-              onClick={() => {
-                itemForm.reset({
-                  name: "",
-                  price: "",
-                  features: "",
-                  description: "",
-                  active: true,
-                  duration: "Per hour",
-                  renewable: false,
-                  type: "service"
-                });
-                setIsNewServiceDialogOpen(true);
-              }}
+              onClick={() => handleAddNew("service")}
             >
               <PlusCircleIcon className="w-4 h-4 mr-2" />
               Add New Service
@@ -206,10 +272,20 @@ const AdminSubscriptions = () => {
                       </div>
                     </TableCell>
                     <TableCell className="text-right space-x-2">
-                      <Button variant="outline" size="icon" className="border-gray-200 h-8 w-8">
+                      <Button 
+                        variant="outline" 
+                        size="icon" 
+                        className="border-gray-200 h-8 w-8"
+                        onClick={() => handleEdit(service)}
+                      >
                         <PencilIcon className="h-4 w-4" />
                       </Button>
-                      <Button variant="outline" size="icon" className="border-gray-200 text-red-600 hover:text-red-700 h-8 w-8">
+                      <Button 
+                        variant="outline" 
+                        size="icon" 
+                        className="border-gray-200 text-red-600 hover:text-red-700 h-8 w-8"
+                        onClick={() => handleDeleteItem("service", service.id)}
+                      >
                         <Trash2Icon className="h-4 w-4" />
                       </Button>
                     </TableCell>
@@ -223,22 +299,24 @@ const AdminSubscriptions = () => {
 
       {/* Unified Item Dialog */}
       <Dialog 
-        open={isNewPlanDialogOpen || isNewServiceDialogOpen} 
+        open={isItemDialogOpen} 
         onOpenChange={(open) => {
           if (!open) {
-            setIsNewPlanDialogOpen(false);
-            setIsNewServiceDialogOpen(false);
+            setIsItemDialogOpen(false);
           }
         }}
       >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              {itemForm.watch("type") === "plan" ? "Add New Subscription Plan" : "Add New Service"}
+              {isEditing 
+                ? `Edit ${itemForm.watch("type") === "plan" ? "Subscription Plan" : "Service"}`
+                : `Add New ${itemForm.watch("type") === "plan" ? "Subscription Plan" : "Service"}`
+              }
             </DialogTitle>
           </DialogHeader>
           <Form {...itemForm}>
-            <form onSubmit={itemForm.handleSubmit(handleAddItem)} className="space-y-4">
+            <form onSubmit={itemForm.handleSubmit(handleSubmitItem)} className="space-y-4">
               <FormField
                 control={itemForm.control}
                 name="type"
@@ -307,14 +385,14 @@ const AdminSubscriptions = () => {
                       <Textarea 
                         placeholder={itemForm.watch("type") === "plan" 
                           ? "Add features (one per line)" 
-                          : "Add service details (one per line)"
+                          : "Add service details"
                         }
                         className="min-h-[80px]"
                         {...field} 
                       />
                     </FormControl>
                     <FormDescription className="text-xs">
-                      Enter each feature on a new line
+                      {itemForm.watch("type") === "plan" ? "Enter each feature on a new line" : "Describe the service"}
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -327,7 +405,7 @@ const AdminSubscriptions = () => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Duration</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select duration" />
@@ -383,15 +461,12 @@ const AdminSubscriptions = () => {
                 <Button 
                   type="button" 
                   variant="outline" 
-                  onClick={() => {
-                    setIsNewPlanDialogOpen(false);
-                    setIsNewServiceDialogOpen(false);
-                  }}
+                  onClick={() => setIsItemDialogOpen(false)}
                 >
                   Cancel
                 </Button>
                 <Button type="submit">
-                  {itemForm.watch("type") === "plan" ? "Add Plan" : "Add Service"}
+                  {isEditing ? "Save Changes" : `Add ${itemForm.watch("type") === "plan" ? "Plan" : "Service"}`}
                 </Button>
               </DialogFooter>
             </form>
