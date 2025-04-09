@@ -2,7 +2,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Search, FileText } from "lucide-react";
+import { Eye, FileText, Printer, Search } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 const BrandOrders = () => {
   // Sample order data
@@ -53,10 +60,10 @@ const BrandOrders = () => {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Orders</h1>
-        <button className="text-xs px-3 py-2 bg-gray-200 rounded flex items-center gap-1 w-full sm:w-auto justify-center">
-          <FileText size={16} />
+        <Button variant="outline" size="sm" className="w-full sm:w-auto">
+          <FileText size={16} className="mr-2" />
           Export Orders
-        </button>
+        </Button>
       </div>
       
       <Card className="border border-gray-200">
@@ -105,9 +112,32 @@ const BrandOrders = () => {
                       </Badge>
                     </TableCell>
                     <TableCell>{order.items}</TableCell>
-                    <TableCell className="text-right space-x-2">
-                      <button className="text-xs px-2 py-1 bg-gray-100 rounded">View</button>
-                      <button className="text-xs px-2 py-1 bg-gray-100 rounded">Print</button>
+                    <TableCell className="text-right">
+                      <TooltipProvider>
+                        <div className="flex items-center justify-end space-x-2">
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button variant="ghost" size="icon" className="h-8 w-8">
+                                <Eye size={16} />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>View order details</p>
+                            </TooltipContent>
+                          </Tooltip>
+                          
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <Button variant="ghost" size="icon" className="h-8 w-8">
+                                <Printer size={16} />
+                              </Button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>Print order</p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </div>
+                      </TooltipProvider>
                     </TableCell>
                   </TableRow>
                 ))}
