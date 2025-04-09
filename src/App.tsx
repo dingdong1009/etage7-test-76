@@ -41,6 +41,7 @@ import BrandLayout from "./components/brand/BrandLayout";
 import BrandDashboard from "./pages/brand/Dashboard";
 import BrandProducts from "./pages/brand/Products";
 import BrandOrders from "./pages/brand/Orders";
+import BrandOrderDetails from "./pages/brand/OrderDetails";
 import BrandLookbook from "./pages/brand/Lookbook";
 import BrandTeam from "./pages/brand/Team";
 import BrandStore from "./pages/brand/Store";
@@ -103,6 +104,7 @@ const App = () => (
             <Route index element={<BrandDashboard />} />
             <Route path="products" element={<BrandProducts />} />
             <Route path="orders" element={<BrandOrders />} />
+            <Route path="orders/:orderId" element={<BrandOrderDetails />} />
             <Route path="lookbook" element={<BrandLookbook />} />
             <Route path="team" element={<BrandTeam />} />
             <Route path="store" element={<BrandStore />} />

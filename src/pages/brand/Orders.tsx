@@ -4,6 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Eye, FileText, Printer, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 import {
   Tooltip,
   TooltipContent,
@@ -117,9 +118,11 @@ const BrandOrders = () => {
                         <div className="flex items-center justify-end space-x-2">
                           <Tooltip>
                             <TooltipTrigger asChild>
-                              <Button variant="ghost" size="icon" className="h-8 w-8">
-                                <Eye size={16} />
-                              </Button>
+                              <Link to={`/brand/orders/${order.id}`}>
+                                <Button variant="ghost" size="icon" className="h-8 w-8">
+                                  <Eye size={16} />
+                                </Button>
+                              </Link>
                             </TooltipTrigger>
                             <TooltipContent>
                               <p>View order details</p>
