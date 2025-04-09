@@ -1,16 +1,42 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Upload, Plus, FileText } from "lucide-react";
+import { Upload, Plus, FileText, Check, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { useState } from "react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@/components/ui/form";
 
 const BrandProducts = () => {
   // Example form state
   const [images, setImages] = useState<File[]>([]);
+  const [currency, setCurrency] = useState<string>("€");
   
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -19,19 +45,82 @@ const BrandProducts = () => {
     }
   };
 
+  // Categories for dropdown
+  const categories = [
+    { label: "Dresses", value: "dresses" },
+    { label: "Tops", value: "tops" },
+    { label: "Bottoms", value: "bottoms" },
+    { label: "Outerwear", value: "outerwear" },
+    { label: "Accessories", value: "accessories" },
+  ];
+
+  // Subcategories mapped by category
+  const subcategoriesMap = {
+    dresses: [
+      { label: "Midi Dresses", value: "midi" },
+      { label: "Maxi Dresses", value: "maxi" },
+      { label: "Mini Dresses", value: "mini" },
+    ],
+    tops: [
+      { label: "T-Shirts", value: "tshirts" },
+      { label: "Blouses", value: "blouses" },
+      { label: "Shirts", value: "shirts" },
+    ],
+    bottoms: [
+      { label: "Pants", value: "pants" },
+      { label: "Skirts", value: "skirts" },
+      { label: "Shorts", value: "shorts" },
+    ],
+    outerwear: [
+      { label: "Jackets", value: "jackets" },
+      { label: "Coats", value: "coats" },
+      { label: "Blazers", value: "blazers" },
+    ],
+    accessories: [
+      { label: "Bags", value: "bags" },
+      { label: "Jewelry", value: "jewelry" },
+      { label: "Shoes", value: "shoes" },
+    ],
+  };
+
+  // State for selected category and subcategories
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [availableSubcategories, setAvailableSubcategories] = useState([]);
+
+  // Handle category change to update subcategory options
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value);
+    setAvailableSubcategories(subcategoriesMap[value as keyof typeof subcategoriesMap] || []);
+  };
+
+  // Available currencies
+  const currencies = [
+    { symbol: "€", label: "Euro" },
+    { symbol: "$", label: "USD" },
+    { symbol: "£", label: "GBP" },
+  ];
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <h1 className="text-2xl font-bold">Products</h1>
         <div className="flex gap-2">
-          <button className="text-xs px-3 py-2 bg-blue-500 text-white rounded flex items-center gap-1">
-            <Plus size={16} />
-            Add Product
-          </button>
-          <button className="text-xs px-3 py-2 bg-gray-200 rounded flex items-center gap-1">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="sm" className="h-8 text-xs px-3 py-2 gap-1">
+                <Plus size={16} />
+                Add Product
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-48">
+              <DropdownMenuItem>Single Product</DropdownMenuItem>
+              <DropdownMenuItem>Bulk Upload</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Button variant="outline" size="sm" className="h-8 text-xs px-3 py-2 gap-1">
             <FileText size={16} />
             Export
-          </button>
+          </Button>
         </div>
       </div>
       
@@ -88,24 +177,34 @@ const BrandProducts = () => {
                 
                 <div>
                   <Label htmlFor="category">Category *</Label>
-                  <select id="category" className="w-full p-2 border border-gray-200 rounded">
-                    <option value="">Select Category</option>
-                    <option value="dresses">Dresses</option>
-                    <option value="tops">Tops</option>
-                    <option value="bottoms">Bottoms</option>
-                    <option value="outerwear">Outerwear</option>
-                    <option value="accessories">Accessories</option>
-                  </select>
+                  <Select onValueChange={handleCategoryChange}>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Category" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {categories.map((category) => (
+                        <SelectItem key={category.value} value={category.value}>
+                          {category.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
                 
                 <div>
                   <Label htmlFor="subcategory">Subcategory</Label>
-                  <select id="subcategory" className="w-full p-2 border border-gray-200 rounded">
-                    <option value="">Select Subcategory</option>
-                    <option value="midi">Midi Dresses</option>
-                    <option value="maxi">Maxi Dresses</option>
-                    <option value="mini">Mini Dresses</option>
-                  </select>
+                  <Select>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Subcategory" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {availableSubcategories.map((subcategory: any) => (
+                        <SelectItem key={subcategory.value} value={subcategory.value}>
+                          {subcategory.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
             </div>
@@ -117,11 +216,35 @@ const BrandProducts = () => {
                 <div>
                   <Label htmlFor="retailPrice">Retail Price *</Label>
                   <div className="flex">
-                    <select className="w-16 border border-gray-200 rounded-l">
-                      <option>€</option>
-                      <option>$</option>
-                      <option>£</option>
-                    </select>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button 
+                          variant="outline" 
+                          className="w-16 px-2 rounded-r-none border-r-0 flex justify-center"
+                        >
+                          {currency}
+                          <ChevronDown className="ml-1 h-4 w-4" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-40 p-0">
+                        <div className="grid">
+                          {currencies.map((c) => (
+                            <Button
+                              key={c.symbol}
+                              variant="ghost"
+                              className="justify-start font-normal"
+                              onClick={() => setCurrency(c.symbol)}
+                            >
+                              <span>{c.symbol}</span>
+                              <span className="ml-2">{c.label}</span>
+                              {currency === c.symbol && (
+                                <Check className="ml-auto h-4 w-4" />
+                              )}
+                            </Button>
+                          ))}
+                        </div>
+                      </PopoverContent>
+                    </Popover>
                     <Input id="retailPrice" placeholder="0.00" className="rounded-l-none" />
                   </div>
                 </div>
@@ -129,11 +252,35 @@ const BrandProducts = () => {
                 <div>
                   <Label htmlFor="wholesalePrice">Wholesale Price *</Label>
                   <div className="flex">
-                    <select className="w-16 border border-gray-200 rounded-l">
-                      <option>€</option>
-                      <option>$</option>
-                      <option>£</option>
-                    </select>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button 
+                          variant="outline" 
+                          className="w-16 px-2 rounded-r-none border-r-0 flex justify-center"
+                        >
+                          {currency}
+                          <ChevronDown className="ml-1 h-4 w-4" />
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-40 p-0">
+                        <div className="grid">
+                          {currencies.map((c) => (
+                            <Button
+                              key={c.symbol}
+                              variant="ghost"
+                              className="justify-start font-normal"
+                              onClick={() => setCurrency(c.symbol)}
+                            >
+                              <span>{c.symbol}</span>
+                              <span className="ml-2">{c.label}</span>
+                              {currency === c.symbol && (
+                                <Check className="ml-auto h-4 w-4" />
+                              )}
+                            </Button>
+                          ))}
+                        </div>
+                      </PopoverContent>
+                    </Popover>
                     <Input id="wholesalePrice" placeholder="0.00" className="rounded-l-none" />
                   </div>
                 </div>
@@ -187,7 +334,18 @@ const BrandProducts = () => {
                 
                 <div>
                   <Label htmlFor="countryOfOrigin">Country of Origin</Label>
-                  <Input id="countryOfOrigin" placeholder="e.g., Italy, France" />
+                  <Select>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select Country" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {["Italy", "France", "Spain", "Portugal", "Turkey", "China", "Bangladesh", "Vietnam"].map((country) => (
+                        <SelectItem key={country} value={country.toLowerCase()}>
+                          {country}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
             </div>
@@ -274,4 +432,3 @@ const BrandProducts = () => {
 };
 
 export default BrandProducts;
-
