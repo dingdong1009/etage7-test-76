@@ -255,7 +255,7 @@ const AdminAnnouncements = () => {
       </div>
       
       <Card className="border border-gray-200 overflow-hidden">
-        <CardHeader className="bg-gradient-to-r from-gray-50 to-white pb-2">
+        <CardHeader className="to-white pb-2">
           <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">
             Create New Announcement
           </CardTitle>
