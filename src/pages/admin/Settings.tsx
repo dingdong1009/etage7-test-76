@@ -218,7 +218,7 @@ const AdminSettings = () => {
         
         <TabsContent value="logs" className="space-y-4">
           <Card className="border border-gray-200">
-            <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">System Logs</h2>
+            <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6 pb-2">System Logs</h2>
             <Table>
               <TableHeader>
                 <TableRow className="bg-gray-50">
