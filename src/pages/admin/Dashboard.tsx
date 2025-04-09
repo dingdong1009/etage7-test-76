@@ -189,7 +189,7 @@ const AdminDashboard = () => {
                   <SelectValue placeholder="Select Manager" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectGroup>
+                  <SelectGroup className="uppercase">
                     <SelectItem value="all">All Managers</SelectItem>
                     <SelectItem value="john">John</SelectItem>
                     <SelectItem value="sarah">Sarah</SelectItem>
