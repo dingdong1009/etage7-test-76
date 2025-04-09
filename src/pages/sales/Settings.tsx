@@ -60,7 +60,7 @@ const SalesSettings = () => {
                   name="name"
                   value={profileForm.name}
                   onChange={handleProfileChange}
-                  className="w-full p-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
               <div>
@@ -71,7 +71,7 @@ const SalesSettings = () => {
                   name="email"
                   value={profileForm.email}
                   onChange={handleProfileChange}
-                  className="w-full p-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
               <div>
@@ -82,12 +82,12 @@ const SalesSettings = () => {
                   name="phone"
                   value={profileForm.phone}
                   onChange={handleProfileChange}
-                  className="w-full p-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
               <button 
                 type="submit" 
-                className="bg-black text-white px-4 py-2 rounded hover:bg-black-600"
+                className="bg-black text-white px-4 py-2 hover:bg-black-600"
               >
                 Update Profile
               </button>
@@ -109,7 +109,7 @@ const SalesSettings = () => {
                   name="currentPassword"
                   value={passwordForm.currentPassword}
                   onChange={handlePasswordChange}
-                  className="w-full p-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
               <div>
@@ -120,7 +120,7 @@ const SalesSettings = () => {
                   name="newPassword"
                   value={passwordForm.newPassword}
                   onChange={handlePasswordChange}
-                  className="w-full p-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
               <div>
@@ -131,12 +131,12 @@ const SalesSettings = () => {
                   name="confirmPassword"
                   value={passwordForm.confirmPassword}
                   onChange={handlePasswordChange}
-                  className="w-full p-2 border border-gray-200 rounded focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
                 />
               </div>
               <button 
                 type="submit" 
-                className="bg-black text-white px-4 py-2 rounded hover:bg-black-600"
+                className="bg-black text-white px-4 py-2 hover:bg-black-600"
               >
                 Update Password
               </button>
