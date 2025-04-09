@@ -43,7 +43,7 @@ const AdminContracts = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="p-6 border border-gray-200">
-          <h2 className="text-lg font-medium mb-4">New Contract Template</h2>
+          <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">New Contract Template</h2>
           <form className="space-y-4">
             <div>
               <label htmlFor="templateName" className="block text-sm font-medium mb-1">
@@ -112,7 +112,7 @@ const AdminContracts = () => {
         
         <div>
           <Card className="border border-gray-200">
-            <h2 className="text-lg font-medium p-6 pb-4">Existing Templates</h2>
+            <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">Existing Templates</h2>
             <Table>
               <TableHeader>
                 <TableRow className="bg-gray-50">
