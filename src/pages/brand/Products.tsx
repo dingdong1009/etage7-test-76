@@ -209,7 +209,7 @@ const BrandProducts = () => {
       </div>
       
       <Tabs defaultValue="list" value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="w-full mb-6 grid grid-cols-2 bg-gray-100 p-1">
+        <TabsList className="w-full mb-6 bg-gray-100 p-1">
           <TabsTrigger 
             value="list" 
             className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm"
