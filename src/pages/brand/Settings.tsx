@@ -1,7 +1,13 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const BrandSettings = () => {
   const [passwordForm, setPasswordForm] = useState({
@@ -28,6 +34,9 @@ const BrandSettings = () => {
     deliveryUpdates: true,
     systemAnnouncements: true
   });
+
+  const [dateFormat, setDateFormat] = useState("MM/DD/YYYY");
+  const [currency, setCurrency] = useState("USD ($)");
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordForm({
@@ -74,7 +83,6 @@ const BrandSettings = () => {
           <TabsTrigger value="advanced">Advanced</TabsTrigger>
         </TabsList>
         
-        {/* Profile Tab */}
         <TabsContent value="profile">
           <Card className="border border-gray-200">
             <CardHeader>
@@ -163,7 +171,6 @@ const BrandSettings = () => {
           </Card>
         </TabsContent>
         
-        {/* Security Tab */}
         <TabsContent value="security">
           <Card className="border border-gray-200">
             <CardHeader>
@@ -224,7 +231,6 @@ const BrandSettings = () => {
           </Card>
         </TabsContent>
 
-        {/* Notifications Tab */}
         <TabsContent value="notifications">
           <Card className="border border-gray-200">
             <CardHeader>
@@ -364,16 +370,13 @@ const BrandSettings = () => {
           </Card>
         </TabsContent>
 
-        
-        
-        {/* Advanced Settings Tab */}
         <TabsContent value="advanced">
           <Card className="border border-gray-200">
             <CardHeader>
               <CardTitle className="text-lg font-medium">Advanced Settings</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="p-4 border rounded-md">
+              <div className="p-4 border border-gray-200 rounded-md">
                 <h3 className="font-medium">Data Management</h3>
                 <p className="text-sm text-gray-500 mt-1">Control how your data is stored and processed</p>
                 
@@ -385,7 +388,7 @@ const BrandSettings = () => {
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input type="checkbox" className="sr-only peer" defaultChecked />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-gray-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
                     </label>
                   </div>
                   
@@ -396,34 +399,44 @@ const BrandSettings = () => {
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer">
                       <input type="checkbox" className="sr-only peer" defaultChecked />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-gray-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
                     </label>
                   </div>
                 </div>
               </div>
               
-              <div className="p-4 border rounded-md">
+              <div className="p-4 border border-gray-200 rounded-md">
                 <h3 className="font-medium">Display Settings</h3>
                 <p className="text-sm text-gray-500 mt-1">Customize how information is displayed</p>
                 
                 <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-sm font-medium mb-1">Default Date Format</label>
-                    <select className="w-full p-2 border border-gray-200 rounded">
-                      <option>MM/DD/YYYY</option>
-                      <option>DD/MM/YYYY</option>
-                      <option>YYYY-MM-DD</option>
-                    </select>
+                    <Select value={dateFormat} onValueChange={setDateFormat}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select date format" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="MM/DD/YYYY">MM/DD/YYYY</SelectItem>
+                        <SelectItem value="DD/MM/YYYY">DD/MM/YYYY</SelectItem>
+                        <SelectItem value="YYYY-MM-DD">YYYY-MM-DD</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                   
                   <div>
                     <label className="block text-sm font-medium mb-1">Default Currency</label>
-                    <select className="w-full p-2 border border-gray-200 rounded">
-                      <option>USD ($)</option>
-                      <option>EUR (€)</option>
-                      <option>GBP (£)</option>
-                      <option>JPY (¥)</option>
-                    </select>
+                    <Select value={currency} onValueChange={setCurrency}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select currency" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="USD ($)">USD ($)</SelectItem>
+                        <SelectItem value="EUR (€)">EUR (€)</SelectItem>
+                        <SelectItem value="GBP (£)">GBP (£)</SelectItem>
+                        <SelectItem value="JPY (¥)">JPY (¥)</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </div>
                 </div>
               </div>
