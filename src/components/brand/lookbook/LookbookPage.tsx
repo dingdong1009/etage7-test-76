@@ -44,7 +44,7 @@ const LookbookPage: React.FC<LookbookPageProps> = ({ template, preview = false }
           <div className="relative h-full flex flex-col justify-center items-center p-6 bg-gray-50">
             <ImagePlaceholder preview={preview} className="absolute inset-0 z-0 opacity-90" />
             <div className="z-10 text-center bg-white bg-opacity-90 p-6 rounded-md shadow-sm">
-              <h2 className="text-2xl font-bold mb-2">{preview ? "Collection Title" : "Add Collection Title"}</h2>
+              <h2 className="text-1xl md:text-2xl uppercase font-thin mb-2">{preview ? "Collection Title" : "Add Collection Title"}</h2>
               <p className="text-gray-600">{preview ? "A brief description of this collection." : "Add description here"}</p>
             </div>
           </div>
