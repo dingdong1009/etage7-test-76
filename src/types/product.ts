@@ -24,3 +24,12 @@ export interface LookbookPage {
   images: string[];
   linkedProducts?: number[];
 }
+
+export interface SocialMediaLinks {
+  instagram?: string;
+  twitter?: string;
+  facebook?: string;
+  telegram?: string;
+  whatsapp?: string;
+  vk?: string;
+}

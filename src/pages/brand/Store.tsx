@@ -13,13 +13,28 @@ import {
   Eye, 
   Store as StoreIcon,
   Save,
-  Check
+  Check,
+  Instagram,
+  Twitter,
+  Facebook,
+  MessageCircle,
+  Phone,
+  Globe
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Product } from "@/types/product";
+import { Product, SocialMediaLinks } from "@/types/product";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { 
+  Form, 
+  FormControl, 
+  FormField, 
+  FormItem, 
+  FormLabel
+} from "@/components/ui/form";
 
 // Mock data for featured products
 const mockProducts: Product[] = [
@@ -123,9 +138,18 @@ const BrandStore = () => {
     email: "contact@elegantfashion.com",
     phone: "+1 (555) 987-6543",
     website: "https://elegantfashion.com",
-    socialMedia: "@elegantfashion",
     address: "123 Fashion Avenue, Suite 500\nNew York, NY 10001\nUnited States"
   });
+  
+  const [socialMedia, setSocialMedia] = useState<SocialMediaLinks>({
+    instagram: "@elegantfashion",
+    twitter: "@elegantfashion",
+    facebook: "elegantfashion",
+    telegram: "elegantfashion",
+    whatsapp: "+1 (555) 123-4567",
+    vk: "elegantfashion"
+  });
+  
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [isPreviewMode, setIsPreviewMode] = useState(false);
   
@@ -144,6 +168,14 @@ const BrandStore = () => {
   const handleSaveInfo = () => {
     // In a real app, this would save to a database
     console.log("Store information saved:", storeInfo);
+    console.log("Social media links saved:", socialMedia);
+  };
+
+  const handleSocialMediaChange = (platform: keyof SocialMediaLinks, value: string) => {
+    setSocialMedia(prev => ({
+      ...prev,
+      [platform]: value
+    }));
   };
 
   return (
@@ -242,18 +274,89 @@ const BrandStore = () => {
                       onChange={(e) => setStoreInfo({...storeInfo, website: e.target.value})}
                     />
                   </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Social Media
-                    </label>
-                    <input 
-                      type="text" 
-                      className="w-full p-2 border border-gray-200"
-                      placeholder="@yourbrand"
-                      value={storeInfo.socialMedia}
-                      onChange={(e) => setStoreInfo({...storeInfo, socialMedia: e.target.value})}
-                    />
+                </div>
+
+                {/* Social Media Section */}
+                <div className="border-t border-gray-200 pt-4 mt-4">
+                  <h3 className="font-medium text-lg mb-3">Social Media</h3>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="flex items-center">
+                      <div className="mr-2">
+                        <Instagram size={18} />
+                      </div>
+                      <Input
+                        type="text"
+                        placeholder="Instagram username"
+                        value={socialMedia.instagram}
+                        onChange={(e) => handleSocialMediaChange('instagram', e.target.value)}
+                        className="flex-1"
+                      />
+                    </div>
+                    
+                    <div className="flex items-center">
+                      <div className="mr-2">
+                        <Twitter size={18} />
+                      </div>
+                      <Input
+                        type="text"
+                        placeholder="X (Twitter) username"
+                        value={socialMedia.twitter}
+                        onChange={(e) => handleSocialMediaChange('twitter', e.target.value)}
+                        className="flex-1"
+                      />
+                    </div>
+                    
+                    <div className="flex items-center">
+                      <div className="mr-2">
+                        <Facebook size={18} />
+                      </div>
+                      <Input
+                        type="text"
+                        placeholder="Facebook page name"
+                        value={socialMedia.facebook}
+                        onChange={(e) => handleSocialMediaChange('facebook', e.target.value)}
+                        className="flex-1"
+                      />
+                    </div>
+                    
+                    <div className="flex items-center">
+                      <div className="mr-2">
+                        <MessageCircle size={18} />
+                      </div>
+                      <Input
+                        type="text"
+                        placeholder="Telegram username"
+                        value={socialMedia.telegram}
+                        onChange={(e) => handleSocialMediaChange('telegram', e.target.value)}
+                        className="flex-1"
+                      />
+                    </div>
+                    
+                    <div className="flex items-center">
+                      <div className="mr-2">
+                        <Phone size={18} />
+                      </div>
+                      <Input
+                        type="text"
+                        placeholder="WhatsApp number"
+                        value={socialMedia.whatsapp}
+                        onChange={(e) => handleSocialMediaChange('whatsapp', e.target.value)}
+                        className="flex-1"
+                      />
+                    </div>
+                    
+                    <div className="flex items-center">
+                      <div className="mr-2">
+                        <Globe size={18} />
+                      </div>
+                      <Input
+                        type="text"
+                        placeholder="VK page name"
+                        value={socialMedia.vk}
+                        onChange={(e) => handleSocialMediaChange('vk', e.target.value)}
+                        className="flex-1"
+                      />
+                    </div>
                   </div>
                 </div>
                 
@@ -329,7 +432,8 @@ const BrandStore = () => {
           {isPreviewMode ? (
             <StorePreview 
               template={selectedTemplate.type} 
-              storeInfo={storeInfo} 
+              storeInfo={storeInfo}
+              socialMedia={socialMedia}
               featuredProducts={selectedProducts}
             />
           ) : (
@@ -409,13 +513,13 @@ interface StorePreviewProps {
     email: string;
     phone: string;
     website: string;
-    socialMedia: string;
     address: string;
   };
+  socialMedia: SocialMediaLinks;
   featuredProducts: Product[];
 }
 
-const StorePreview: React.FC<StorePreviewProps> = ({ template, storeInfo, featuredProducts }) => {
+const StorePreview: React.FC<StorePreviewProps> = ({ template, storeInfo, socialMedia, featuredProducts }) => {
   // Different layout styles based on template type
   const getTemplateStyles = () => {
     switch (template) {
@@ -467,7 +571,7 @@ const StorePreview: React.FC<StorePreviewProps> = ({ template, storeInfo, featur
             </div>
             <div>
               <h2 className={`text-2xl md:text-3xl ${styles.fontFamily}`}>{storeInfo.name}</h2>
-              <p className="text-sm text-gray-500">{storeInfo.socialMedia}</p>
+              <p className="text-sm text-gray-500">{socialMedia.instagram}</p>
             </div>
           </div>
           <div className="flex gap-3">
@@ -560,19 +664,37 @@ const StorePreview: React.FC<StorePreviewProps> = ({ template, storeInfo, featur
           
           <div>
             <h3 className={`text-lg mb-4 ${styles.fontFamily} border-b ${styles.accentColor} inline-block pb-2`}>Connect</h3>
-            <div className="flex gap-2">
-              <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
-                <span className="text-xs">FB</span>
-              </div>
-              <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
-                <span className="text-xs">IG</span>
-              </div>
-              <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
-                <span className="text-xs">TW</span>
-              </div>
-              <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
-                <span className="text-xs">YT</span>
-              </div>
+            <div className="flex gap-2 flex-wrap">
+              {socialMedia.instagram && (
+                <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                  <Instagram size={16} />
+                </div>
+              )}
+              {socialMedia.twitter && (
+                <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                  <Twitter size={16} />
+                </div>
+              )}
+              {socialMedia.facebook && (
+                <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                  <Facebook size={16} />
+                </div>
+              )}
+              {socialMedia.telegram && (
+                <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                  <MessageCircle size={16} />
+                </div>
+              )}
+              {socialMedia.whatsapp && (
+                <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                  <Phone size={16} />
+                </div>
+              )}
+              {socialMedia.vk && (
+                <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                  <Globe size={16} />
+                </div>
+              )}
             </div>
           </div>
         </div>
