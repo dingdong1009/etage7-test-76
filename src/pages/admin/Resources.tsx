@@ -1,10 +1,12 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, Youtube, Book, Download, ExternalLink, Play, Plus, Pencil, Eye, ToggleLeft, ToggleRight } from "lucide-react";
+import { FileText, Youtube, Book, Download, ExternalLink, Play, Plus, Pencil, Eye, ToggleLeft, ToggleRight, Link } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
 
 const AdminResources = () => {
   // State management
@@ -12,27 +14,29 @@ const AdminResources = () => {
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
   const [currentResource, setCurrentResource] = useState<any>(null);
+  const [uploadedFile, setUploadedFile] = useState<File | null>(null);
+  const [resourceLink, setResourceLink] = useState<string>("");
 
   // Sample resources - in a real application, these would come from a database/API
   const [pdfResources, setPdfResources] = useState([
-    { id: 1, title: "Brand Style Guide", description: "Complete guide for using your brand assets", size: "2.4 MB", active: true },
-    { id: 2, title: "Marketing Toolkit", description: "Templates and graphics for your marketing campaigns", size: "5.1 MB", active: true },
-    { id: 3, title: "Product Photography Guidelines", description: "How to photograph your products for best results", size: "1.8 MB", active: false },
-    { id: 4, title: "Sales Strategy Playbook", description: "Effective strategies for increasing sales", size: "3.2 MB", active: true }
+    { id: 1, title: "Brand Style Guide", description: "Complete guide for using your brand assets", size: "2.4 MB", active: true, link: "" },
+    { id: 2, title: "Marketing Toolkit", description: "Templates and graphics for your marketing campaigns", size: "5.1 MB", active: true, link: "https://example.com/marketing" },
+    { id: 3, title: "Product Photography Guidelines", description: "How to photograph your products for best results", size: "1.8 MB", active: false, link: "" },
+    { id: 4, title: "Sales Strategy Playbook", description: "Effective strategies for increasing sales", size: "3.2 MB", active: true, link: "https://example.com/sales" }
   ]);
 
   const [videoResources, setVideoResources] = useState([
-    { id: 1, title: "Introduction to the Platform", duration: "4:32", active: true },
-    { id: 2, title: "Product Upload Tutorial", duration: "7:15", active: true },
-    { id: 3, title: "Analyzing Your Sales Data", duration: "12:08", active: false },
-    { id: 4, title: "Social Media Integration", duration: "9:45", active: true }
+    { id: 1, title: "Introduction to the Platform", duration: "4:32", active: true, link: "https://youtube.com/watch?v=123" },
+    { id: 2, title: "Product Upload Tutorial", duration: "7:15", active: true, link: "" },
+    { id: 3, title: "Analyzing Your Sales Data", duration: "12:08", active: false, link: "https://vimeo.com/123456" },
+    { id: 4, title: "Social Media Integration", duration: "9:45", active: true, link: "" }
   ]);
 
   const [externalResources, setExternalResources] = useState([
-    { id: 1, title: "Industry Trends Report", source: "Fashion Weekly", type: "article", active: true },
-    { id: 2, title: "E-commerce Best Practices", source: "Retail Insights", type: "webinar", active: false },
-    { id: 3, title: "Brand Growth Strategies", source: "Marketing Pros", type: "course", active: true },
-    { id: 4, title: "Supply Chain Management", source: "Business Daily", type: "article", active: true }
+    { id: 1, title: "Industry Trends Report", source: "Fashion Weekly", type: "article", active: true, link: "https://fashionweekly.com/trends" },
+    { id: 2, title: "E-commerce Best Practices", source: "Retail Insights", type: "webinar", active: false, link: "" },
+    { id: 3, title: "Brand Growth Strategies", source: "Marketing Pros", type: "course", active: true, link: "https://marketingpros.com/courses/brand-growth" },
+    { id: 4, title: "Supply Chain Management", source: "Business Daily", type: "article", active: true, link: "" }
   ]);
 
   // Function to toggle resource active status
@@ -61,7 +65,50 @@ const AdminResources = () => {
   // Function to open resource editor
   const openResourceEditor = (resource: any, type: string) => {
     setCurrentResource({ ...resource, type });
+    setResourceLink(resource.link || "");
+    setUploadedFile(null);
     setIsEditDialogOpen(true);
+  };
+
+  // Function to handle file upload
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setUploadedFile(e.target.files[0]);
+      toast.success(`File selected: ${e.target.files[0].name}`);
+    }
+  };
+
+  // Function to save edited resource
+  const saveEditedResource = () => {
+    if (!currentResource) return;
+
+    const updatedResource = {
+      ...currentResource,
+      link: resourceLink
+    };
+
+    if (uploadedFile) {
+      // In a real app, this would upload the file to a server
+      updatedResource.size = `${(uploadedFile.size / (1024 * 1024)).toFixed(1)} MB`;
+      toast.success(`File "${uploadedFile.name}" would be uploaded in a real application`);
+    }
+
+    if (currentResource.type === 'pdf') {
+      setPdfResources(pdfResources.map(resource => 
+        resource.id === currentResource.id ? updatedResource : resource
+      ));
+    } else if (currentResource.type === 'video') {
+      setVideoResources(videoResources.map(resource => 
+        resource.id === currentResource.id ? updatedResource : resource
+      ));
+    } else if (currentResource.type === 'external') {
+      setExternalResources(externalResources.map(resource => 
+        resource.id === currentResource.id ? updatedResource : resource
+      ));
+    }
+
+    toast.success("Resource updated successfully");
+    setIsEditDialogOpen(false);
   };
 
   return (
@@ -290,11 +337,77 @@ const AdminResources = () => {
             <div className="grid gap-4 py-4">
               <div className="grid grid-cols-4 items-center gap-4">
                 <label htmlFor="editTitle" className="text-right">Title</label>
-                <input id="editTitle" className="col-span-3 p-2 border rounded" defaultValue={currentResource.title} />
+                <Input 
+                  id="editTitle" 
+                  className="col-span-3" 
+                  defaultValue={currentResource.title} 
+                />
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <label htmlFor="editDescription" className="text-right">Description</label>
-                <textarea id="editDescription" className="col-span-3 p-2 border rounded h-20" defaultValue={currentResource.description || ''} />
+                <Textarea 
+                  id="editDescription" 
+                  className="col-span-3" 
+                  defaultValue={currentResource.description || ''} 
+                />
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <label htmlFor="resourceLink" className="text-right">Resource Link</label>
+                <div className="col-span-3 flex items-center">
+                  <Link className="mr-2 text-gray-500" size={18} />
+                  <Input
+                    id="resourceLink"
+                    placeholder="https://example.com/resource"
+                    value={resourceLink}
+                    onChange={(e) => setResourceLink(e.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <label htmlFor="documentUpload" className="text-right">Upload Document</label>
+                <div className="col-span-3 border-2 border-dashed border-gray-300 rounded-md p-4">
+                  <input 
+                    type="file" 
+                    id="documentUpload" 
+                    className="hidden" 
+                    onChange={handleFileChange}
+                  />
+                  <div className="text-center">
+                    {uploadedFile ? (
+                      <div className="flex flex-col items-center">
+                        <FileText className="h-8 w-8 text-blue-500 mb-2" />
+                        <p className="text-sm font-medium">{uploadedFile.name}</p>
+                        <p className="text-xs text-gray-500 mt-1">
+                          {(uploadedFile.size / (1024 * 1024)).toFixed(2)} MB
+                        </p>
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="mt-2"
+                          onClick={() => document.getElementById('documentUpload')?.click()}
+                        >
+                          Change File
+                        </Button>
+                      </div>
+                    ) : (
+                      <>
+                        <Button 
+                          type="button" 
+                          variant="outline" 
+                          onClick={() => document.getElementById('documentUpload')?.click()}
+                        >
+                          Select File
+                        </Button>
+                        <p className="text-xs text-gray-500 mt-2">or drag and drop</p>
+                        {currentResource?.size && (
+                          <p className="text-xs text-gray-500 mt-1">
+                            Current file size: {currentResource.size}
+                          </p>
+                        )}
+                      </>
+                    )}
+                  </div>
+                </div>
               </div>
               <div className="grid grid-cols-4 items-center gap-4">
                 <label className="text-right">Status</label>
@@ -323,7 +436,7 @@ const AdminResources = () => {
           )}
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsEditDialogOpen(false)}>Cancel</Button>
-            <Button type="submit" onClick={() => setIsEditDialogOpen(false)}>Save Changes</Button>
+            <Button type="submit" onClick={saveEditedResource}>Save Changes</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -337,45 +450,85 @@ const AdminResources = () => {
           <div className="py-4 overflow-y-auto">
             {currentResource?.type === 'pdf' && (
               <div className="border rounded p-4">
-                <div className="bg-gray-100 h-[400px] rounded flex items-center justify-center">
-                  <div className="text-center">
-                    <FileText className="mx-auto h-12 w-12 text-gray-400" />
-                    <p className="mt-2 text-gray-500">PDF Preview</p>
-                    <Button className="mt-4" onClick={() => setIsViewDialogOpen(false)}>
-                      <Download className="mr-2 h-4 w-4" /> Download PDF
-                    </Button>
+                {currentResource.link ? (
+                  <iframe 
+                    src={currentResource.link} 
+                    className="w-full h-[400px] rounded"
+                    title={currentResource.title}
+                  ></iframe>
+                ) : (
+                  <div className="bg-gray-100 h-[400px] rounded flex items-center justify-center">
+                    <div className="text-center">
+                      <FileText className="mx-auto h-12 w-12 text-gray-400" />
+                      <p className="mt-2 text-gray-500">PDF Preview</p>
+                      <Button className="mt-4">
+                        <Download className="mr-2 h-4 w-4" /> Download PDF
+                      </Button>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             )}
             {currentResource?.type === 'video' && (
               <div className="border rounded p-4">
-                <div className="bg-gray-100 h-[400px] rounded flex items-center justify-center">
-                  <div className="text-center">
-                    <Youtube className="mx-auto h-12 w-12 text-gray-400" />
-                    <p className="mt-2 text-gray-500">Video Player</p>
-                    <div className="mt-4 flex justify-center">
-                      <Button>
-                        <Play className="mr-2 h-4 w-4" /> Play Video
-                      </Button>
+                {currentResource.link && currentResource.link.includes('youtube') ? (
+                  <iframe 
+                    src={currentResource.link.replace('watch?v=', 'embed/')} 
+                    className="w-full h-[400px] rounded" 
+                    title={currentResource.title}
+                    allowFullScreen
+                  ></iframe>
+                ) : currentResource.link && currentResource.link.includes('vimeo') ? (
+                  <iframe 
+                    src={currentResource.link.replace('vimeo.com/', 'player.vimeo.com/video/')} 
+                    className="w-full h-[400px] rounded"
+                    title={currentResource.title}
+                    allowFullScreen
+                  ></iframe>
+                ) : (
+                  <div className="bg-gray-100 h-[400px] rounded flex items-center justify-center">
+                    <div className="text-center">
+                      <Youtube className="mx-auto h-12 w-12 text-gray-400" />
+                      <p className="mt-2 text-gray-500">Video Player</p>
+                      <div className="mt-4 flex justify-center">
+                        <Button>
+                          <Play className="mr-2 h-4 w-4" /> Play Video
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             )}
             {currentResource?.type === 'external' && (
               <div className="border rounded p-4">
-                <div className="bg-gray-100 h-[400px] rounded flex items-center justify-center">
-                  <div className="text-center">
-                    {currentResource.type === 'article' && <FileText className="mx-auto h-12 w-12 text-gray-400" />}
-                    {currentResource.type === 'webinar' && <Youtube className="mx-auto h-12 w-12 text-gray-400" />}
-                    {currentResource.type === 'course' && <Book className="mx-auto h-12 w-12 text-gray-400" />}
-                    <p className="mt-2 text-gray-500">{currentResource.type} from {currentResource.source}</p>
-                    <Button className="mt-4">
-                      <ExternalLink className="mr-2 h-4 w-4" /> Open External Resource
-                    </Button>
+                {currentResource.link ? (
+                  <div className="w-full h-[400px] rounded bg-gray-50 p-4">
+                    <div className="flex justify-between mb-4">
+                      <h3 className="font-medium">{currentResource.title}</h3>
+                      <Button variant="outline" size="sm" onClick={() => window.open(currentResource.link, '_blank')}>
+                        <ExternalLink size={14} className="mr-1" /> Open
+                      </Button>
+                    </div>
+                    <iframe 
+                      src={currentResource.link} 
+                      className="w-full h-[320px] rounded border"
+                      title={currentResource.title}
+                    ></iframe>
                   </div>
-                </div>
+                ) : (
+                  <div className="bg-gray-100 h-[400px] rounded flex items-center justify-center">
+                    <div className="text-center">
+                      {currentResource.type === 'article' && <FileText className="mx-auto h-12 w-12 text-gray-400" />}
+                      {currentResource.type === 'webinar' && <Youtube className="mx-auto h-12 w-12 text-gray-400" />}
+                      {currentResource.type === 'course' && <Book className="mx-auto h-12 w-12 text-gray-400" />}
+                      <p className="mt-2 text-gray-500">{currentResource.type} from {currentResource.source}</p>
+                      <Button className="mt-4">
+                        <ExternalLink className="mr-2 h-4 w-4" /> Open External Resource
+                      </Button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
             {currentResource && (
@@ -386,6 +539,11 @@ const AdminResources = () => {
                   <p className="text-sm text-gray-500">
                     Status: <span className={currentResource.active ? "text-green-600 font-medium" : "text-gray-600"}>{currentResource.active ? "Active" : "Inactive"}</span>
                   </p>
+                  {currentResource.link && (
+                    <p className="text-sm text-gray-500 mt-1">
+                      Link: <a href={currentResource.link} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">{currentResource.link}</a>
+                    </p>
+                  )}
                 </div>
               </div>
             )}

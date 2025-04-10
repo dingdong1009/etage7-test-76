@@ -4,6 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, Youtube, Book, Download, ExternalLink, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 
 const BuyerResources = () => {
   // State for dialogs
@@ -12,24 +13,24 @@ const BuyerResources = () => {
 
   // Sample resources
   const pdfResources = [
-    { id: 1, title: "Buyer's Guide", description: "Complete guide for using the buyer platform", size: "2.4 MB" },
-    { id: 2, title: "Ordering Toolkit", description: "Templates and guides for your ordering process", size: "5.1 MB" },
-    { id: 3, title: "Product Selection Guidelines", description: "How to select products for your store", size: "1.8 MB" },
-    { id: 4, title: "Merchandising Playbook", description: "Effective strategies for merchandising", size: "3.2 MB" }
+    { id: 1, title: "Buyer's Guide", description: "Complete guide for using the buyer platform", size: "2.4 MB", link: "" },
+    { id: 2, title: "Ordering Toolkit", description: "Templates and guides for your ordering process", size: "5.1 MB", link: "https://example.com/ordering-toolkit.pdf" },
+    { id: 3, title: "Product Selection Guidelines", description: "How to select products for your store", size: "1.8 MB", link: "" },
+    { id: 4, title: "Merchandising Playbook", description: "Effective strategies for merchandising", size: "3.2 MB", link: "https://example.com/merchandising.pdf" }
   ];
 
   const videoResources = [
-    { id: 1, title: "Introduction to the Buyer Platform", duration: "4:32" },
-    { id: 2, title: "Order Placement Tutorial", duration: "7:15" },
-    { id: 3, title: "Analyzing Your Inventory Data", duration: "12:08" },
-    { id: 4, title: "Visual Merchandising Tips", duration: "9:45" }
+    { id: 1, title: "Introduction to the Buyer Platform", duration: "4:32", link: "https://youtube.com/watch?v=example1" },
+    { id: 2, title: "Order Placement Tutorial", duration: "7:15", link: "" },
+    { id: 3, title: "Analyzing Your Inventory Data", duration: "12:08", link: "https://vimeo.com/example3" },
+    { id: 4, title: "Visual Merchandising Tips", duration: "9:45", link: "" }
   ];
 
   const externalResources = [
-    { id: 1, title: "Retail Trends Report", source: "Fashion Weekly", type: "article" },
-    { id: 2, title: "Store Management Best Practices", source: "Retail Insights", type: "webinar" },
-    { id: 3, title: "Buyer Growth Strategies", source: "Marketing Pros", type: "course" },
-    { id: 4, title: "Inventory Management", source: "Business Daily", type: "article" }
+    { id: 1, title: "Retail Trends Report", source: "Fashion Weekly", type: "article", link: "https://fashionweekly.com/trends" },
+    { id: 2, title: "Store Management Best Practices", source: "Retail Insights", type: "webinar", link: "" },
+    { id: 3, title: "Buyer Growth Strategies", source: "Marketing Pros", type: "course", link: "https://marketingpros.com/courses/growth" },
+    { id: 4, title: "Inventory Management", source: "Business Daily", type: "article", link: "https://businessdaily.com/inventory" }
   ];
 
   // Function to open resource viewer
@@ -194,51 +195,96 @@ const BuyerResources = () => {
           <div className="py-4 overflow-y-auto">
             {currentResource?.type === 'pdf' && (
               <div className="border rounded p-4">
-                <div className="bg-gray-100 h-[400px] rounded flex items-center justify-center">
-                  <div className="text-center">
-                    <FileText className="mx-auto h-12 w-12 text-gray-400" />
-                    <p className="mt-2 text-gray-500">PDF Preview</p>
-                    <Button className="mt-4">
-                      <Download className="mr-2 h-4 w-4" /> Download PDF
-                    </Button>
+                {currentResource.link ? (
+                  <iframe 
+                    src={currentResource.link} 
+                    className="w-full h-[400px] rounded"
+                    title={currentResource.title}
+                  ></iframe>
+                ) : (
+                  <div className="bg-gray-100 h-[400px] rounded flex items-center justify-center">
+                    <div className="text-center">
+                      <FileText className="mx-auto h-12 w-12 text-gray-400" />
+                      <p className="mt-2 text-gray-500">PDF Preview</p>
+                      <Button className="mt-4">
+                        <Download className="mr-2 h-4 w-4" /> Download PDF
+                      </Button>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             )}
             {currentResource?.type === 'video' && (
               <div className="border rounded p-4">
-                <div className="bg-gray-100 h-[400px] rounded flex items-center justify-center">
-                  <div className="text-center">
-                    <Youtube className="mx-auto h-12 w-12 text-gray-400" />
-                    <p className="mt-2 text-gray-500">Video Player</p>
-                    <div className="mt-4 flex justify-center">
-                      <Button>
-                        <Play className="mr-2 h-4 w-4" /> Play Video
-                      </Button>
+                {currentResource.link && currentResource.link.includes('youtube') ? (
+                  <iframe 
+                    src={currentResource.link.replace('watch?v=', 'embed/')} 
+                    className="w-full h-[400px] rounded" 
+                    title={currentResource.title}
+                    allowFullScreen
+                  ></iframe>
+                ) : currentResource.link && currentResource.link.includes('vimeo') ? (
+                  <iframe 
+                    src={currentResource.link.replace('vimeo.com/', 'player.vimeo.com/video/')} 
+                    className="w-full h-[400px] rounded"
+                    title={currentResource.title}
+                    allowFullScreen
+                  ></iframe>
+                ) : (
+                  <div className="bg-gray-100 h-[400px] rounded flex items-center justify-center">
+                    <div className="text-center">
+                      <Youtube className="mx-auto h-12 w-12 text-gray-400" />
+                      <p className="mt-2 text-gray-500">Video Player</p>
+                      <div className="mt-4 flex justify-center">
+                        <Button>
+                          <Play className="mr-2 h-4 w-4" /> Play Video
+                        </Button>
+                      </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             )}
             {currentResource?.type === 'external' && (
               <div className="border rounded p-4">
-                <div className="bg-gray-100 h-[400px] rounded flex items-center justify-center">
-                  <div className="text-center">
-                    {currentResource.type === 'article' && <FileText className="mx-auto h-12 w-12 text-gray-400" />}
-                    {currentResource.type === 'webinar' && <Youtube className="mx-auto h-12 w-12 text-gray-400" />}
-                    {currentResource.type === 'course' && <Book className="mx-auto h-12 w-12 text-gray-400" />}
-                    <p className="mt-2 text-gray-500">{currentResource.type} from {currentResource.source}</p>
-                    <Button className="mt-4">
-                      <ExternalLink className="mr-2 h-4 w-4" /> Open External Resource
-                    </Button>
+                {currentResource.link ? (
+                  <div className="w-full h-[400px] rounded bg-gray-50 p-4">
+                    <div className="flex justify-between mb-4">
+                      <h3 className="font-medium">{currentResource.title}</h3>
+                      <Button variant="outline" size="sm" onClick={() => window.open(currentResource.link, '_blank')}>
+                        <ExternalLink size={14} className="mr-1" /> Open
+                      </Button>
+                    </div>
+                    <iframe 
+                      src={currentResource.link} 
+                      className="w-full h-[320px] rounded border"
+                      title={currentResource.title}
+                    ></iframe>
                   </div>
-                </div>
+                ) : (
+                  <div className="bg-gray-100 h-[400px] rounded flex items-center justify-center">
+                    <div className="text-center">
+                      {currentResource.type === 'article' && <FileText className="mx-auto h-12 w-12 text-gray-400" />}
+                      {currentResource.type === 'webinar' && <Youtube className="mx-auto h-12 w-12 text-gray-400" />}
+                      {currentResource.type === 'course' && <Book className="mx-auto h-12 w-12 text-gray-400" />}
+                      <p className="mt-2 text-gray-500">{currentResource.type} from {currentResource.source}</p>
+                      <Button className="mt-4">
+                        <ExternalLink className="mr-2 h-4 w-4" /> Open External Resource
+                      </Button>
+                    </div>
+                  </div>
+                )}
               </div>
             )}
             {currentResource && (
               <div className="mt-4">
                 <h3 className="font-semibold">Description:</h3>
                 <p className="text-gray-600 mt-2">{currentResource.description || "No description available."}</p>
+                {currentResource.link && (
+                  <p className="text-sm text-gray-500 mt-2">
+                    Link: <a href={currentResource.link} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">{currentResource.link}</a>
+                  </p>
+                )}
               </div>
             )}
           </div>
