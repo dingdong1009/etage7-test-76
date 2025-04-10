@@ -27,6 +27,7 @@ import AdminPages from "./pages/admin/Pages";
 import AdminAnnouncements from "./pages/admin/Announcements";
 import AdminSettings from "./pages/admin/Settings";
 import AdminSubscriptions from "./pages/admin/Subscriptions";
+import AdminResources from "./pages/admin/Resources";
 
 // Sales components
 import SalesLayout from "./components/sales/SalesLayout";
@@ -57,6 +58,7 @@ import BuyerOrders from "./pages/buyer/Orders";
 import BuyerMessages from "./pages/buyer/Messages";
 import BuyerTeam from "./pages/buyer/Team";
 import BuyerSettings from "./pages/buyer/Settings";
+import BuyerResources from "./pages/buyer/Resources";
 
 const queryClient = new QueryClient();
 
@@ -88,6 +90,7 @@ const App = () => (
             <Route path="announcements" element={<AdminAnnouncements />} />
             <Route path="settings" element={<AdminSettings />} />
             <Route path="subscriptions" element={<AdminSubscriptions />} />
+            <Route path="resources" element={<AdminResources />} />
           </Route>
           
           {/* Sales Routes */}
@@ -121,6 +124,7 @@ const App = () => (
             <Route path="messages" element={<BuyerMessages />} />
             <Route path="team" element={<BuyerTeam />} />
             <Route path="settings" element={<BuyerSettings />} />
+            <Route path="resources" element={<BuyerResources />} />
           </Route>
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
