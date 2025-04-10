@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Search, Mail, Phone } from "lucide-react";
+import { Plus, Search, Mail, Phone, Pencil, Trash2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -118,9 +118,13 @@ const BrandTeam = () => {
                           </Badge>
                         </TableCell>
                         <TableCell className="text-right space-x-2">
-                          <Button variant="outline" size="sm" className="text-xs px-2 py-1">Edit</Button>
-                          <Button variant="outline" size="sm" className="text-xs px-2 py-1 bg-red-50 text-red-800 hover:bg-red-100">
-                            Remove
+                          <Button variant="outline" size="icon" className="h-8 w-8 p-0">
+                            <Pencil size={16} />
+                            <span className="sr-only">Edit</span>
+                          </Button>
+                          <Button variant="outline" size="icon" className="h-8 w-8 p-0 bg-red-50 text-red-800 hover:bg-red-100 border-red-200">
+                            <Trash2 size={16} />
+                            <span className="sr-only">Delete</span>
                           </Button>
                         </TableCell>
                       </TableRow>
