@@ -1,14 +1,14 @@
-
 import { useState } from "react";
 import { 
-  DollarSign, 
   FileText, 
   Image, 
   Package, 
   Palette, 
   Tag, 
   Truck,
-  RussianRuble
+  RussianRuble,
+  Plus,
+  Trash2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -40,11 +40,38 @@ interface ProductFormTabsProps {
   colorOptions: ColorOption[];
 }
 
+interface BulkTier {
+  id: string;
+  minQuantity: string;
+  discountPercent: string;
+}
+
 export const ProductFormTabs = ({
   selectedColor,
   setSelectedColor,
   colorOptions
 }: ProductFormTabsProps) => {
+  const [bulkTiers, setBulkTiers] = useState<BulkTier[]>([
+    { id: '1', minQuantity: '10', discountPercent: '5' }
+  ]);
+
+  const addBulkTier = () => {
+    const newId = String(bulkTiers.length + 1);
+    setBulkTiers([...bulkTiers, { id: newId, minQuantity: '', discountPercent: '' }]);
+  };
+
+  const removeBulkTier = (id: string) => {
+    setBulkTiers(bulkTiers.filter(tier => tier.id !== id));
+  };
+
+  const updateBulkTier = (id: string, field: 'minQuantity' | 'discountPercent', value: string) => {
+    setBulkTiers(
+      bulkTiers.map(tier => 
+        tier.id === id ? { ...tier, [field]: value } : tier
+      )
+    );
+  };
+
   return (
     <Tabs defaultValue="basic" className="w-full">
       <TabsList className="w-full mb-6 grid grid-cols-2 md:grid-cols-5 bg-gray-100 p-1">
@@ -282,7 +309,7 @@ export const ProductFormTabs = ({
               Wholesale Price*
             </Label>
             <div className="relative">
-              <DollarSign className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+              <RussianRuble className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
               <Input
                 id="wholesalePrice"
                 className="pl-8"
@@ -296,7 +323,7 @@ export const ProductFormTabs = ({
               MSRP*
             </Label>
             <div className="relative">
-              <DollarSign className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
+              <RussianRuble className="absolute left-3 top-2.5 h-4 w-4 text-gray-500" />
               <Input
                 id="msrp"
                 className="pl-8"
@@ -311,9 +338,10 @@ export const ProductFormTabs = ({
             </Label>
             <Select>
               <SelectTrigger className="w-full">
-                <SelectValue placeholder="USD" />
+                <SelectValue placeholder="RUB" />
               </SelectTrigger>
               <SelectContent>
+                <SelectItem value="rub">RUB</SelectItem>
                 <SelectItem value="usd">USD</SelectItem>
                 <SelectItem value="eur">EUR</SelectItem>
                 <SelectItem value="gbp">GBP</SelectItem>
@@ -356,6 +384,75 @@ export const ProductFormTabs = ({
             <p className="text-xs text-gray-500 mt-1">
               Production to delivery time
             </p>
+          </div>
+
+          <div className="col-span-1 md:col-span-3">
+            <div className="border rounded-md p-4 mt-4">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="font-medium text-base">Bulk Order Discounts</h3>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  size="sm"
+                  onClick={addBulkTier}
+                  className="flex items-center"
+                >
+                  <Plus className="h-4 w-4 mr-1" /> Add Tier
+                </Button>
+              </div>
+              
+              {bulkTiers.length === 0 ? (
+                <p className="text-sm text-gray-500 italic">No bulk pricing tiers added yet.</p>
+              ) : (
+                <div className="space-y-3">
+                  {bulkTiers.map((tier) => (
+                    <div key={tier.id} className="grid grid-cols-1 md:grid-cols-8 gap-3 items-end">
+                      <div className="md:col-span-3">
+                        <Label htmlFor={`quantity-${tier.id}`} className="text-sm">
+                          Min Quantity
+                        </Label>
+                        <Input
+                          id={`quantity-${tier.id}`}
+                          type="number"
+                          value={tier.minQuantity}
+                          onChange={(e) => updateBulkTier(tier.id, 'minQuantity', e.target.value)}
+                          placeholder="e.g., 10"
+                        />
+                      </div>
+                      
+                      <div className="md:col-span-3">
+                        <Label htmlFor={`discount-${tier.id}`} className="text-sm">
+                          Discount (%)
+                        </Label>
+                        <Input
+                          id={`discount-${tier.id}`}
+                          type="number"
+                          value={tier.discountPercent}
+                          onChange={(e) => updateBulkTier(tier.id, 'discountPercent', e.target.value)}
+                          placeholder="e.g., 5"
+                        />
+                      </div>
+                      
+                      <div className="md:col-span-2 flex justify-start md:justify-end">
+                        <Button 
+                          type="button" 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => removeBulkTier(tier.id)}
+                          className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              <p className="text-xs text-gray-500 mt-4">
+                Set quantity thresholds and corresponding percentage discounts for bulk orders
+              </p>
+            </div>
           </div>
         </div>
       </TabsContent>
