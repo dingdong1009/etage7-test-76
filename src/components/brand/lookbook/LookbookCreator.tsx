@@ -222,7 +222,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
           ) : (
             <div className="flex flex-col items-center">
               <div className="max-w-4xl w-full">
-                <h2 className="text-1xl md:text-2xl uppercase font-thin mb-2">{title || "Untitled Lookbook"}</h2>
+                <h2 className="text-1xl md:text-2xl text-center uppercase font-thin mb-2">{title || "Untitled Lookbook"}</h2>
                 {description && <p className="text-center text-gray-600 mb-8">{description}</p>}
                 
                 <div className="space-y-12">
