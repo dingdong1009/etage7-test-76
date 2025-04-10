@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Upload, QrCode, LayoutTemplate, Eye, Store as StoreIcon, Save, Check, Instagram, Twitter, Facebook, MessageCircle, Phone, Vk } from "lucide-react";
+import { Upload, QrCode, LayoutTemplate, Eye, Store as StoreIcon, Save, Check, Instagram, Twitter, Facebook, MessageCircle, Phone, Globe } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -90,6 +90,7 @@ const storeTemplates: StoreTemplate[] = [{
   type: "elegant",
   previewImage: "elegant-template.jpg"
 }];
+
 const BrandStore = () => {
   const [activeTab, setActiveTab] = useState("info");
   const [selectedTemplate, setSelectedTemplate] = useState<StoreTemplate>(storeTemplates[0]);
@@ -247,7 +248,7 @@ const BrandStore = () => {
                     
                     <div className="flex items-center">
                       <div className="mr-2">
-                        <Vk size={18} />
+                        <Globe size={18} />
                       </div>
                       <Input type="text" placeholder="VK page name" value={socialMedia.vk} onChange={e => handleSocialMediaChange('vk', e.target.value)} className="flex-1" />
                     </div>
@@ -532,7 +533,7 @@ const StorePreview: React.FC<StorePreviewProps> = ({
                   <Phone size={16} />
                 </div>}
               {socialMedia.vk && <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
-                  <Vk size={16} />
+                  <Globe size={16} />
                 </div>}
             </div>
           </div>
