@@ -108,7 +108,7 @@ const BrandStore = () => {
         <div className="space-y-6">
           <Card className="border border-gray-200">
             <CardHeader>
-              <CardTitle className="text-lg font-medium">Store Logo</CardTitle>
+              <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Store Logo</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="h-40 border-2 border-dashed border-gray-300 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors">
@@ -127,7 +127,7 @@ const BrandStore = () => {
           
           <Card className="border border-gray-200">
             <CardHeader>
-              <CardTitle className="text-lg font-medium">Store QR Code</CardTitle>
+              <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Store QR Code</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col items-center space-y-4">
               <div className="h-40 w-40 border border-gray-200 flex items-center justify-center">
