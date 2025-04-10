@@ -135,7 +135,7 @@ const BrandTeam = () => {
         <TabsContent value="invite">
           <Card className="border border-gray-200">
             <CardHeader>
-              <CardTitle className="text-lg font-medium">Invite New Member</CardTitle>
+              <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Invite New Member</CardTitle>
             </CardHeader>
             <CardContent>
               <form className="space-y-4">
@@ -175,22 +175,6 @@ const BrandTeam = () => {
                         <SelectItem value="designer">Product Designer</SelectItem>
                         <SelectItem value="marketing">Marketing Specialist</SelectItem>
                         <SelectItem value="content">Content Creator</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Access Level
-                    </label>
-                    <Select>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select access level" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="admin">Admin</SelectItem>
-                        <SelectItem value="editor">Editor</SelectItem>
-                        <SelectItem value="viewer">Viewer</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
