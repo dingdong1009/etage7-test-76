@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
@@ -17,11 +16,10 @@ const BrandOrderDetails = () => {
   const [loading, setLoading] = useState(true);
   const printRef = useRef<HTMLDivElement>(null);
 
-  // Function to handle printing - fixed type issue by using contentRef
+  // Function to handle printing - using contentRef which is the correct property name
   const handlePrint = useReactToPrint({
     documentTitle: `Order-${orderId}`,
     onAfterPrint: () => console.log('Print completed'),
-    // Fix: Using contentRef instead of content which is the correct property name
     contentRef: printRef,
   });
 
