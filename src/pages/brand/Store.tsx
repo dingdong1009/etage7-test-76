@@ -248,7 +248,7 @@ const BrandStore = () => {
                     
                     <div className="flex items-center">
                       <div className="mr-2">
-                        <VK size={18} />
+                        <Globe size={18} />
                       </div>
                       <Input type="text" placeholder="VK page name" value={socialMedia.vk} onChange={e => handleSocialMediaChange('vk', e.target.value)} className="flex-1" />
                     </div>
