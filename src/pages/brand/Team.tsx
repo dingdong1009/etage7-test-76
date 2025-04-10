@@ -62,7 +62,7 @@ const BrandTeam = () => {
       </div>
       
       <Tabs defaultValue={activeTab} value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-2 mb-6">
+        <TabsList className="mb-4">
           <TabsTrigger value="members">Team Members</TabsTrigger>
           <TabsTrigger value="invite">Invite New Member</TabsTrigger>
         </TabsList>
