@@ -1,26 +1,6 @@
-
 import React, { useState } from "react";
-import { 
-  Card, 
-  CardContent, 
-  CardHeader, 
-  CardTitle 
-} from "@/components/ui/card";
-import { 
-  Upload, 
-  QrCode, 
-  LayoutTemplate, 
-  Eye, 
-  Store as StoreIcon,
-  Save,
-  Check,
-  Instagram,
-  Twitter,
-  Facebook,
-  MessageCircle,
-  Phone,
-  Globe
-} from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Upload, QrCode, LayoutTemplate, Eye, Store as StoreIcon, Save, Check, Instagram, Twitter, Facebook, MessageCircle, Phone, Globe } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -28,107 +8,88 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Product, SocialMediaLinks } from "@/types/product";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { 
-  Form, 
-  FormControl, 
-  FormField, 
-  FormItem, 
-  FormLabel
-} from "@/components/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
 
 // Mock data for featured products
-const mockProducts: Product[] = [
-  {
-    id: 1,
-    name: "Silk Blouse",
-    sku: "SB001",
-    category: "Tops",
-    season: "Spring",
-    color: "White",
-    price: 89.99,
-    status: "Active",
-    releaseDate: "2025-03-01",
-    description: "Luxurious silk blouse with pearl buttons",
-    materials: "100% Silk"
-  },
-  {
-    id: 2,
-    name: "Wool Sweater",
-    sku: "WS002",
-    category: "Knitwear",
-    season: "Winter",
-    color: "Cream",
-    price: 129.99,
-    status: "Active",
-    releaseDate: "2025-01-15",
-    description: "Cozy wool sweater with ribbed details",
-    materials: "80% Wool, 20% Cashmere"
-  },
-  {
-    id: 3,
-    name: "Linen Trousers",
-    sku: "LT003",
-    category: "Bottoms",
-    season: "Summer",
-    color: "Beige",
-    price: 109.99,
-    status: "Active",
-    releaseDate: "2025-05-20",
-    description: "Lightweight linen trousers, perfect for summer",
-    materials: "100% Linen"
-  },
-  {
-    id: 4,
-    name: "Cotton Shirt",
-    sku: "CS004",
-    category: "Tops",
-    season: "All Year",
-    color: "Blue",
-    price: 69.99,
-    status: "Active",
-    releaseDate: "2025-02-10",
-    description: "Versatile cotton shirt for everyday wear",
-    materials: "100% Organic Cotton"
-  }
-];
+const mockProducts: Product[] = [{
+  id: 1,
+  name: "Silk Blouse",
+  sku: "SB001",
+  category: "Tops",
+  season: "Spring",
+  color: "White",
+  price: 89.99,
+  status: "Active",
+  releaseDate: "2025-03-01",
+  description: "Luxurious silk blouse with pearl buttons",
+  materials: "100% Silk"
+}, {
+  id: 2,
+  name: "Wool Sweater",
+  sku: "WS002",
+  category: "Knitwear",
+  season: "Winter",
+  color: "Cream",
+  price: 129.99,
+  status: "Active",
+  releaseDate: "2025-01-15",
+  description: "Cozy wool sweater with ribbed details",
+  materials: "80% Wool, 20% Cashmere"
+}, {
+  id: 3,
+  name: "Linen Trousers",
+  sku: "LT003",
+  category: "Bottoms",
+  season: "Summer",
+  color: "Beige",
+  price: 109.99,
+  status: "Active",
+  releaseDate: "2025-05-20",
+  description: "Lightweight linen trousers, perfect for summer",
+  materials: "100% Linen"
+}, {
+  id: 4,
+  name: "Cotton Shirt",
+  sku: "CS004",
+  category: "Tops",
+  season: "All Year",
+  color: "Blue",
+  price: 69.99,
+  status: "Active",
+  releaseDate: "2025-02-10",
+  description: "Versatile cotton shirt for everyday wear",
+  materials: "100% Organic Cotton"
+}];
 
 // Store layout templates
 type TemplateType = "minimal" | "classic" | "modern" | "elegant";
-
 interface StoreTemplate {
   id: string;
   name: string;
   type: TemplateType;
   previewImage: string;
 }
-
-const storeTemplates: StoreTemplate[] = [
-  {
-    id: "template-1",
-    name: "Minimal",
-    type: "minimal",
-    previewImage: "minimal-template.jpg"
-  },
-  {
-    id: "template-2",
-    name: "Classic",
-    type: "classic",
-    previewImage: "classic-template.jpg"
-  },
-  {
-    id: "template-3",
-    name: "Modern",
-    type: "modern",
-    previewImage: "modern-template.jpg"
-  },
-  {
-    id: "template-4",
-    name: "Elegant",
-    type: "elegant",
-    previewImage: "elegant-template.jpg"
-  }
-];
-
+const storeTemplates: StoreTemplate[] = [{
+  id: "template-1",
+  name: "Minimal",
+  type: "minimal",
+  previewImage: "minimal-template.jpg"
+}, {
+  id: "template-2",
+  name: "Classic",
+  type: "classic",
+  previewImage: "classic-template.jpg"
+}, {
+  id: "template-3",
+  name: "Modern",
+  type: "modern",
+  previewImage: "modern-template.jpg"
+}, {
+  id: "template-4",
+  name: "Elegant",
+  type: "elegant",
+  previewImage: "elegant-template.jpg"
+}];
 const BrandStore = () => {
   const [activeTab, setActiveTab] = useState("info");
   const [selectedTemplate, setSelectedTemplate] = useState<StoreTemplate>(storeTemplates[0]);
@@ -140,7 +101,6 @@ const BrandStore = () => {
     website: "https://elegantfashion.com",
     address: "123 Fashion Avenue, Suite 500\nNew York, NY 10001\nUnited States"
   });
-  
   const [socialMedia, setSocialMedia] = useState<SocialMediaLinks>({
     instagram: "@elegantfashion",
     twitter: "@elegantfashion",
@@ -149,16 +109,16 @@ const BrandStore = () => {
     whatsapp: "+1 (555) 123-4567",
     vk: "elegantfashion"
   });
-  
   const [selectedProducts, setSelectedProducts] = useState<Product[]>([]);
   const [isPreviewMode, setIsPreviewMode] = useState(false);
-  
+
   // Handler for selecting featured products
   const toggleProductSelection = (product: Product) => {
     if (selectedProducts.some(p => p.id === product.id)) {
       setSelectedProducts(selectedProducts.filter(p => p.id !== product.id));
     } else {
-      if (selectedProducts.length < 4) { // Limit to 4 featured products
+      if (selectedProducts.length < 4) {
+        // Limit to 4 featured products
         setSelectedProducts([...selectedProducts, product]);
       }
     }
@@ -170,20 +130,16 @@ const BrandStore = () => {
     console.log("Store information saved:", storeInfo);
     console.log("Social media links saved:", socialMedia);
   };
-
   const handleSocialMediaChange = (platform: keyof SocialMediaLinks, value: string) => {
     setSocialMedia(prev => ({
       ...prev,
       [platform]: value
     }));
   };
-
-  return (
-    <div className="space-y-6">
+  return <div className="space-y-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-4xl md:text-6xl uppercase font-thin">Store Settings</h1>
-        {activeTab === "layouts" && (
-          <div className="flex gap-2">
+        {activeTab === "layouts" && <div className="flex gap-2">
             <Button variant="outline" onClick={() => setIsPreviewMode(!isPreviewMode)}>
               {isPreviewMode ? <LayoutTemplate className="mr-2" /> : <Eye className="mr-2" />}
               {isPreviewMode ? "Back to Edit" : "Preview"}
@@ -192,8 +148,7 @@ const BrandStore = () => {
               <Save className="mr-2" size={18} />
               Save Changes
             </Button>
-          </div>
-        )}
+          </div>}
       </div>
       
       <Tabs defaultValue="info" value={activeTab} onValueChange={setActiveTab}>
@@ -214,25 +169,20 @@ const BrandStore = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Store Name
                   </label>
-                  <input 
-                    type="text" 
-                    className="w-full p-2 border border-gray-200"
-                    placeholder="Your Brand Store"
-                    value={storeInfo.name}
-                    onChange={(e) => setStoreInfo({...storeInfo, name: e.target.value})}
-                  />
+                  <input type="text" className="w-full p-2 border border-gray-200" placeholder="Your Brand Store" value={storeInfo.name} onChange={e => setStoreInfo({
+                  ...storeInfo,
+                  name: e.target.value
+                })} />
                 </div>
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Store Description
                   </label>
-                  <textarea 
-                    className="w-full p-2 border border-gray-200 h-24"
-                    placeholder="Tell customers about your store"
-                    value={storeInfo.description}
-                    onChange={(e) => setStoreInfo({...storeInfo, description: e.target.value})}
-                  ></textarea>
+                  <textarea className="w-full p-2 border border-gray-200 h-24" placeholder="Tell customers about your store" value={storeInfo.description} onChange={e => setStoreInfo({
+                  ...storeInfo,
+                  description: e.target.value
+                })}></textarea>
                 </div>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -240,40 +190,23 @@ const BrandStore = () => {
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Email Address
                     </label>
-                    <input 
-                      type="email" 
-                      className="w-full p-2 border border-gray-200"
-                      placeholder="contact@yourbrand.com"
-                      value={storeInfo.email}
-                      onChange={(e) => setStoreInfo({...storeInfo, email: e.target.value})}
-                    />
+                    <input type="email" className="w-full p-2 border border-gray-200" placeholder="contact@yourbrand.com" value={storeInfo.email} onChange={e => setStoreInfo({
+                    ...storeInfo,
+                    email: e.target.value
+                  })} />
                   </div>
                   
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Phone Number
                     </label>
-                    <input 
-                      type="tel" 
-                      className="w-full p-2 border border-gray-200"
-                      placeholder="+1 (555) 123-4567"
-                      value={storeInfo.phone}
-                      onChange={(e) => setStoreInfo({...storeInfo, phone: e.target.value})}
-                    />
+                    <input type="tel" className="w-full p-2 border border-gray-200" placeholder="+1 (555) 123-4567" value={storeInfo.phone} onChange={e => setStoreInfo({
+                    ...storeInfo,
+                    phone: e.target.value
+                  })} />
                   </div>
                   
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Website
-                    </label>
-                    <input 
-                      type="url" 
-                      className="w-full p-2 border border-gray-200"
-                      placeholder="https://yourbrand.com"
-                      value={storeInfo.website}
-                      onChange={(e) => setStoreInfo({...storeInfo, website: e.target.value})}
-                    />
-                  </div>
+                  
                 </div>
 
                 {/* Social Media Section */}
@@ -284,78 +217,42 @@ const BrandStore = () => {
                       <div className="mr-2">
                         <Instagram size={18} />
                       </div>
-                      <Input
-                        type="text"
-                        placeholder="Instagram username"
-                        value={socialMedia.instagram}
-                        onChange={(e) => handleSocialMediaChange('instagram', e.target.value)}
-                        className="flex-1"
-                      />
+                      <Input type="text" placeholder="Instagram username" value={socialMedia.instagram} onChange={e => handleSocialMediaChange('instagram', e.target.value)} className="flex-1" />
                     </div>
                     
                     <div className="flex items-center">
                       <div className="mr-2">
                         <Twitter size={18} />
                       </div>
-                      <Input
-                        type="text"
-                        placeholder="X (Twitter) username"
-                        value={socialMedia.twitter}
-                        onChange={(e) => handleSocialMediaChange('twitter', e.target.value)}
-                        className="flex-1"
-                      />
+                      <Input type="text" placeholder="X (Twitter) username" value={socialMedia.twitter} onChange={e => handleSocialMediaChange('twitter', e.target.value)} className="flex-1" />
                     </div>
                     
                     <div className="flex items-center">
                       <div className="mr-2">
                         <Facebook size={18} />
                       </div>
-                      <Input
-                        type="text"
-                        placeholder="Facebook page name"
-                        value={socialMedia.facebook}
-                        onChange={(e) => handleSocialMediaChange('facebook', e.target.value)}
-                        className="flex-1"
-                      />
+                      <Input type="text" placeholder="Facebook page name" value={socialMedia.facebook} onChange={e => handleSocialMediaChange('facebook', e.target.value)} className="flex-1" />
                     </div>
                     
                     <div className="flex items-center">
                       <div className="mr-2">
                         <MessageCircle size={18} />
                       </div>
-                      <Input
-                        type="text"
-                        placeholder="Telegram username"
-                        value={socialMedia.telegram}
-                        onChange={(e) => handleSocialMediaChange('telegram', e.target.value)}
-                        className="flex-1"
-                      />
+                      <Input type="text" placeholder="Telegram username" value={socialMedia.telegram} onChange={e => handleSocialMediaChange('telegram', e.target.value)} className="flex-1" />
                     </div>
                     
                     <div className="flex items-center">
                       <div className="mr-2">
                         <Phone size={18} />
                       </div>
-                      <Input
-                        type="text"
-                        placeholder="WhatsApp number"
-                        value={socialMedia.whatsapp}
-                        onChange={(e) => handleSocialMediaChange('whatsapp', e.target.value)}
-                        className="flex-1"
-                      />
+                      <Input type="text" placeholder="WhatsApp number" value={socialMedia.whatsapp} onChange={e => handleSocialMediaChange('whatsapp', e.target.value)} className="flex-1" />
                     </div>
                     
                     <div className="flex items-center">
                       <div className="mr-2">
                         <Globe size={18} />
                       </div>
-                      <Input
-                        type="text"
-                        placeholder="VK page name"
-                        value={socialMedia.vk}
-                        onChange={(e) => handleSocialMediaChange('vk', e.target.value)}
-                        className="flex-1"
-                      />
+                      <Input type="text" placeholder="VK page name" value={socialMedia.vk} onChange={e => handleSocialMediaChange('vk', e.target.value)} className="flex-1" />
                     </div>
                   </div>
                 </div>
@@ -364,12 +261,10 @@ const BrandStore = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-1">
                     Store Address
                   </label>
-                  <textarea 
-                    className="w-full p-2 border border-gray-200 h-20"
-                    placeholder="Your store address"
-                    value={storeInfo.address}
-                    onChange={(e) => setStoreInfo({...storeInfo, address: e.target.value})}
-                  ></textarea>
+                  <textarea className="w-full p-2 border border-gray-200 h-20" placeholder="Your store address" value={storeInfo.address} onChange={e => setStoreInfo({
+                  ...storeInfo,
+                  address: e.target.value
+                })}></textarea>
                 </div>
                 
                 <div className="flex justify-end">
@@ -429,38 +324,22 @@ const BrandStore = () => {
         
         {/* Page Layouts Tab */}
         <TabsContent value="layouts">
-          {isPreviewMode ? (
-            <StorePreview 
-              template={selectedTemplate.type} 
-              storeInfo={storeInfo}
-              socialMedia={socialMedia}
-              featuredProducts={selectedProducts}
-            />
-          ) : (
-            <div className="space-y-6">
+          {isPreviewMode ? <StorePreview template={selectedTemplate.type} storeInfo={storeInfo} socialMedia={socialMedia} featuredProducts={selectedProducts} /> : <div className="space-y-6">
               <Card className="border border-gray-200">
                 <CardHeader>
                   <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Select Template</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4 pb-6">
-                    {storeTemplates.map((template) => (
-                      <div 
-                        key={template.id}
-                        className={`border p-2 rounded-md cursor-pointer hover:border-black transition-colors ${selectedTemplate.id === template.id ? 'border-black' : 'border-gray-200'}`}
-                        onClick={() => setSelectedTemplate(template)}
-                      >
+                    {storeTemplates.map(template => <div key={template.id} className={`border p-2 rounded-md cursor-pointer hover:border-black transition-colors ${selectedTemplate.id === template.id ? 'border-black' : 'border-gray-200'}`} onClick={() => setSelectedTemplate(template)}>
                         <div className="h-36 bg-gray-100 flex items-center justify-center">
                           <LayoutTemplate size={40} className="text-gray-400" />
                         </div>
                         <div className="mt-2 flex justify-between items-center">
                           <span className="font-medium">{template.name}</span>
-                          {selectedTemplate.id === template.id && (
-                            <Check size={18} className="text-green-500" />
-                          )}
+                          {selectedTemplate.id === template.id && <Check size={18} className="text-green-500" />}
                         </div>
-                      </div>
-                    ))}
+                      </div>)}
                   </div>
                 </CardContent>
               </Card>
@@ -472,36 +351,22 @@ const BrandStore = () => {
                 <CardContent>
                   <p className="text-sm text-gray-500 mb-4">Select up to 4 products to feature on your store page</p>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                    {mockProducts.map((product) => (
-                      <div 
-                        key={product.id} 
-                        className={`border p-3 rounded-md cursor-pointer transition-all ${
-                          selectedProducts.some(p => p.id === product.id) 
-                            ? 'border-black bg-gray-50' 
-                            : 'border-gray-200 hover:border-gray-400'
-                        }`}
-                        onClick={() => toggleProductSelection(product)}
-                      >
+                    {mockProducts.map(product => <div key={product.id} className={`border p-3 rounded-md cursor-pointer transition-all ${selectedProducts.some(p => p.id === product.id) ? 'border-black bg-gray-50' : 'border-gray-200 hover:border-gray-400'}`} onClick={() => toggleProductSelection(product)}>
                         <div className="h-28 bg-gray-100 mb-2"></div>
                         <h3 className="font-medium">{product.name}</h3>
                         <p className="text-sm text-gray-500">${product.price}</p>
                         <div className="mt-2 flex justify-between items-center">
                           <span className="text-xs text-gray-500">{product.category}</span>
-                          {selectedProducts.some(p => p.id === product.id) && (
-                            <Check size={16} className="text-green-500" />
-                          )}
+                          {selectedProducts.some(p => p.id === product.id) && <Check size={16} className="text-green-500" />}
                         </div>
-                      </div>
-                    ))}
+                      </div>)}
                   </div>
                 </CardContent>
               </Card>
-            </div>
-          )}
+            </div>}
         </TabsContent>
       </Tabs>
-    </div>
-  );
+    </div>;
 };
 
 // Store Preview Component
@@ -518,8 +383,12 @@ interface StorePreviewProps {
   socialMedia: SocialMediaLinks;
   featuredProducts: Product[];
 }
-
-const StorePreview: React.FC<StorePreviewProps> = ({ template, storeInfo, socialMedia, featuredProducts }) => {
+const StorePreview: React.FC<StorePreviewProps> = ({
+  template,
+  storeInfo,
+  socialMedia,
+  featuredProducts
+}) => {
   // Different layout styles based on template type
   const getTemplateStyles = () => {
     switch (template) {
@@ -557,11 +426,8 @@ const StorePreview: React.FC<StorePreviewProps> = ({ template, storeInfo, social
         };
     }
   };
-  
   const styles = getTemplateStyles();
-  
-  return (
-    <div className={`border rounded-lg overflow-hidden ${styles.mainBg}`}>
+  return <div className={`border rounded-lg overflow-hidden ${styles.mainBg}`}>
       {/* Store Header */}
       <header className={`p-8 ${styles.headerBg}`}>
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center">
@@ -611,9 +477,7 @@ const StorePreview: React.FC<StorePreviewProps> = ({ template, storeInfo, social
           <h3 className={`text-xl mb-6 ${styles.fontFamily} border-b ${styles.accentColor} inline-block pb-2`}>Featured Products</h3>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {featuredProducts.length > 0 ? (
-              featuredProducts.map((product) => (
-                <div key={product.id} className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
+            {featuredProducts.length > 0 ? featuredProducts.map(product => <div key={product.id} className="border rounded-lg overflow-hidden hover:shadow-md transition-shadow">
                   <div className="h-48 bg-gray-100 flex items-center justify-center">
                     <p className="text-gray-400 text-sm">Product Image</p>
                   </div>
@@ -625,13 +489,9 @@ const StorePreview: React.FC<StorePreviewProps> = ({ template, storeInfo, social
                       <Button className={styles.buttonStyle} size="sm">View</Button>
                     </div>
                   </div>
-                </div>
-              ))
-            ) : (
-              <div className="col-span-full text-center py-8 bg-gray-50 rounded-lg">
+                </div>) : <div className="col-span-full text-center py-8 bg-gray-50 rounded-lg">
                 <p className="text-gray-500">No featured products selected</p>
-              </div>
-            )}
+              </div>}
           </div>
         </div>
         
@@ -665,36 +525,24 @@ const StorePreview: React.FC<StorePreviewProps> = ({ template, storeInfo, social
           <div>
             <h3 className={`text-lg mb-4 ${styles.fontFamily} border-b ${styles.accentColor} inline-block pb-2`}>Connect</h3>
             <div className="flex gap-2 flex-wrap">
-              {socialMedia.instagram && (
-                <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
+              {socialMedia.instagram && <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
                   <Instagram size={16} />
-                </div>
-              )}
-              {socialMedia.twitter && (
-                <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                </div>}
+              {socialMedia.twitter && <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
                   <Twitter size={16} />
-                </div>
-              )}
-              {socialMedia.facebook && (
-                <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                </div>}
+              {socialMedia.facebook && <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
                   <Facebook size={16} />
-                </div>
-              )}
-              {socialMedia.telegram && (
-                <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                </div>}
+              {socialMedia.telegram && <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
                   <MessageCircle size={16} />
-                </div>
-              )}
-              {socialMedia.whatsapp && (
-                <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                </div>}
+              {socialMedia.whatsapp && <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
                   <Phone size={16} />
-                </div>
-              )}
-              {socialMedia.vk && (
-                <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
+                </div>}
+              {socialMedia.vk && <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
                   <Globe size={16} />
-                </div>
-              )}
+                </div>}
             </div>
           </div>
         </div>
@@ -704,8 +552,6 @@ const StorePreview: React.FC<StorePreviewProps> = ({ template, storeInfo, social
       <footer className={`p-6 text-center ${styles.headerBg} mt-8`}>
         <p className="text-sm text-gray-500">© {new Date().getFullYear()} {storeInfo.name}. All rights reserved.</p>
       </footer>
-    </div>
-  );
+    </div>;
 };
-
 export default BrandStore;
