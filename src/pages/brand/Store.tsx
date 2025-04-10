@@ -136,8 +136,8 @@ const BrandStore = () => {
     }));
   };
   return <div className="space-y-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-4xl md:text-6xl uppercase font-thin">Store Settings</h1>
+      <div className="flex justify-between items-center">
+        <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Store Settings</h1>
         {activeTab === "layouts" && <div className="flex gap-2">
             <Button variant="outline" onClick={() => setIsPreviewMode(!isPreviewMode)}>
               {isPreviewMode ? <LayoutTemplate className="mr-2" /> : <Eye className="mr-2" />}
