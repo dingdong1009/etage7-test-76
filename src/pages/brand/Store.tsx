@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Upload, QrCode, LayoutTemplate, Eye, Store as StoreIcon, Save, Check, Instagram, Twitter, Facebook, MessageCircle, Phone, Globe } from "lucide-react";
+import { Upload, QrCode, LayoutTemplate, Eye, Store as StoreIcon, Save, Check, Instagram, Twitter, Facebook, MessageCircle, Phone, Vk } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -118,7 +118,6 @@ const BrandStore = () => {
       setSelectedProducts(selectedProducts.filter(p => p.id !== product.id));
     } else {
       if (selectedProducts.length < 4) {
-        // Limit to 4 featured products
         setSelectedProducts([...selectedProducts, product]);
       }
     }
@@ -126,7 +125,6 @@ const BrandStore = () => {
 
   // Handler for saving information
   const handleSaveInfo = () => {
-    // In a real app, this would save to a database
     console.log("Store information saved:", storeInfo);
     console.log("Social media links saved:", socialMedia);
   };
@@ -206,7 +204,6 @@ const BrandStore = () => {
                   })} />
                   </div>
                   
-                  
                 </div>
 
                 {/* Social Media Section */}
@@ -250,7 +247,7 @@ const BrandStore = () => {
                     
                     <div className="flex items-center">
                       <div className="mr-2">
-                        <Globe size={18} />
+                        <Vk size={18} />
                       </div>
                       <Input type="text" placeholder="VK page name" value={socialMedia.vk} onChange={e => handleSocialMediaChange('vk', e.target.value)} className="flex-1" />
                     </div>
@@ -389,7 +386,6 @@ const StorePreview: React.FC<StorePreviewProps> = ({
   socialMedia,
   featuredProducts
 }) => {
-  // Different layout styles based on template type
   const getTemplateStyles = () => {
     switch (template) {
       case "minimal":
@@ -428,7 +424,6 @@ const StorePreview: React.FC<StorePreviewProps> = ({
   };
   const styles = getTemplateStyles();
   return <div className={`border rounded-lg overflow-hidden ${styles.mainBg}`}>
-      {/* Store Header */}
       <header className={`p-8 ${styles.headerBg}`}>
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center gap-4 mb-4 md:mb-0">
@@ -464,15 +459,12 @@ const StorePreview: React.FC<StorePreviewProps> = ({
         </div>
       </header>
       
-      {/* Store Content */}
       <div className="max-w-6xl mx-auto p-8">
-        {/* Store Description */}
         <div className="mb-12">
           <h3 className={`text-xl mb-4 ${styles.fontFamily} border-b ${styles.accentColor} inline-block pb-2`}>About Our Store</h3>
           <p className="text-gray-700 max-w-3xl">{storeInfo.description}</p>
         </div>
         
-        {/* Featured Products */}
         <div className="mb-12">
           <h3 className={`text-xl mb-6 ${styles.fontFamily} border-b ${styles.accentColor} inline-block pb-2`}>Featured Products</h3>
           
@@ -495,7 +487,6 @@ const StorePreview: React.FC<StorePreviewProps> = ({
           </div>
         </div>
         
-        {/* Store Information */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div>
             <h3 className={`text-lg mb-4 ${styles.fontFamily} border-b ${styles.accentColor} inline-block pb-2`}>Contact</h3>
@@ -541,14 +532,13 @@ const StorePreview: React.FC<StorePreviewProps> = ({
                   <Phone size={16} />
                 </div>}
               {socialMedia.vk && <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
-                  <Globe size={16} />
+                  <Vk size={16} />
                 </div>}
             </div>
           </div>
         </div>
       </div>
       
-      {/* Store Footer */}
       <footer className={`p-6 text-center ${styles.headerBg} mt-8`}>
         <p className="text-sm text-gray-500">© {new Date().getFullYear()} {storeInfo.name}. All rights reserved.</p>
       </footer>
