@@ -13,7 +13,7 @@ const OrderActions: React.FC<OrderActionsProps> = ({ orderId, onPrint }) => {
   return (
     <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
       <div className="flex items-center space-x-4">
-        <Button variant="outline" size="sm" asChild>
+        <Button variant="subtle" size="sm" asChild>
           <Link to="/brand/orders">
             <ArrowLeft size={16} className="mr-2" />
             Back to Orders
@@ -27,17 +27,17 @@ const OrderActions: React.FC<OrderActionsProps> = ({ orderId, onPrint }) => {
       
       <div className="flex flex-wrap items-center gap-2">
         <Button variant="outline" size="sm" onClick={onPrint}>
-          <Printer size={16} className="mr-2" />
+          <Printer size={16} />
           Print Order
         </Button>
         
         <Button variant="outline" size="sm">
-          <FileText size={16} className="mr-2" />
+          <FileText size={16} />
           Download PDF
         </Button>
         
-        <Button variant="outline" size="sm">
-          <Mail size={16} className="mr-2" />
+        <Button variant="purple" size="sm">
+          <Mail size={16} />
           Email Customer
         </Button>
       </div>

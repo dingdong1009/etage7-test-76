@@ -98,7 +98,7 @@ export const ProductTable = ({
                 <TableCell className="hidden md:table-cell">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="outline" size="sm" className="h-8 px-2 flex items-center gap-2">
+                      <Button variant="subtle" size="sm" className="h-8 px-2 flex items-center gap-2">
                         <div 
                           className="h-3 w-3 rounded-full" 
                           style={{ 
@@ -136,16 +136,14 @@ export const ProductTable = ({
                   <div className="flex justify-end gap-1">
                     <Button 
                       variant="ghost" 
-                      size="icon" 
-                      className="h-8 w-8" 
+                      size="icon-sm"
                       title="View details"
                     >
                       <Eye className="h-4 w-4" />
                     </Button>
                     <Button 
                       variant="ghost" 
-                      size="icon" 
-                      className="h-8 w-8" 
+                      size="icon-sm"
                       title="Edit product"
                       onClick={onEditProduct}
                     >
@@ -154,8 +152,7 @@ export const ProductTable = ({
                     {product.status === 'active' ? (
                       <Button 
                         variant="ghost" 
-                        size="icon" 
-                        className="h-8 w-8" 
+                        size="icon-sm"
                         title="Deactivate product"
                         onClick={() => toggleProductStatus(product.id, 'draft')}
                       >
@@ -164,8 +161,7 @@ export const ProductTable = ({
                     ) : (
                       <Button 
                         variant="ghost" 
-                        size="icon" 
-                        className="h-8 w-8" 
+                        size="icon-sm"
                         title="Activate product"
                         onClick={() => toggleProductStatus(product.id, 'active')}
                       >
@@ -174,8 +170,7 @@ export const ProductTable = ({
                     )}
                     <Button 
                       variant="ghost" 
-                      size="icon" 
-                      className="h-8 w-8" 
+                      size="icon-sm"
                       title="Delete product"
                       onClick={() => deleteProduct(product.id)}
                     >

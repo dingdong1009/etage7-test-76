@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,7 +62,25 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
-				}
+				},
+				// New standardized colors
+				'neutral-gray': '#8E9196',
+				'primary-purple': '#9b87f5',
+				'secondary-purple': '#7E69AB',
+				'tertiary-purple': '#6E59A5',
+				'dark-purple': '#1A1F2C',
+				'light-purple': '#D6BCFA',
+				'soft-green': '#F2FCE2',
+				'soft-yellow': '#FEF7CD',
+				'soft-orange': '#FEC6A1',
+				'soft-purple': '#E5DEFF',
+				'soft-pink': '#FFDEE2',
+				'soft-blue': '#D3E4FD',
+				'vivid-purple': '#8B5CF6',
+				'magenta-pink': '#D946EF',
+				'bright-orange': '#F97316',
+				'ocean-blue': '#0EA5E9',
+				'charcoal-gray': '#403E43'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
