@@ -46,7 +46,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
 
   return (
     <div className="space-y-4">
-      <Card className="border border-gray-200">
+      <Card className="border-none">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">
             {lookbook ? "Edit Lookbook" : "Create New Lookbook"}
@@ -96,7 +96,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                 </div>
                 <div className="space-y-2">
                   <Label>Cover Image</Label>
-                  <div className="border-2 border-dashed rounded-md p-6 flex flex-col items-center justify-center bg-gray-50">
+                  <div className="border-2 border-dashed p-6 flex flex-col items-center justify-center bg-gray-50">
                     <Upload className="h-8 w-8 text-gray-400 mb-2" />
                     <p className="text-sm text-gray-500">Drag and drop or click to upload</p>
                     <Button variant="outline" size="sm" className="mt-4">
@@ -125,7 +125,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                     {pages.map((page, index) => (
                       <div 
                         key={page.id} 
-                        className={`border rounded-md overflow-hidden cursor-pointer ${
+                        className={`border overflow-hidden cursor-pointer ${
                           currentPage === page.id ? 'ring-2 ring-black' : ''
                         }`}
                         onClick={() => setCurrentPage(page.id)}
@@ -148,7 +148,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                     ))}
                   </div>
 
-                  <div className="border rounded-md p-4 mt-6">
+                  <div className="p-4 mt-6">
                     <div className="flex justify-between items-center mb-4">
                       <h3 className="text-lg font-medium">Page {currentPage} Layout</h3>
                       <div className="flex gap-2">
