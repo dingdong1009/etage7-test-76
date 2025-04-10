@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { 
   FileText, 
@@ -50,6 +51,35 @@ interface BulkTier {
   discountPercent: string;
 }
 
+// Define subcategories by main category
+const subcategoriesByCategory: Record<string, string[]> = {
+  "woman": [
+    "Dresses", "Tops", "T-shirts", "Sweaters", "Cardigans",
+    "Shirts", "Blazers", "Coats", "Jackets", "Trousers", 
+    "Jeans", "Skirts", "Shorts", "Knitwear", "Suits",
+    "Jumpsuits", "Swimwear", "Lingerie", "Accessories", "Shoes"
+  ],
+  "man": [
+    "T-shirts", "Shirts", "Polos", "Sweaters", "Hoodies",
+    "Jackets", "Coats", "Blazers", "Suits", "Trousers",
+    "Jeans", "Shorts", "Knitwear", "Underwear", "Swimwear",
+    "Accessories", "Shoes"
+  ],
+  "kids": [
+    "Baby (0-12 months)", "Toddler (1-5 years)", "Kids (6-14 years)",
+    "Tops", "Bottoms", "Dresses", "Outerwear", "Sleepwear",
+    "Activewear", "Footwear", "Accessories"
+  ],
+  "home": [
+    "Bedroom", "Bathroom", "Living Room", "Dining", "Kitchen",
+    "Decor", "Textiles", "Furniture", "Storage", "Lighting"
+  ],
+  "beauty": [
+    "Skincare", "Makeup", "Haircare", "Fragrance", "Body Care",
+    "Men's Grooming", "Wellness", "Beauty Tools", "Gift Sets"
+  ]
+};
+
 export const ProductFormTabs = ({
   selectedColor,
   setSelectedColor,
@@ -59,6 +89,8 @@ export const ProductFormTabs = ({
     { id: '1', minQuantity: '10', discountPercent: '5' }
   ]);
   const [availabilityType, setAvailabilityType] = useState("in-stock");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [selectedSubcategory, setSelectedSubcategory] = useState("");
 
   const addBulkTier = () => {
     const newId = String(bulkTiers.length + 1);
@@ -75,6 +107,11 @@ export const ProductFormTabs = ({
         tier.id === id ? { ...tier, [field]: value } : tier
       )
     );
+  };
+
+  const handleCategoryChange = (category: string) => {
+    setSelectedCategory(category);
+    setSelectedSubcategory(""); // Reset subcategory when category changes
   };
 
   return (
@@ -182,7 +219,7 @@ export const ProductFormTabs = ({
             <Label htmlFor="category" className="text-sm font-medium">
               Category*
             </Label>
-            <Select>
+            <Select value={selectedCategory} onValueChange={handleCategoryChange}>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
@@ -190,12 +227,39 @@ export const ProductFormTabs = ({
                 <SelectItem value="woman">Woman</SelectItem>
                 <SelectItem value="man">Man</SelectItem>
                 <SelectItem value="kids">Kids</SelectItem>
-                <SelectItem value="home">Dresses</SelectItem>
+                <SelectItem value="home">Home</SelectItem>
                 <SelectItem value="beauty">Beauty</SelectItem>
               </SelectContent>
             </Select>
           </div>
           
+          <div>
+            <Label htmlFor="subcategory" className="text-sm font-medium">
+              Subcategory*
+            </Label>
+            <Select 
+              value={selectedSubcategory} 
+              onValueChange={setSelectedSubcategory}
+              disabled={!selectedCategory}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder={selectedCategory ? "Select subcategory" : "Select a category first"} />
+              </SelectTrigger>
+              <SelectContent>
+                {selectedCategory && subcategoriesByCategory[selectedCategory]?.map((subcategory) => (
+                  <SelectItem key={subcategory} value={subcategory}>
+                    {subcategory}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            {!selectedCategory && (
+              <p className="text-xs text-gray-500 mt-1">
+                Select a category first to see subcategories
+              </p>
+            )}
+          </div>
+
           <div>
             <Label htmlFor="designer" className="text-sm font-medium">
               Designer/Collection
