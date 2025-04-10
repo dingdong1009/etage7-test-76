@@ -169,7 +169,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                       </div>
                     </div>
                     
-                    <div className="w-full aspect-[5/7] bg-gray-100 overflow-hidden">
+                    <div className="w-full aspect-[3/4] bg-gray-100 overflow-hidden">
                       <LookbookPage 
                         template={pages.find(p => p.id === currentPage)?.template || "grid-2"} 
                       />
