@@ -152,10 +152,10 @@ const BrandOrders = () => {
             <p className="text-sm text-gray-500">Showing 5 of 25 orders</p>
             <div className="flex space-x-1">
               <Button className="px-2 py-1 text-sm border">Previous</Button>
-              <Button className="px-2 py-1 text-sm border bg-black-50 text-white">1</Button>
-              <Button className="px-2 py-1 text-sm border rounded">2</Button>
-              <Button className="px-2 py-1 text-sm border rounded">3</Button>
-              <Button className="px-2 py-1 text-sm border rounded">Next</Button>
+              <Button variant="outline" className="px-2 py-1 text-sm border">1</Button>
+              <Button className="px-2 py-1 text-sm border">2</Button>
+              <Button className="px-2 py-1 text-sm border">3</Button>
+              <Button className="px-2 py-1 text-sm border">Next</Button>
             </div>
           </div>
         </CardContent>
