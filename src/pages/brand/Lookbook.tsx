@@ -48,14 +48,13 @@ const BrandLookbook = () => {
       </div>
       
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="w-full">
+        <TabsList className="mb-4">
           <TabsTrigger value="collections">Collections</TabsTrigger>
           <TabsTrigger value="images">Images Library</TabsTrigger>
           <TabsTrigger value="create" disabled={!showCreator}>
             {editingLookbook ? `Edit: ${editingLookbook.title}` : "Create New"}
           </TabsTrigger>
         </TabsList>
-
         {/* Collections Tab */}
         <TabsContent value="collections">
           <Card className="border border-gray-200">
