@@ -17,3 +17,10 @@ export interface ColorOption {
   name: string;
   hex: string;
 }
+
+export interface LookbookPage {
+  id: number;
+  template: string;
+  images: string[];
+  linkedProducts?: number[];
+}

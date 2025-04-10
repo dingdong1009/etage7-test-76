@@ -1,3 +1,4 @@
+
 import React, { useState } from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -5,9 +6,14 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { X, Save, Plus, Move, Trash2, Upload, LayoutTemplate, Grid3X3, Type, Eye } from "lucide-react";
+import { X, Save, Plus, Move, Trash2, Upload, LayoutTemplate, Grid3X3, Type, Eye, Link, Search, Tag } from "lucide-react";
 import LookbookPage from "./LookbookPage";
 import LookbookPageTemplate from "./LookbookPageTemplate";
+import { Product } from "@/types/product";
+import { Badge } from "@/components/ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { toast } from "sonner";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface LookbookCreatorProps {
   lookbook: { id: number; title: string } | null;
@@ -18,21 +24,67 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
   const [title, setTitle] = useState(lookbook?.title || "");
   const [description, setDescription] = useState("");
   const [activeTab, setActiveTab] = useState("content");
-  const [pages, setPages] = useState([{ id: 1, template: "grid-2", images: [] }]);
+  const [pages, setPages] = useState([{ id: 1, template: "grid-2", images: [], linkedProducts: [] }]);
   const [currentPage, setCurrentPage] = useState(1);
   const [previewMode, setPreviewMode] = useState(false);
+  const [productSearchQuery, setProductSearchQuery] = useState("");
+  
+  // Sample products data - in a real app this would come from an API or context
+  const [products, setProducts] = useState<Product[]>([
+    {
+      id: 1,
+      name: "Silk Blend Tailored Blazer",
+      sku: "BL-2025-SLK",
+      category: "Outerwear",
+      season: "Spring/Summer 2025",
+      color: "Navy Blue",
+      price: 289.99,
+      status: "active",
+      releaseDate: "2025-03-15",
+      description: "Luxurious silk blend blazer with modern tailoring and subtle texture.",
+      materials: "70% Silk, 30% Cotton"
+    },
+    {
+      id: 2,
+      name: "Cashmere Wool Cardigan",
+      sku: "CW-2025-CSM",
+      category: "Tops",
+      season: "Fall/Winter 2024",
+      color: "Burgundy",
+      price: 199.99,
+      status: "draft",
+      releaseDate: "2024-08-30",
+      description: "Premium cashmere wool cardigan with ribbed cuffs and hem.",
+      materials: "85% Cashmere, 15% Wool"
+    },
+    {
+      id: 3,
+      name: "Leather Crossbody Bag",
+      sku: "LB-2025-CRS",
+      category: "Accessories",
+      season: "Resort 2025",
+      color: "Tan",
+      price: 349.99,
+      status: "active",
+      releaseDate: "2025-01-10",
+      description: "Artisanal leather crossbody with adjustable strap and distinctive hardware.",
+      materials: "100% Full-grain Leather"
+    }
+  ]);
   
   const handleAddPage = () => {
     const newPage = {
       id: pages.length + 1,
       template: "grid-2",
-      images: []
+      images: [],
+      linkedProducts: []
     };
     setPages([...pages, newPage]);
   };
   
   const handleSave = () => {
     console.log("Saving lookbook:", { title, description, pages });
+    toast.success("Lookbook saved successfully");
     onClose();
   };
 
@@ -44,6 +96,72 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
       return page;
     });
     setPages(updatedPages);
+  };
+  
+  const handleDeletePage = (pageId: number) => {
+    if (pages.length <= 1) {
+      toast.error("Cannot delete the only page");
+      return;
+    }
+    
+    const updatedPages = pages.filter(page => page.id !== pageId);
+    setPages(updatedPages);
+    
+    // If deleted current page, switch to first available page
+    if (pageId === currentPage) {
+      setCurrentPage(updatedPages[0].id);
+    }
+  };
+
+  const handleToggleProductLink = (productId: number) => {
+    const currentPageData = pages.find(page => page.id === currentPage);
+    if (!currentPageData) return;
+
+    const updatedPages = pages.map(page => {
+      if (page.id === currentPage) {
+        const linkedProducts = page.linkedProducts || [];
+        const productIndex = linkedProducts.indexOf(productId);
+        
+        if (productIndex >= 0) {
+          // Remove product if already linked
+          return {
+            ...page,
+            linkedProducts: linkedProducts.filter(id => id !== productId)
+          };
+        } else {
+          // Add product if not linked yet
+          return {
+            ...page,
+            linkedProducts: [...linkedProducts, productId]
+          };
+        }
+      }
+      return page;
+    });
+    
+    setPages(updatedPages);
+  };
+
+  const isProductLinked = (productId: number) => {
+    const currentPageData = pages.find(page => page.id === currentPage);
+    return currentPageData?.linkedProducts?.includes(productId) || false;
+  };
+
+  const filteredProducts = products.filter(product => {
+    return (
+      product.name.toLowerCase().includes(productSearchQuery.toLowerCase()) ||
+      product.sku.toLowerCase().includes(productSearchQuery.toLowerCase()) ||
+      product.description.toLowerCase().includes(productSearchQuery.toLowerCase())
+    );
+  });
+
+  const getLinkedProductsForPage = (pageId: number) => {
+    const pageData = pages.find(page => page.id === pageId);
+    if (!pageData || !pageData.linkedProducts || pageData.linkedProducts.length === 0) {
+      return [];
+    }
+    
+    return products.filter(product => pageData.linkedProducts.includes(product.id));
   };
   
   const availableTemplates = [
@@ -116,9 +234,10 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
               </div>
 
               <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                <TabsList className="grid grid-cols-3">
+                <TabsList className="grid grid-cols-4">
                   <TabsTrigger value="content">Content</TabsTrigger>
                   <TabsTrigger value="layout">Page Layout</TabsTrigger>
+                  <TabsTrigger value="products">Products</TabsTrigger>
                   <TabsTrigger value="settings">Settings</TabsTrigger>
                 </TabsList>
 
@@ -149,7 +268,15 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                             <Button variant="ghost" size="icon" className="h-6 w-6">
                               <Move size={12} />
                             </Button>
-                            <Button variant="ghost" size="icon" className="h-6 w-6 text-red-500">
+                            <Button 
+                              variant="ghost" 
+                              size="icon" 
+                              className="h-6 w-6 text-red-500"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                handleDeletePage(page.id);
+                              }}
+                            >
                               <Trash2 size={12} />
                             </Button>
                           </div>
@@ -183,6 +310,120 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                       <LookbookPage 
                         template={pages.find(p => p.id === currentPage)?.template || "grid-2"} 
                       />
+                    </div>
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="products" className="mt-6">
+                  <div className="border-t p-4 mt-2">
+                    <div className="flex justify-between items-center mb-4">
+                      <h3 className="text-1xl md:text-2xl uppercase font-thin">Link Products to Page {currentPage}</h3>
+                    </div>
+                    
+                    <div className="grid md:grid-cols-2 gap-6">
+                      <div className="space-y-4">
+                        <div className="relative">
+                          <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
+                          <Input
+                            placeholder="Search products..."
+                            className="pl-8"
+                            value={productSearchQuery}
+                            onChange={(e) => setProductSearchQuery(e.target.value)}
+                          />
+                        </div>
+                        
+                        <div className="border rounded-md">
+                          <h4 className="p-3 bg-gray-50 font-medium text-sm border-b">
+                            Product Catalog
+                          </h4>
+                          <ScrollArea className="h-[300px]">
+                            <div className="p-3 space-y-2">
+                              {filteredProducts.length > 0 ? (
+                                filteredProducts.map(product => (
+                                  <div 
+                                    key={product.id}
+                                    className="flex items-start gap-3 p-2 border rounded-md hover:bg-gray-50 cursor-pointer"
+                                    onClick={() => handleToggleProductLink(product.id)}
+                                  >
+                                    <div className="flex-shrink-0 h-12 w-12 bg-gray-100 flex items-center justify-center rounded-md">
+                                      <Tag size={16} className="text-gray-400" />
+                                    </div>
+                                    <div className="flex-grow">
+                                      <div className="flex items-center justify-between">
+                                        <div className="font-medium">{product.name}</div>
+                                        <Checkbox 
+                                          checked={isProductLinked(product.id)}
+                                          onCheckedChange={() => handleToggleProductLink(product.id)}
+                                          className="h-4 w-4"
+                                        />
+                                      </div>
+                                      <div className="text-xs text-gray-500">
+                                        SKU: {product.sku} · ${product.price.toFixed(2)}
+                                      </div>
+                                      <div className="text-xs text-gray-500 truncate">
+                                        {product.description.substring(0, 60)}...
+                                      </div>
+                                    </div>
+                                  </div>
+                                ))
+                              ) : (
+                                <div className="text-center py-6 text-gray-500">
+                                  No products found
+                                </div>
+                              )}
+                            </div>
+                          </ScrollArea>
+                        </div>
+                      </div>
+                      
+                      <div className="space-y-4">
+                        <h4 className="font-medium">Linked Products for Page {currentPage}</h4>
+                        
+                        <div className="border rounded-md">
+                          <div className="p-3 bg-gray-50 border-b flex justify-between items-center">
+                            <span className="font-medium text-sm">Selected Products</span>
+                            <Badge variant="outline" className="text-xs">
+                              {getLinkedProductsForPage(currentPage).length} items
+                            </Badge>
+                          </div>
+                          
+                          <ScrollArea className="h-[300px]">
+                            <div className="p-3">
+                              {getLinkedProductsForPage(currentPage).length > 0 ? (
+                                <div className="space-y-2">
+                                  {getLinkedProductsForPage(currentPage).map(product => (
+                                    <div key={product.id} className="flex justify-between items-center p-2 border rounded-md">
+                                      <div className="flex items-center gap-2">
+                                        <div className="h-10 w-10 bg-gray-100 flex items-center justify-center rounded-md">
+                                          <Tag size={14} className="text-gray-400" />
+                                        </div>
+                                        <div>
+                                          <div className="font-medium text-sm">{product.name}</div>
+                                          <div className="text-xs text-gray-500">${product.price.toFixed(2)}</div>
+                                        </div>
+                                      </div>
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
+                                        className="h-8 w-8 text-red-500"
+                                        onClick={() => handleToggleProductLink(product.id)}
+                                      >
+                                        <Trash2 size={16} />
+                                      </Button>
+                                    </div>
+                                  ))}
+                                </div>
+                              ) : (
+                                <div className="text-center py-6 text-gray-500 flex flex-col items-center">
+                                  <Link className="h-8 w-8 text-gray-400 mb-2" />
+                                  <p>No products linked to this page</p>
+                                  <p className="text-xs">Select products from the catalog to link them</p>
+                                </div>
+                              )}
+                            </div>
+                          </ScrollArea>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </TabsContent>
@@ -237,11 +478,30 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                 
                 <div className="space-y-12">
                   {pages.map((page, index) => (
-                    <div key={page.id} className="w-full aspect-[4/3] bg-white border rounded-md overflow-hidden shadow-md">
-                      <LookbookPage 
-                        template={page.template}
-                        preview={true}
-                      />
+                    <div key={page.id} className="space-y-4">
+                      <div className="w-full aspect-[4/3] bg-white border rounded-md overflow-hidden shadow-md">
+                        <LookbookPage 
+                          template={page.template}
+                          preview={true}
+                        />
+                      </div>
+                      
+                      {page.linkedProducts && page.linkedProducts.length > 0 && (
+                        <div className="border rounded-md p-4">
+                          <h3 className="text-sm uppercase font-medium mb-4">Featured Products</h3>
+                          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                            {getLinkedProductsForPage(page.id).map(product => (
+                              <div key={product.id} className="border rounded-md p-3 hover:shadow-sm">
+                                <div className="h-24 bg-gray-100 flex items-center justify-center rounded-md mb-2">
+                                  <Tag size={20} className="text-gray-400" />
+                                </div>
+                                <h4 className="font-medium text-sm truncate">{product.name}</h4>
+                                <div className="text-xs text-gray-500 mt-1">${product.price.toFixed(2)}</div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   ))}
                 </div>

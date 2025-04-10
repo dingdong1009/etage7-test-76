@@ -1,14 +1,23 @@
 
 import React from "react";
-import { Upload, Plus } from "lucide-react";
+import { Upload, Plus, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 interface LookbookPageProps {
   template: string;
   preview?: boolean;
+  linkedProducts?: Array<{
+    id: number;
+    name: string;
+    price: number;
+  }>;
 }
 
-const LookbookPage: React.FC<LookbookPageProps> = ({ template, preview = false }) => {
+const LookbookPage: React.FC<LookbookPageProps> = ({ 
+  template, 
+  preview = false, 
+  linkedProducts = [] 
+}) => {
   const renderTemplate = () => {
     switch (template) {
       case "grid-2":
