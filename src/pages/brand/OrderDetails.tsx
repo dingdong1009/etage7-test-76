@@ -59,10 +59,11 @@ const BrandOrderDetails = () => {
   const [loading, setLoading] = useState(true);
   const printRef = useRef<HTMLDivElement>(null);
 
-  // Function to handle printing
+  // Function to handle printing - fixed to use the correct property structure
   const handlePrint = useReactToPrint({
     documentTitle: `Order-${orderId}`,
     onAfterPrint: () => console.log('Print completed'),
+    // React-to-print expects a function that returns the element to print
     content: () => printRef.current,
   });
 
@@ -177,7 +178,7 @@ const BrandOrderDetails = () => {
         </div>
         
         <div className="flex flex-wrap items-center gap-2">
-          <Button variant="outline" size="sm" onClick={() => handlePrint()}>
+          <Button variant="outline" size="sm" onClick={handlePrint}>
             <Printer size={16} className="mr-2" />
             Print Order
           </Button>
