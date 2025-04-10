@@ -17,12 +17,12 @@ const BrandOrderDetails = () => {
   const [loading, setLoading] = useState(true);
   const printRef = useRef<HTMLDivElement>(null);
 
-  // Function to handle printing - properly typed for react-to-print
+  // Function to handle printing - fixed type issue by using contentRef
   const handlePrint = useReactToPrint({
     documentTitle: `Order-${orderId}`,
     onAfterPrint: () => console.log('Print completed'),
-    // Fix: Pass the ref directly instead of a function returning the ref
-    content: printRef,
+    // Fix: Using contentRef instead of content which is the correct property name
+    contentRef: printRef,
   });
 
   // Fetch order data (in a real app, this would be an API call)
