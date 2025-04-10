@@ -149,7 +149,7 @@ export const ProductFormTabs = ({
               onValueChange={setAvailabilityType}
               className="grid grid-cols-1 md:grid-cols-3 gap-3"
             >
-              <div className={`flex items-center space-x-2 border rounded-md p-3 cursor-pointer transition-colors ${availabilityType === "in-stock" ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:bg-gray-50"}`}>
+              <div className={`flex items-center space-x-2 border p-3 cursor-pointer transition-colors ${availabilityType === "in-stock" ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:bg-gray-50"}`}>
                 <RadioGroupItem value="in-stock" id="in-stock" className="hidden" />
                 <div className={`flex h-7 w-7 items-center justify-center rounded-full ${availabilityType === "in-stock" ? "bg-blue-500" : "bg-gray-100"}`}>
                   <Check className={`h-4 w-4 ${availabilityType === "in-stock" ? "text-white" : "text-gray-400"}`} />
@@ -157,7 +157,7 @@ export const ProductFormTabs = ({
                 <Label htmlFor="in-stock" className="cursor-pointer font-medium">In Stock</Label>
               </div>
               
-              <div className={`flex items-center space-x-2 border rounded-md p-3 cursor-pointer transition-colors ${availabilityType === "pre-order" ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:bg-gray-50"}`}>
+              <div className={`flex items-center space-x-2 border p-3 cursor-pointer transition-colors ${availabilityType === "pre-order" ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:bg-gray-50"}`}>
                 <RadioGroupItem value="pre-order" id="pre-order" className="hidden" />
                 <div className={`flex h-7 w-7 items-center justify-center rounded-full ${availabilityType === "pre-order" ? "bg-blue-500" : "bg-gray-100"}`}>
                   <Calendar className={`h-4 w-4 ${availabilityType === "pre-order" ? "text-white" : "text-gray-400"}`} />
@@ -165,7 +165,7 @@ export const ProductFormTabs = ({
                 <Label htmlFor="pre-order" className="cursor-pointer font-medium">Pre-Order</Label>
               </div>
               
-              <div className={`flex items-center space-x-2 border rounded-md p-3 cursor-pointer transition-colors ${availabilityType === "commission" ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:bg-gray-50"}`}>
+              <div className={`flex items-center space-x-2 border p-3 cursor-pointer transition-colors ${availabilityType === "commission" ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:bg-gray-50"}`}>
                 <RadioGroupItem value="commission" id="commission" className="hidden" />
                 <div className={`flex h-7 w-7 items-center justify-center rounded-full ${availabilityType === "commission" ? "bg-blue-500" : "bg-gray-100"}`}>
                   <Handshake className={`h-4 w-4 ${availabilityType === "commission" ? "text-white" : "text-gray-400"}`} />
