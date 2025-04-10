@@ -10,6 +10,16 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Search, Filter } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger
+} from "@/components/ui/dropdown-menu";
 
 // Order interface for type safety
 interface Order {
@@ -56,18 +66,31 @@ const Orders = () => {
       <div className="flex justify-between items-center">
         <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Orders</h1>
         <div className="flex gap-2">
-          <input 
-            type="text" 
-            placeholder="Search orders" 
-            className="border border-gray-200 rounded px-3 py-1.5 text-sm bg-white"
-          />
-          <select className="border border-gray-200 rounded px-3 py-1.5 text-sm bg-white">
-            <option>All Status</option>
-            <option>Processing</option>
-            <option>Shipped</option>
-            <option>Delivered</option>
-            <option>Cancelled</option>
-          </select>
+          <div className="relative">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+            <input 
+              type="text" 
+              placeholder="Search orders" 
+              className="pl-8 pr-3 py-1.5 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-300 focus:border-gray-300 bg-white w-48 md:w-60"
+            />
+          </div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" size="sm" className="border border-gray-200">
+                <Filter size={14} className="mr-2" />
+                Filter
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-48 bg-white">
+              <DropdownMenuLabel>Status</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem>All Status</DropdownMenuItem>
+              <DropdownMenuItem>Processing</DropdownMenuItem>
+              <DropdownMenuItem>Shipped</DropdownMenuItem>
+              <DropdownMenuItem>Delivered</DropdownMenuItem>
+              <DropdownMenuItem>Cancelled</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
       
@@ -99,7 +122,7 @@ const Orders = () => {
                       <TableCell>
                         <span 
                           className={`inline-block px-2 py-0.5 text-xs rounded-full ${
-                            order.status === "Processing" ? "bg-black-100 text-blue-800" :
+                            order.status === "Processing" ? "bg-blue-100 text-blue-800" :
                             order.status === "Shipped" ? "bg-yellow-100 text-yellow-800" :
                             order.status === "Delivered" ? "bg-green-100 text-green-800" :
                             "bg-red-100 text-red-800"
