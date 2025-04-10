@@ -10,7 +10,7 @@ import {
   TableRow
 } from "@/components/ui/table";
 import { Card, CardContent } from "@/components/ui/card";
-import { UserPlus } from "lucide-react";
+import { UserPlus, Edit, Trash2 } from "lucide-react";
 
 // Team member interface for type safety
 interface TeamMember {
@@ -74,7 +74,24 @@ const Team = () => {
                     </span>
                   </TableCell>
                   <TableCell className="text-right">
-                    <Button variant="ghost" size="sm">Edit</Button>
+                    <div className="flex justify-end gap-1">
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="h-8 w-8" 
+                        title="Edit team member"
+                      >
+                        <Edit className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="h-8 w-8" 
+                        title="Delete team member"
+                      >
+                        <Trash2 className="h-4 w-4 text-red-500" />
+                      </Button>
+                    </div>
                   </TableCell>
                 </TableRow>
               ))}

@@ -26,17 +26,17 @@ const OrderActions: React.FC<OrderActionsProps> = ({ orderId, onPrint }) => {
       </div>
       
       <div className="flex flex-wrap items-center gap-2">
-        <Button variant="outline" size="sm" onClick={onPrint}>
+        <Button variant="ghost" size="sm" className="h-9" onClick={onPrint}>
           <Printer size={16} className="mr-2" />
           Print Order
         </Button>
         
-        <Button variant="outline" size="sm">
+        <Button variant="ghost" size="sm" className="h-9">
           <FileText size={16} className="mr-2" />
           Download PDF
         </Button>
         
-        <Button variant="outline" size="sm">
+        <Button variant="ghost" size="sm" className="h-9">
           <Mail size={16} className="mr-2" />
           Email Customer
         </Button>

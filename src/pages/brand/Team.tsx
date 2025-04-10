@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Search, Mail, Phone, Pencil, Trash2 } from "lucide-react";
+import { Plus, Search, Mail, Phone, Edit, Trash2 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -54,9 +54,9 @@ const BrandTeam = () => {
         <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Team</h1>
         <Button 
           onClick={() => setActiveTab("invite")} 
-          className="text-xs px-3 py-2 bg-black text-white rounded flex items-center gap-1 w-full sm:w-auto justify-center"
+          className="bg-black hover:bg-gray-800 text-white"
         >
-          <Plus size={16} />
+          <Plus size={16} className="mr-2" />
           Add Team Member
         </Button>
       </div>
@@ -117,15 +117,25 @@ const BrandTeam = () => {
                             {member.status}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-right space-x-2">
-                          <Button variant="outline" size="icon" className="h-8 w-8 p-0">
-                            <Pencil size={16} />
-                            <span className="sr-only">Edit</span>
-                          </Button>
-                          <Button variant="outline" size="icon" className="h-8 w-8 p-0 bg-red-50 text-red-800 hover:bg-red-100 border-red-200">
-                            <Trash2 size={16} />
-                            <span className="sr-only">Delete</span>
-                          </Button>
+                        <TableCell>
+                          <div className="flex justify-end gap-1">
+                            <Button 
+                              variant="ghost" 
+                              size="icon" 
+                              className="h-8 w-8" 
+                              title="Edit team member"
+                            >
+                              <Edit className="h-4 w-4" />
+                            </Button>
+                            <Button 
+                              variant="ghost" 
+                              size="icon" 
+                              className="h-8 w-8" 
+                              title="Delete team member"
+                            >
+                              <Trash2 className="h-4 w-4 text-red-500" />
+                            </Button>
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}
@@ -185,7 +195,7 @@ const BrandTeam = () => {
                 </div>
                 
                 <div className="flex justify-end">
-                  <Button type="submit" className="px-4 py-2 bg-black text-white rounded hover:bg-black-600">
+                  <Button type="submit" className="bg-black hover:bg-gray-800 text-white">
                     Send Invitation
                   </Button>
                 </div>
