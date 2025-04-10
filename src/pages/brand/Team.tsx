@@ -56,7 +56,7 @@ const BrandTeam = () => {
           onClick={() => setActiveTab("invite")} 
           className="bg-black hover:bg-gray-800 text-white"
         >
-          <UserPlus size={16} className="mr-2" />
+          <Plus size={16} className="mr-2" />
           Add Team Member
         </Button>
       </div>
