@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -35,6 +34,16 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
   const handleSave = () => {
     console.log("Saving lookbook:", { title, description, pages });
     onClose();
+  };
+
+  const handleTemplateChange = (templateId: string) => {
+    const updatedPages = pages.map(page => {
+      if (page.id === currentPage) {
+        return { ...page, template: templateId };
+      }
+      return page;
+    });
+    setPages(updatedPages);
   };
   
   const availableTemplates = [
@@ -158,9 +167,10 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                         {availableTemplates.map(template => (
                           <Button 
                             key={template.id}
-                            variant="outline" 
+                            variant={pages.find(p => p.id === currentPage)?.template === template.id ? "default" : "outline"}
                             size="sm" 
                             className="flex gap-1 items-center"
+                            onClick={() => handleTemplateChange(template.id)}
                           >
                             {template.icon}
                             {template.name}
