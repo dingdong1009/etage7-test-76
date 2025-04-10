@@ -124,7 +124,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
 
                 <TabsContent value="content" className="mt-6 space-y-4">
                   <div className="flex justify-between items-center">
-                    <h3 className="text-1xl md:text-2xl uppercase font-thin mb-6">Pages</h3>
+                    <h3 className="text-1xl md:text-2xl uppercase font-thin">Pages</h3>
                     <Button variant="outline" size="sm" onClick={handleAddPage}>
                       <Plus size={16} className="mr-2" />
                       Add Page

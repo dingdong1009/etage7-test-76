@@ -44,7 +44,7 @@ const BrandTeam = () => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <h1 className="text-2xl font-bold">Team</h1>
+        <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Team</h1>
         <button className="text-xs px-3 py-2 bg-black text-white rounded flex items-center gap-1 w-full sm:w-auto justify-center">
           <Plus size={16} />
           Add Team Member
@@ -53,7 +53,7 @@ const BrandTeam = () => {
       
       <Card className="border border-gray-200">
         <CardHeader className="flex flex-row items-center justify-between pb-2">
-          <CardTitle className="text-4xl md:text-6xl uppercase font-thin mb-6">Team Members</CardTitle>
+          <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Team Members</CardTitle>
           <div className="relative w-full max-w-sm">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
             <input 
