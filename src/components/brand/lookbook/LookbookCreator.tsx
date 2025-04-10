@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -6,27 +5,13 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { 
-  X, Save, Plus, Move, Trash2, Upload, LayoutTemplate, 
-  Grid3X3, Type, Eye, ChevronDown, ChevronRight, 
-  AlignLeft, AlignCenter, AlignRight, Bold, Italic
-} from "lucide-react";
+import { X, Save, Plus, Move, Trash2, Upload, LayoutTemplate, Grid3X3, Type, Eye } from "lucide-react";
 import LookbookPage from "./LookbookPage";
 import LookbookPageTemplate from "./LookbookPageTemplate";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 interface LookbookCreatorProps {
   lookbook: { id: number; title: string } | null;
   onClose: () => void;
-}
-
-interface FontStyles {
-  family: string;
-  size: string;
-  weight: string;
-  alignment: string;
-  color: string;
 }
 
 const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) => {
@@ -36,14 +21,6 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
   const [pages, setPages] = useState([{ id: 1, template: "grid-2", images: [] }]);
   const [currentPage, setCurrentPage] = useState(1);
   const [previewMode, setPreviewMode] = useState(false);
-  const [isLayoutExpanded, setIsLayoutExpanded] = useState(true);
-  const [fontStyles, setFontStyles] = useState<FontStyles>({
-    family: 'sans',
-    size: 'text-2xl',
-    weight: 'font-thin',
-    alignment: 'text-center',
-    color: 'text-black'
-  });
   
   const handleAddPage = () => {
     const newPage = {
@@ -75,13 +52,6 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
     { id: "featured", name: "Featured", icon: <LayoutTemplate size={16} /> },
     { id: "cover", name: "Cover", icon: <Type size={16} /> }
   ];
-
-  const handleFontStyleChange = (property: keyof FontStyles, value: string) => {
-    setFontStyles(prev => ({ ...prev, [property]: value }));
-  };
-
-  const currentPageTemplate = pages.find(p => p.id === currentPage)?.template || "grid-2";
-  const showFontControls = currentPageTemplate === "cover";
 
   return (
     <div className="space-y-4">
@@ -190,168 +160,31 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                 </TabsContent>
 
                 <TabsContent value="layout" className="mt-6">
-                  <Collapsible
-                    open={isLayoutExpanded}
-                    onOpenChange={setIsLayoutExpanded}
-                    className="border-t pt-4 mt-2"
-                  >
+                  <div className="border-t p-4 mt-2">
                     <div className="flex justify-between items-center mb-4">
-                      <div className="flex items-center">
-                        <CollapsibleTrigger asChild>
-                          <Button variant="ghost" size="sm" className="p-1">
-                            {isLayoutExpanded ? <ChevronDown size={16} /> : <ChevronRight size={16} />}
+                      <h3 className="text-1xl md:text-2xl uppercase font-thin">Page {currentPage} Layout</h3>
+                      <div className="flex gap-2">
+                        {availableTemplates.map(template => (
+                          <Button 
+                            key={template.id}
+                            variant={pages.find(p => p.id === currentPage)?.template === template.id ? "default" : "outline"}
+                            size="sm" 
+                            className="flex gap-1 items-center"
+                            onClick={() => handleTemplateChange(template.id)}
+                          >
+                            {template.icon}
+                            {template.name}
                           </Button>
-                        </CollapsibleTrigger>
-                        <h3 className="text-1xl md:text-2xl uppercase font-thin">Page {currentPage} Layout</h3>
+                        ))}
                       </div>
-                      
-                      {!isLayoutExpanded && (
-                        <Button 
-                          variant="outline" 
-                          size="sm"
-                          onClick={() => setIsLayoutExpanded(true)}
-                        >
-                          Expand
-                        </Button>
-                      )}
                     </div>
-
-                    <CollapsibleContent>
-                      <div className="mb-4">
-                        <div className="flex gap-2 mb-4">
-                          {availableTemplates.map(template => (
-                            <Button 
-                              key={template.id}
-                              variant={pages.find(p => p.id === currentPage)?.template === template.id ? "default" : "outline"}
-                              size="sm" 
-                              className="flex gap-1 items-center"
-                              onClick={() => handleTemplateChange(template.id)}
-                            >
-                              {template.icon}
-                              {template.name}
-                            </Button>
-                          ))}
-                        </div>
-                        
-                        {showFontControls && (
-                          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4 border p-4 bg-gray-50">
-                            <div>
-                              <Label htmlFor="font-family">Font Family</Label>
-                              <Select 
-                                value={fontStyles.family} 
-                                onValueChange={(value) => handleFontStyleChange('family', value)}
-                              >
-                                <SelectTrigger id="font-family">
-                                  <SelectValue placeholder="Select font" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="sans">Sans-serif</SelectItem>
-                                  <SelectItem value="serif">Serif</SelectItem>
-                                  <SelectItem value="mono">Monospace</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </div>
-                            
-                            <div>
-                              <Label htmlFor="font-size">Font Size</Label>
-                              <Select 
-                                value={fontStyles.size} 
-                                onValueChange={(value) => handleFontStyleChange('size', value)}
-                              >
-                                <SelectTrigger id="font-size">
-                                  <SelectValue placeholder="Select size" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="text-sm">Small</SelectItem>
-                                  <SelectItem value="text-base">Medium</SelectItem>
-                                  <SelectItem value="text-lg">Large</SelectItem>
-                                  <SelectItem value="text-xl">Extra Large</SelectItem>
-                                  <SelectItem value="text-2xl">2X Large</SelectItem>
-                                  <SelectItem value="text-3xl">3X Large</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </div>
-                            
-                            <div>
-                              <Label htmlFor="font-weight">Font Weight</Label>
-                              <Select 
-                                value={fontStyles.weight} 
-                                onValueChange={(value) => handleFontStyleChange('weight', value)}
-                              >
-                                <SelectTrigger id="font-weight">
-                                  <SelectValue placeholder="Select weight" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="font-thin">Thin</SelectItem>
-                                  <SelectItem value="font-normal">Normal</SelectItem>
-                                  <SelectItem value="font-medium">Medium</SelectItem>
-                                  <SelectItem value="font-semibold">Semibold</SelectItem>
-                                  <SelectItem value="font-bold">Bold</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </div>
-                            
-                            <div>
-                              <Label htmlFor="font-alignment">Text Alignment</Label>
-                              <div className="flex gap-2 mt-2">
-                                <Button 
-                                  variant={fontStyles.alignment === "text-left" ? "default" : "outline"}
-                                  size="sm"
-                                  onClick={() => handleFontStyleChange('alignment', 'text-left')}
-                                  className="flex-1"
-                                >
-                                  <AlignLeft size={16} />
-                                </Button>
-                                <Button 
-                                  variant={fontStyles.alignment === "text-center" ? "default" : "outline"}
-                                  size="sm"
-                                  onClick={() => handleFontStyleChange('alignment', 'text-center')}
-                                  className="flex-1"
-                                >
-                                  <AlignCenter size={16} />
-                                </Button>
-                                <Button 
-                                  variant={fontStyles.alignment === "text-right" ? "default" : "outline"}
-                                  size="sm"
-                                  onClick={() => handleFontStyleChange('alignment', 'text-right')}
-                                  className="flex-1"
-                                >
-                                  <AlignRight size={16} />
-                                </Button>
-                              </div>
-                            </div>
-                            
-                            <div>
-                              <Label htmlFor="text-color">Text Color</Label>
-                              <Select 
-                                value={fontStyles.color} 
-                                onValueChange={(value) => handleFontStyleChange('color', value)}
-                              >
-                                <SelectTrigger id="text-color">
-                                  <SelectValue placeholder="Select color" />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="text-black">Black</SelectItem>
-                                  <SelectItem value="text-gray-500">Gray</SelectItem>
-                                  <SelectItem value="text-gray-700">Dark Gray</SelectItem>
-                                  <SelectItem value="text-white">White</SelectItem>
-                                  <SelectItem value="text-blue-500">Blue</SelectItem>
-                                  <SelectItem value="text-red-500">Red</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </div>
-                          </div>
-                        )}
-                        
-                        <div className="w-full aspect-[4/3] bg-gray-100 overflow-hidden">
-                          <LookbookPage 
-                            template={currentPageTemplate}
-                            fontStyles={fontStyles}
-                          />
-                        </div>
-                      </div>
-                    </CollapsibleContent>
-                  </Collapsible>
+                    
+                    <div className="w-full aspect-[4/3] bg-gray-100 overflow-hidden">
+                      <LookbookPage 
+                        template={pages.find(p => p.id === currentPage)?.template || "grid-2"} 
+                      />
+                    </div>
+                  </div>
                 </TabsContent>
 
                 <TabsContent value="settings" className="mt-6">
@@ -408,7 +241,6 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                       <LookbookPage 
                         template={page.template}
                         preview={true}
-                        fontStyles={fontStyles}
                       />
                     </div>
                   ))}

@@ -3,31 +3,12 @@ import React from "react";
 import { Upload, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-interface FontStyles {
-  family: string;
-  size: string;
-  weight: string;
-  alignment: string;
-  color: string;
-}
-
 interface LookbookPageProps {
   template: string;
   preview?: boolean;
-  fontStyles?: FontStyles;
 }
 
-const LookbookPage: React.FC<LookbookPageProps> = ({ 
-  template, 
-  preview = false,
-  fontStyles = {
-    family: 'sans',
-    size: 'text-2xl',
-    weight: 'font-thin',
-    alignment: 'text-center',
-    color: 'text-black'
-  }
-}) => {
+const LookbookPage: React.FC<LookbookPageProps> = ({ template, preview = false }) => {
   const renderTemplate = () => {
     switch (template) {
       case "grid-2":
@@ -62,13 +43,9 @@ const LookbookPage: React.FC<LookbookPageProps> = ({
         return (
           <div className="relative h-full flex flex-col justify-center items-center p-6 bg-gray-50">
             <ImagePlaceholder preview={preview} className="absolute inset-0 z-0 opacity-90" />
-            <div className={`z-10 bg-white bg-opacity-90 p-6 shadow-sm ${fontStyles.alignment}`}>
-              <h2 className={`${fontStyles.size} uppercase ${fontStyles.weight} mb-2 ${fontStyles.color} font-${fontStyles.family}`}>
-                {preview ? "Collection Title" : "Add Collection Title"}
-              </h2>
-              <p className={`text-gray-600 font-${fontStyles.family}`}>
-                {preview ? "A brief description of this collection." : "Add description here"}
-              </p>
+            <div className="z-10 text-center bg-white bg-opacity-90 p-6 hadow-sm">
+              <h2 className="text-1xl md:text-2xl uppercase font-thin mb-2">{preview ? "Collection Title" : "Add Collection Title"}</h2>
+              <p className="text-gray-600">{preview ? "A brief description of this collection." : "Add description here"}</p>
             </div>
           </div>
         );
