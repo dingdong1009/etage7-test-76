@@ -3,23 +3,64 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 const Settings = () => {
-  const [formData, setFormData] = useState({
+  const [passwordForm, setPasswordForm] = useState({
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: ""
+  });
+  
+  const [profileForm, setProfileForm] = useState({
     name: "Sophie Martin",
     email: "sophie@fashionstore.com",
     phone: "+33 6 12 34 56 78",
     companyName: "Fashion Store Paris",
     address: "15 Rue de la Paix, 75002 Paris, France",
-    website: "www.fashionstoreparis.com",
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: ""
+    website: "www.fashionstoreparis.com"
   });
+  
+  const [notificationSettings, setNotificationSettings] = useState({
+    emailNotifications: true,
+    orderUpdates: true,
+    brandAnnouncements: true,
+    productAlerts: false,
+    marketingEmails: true,
+    eventInvites: false,
+    weeklyDigest: true
+  });
+  
+  const [dateFormat, setDateFormat] = useState("DD/MM/YYYY");
+  const [currency, setCurrency] = useState("EUR (€)");
+  const [timeZone, setTimeZone] = useState("Central European Time (CET)");
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPasswordForm({
+      ...passwordForm,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setProfileForm({
+      ...profileForm,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleNotificationChange = (setting: string) => {
+    setNotificationSettings({
+      ...notificationSettings,
+      [setting]: !notificationSettings[setting as keyof typeof notificationSettings]
+    });
   };
 
   return (
@@ -27,210 +68,366 @@ const Settings = () => {
       <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Settings</h1>
       
       <Tabs defaultValue="profile" className="w-full">
-        <TabsList className="grid w-full md:w-auto md:inline-flex grid-cols-2 md:grid-cols-none mb-4">
+        <TabsList className="mb-6">
           <TabsTrigger value="profile">Profile</TabsTrigger>
           <TabsTrigger value="password">Password</TabsTrigger>
           <TabsTrigger value="notifications">Notifications</TabsTrigger>
-          <TabsTrigger value="preferences">Preferences</TabsTrigger>
+          <TabsTrigger value="advanced">Advanced</TabsTrigger>
         </TabsList>
         
         <TabsContent value="profile">
-          <Card>
+          <Card className="border border-gray-200">
             <CardHeader>
-              <CardTitle>Profile Information</CardTitle>
+              <CardTitle className="text-lg font-medium">Buyer Profile</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Full Name</label>
-                  <input
+            <CardContent>
+              <form className="space-y-4">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+                    Name
+                  </label>
+                  <Input
                     type="text"
+                    id="name"
                     name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                    className="w-full border border-gray-200 rounded px-3 py-2"
+                    value={profileForm.name}
+                    onChange={handleProfileChange}
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Email</label>
-                  <input
+                
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                    Email Address
+                  </label>
+                  <Input
                     type="email"
+                    id="email"
                     name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="w-full border border-gray-200 rounded px-3 py-2"
+                    value={profileForm.email}
+                    onChange={handleProfileChange}
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Phone</label>
-                  <input
-                    type="text"
+                
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                    Phone Number
+                  </label>
+                  <Input
+                    type="tel"
+                    id="phone"
                     name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                    className="w-full border border-gray-200 rounded px-3 py-2"
+                    value={profileForm.phone}
+                    onChange={handleProfileChange}
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Company Name</label>
-                  <input
+                
+                <div>
+                  <label htmlFor="companyName" className="block text-sm font-medium text-gray-700 mb-1">
+                    Company Name
+                  </label>
+                  <Input
                     type="text"
+                    id="companyName"
                     name="companyName"
-                    value={formData.companyName}
-                    onChange={handleChange}
-                    className="w-full border border-gray-200 rounded px-3 py-2"
+                    value={profileForm.companyName}
+                    onChange={handleProfileChange}
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
-                <div className="space-y-2 md:col-span-2">
-                  <label className="text-sm font-medium">Address</label>
-                  <input
+                
+                <div>
+                  <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+                    Address
+                  </label>
+                  <Input
                     type="text"
+                    id="address"
                     name="address"
-                    value={formData.address}
-                    onChange={handleChange}
-                    className="w-full border border-gray-200 rounded px-3 py-2"
+                    value={profileForm.address}
+                    onChange={handleProfileChange}
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Website</label>
-                  <input
+                
+                <div>
+                  <label htmlFor="website" className="block text-sm font-medium text-gray-700 mb-1">
+                    Website
+                  </label>
+                  <Input
                     type="text"
+                    id="website"
                     name="website"
-                    value={formData.website}
-                    onChange={handleChange}
-                    className="w-full border border-gray-200 rounded px-3 py-2"
+                    value={profileForm.website}
+                    onChange={handleProfileChange}
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
-              </div>
-              <div className="flex justify-end">
-                <Button className="bg-black text-white hover:bg-gray-800">
-                  Save Changes
+                
+                <Button 
+                  type="submit" 
+                  className="bg-black text-white px-4 py-2 hover:bg-black-600"
+                >
+                  Update Profile
                 </Button>
-              </div>
+              </form>
             </CardContent>
           </Card>
         </TabsContent>
         
         <TabsContent value="password">
-          <Card>
+          <Card className="border border-gray-200">
             <CardHeader>
-              <CardTitle>Change Password</CardTitle>
+              <CardTitle className="text-lg font-medium">Change Password</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Current Password</label>
-                  <input
+            <CardContent>
+              <form className="space-y-4">
+                <div>
+                  <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                    Current Password
+                  </label>
+                  <Input
                     type="password"
+                    id="currentPassword"
                     name="currentPassword"
-                    value={formData.currentPassword}
-                    onChange={handleChange}
-                    className="w-full border border-gray-200 rounded px-3 py-2"
+                    value={passwordForm.currentPassword}
+                    onChange={handlePasswordChange}
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">New Password</label>
-                  <input
+                
+                <div>
+                  <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                    New Password
+                  </label>
+                  <Input
                     type="password"
+                    id="newPassword"
                     name="newPassword"
-                    value={formData.newPassword}
-                    onChange={handleChange}
-                    className="w-full border border-gray-200 rounded px-3 py-2"
+                    value={passwordForm.newPassword}
+                    onChange={handlePasswordChange}
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Confirm New Password</label>
-                  <input
+                
+                <div>
+                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                    Confirm New Password
+                  </label>
+                  <Input
                     type="password"
+                    id="confirmPassword"
                     name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    className="w-full border border-gray-200 rounded px-3 py-2"
+                    value={passwordForm.confirmPassword}
+                    onChange={handlePasswordChange}
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
                   />
                 </div>
-              </div>
-              <div className="flex justify-end">
-                <Button className="bg-black text-white hover:bg-gray-800">
+                
+                <Button 
+                  type="submit" 
+                  className="bg-black text-white px-4 py-2 hover:bg-black-600"
+                >
                   Update Password
                 </Button>
-              </div>
+              </form>
             </CardContent>
           </Card>
         </TabsContent>
-        
+
         <TabsContent value="notifications">
-          <Card>
+          <Card className="border border-gray-200">
             <CardHeader>
-              <CardTitle>Notification Settings</CardTitle>
+              <CardTitle className="text-lg font-medium">Notification Preferences</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="space-y-4">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
                   <div>
-                    <p className="font-medium">New Order Notifications</p>
-                    <p className="text-sm text-gray-500">Receive notifications when new orders are placed</p>
+                    <h3 className="font-medium">Email Notifications</h3>
+                    <p className="text-sm text-gray-500">Receive email notifications for important updates</p>
                   </div>
-                  <input type="checkbox" className="h-4 w-4" defaultChecked />
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      className="sr-only peer" 
+                      checked={notificationSettings.emailNotifications}
+                      onChange={() => handleNotificationChange('emailNotifications')}
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                  </label>
                 </div>
-                <div className="flex items-center justify-between">
+
+                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
                   <div>
-                    <p className="font-medium">Message Notifications</p>
-                    <p className="text-sm text-gray-500">Receive notifications for new messages</p>
+                    <h3 className="font-medium">Order Updates</h3>
+                    <p className="text-sm text-gray-500">Get notified about orders status changes</p>
                   </div>
-                  <input type="checkbox" className="h-4 w-4" defaultChecked />
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      className="sr-only peer" 
+                      checked={notificationSettings.orderUpdates}
+                      onChange={() => handleNotificationChange('orderUpdates')}
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                  </label>
                 </div>
-                <div className="flex items-center justify-between">
+
+                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
                   <div>
-                    <p className="font-medium">Product Updates</p>
-                    <p className="text-sm text-gray-500">Receive notifications about product updates</p>
+                    <h3 className="font-medium">Brand Announcements</h3>
+                    <p className="text-sm text-gray-500">Receive updates from brands you follow</p>
                   </div>
-                  <input type="checkbox" className="h-4 w-4" />
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      className="sr-only peer" 
+                      checked={notificationSettings.brandAnnouncements}
+                      onChange={() => handleNotificationChange('brandAnnouncements')}
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                  </label>
                 </div>
-                <div className="flex items-center justify-between">
+
+                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
                   <div>
-                    <p className="font-medium">Newsletter</p>
-                    <p className="text-sm text-gray-500">Receive our weekly newsletter</p>
+                    <h3 className="font-medium">Product Alerts</h3>
+                    <p className="text-sm text-gray-500">Get notified about new products from followed brands</p>
                   </div>
-                  <input type="checkbox" className="h-4 w-4" />
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      className="sr-only peer" 
+                      checked={notificationSettings.productAlerts}
+                      onChange={() => handleNotificationChange('productAlerts')}
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                  </label>
+                </div>
+
+                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
+                  <div>
+                    <h3 className="font-medium">Marketing Emails</h3>
+                    <p className="text-sm text-gray-500">Receive promotional emails and special offers</p>
+                  </div>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      className="sr-only peer" 
+                      checked={notificationSettings.marketingEmails}
+                      onChange={() => handleNotificationChange('marketingEmails')}
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                  </label>
+                </div>
+
+                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
+                  <div>
+                    <h3 className="font-medium">Event Invites</h3>
+                    <p className="text-sm text-gray-500">Receive invitations to fashion events and shows</p>
+                  </div>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      className="sr-only peer" 
+                      checked={notificationSettings.eventInvites}
+                      onChange={() => handleNotificationChange('eventInvites')}
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                  </label>
+                </div>
+
+                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
+                  <div>
+                    <h3 className="font-medium">Weekly Digest</h3>
+                    <p className="text-sm text-gray-500">Receive weekly summary of platform activities</p>
+                  </div>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      className="sr-only peer" 
+                      checked={notificationSettings.weeklyDigest}
+                      onChange={() => handleNotificationChange('weeklyDigest')}
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                  </label>
                 </div>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
-        
-        <TabsContent value="preferences">
-          <Card>
+
+        <TabsContent value="advanced">
+          <Card className="border border-gray-200">
             <CardHeader>
-              <CardTitle>Preferences</CardTitle>
+              <CardTitle className="text-lg font-medium">Advanced Settings</CardTitle>
             </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Language</label>
-                  <select className="w-full border border-gray-200 px-3 py-2">
-                    <option>English</option>
-                    <option>French</option>
-                    <option>German</option>
-                    <option>Italian</option>
-                  </select>
+            <CardContent className="space-y-4">
+              <div className="p-4 border border-gray-200 rounded-md">
+                <h3 className="font-medium">Display Preferences</h3>
+                <p className="text-sm text-gray-500 mt-1">Customize how information is displayed</p>
+                
+                <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Default Date Format</label>
+                    <Select value={dateFormat} onValueChange={setDateFormat}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select date format" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="DD/MM/YYYY">DD/MM/YYYY</SelectItem>
+                        <SelectItem value="MM/DD/YYYY">MM/DD/YYYY</SelectItem>
+                        <SelectItem value="YYYY-MM-DD">YYYY-MM-DD</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Default Currency</label>
+                    <Select value={currency} onValueChange={setCurrency}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select currency" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="EUR (€)">EUR (€)</SelectItem>
+                        <SelectItem value="USD ($)">USD ($)</SelectItem>
+                        <SelectItem value="GBP (£)">GBP (£)</SelectItem>
+                        <SelectItem value="JPY (¥)">JPY (¥)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Time Zone</label>
+                    <Select value={timeZone} onValueChange={setTimeZone}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select time zone" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="Central European Time (CET)">Central European Time (CET)</SelectItem>
+                        <SelectItem value="Eastern Time (ET)">Eastern Time (ET)</SelectItem>
+                        <SelectItem value="Pacific Time (PT)">Pacific Time (PT)</SelectItem>
+                        <SelectItem value="Japan Standard Time (JST)">Japan Standard Time (JST)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Currency</label>
-                  <select className="w-full border border-gray-200 px-3 py-2">
-                    <option>EUR (€)</option>
-                    <option>USD ($)</option>
-                    <option>GBP (£)</option>
-                    <option>JPY (¥)</option>
-                  </select>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">Time Zone</label>
-                  <select className="w-full border border-gray-200 px-3 py-2">
-                    <option>Central European Time (CET)</option>
-                    <option>Eastern Time (ET)</option>
-                    <option>Pacific Time (PT)</option>
-                    <option>Japan Standard Time (JST)</option>
-                  </select>
+              </div>
+
+              <div className="p-4 border border-gray-200 rounded-md">
+                <h3 className="font-medium">Data Management</h3>
+                <p className="text-sm text-gray-500 mt-1">Manage your account data</p>
+                
+                <div className="mt-4 flex flex-col sm:flex-row gap-3">
+                  <Button variant="outline" className="border-gray-300">
+                    Export Account Data
+                  </Button>
+                  <Button variant="outline" className="border-red-300 text-red-600 hover:bg-red-50">
+                    Delete Account
+                  </Button>
                 </div>
               </div>
             </CardContent>
