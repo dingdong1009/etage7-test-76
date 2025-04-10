@@ -25,7 +25,7 @@ const Header = () => {
         isScrolled ? "shadow-sm" : ""
       }`}
     >
-      <div className="max-w-[1481px] mx-auto px-4 flex justify-between items-center h-16">
+      <div className="max-w-[1481px] mx-auto px-4 flex border-b justify-between items-center h-16">
       <Link to="/" className="text-black text-xl font-bold uppercase">ETAGE7</Link> 
         
         {/* Mobile menu button */}
