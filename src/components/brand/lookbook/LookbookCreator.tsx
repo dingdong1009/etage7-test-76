@@ -162,7 +162,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                 <TabsContent value="layout" className="mt-6">
                   <div className="border-t p-4 mt-2">
                     <div className="flex justify-between items-center mb-4">
-                      <h3 className="text-lg font-medium">Page {currentPage} Layout</h3>
+                      <h3 className="text-1xl md:text-2xl uppercase font-thin mb-6">Page {currentPage} Layout</h3>
                       <div className="flex gap-2">
                         {availableTemplates.map(template => (
                           <Button 
