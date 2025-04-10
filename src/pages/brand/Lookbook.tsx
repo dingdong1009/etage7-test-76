@@ -119,7 +119,7 @@ const BrandLookbook = () => {
         <TabsContent value="images">
           <Card className="border border-gray-200">
             <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-lg font-medium">Images Library</CardTitle>
+              <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Images Library</CardTitle>
               <Button variant="outline" size="sm">
                 <Upload size={16} className="mr-2" />
                 Upload Images

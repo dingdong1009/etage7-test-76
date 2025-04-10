@@ -48,7 +48,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
     <div className="space-y-4">
       <Card className="border border-gray-200">
         <CardHeader className="flex flex-row items-center justify-between">
-          <CardTitle className="text-xl font-medium">
+          <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">
             {lookbook ? "Edit Lookbook" : "Create New Lookbook"}
           </CardTitle>
           <div className="flex gap-2">
