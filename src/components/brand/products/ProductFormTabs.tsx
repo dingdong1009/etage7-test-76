@@ -8,11 +8,15 @@ import {
   Truck,
   RussianRuble,
   Plus,
-  Trash2
+  Trash2,
+  Check,
+  Calendar,
+  Handshake
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { 
   DropdownMenu,
   DropdownMenuContent,
@@ -54,6 +58,7 @@ export const ProductFormTabs = ({
   const [bulkTiers, setBulkTiers] = useState<BulkTier[]>([
     { id: '1', minQuantity: '10', discountPercent: '5' }
   ]);
+  const [availabilityType, setAvailabilityType] = useState("in-stock");
 
   const addBulkTier = () => {
     const newId = String(bulkTiers.length + 1);
@@ -135,6 +140,44 @@ export const ProductFormTabs = ({
             </p>
           </div>
           
+          <div className="col-span-1 md:col-span-2">
+            <Label className="text-sm font-medium mb-2 block">
+              Availability*
+            </Label>
+            <RadioGroup
+              value={availabilityType}
+              onValueChange={setAvailabilityType}
+              className="grid grid-cols-1 md:grid-cols-3 gap-3"
+            >
+              <div className={`flex items-center space-x-2 border rounded-md p-3 cursor-pointer transition-colors ${availabilityType === "in-stock" ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:bg-gray-50"}`}>
+                <RadioGroupItem value="in-stock" id="in-stock" className="hidden" />
+                <div className={`flex h-7 w-7 items-center justify-center rounded-full ${availabilityType === "in-stock" ? "bg-blue-500" : "bg-gray-100"}`}>
+                  <Check className={`h-4 w-4 ${availabilityType === "in-stock" ? "text-white" : "text-gray-400"}`} />
+                </div>
+                <Label htmlFor="in-stock" className="cursor-pointer font-medium">In Stock</Label>
+              </div>
+              
+              <div className={`flex items-center space-x-2 border rounded-md p-3 cursor-pointer transition-colors ${availabilityType === "pre-order" ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:bg-gray-50"}`}>
+                <RadioGroupItem value="pre-order" id="pre-order" className="hidden" />
+                <div className={`flex h-7 w-7 items-center justify-center rounded-full ${availabilityType === "pre-order" ? "bg-blue-500" : "bg-gray-100"}`}>
+                  <Calendar className={`h-4 w-4 ${availabilityType === "pre-order" ? "text-white" : "text-gray-400"}`} />
+                </div>
+                <Label htmlFor="pre-order" className="cursor-pointer font-medium">Pre-Order</Label>
+              </div>
+              
+              <div className={`flex items-center space-x-2 border rounded-md p-3 cursor-pointer transition-colors ${availabilityType === "commission" ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:bg-gray-50"}`}>
+                <RadioGroupItem value="commission" id="commission" className="hidden" />
+                <div className={`flex h-7 w-7 items-center justify-center rounded-full ${availabilityType === "commission" ? "bg-blue-500" : "bg-gray-100"}`}>
+                  <Handshake className={`h-4 w-4 ${availabilityType === "commission" ? "text-white" : "text-gray-400"}`} />
+                </div>
+                <Label htmlFor="commission" className="cursor-pointer font-medium">Commission</Label>
+              </div>
+            </RadioGroup>
+            <p className="text-xs text-gray-500 mt-2">
+              Select how this product is available to customers
+            </p>
+          </div>
+
           <div>
             <Label htmlFor="category" className="text-sm font-medium">
               Category*
