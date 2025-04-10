@@ -23,12 +23,12 @@ const BrandLookbook = () => {
       
       <Card className="border border-gray-200">
         <CardHeader>
-          <CardTitle className="text-lg font-medium">Lookbook Collections</CardTitle>
+          <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Lookbook Collections</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {lookbooks.map((lookbook) => (
-              <div key={lookbook.id} className="border rounded-lg overflow-hidden group">
+              <div key={lookbook.id} className="border overflow-hidden group">
                 <div className="h-48 bg-gray-100 relative">
                   <div className="absolute inset-0 flex items-center justify-center text-gray-400">
                     Lookbook Thumbnail
@@ -47,7 +47,7 @@ const BrandLookbook = () => {
             ))}
             
             {/* Add new lookbook card */}
-            <div className="border border-dashed rounded-lg overflow-hidden h-[168px] flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors">
+            <div className="border border-dashed overflow-hidden h-[168px] flex flex-col items-center justify-center cursor-pointer hover:bg-gray-50 transition-colors">
               <Upload className="h-8 w-8 text-gray-400 mb-2" />
               <p className="text-sm text-gray-500">Create New Lookbook</p>
             </div>
@@ -62,7 +62,7 @@ const BrandLookbook = () => {
         <CardContent>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {[...Array(12)].map((_, i) => (
-              <div key={i} className="aspect-square bg-gray-100 rounded-md flex items-center justify-center text-gray-400 text-xs">
+              <div key={i} className="aspect-square bg-gray-100 flex items-center justify-center text-gray-400 text-xs">
                 Image {i+1}
               </div>
             ))}
