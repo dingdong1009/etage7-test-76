@@ -46,7 +46,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
 
   return (
     <div className="space-y-4">
-      <Card className="border-none">
+      <Card className="border border-gray-200">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">
             {lookbook ? "Edit Lookbook" : "Create New Lookbook"}
@@ -148,7 +148,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                     ))}
                   </div>
 
-                  <div className="p-4 mt-6">
+                  <div className="border-t p-4 mt-6">
                     <div className="flex justify-between items-center mb-4">
                       <h3 className="text-lg font-medium">Page {currentPage} Layout</h3>
                       <div className="flex gap-2">
@@ -166,7 +166,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                       </div>
                     </div>
                     
-                    <div className="w-full aspect-[5/7] bg-gray-100 border rounded-md overflow-hidden">
+                    <div className="w-full aspect-[5/7] bg-gray-100 overflow-hidden">
                       <LookbookPage 
                         template={pages.find(p => p.id === currentPage)?.template || "grid-2"} 
                       />
