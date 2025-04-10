@@ -52,7 +52,7 @@ export const ProductFilters = ({
       <div className="flex flex-wrap gap-2">
         <Popover>
           <PopoverTrigger asChild>
-            <Button variant="subtle" size="sm" className="h-10 flex gap-1.5">
+            <Button variant="outline" size="sm" className="h-10 flex gap-1.5">
               <Filter className="h-4 w-4" />
               Filter
             </Button>
@@ -104,7 +104,7 @@ export const ProductFilters = ({
               </div>
               <div className="flex justify-between">
                 <Button 
-                  variant="subtle" 
+                  variant="outline" 
                   size="sm" 
                   onClick={() => {
                     setCategoryFilter("");
@@ -115,8 +115,8 @@ export const ProductFilters = ({
                   Reset
                 </Button>
                 <Button 
-                  variant="purple" 
-                  size="sm"
+                  size="sm" 
+                  className="bg-black hover:bg-black-600"
                 >
                   Apply Filters
                 </Button>

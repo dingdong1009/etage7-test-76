@@ -33,12 +33,10 @@ export const ProductForm = ({
         </div>
         
         <div className="flex flex-col sm:flex-row gap-2 items-center">
-          <Button variant="action" className="w-full sm:w-auto">
-            <FileText size={16} />
+          <Button variant="default" className="w-full sm:w-auto bg-black hover:bg-black-600">
             Mass Upload from CSV
           </Button>
-          <Button variant="subtle" className="w-full sm:w-auto">
-            <FileText size={16} />
+          <Button variant="outline" className="w-full sm:w-auto">
             Download Template
           </Button>
         </div>
