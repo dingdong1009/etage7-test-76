@@ -24,7 +24,7 @@ const BuyerHeader = () => {
   };
 
   return (
-    <header className="sticky top-0 left-0 right-0 z-40 bg-white border-b border-gray-200">
+    <header className="sticky top-0 left-0 right-0 z-40 bg-white">
       <div className="max-w-full px-4 flex justify-between items-center h-16">
         <div className="flex items-center gap-2">
         <Link to="/" className="text-black text-2xl font-bold uppercase">ETAGE7</Link> | buyer
@@ -40,8 +40,17 @@ const BuyerHeader = () => {
           <Menu size={24} />
         </button>
         
-        {/* Desktop Navigation */}
-        <nav className="hidden md:block">
+        {/* User options on desktop */}
+        <div className="hidden md:flex items-center space-x-4">
+          <Link to="/" className="text-gray-600 hover:text-black text-sm">
+            Back to Site
+          </Link>
+        </div>
+      </div>
+      
+      {/* Desktop Navigation - Moved below the header bar */}
+      <nav className="hidden md:block border-b border-t border-gray-200 bg-white">
+        <div className="max-w-full px-4 py-2">
           <ul className="flex space-x-6">
             {menuItems.map((item) => (
               <li key={item.name}>
@@ -61,15 +70,8 @@ const BuyerHeader = () => {
               </li>
             ))}
           </ul>
-        </nav>
-
-        {/* User options on desktop */}
-        <div className="hidden md:flex items-center space-x-4">
-          <Link to="/" className="text-gray-600 hover:text-black text-sm">
-            Back to Site
-          </Link>
         </div>
-      </div>
+      </nav>
       
       {/* Mobile Menu */}
       {isMenuOpen && (
