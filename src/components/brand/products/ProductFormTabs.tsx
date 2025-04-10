@@ -7,7 +7,8 @@ import {
   Package, 
   Palette, 
   Tag, 
-  Truck 
+  Truck,
+  RussianRuble
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -63,7 +64,7 @@ export const ProductFormTabs = ({
           value="pricing" 
           className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm"
         >
-          <DollarSign className="mr-2 h-4 w-4" /> Pricing
+          <RussianRuble className="mr-2 h-4 w-4" /> Pricing
         </TabsTrigger>
         <TabsTrigger 
           value="shipping" 
