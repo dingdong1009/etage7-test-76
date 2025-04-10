@@ -187,13 +187,11 @@ export const ProductFormTabs = ({
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="outerwear">Outerwear</SelectItem>
-                <SelectItem value="tops">Tops</SelectItem>
-                <SelectItem value="bottoms">Bottoms</SelectItem>
-                <SelectItem value="dresses">Dresses</SelectItem>
-                <SelectItem value="footwear">Footwear</SelectItem>
-                <SelectItem value="accessories">Accessories</SelectItem>
-                <SelectItem value="jewelry">Jewelry</SelectItem>
+                <SelectItem value="woman">Woman</SelectItem>
+                <SelectItem value="man">Man</SelectItem>
+                <SelectItem value="kids">Kids</SelectItem>
+                <SelectItem value="home">Dresses</SelectItem>
+                <SelectItem value="beauty">Beauty</SelectItem>
               </SelectContent>
             </Select>
           </div>
