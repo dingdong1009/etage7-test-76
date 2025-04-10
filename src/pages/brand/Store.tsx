@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Upload, QrCode, LayoutTemplate, Eye, Store as StoreIcon, Save, Check, Instagram, Twitter, Facebook, MessageCircle, Phone, Globe } from "lucide-react";
+import { Upload, QrCode, LayoutTemplate, Eye, Store as StoreIcon, Save, Check, Instagram, Twitter, Facebook, MessageCircle, Send, Globe } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -234,21 +234,21 @@ const BrandStore = () => {
                     
                     <div className="flex items-center">
                       <div className="mr-2">
-                        <MessageCircle size={18} />
+                        <Send size={18} />
                       </div>
                       <Input type="text" placeholder="Telegram username" value={socialMedia.telegram} onChange={e => handleSocialMediaChange('telegram', e.target.value)} className="flex-1" />
                     </div>
                     
                     <div className="flex items-center">
                       <div className="mr-2">
-                        <Phone size={18} />
+                        <MessageCircle size={18} />
                       </div>
                       <Input type="text" placeholder="WhatsApp number" value={socialMedia.whatsapp} onChange={e => handleSocialMediaChange('whatsapp', e.target.value)} className="flex-1" />
                     </div>
                     
                     <div className="flex items-center">
                       <div className="mr-2">
-                        <Globe size={18} />
+                        <Send size={18} />
                       </div>
                       <Input type="text" placeholder="VK page name" value={socialMedia.vk} onChange={e => handleSocialMediaChange('vk', e.target.value)} className="flex-1" />
                     </div>
@@ -527,13 +527,13 @@ const StorePreview: React.FC<StorePreviewProps> = ({
                   <Facebook size={16} />
                 </div>}
               {socialMedia.telegram && <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
-                  <MessageCircle size={16} />
+                  <Send size={16} />
                 </div>}
               {socialMedia.whatsapp && <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
-                  <Phone size={16} />
+                  <MessageCircle size={16} />
                 </div>}
               {socialMedia.vk && <div className="h-8 w-8 border rounded-full flex items-center justify-center cursor-pointer hover:bg-gray-50">
-                  <Globe size={16} />
+                  <Send size={16} />
                 </div>}
             </div>
           </div>
