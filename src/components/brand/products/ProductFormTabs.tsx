@@ -63,7 +63,7 @@ export const ProductFormTabs = ({
           value="pricing" 
           className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm"
         >
-          <RubbleSign className="mr-2 h-4 w-4" /> Pricing
+          <DollarSign className="mr-2 h-4 w-4" /> Pricing
         </TabsTrigger>
         <TabsTrigger 
           value="shipping" 
