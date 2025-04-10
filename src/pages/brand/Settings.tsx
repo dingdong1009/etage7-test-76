@@ -71,7 +71,6 @@ const BrandSettings = () => {
           <TabsTrigger value="profile">Profile</TabsTrigger>
           <TabsTrigger value="security">Security</TabsTrigger>
           <TabsTrigger value="notifications">Notifications</TabsTrigger>
-          <TabsTrigger value="integrations">Integrations</TabsTrigger>
           <TabsTrigger value="advanced">Advanced</TabsTrigger>
         </TabsList>
         
@@ -365,55 +364,7 @@ const BrandSettings = () => {
           </Card>
         </TabsContent>
 
-        {/* Integrations Tab */}
-        <TabsContent value="integrations">
-          <Card className="border border-gray-200">
-            <CardHeader>
-              <CardTitle className="text-lg font-medium">API & Integrations</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="p-4 border rounded-md">
-                <h3 className="font-medium">API Access</h3>
-                <p className="text-sm text-gray-500 mt-1">Manage API keys and access for external integrations</p>
-                <div className="mt-2 flex items-center gap-2">
-                  <input 
-                    type="text" 
-                    value="sk_live_xxxxxxxxxxxxxxxxxxxxxxxxxxxxx" 
-                    readOnly 
-                    className="bg-gray-50 border border-gray-200 rounded p-2 text-sm flex-1"
-                  />
-                  <button className="text-xs px-3 py-2 bg-black text-white rounded">Generate New Key</button>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
-                <div className="p-3 border rounded-md hover:border-blue-500 cursor-pointer transition-colors">
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-medium">Shopify</h3>
-                    <span className="text-xs bg-red-50 text-red-700 px-2 py-0.5 rounded">Not Connected</span>
-                  </div>
-                  <p className="text-xs text-gray-500">Connect your Shopify store</p>
-                </div>
-
-                <div className="p-3 border rounded-md hover:border-blue-500 cursor-pointer transition-colors">
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-medium">Instagram</h3>
-                    <span className="text-xs bg-green-50 text-green-700 px-2 py-0.5 rounded">Connected</span>
-                  </div>
-                  <p className="text-xs text-gray-500">Share products on Instagram</p>
-                </div>
-
-                <div className="p-3 border rounded-md hover:border-blue-500 cursor-pointer transition-colors">
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-medium">Google Analytics</h3>
-                    <span className="text-xs bg-red-50 text-red-700 px-2 py-0.5 rounded">Not Connected</span>
-                  </div>
-                  <p className="text-xs text-gray-500">Track website analytics</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
+        
         
         {/* Advanced Settings Tab */}
         <TabsContent value="advanced">
