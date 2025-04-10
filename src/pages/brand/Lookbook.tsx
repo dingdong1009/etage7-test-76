@@ -48,7 +48,7 @@ const BrandLookbook = () => {
       </div>
       
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="w-full">
           <TabsTrigger value="collections">Collections</TabsTrigger>
           <TabsTrigger value="images">Images Library</TabsTrigger>
           <TabsTrigger value="create" disabled={!showCreator}>
