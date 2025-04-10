@@ -107,8 +107,9 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
               </div>
 
               <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-                <TabsList className="grid grid-cols-2">
+                <TabsList className="grid grid-cols-3">
                   <TabsTrigger value="content">Content</TabsTrigger>
+                  <TabsTrigger value="layout">Page Layout</TabsTrigger>
                   <TabsTrigger value="settings">Settings</TabsTrigger>
                 </TabsList>
 
@@ -147,8 +148,10 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                       </div>
                     ))}
                   </div>
+                </TabsContent>
 
-                  <div className="border-t p-4 mt-6">
+                <TabsContent value="layout" className="mt-6">
+                  <div className="border-t p-4 mt-2">
                     <div className="flex justify-between items-center mb-4">
                       <h3 className="text-lg font-medium">Page {currentPage} Layout</h3>
                       <div className="flex gap-2">
