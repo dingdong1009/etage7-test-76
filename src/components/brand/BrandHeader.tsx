@@ -1,14 +1,14 @@
 
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu } from "lucide-react";
+import { Menu, LayoutDashboard } from "lucide-react";
 
 const BrandHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   
   const menuItems = [
-    { name: "Dashboard", path: "/brand" },
+    { name: "Dashboard", path: "/brand", icon: <LayoutDashboard size={16} /> },
     { name: "Products", path: "/brand/products" },
     { name: "Orders", path: "/brand/orders" },
     { name: "Lookbook", path: "/brand/lookbook" },
@@ -62,9 +62,9 @@ const BrandHeader = () => {
                   to={item.path}
                   className={`text-sm font-light transition-all relative group ${
                     isActive(item.path) ? "text-black" : "text-gray-600 hover:text-black"
-                  }`}
+                  } flex items-center gap-1`}
                 >
-                  {item.name.toUpperCase()}
+                  {item.icon ? item.icon : item.name.toUpperCase()}
                   <span
                     className={`absolute left-0 bottom-[-3px] w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full ${
                       isActive(item.path) ? "w-full" : ""
@@ -85,12 +85,19 @@ const BrandHeader = () => {
               <li key={item.name} className="border-b border-gray-100 last:border-0">
                 <Link
                   to={item.path}
-                  className={`block py-3 px-4 transition-colors ${
+                  className={`block py-3 px-4 transition-colors flex items-center gap-2 ${
                     isActive(item.path) ? "bg-gray-50 text-black" : "text-gray-600"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  {item.name.toUpperCase()}
+                  {item.icon ? (
+                    <>
+                      {item.icon}
+                      {item.name.toUpperCase()}
+                    </>
+                  ) : (
+                    item.name.toUpperCase()
+                  )}
                 </Link>
               </li>
             ))}
