@@ -21,7 +21,8 @@ const BrandOrderDetails = () => {
   const handlePrint = useReactToPrint({
     documentTitle: `Order-${orderId}`,
     onAfterPrint: () => console.log('Print completed'),
-    content: () => printRef.current,
+    // Fix: Use contentRef instead of content
+    contentRef: () => printRef.current,
   });
 
   // Fetch order data (in a real app, this would be an API call)
