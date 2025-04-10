@@ -169,7 +169,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                       </div>
                     </div>
                     
-                    <div className="w-full aspect-[3/4] bg-gray-100 overflow-hidden">
+                    <div className="w-full aspect-[4/3] bg-gray-100 overflow-hidden">
                       <LookbookPage 
                         template={pages.find(p => p.id === currentPage)?.template || "grid-2"} 
                       />
@@ -227,7 +227,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                 
                 <div className="space-y-12">
                   {pages.map((page, index) => (
-                    <div key={page.id} className="w-full aspect-[5/7] bg-white border rounded-md overflow-hidden shadow-md">
+                    <div key={page.id} className="w-full aspect-[4/3] bg-white border rounded-md overflow-hidden shadow-md">
                       <LookbookPage 
                         template={page.template}
                         preview={true}
