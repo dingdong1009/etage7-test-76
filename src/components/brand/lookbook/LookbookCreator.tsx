@@ -64,7 +64,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
               <Save size={16} className="mr-2" />
               Save
             </Button>
-            <Button variant="outline" onClick={onClose}>
+            <Button variant="outline" size="icon" onClick={onClose}>
               <X size={16} />
             </Button>
           </div>
