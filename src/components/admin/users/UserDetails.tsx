@@ -3,8 +3,9 @@ import { Brand, Buyer, SalesManager } from "@/types/users";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Edit2, Lock } from "lucide-react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface UserDetailsProps {
   user: Brand | Buyer | SalesManager;
@@ -26,6 +27,54 @@ const UserDetails = ({ user, activeTab, handleGoBack, handleEditUser }: UserDeta
     return 'commissionRate' in user && 'ytdCommissions' in user;
   };
 
+  // Defining which fields are editable for a sales manager
+  const editableFields = [
+    "name", 
+    "status", 
+    "email", 
+    "phone", 
+    "seniorityLevel", 
+    "region", 
+    "description", 
+    "commissionRate", 
+    "monthlyTarget",
+    "managedAccounts"
+  ];
+
+  // Helper function to render field with edit indicator
+  const renderField = (label: string, value: any, isEditable: boolean = false) => (
+    <div>
+      <div className="flex items-center gap-1">
+        <p className="text-sm text-gray-500">{label}</p>
+        {isEditable && (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span><Edit2 className="h-3 w-3 text-gray-400" /></span>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>This field is editable</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
+        {!isEditable && isSalesManager(user) && (
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <span><Lock className="h-3 w-3 text-gray-400" /></span>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>This field is not editable</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        )}
+      </div>
+      <p>{value}</p>
+    </div>
+  );
+
   return (
     <Card className="border border-gray-200">
       <CardHeader className="flex items-center justify-between pb-2">
@@ -43,10 +92,10 @@ const UserDetails = ({ user, activeTab, handleGoBack, handleEditUser }: UserDeta
           </CardTitle>
         </div>
         <Button 
-          className="text-xs text-black px-3 py-1.5 bg-gray-100 rounded hover:text-white"
+          className="text-xs text-black px-3 py-1.5 bg-gray-100 rounded hover:text-white hover:bg-black transition-colors"
           onClick={() => handleEditUser(activeTab, user.id)}
         >
-          Edit
+          <Edit2 className="mr-1 h-4 w-4" /> Edit
         </Button>
       </CardHeader>
       <CardContent>
@@ -56,14 +105,13 @@ const UserDetails = ({ user, activeTab, handleGoBack, handleEditUser }: UserDeta
               {isSalesManager(user) ? "Manager Information" : "Company Information"}
             </h3>
             <div className="space-y-4">
-              <div>
-                <p className="text-sm text-gray-500">
-                  {isSalesManager(user) ? "Name" : "Company Name"}
-                </p>
-                <p>{user.name}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Status</p>
+              {isSalesManager(user) ? (
+                renderField("Name", user.name, editableFields.includes("name"))
+              ) : (
+                renderField("Company Name", user.name, editableFields.includes("name"))
+              )}
+              
+              {renderField("Status", (
                 <Badge 
                   className={`${
                     user.status === "active" ? "bg-green-100 text-green-800" :
@@ -73,88 +121,59 @@ const UserDetails = ({ user, activeTab, handleGoBack, handleEditUser }: UserDeta
                 >
                   {user.status}
                 </Badge>
-              </div>
-              {(isBrand(user) || isBuyer(user)) && (
-                <div>
-                  <p className="text-sm text-gray-500">Plan</p>
-                  <p>{user.plan}</p>
-                </div>
-              )}
-              {isSalesManager(user) && (
-                <div>
-                  <p className="text-sm text-gray-500">Start Date</p>
-                  <p>{user.startDate}</p>
-                </div>
-              )}
-              {isSalesManager(user) && (
-                <div>
-                  <p className="text-sm text-gray-500">Years in Company</p>
-                  <p>{user.yearsInCompany}</p>
-                </div>
-              )}
-              {isSalesManager(user) && user.seniorityLevel && (
-                <div>
-                  <p className="text-sm text-gray-500">Seniority Level</p>
-                  <p>{user.seniorityLevel}</p>
-                </div>
-              )}
-              {(isBrand(user) || isBuyer(user)) && (
-                <div>
-                  <p className="text-sm text-gray-500">Market Segment</p>
-                  <p>{user.marketSegment}</p>
-                </div>
-              )}
-              {(isBrand(user) || isBuyer(user)) && (
-                <div>
-                  <p className="text-sm text-gray-500">Website</p>
-                  <p>{user.website}</p>
-                </div>
-              )}
-              {isSalesManager(user) && user.region && (
-                <div>
-                  <p className="text-sm text-gray-500">Region</p>
-                  <p>{user.region}</p>
-                </div>
-              )}
-              {(isBrand(user) || isBuyer(user)) && (
-                <div>
-                  <p className="text-sm text-gray-500">Active Since</p>
-                  <p>{user.activeSince}</p>
-                </div>
-              )}
+              ), editableFields.includes("status"))}
+              
+              {(isBrand(user) || isBuyer(user)) && renderField("Plan", user.plan)}
+              
+              {isSalesManager(user) && renderField("Start Date", user.startDate)}
+              
+              {isSalesManager(user) && renderField("Years in Company", user.yearsInCompany)}
+              
+              {isSalesManager(user) && user.seniorityLevel && renderField("Seniority Level", user.seniorityLevel, editableFields.includes("seniorityLevel"))}
+              
+              {(isBrand(user) || isBuyer(user)) && renderField("Market Segment", user.marketSegment)}
+              
+              {(isBrand(user) || isBuyer(user)) && renderField("Website", user.website)}
+              
+              {isSalesManager(user) && user.region && renderField("Region", user.region, editableFields.includes("region"))}
+              
+              {(isBrand(user) || isBuyer(user)) && renderField("Active Since", user.activeSince)}
+              
+              {isSalesManager(user) && renderField("Active Since", user.activeSince || '')}
             </div>
           </div>
           
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
             <div className="space-y-4">
-              {(isBrand(user) || isBuyer(user)) && (
-                <div>
-                  <p className="text-sm text-gray-500">Contact Person</p>
-                  <p>{user.contactPerson}</p>
-                </div>
-              )}
-              <div>
-                <p className="text-sm text-gray-500">Email</p>
-                <p>{user.email}</p>
-              </div>
-              <div>
-                <p className="text-sm text-gray-500">Phone</p>
-                <p>{user.phone}</p>
-              </div>
-              {user.lastActivity && (
-                <div>
-                  <p className="text-sm text-gray-500">Last Activity</p>
-                  <p>{user.lastActivity}</p>
-                </div>
-              )}
+              {(isBrand(user) || isBuyer(user)) && renderField("Contact Person", user.contactPerson)}
+              
+              {renderField("Email", user.email, editableFields.includes("email"))}
+              
+              {renderField("Phone", user.phone, editableFields.includes("phone"))}
+              
+              {user.lastActivity && renderField("Last Activity", user.lastActivity)}
             </div>
           </div>
         </div>
         
         {user.description && (
           <div>
-            <h3 className="text-lg font-semibold mb-4">Description</h3>
+            <h3 className="text-lg font-semibold mb-4 flex items-center gap-1">
+              Description
+              {isSalesManager(user) && (
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <span><Edit2 className="h-3 w-3 text-gray-400" /></span>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>This field is editable</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              )}
+            </h3>
             <p className="text-gray-700 mb-8">{user.description}</p>
           </div>
         )}
@@ -202,8 +221,20 @@ const UserDetails = ({ user, activeTab, handleGoBack, handleEditUser }: UserDeta
                   <p className="text-sm text-gray-500">Salary per Month</p>
                   <p className="text-2xl font-semibold">{user.salaryPerMonth}</p>
                 </div>
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <p className="text-sm text-gray-500">Current Commission Rate</p>
+                <div className="bg-gray-50 p-4 rounded-lg relative">
+                  <div className="flex items-center gap-1">
+                    <p className="text-sm text-gray-500">Current Commission Rate</p>
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <span><Edit2 className="h-3 w-3 text-gray-400" /></span>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>This field is editable</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  </div>
                   <p className="text-2xl font-semibold">{user.commissionRate}</p>
                 </div>
                 <div className="bg-gray-50 p-4 rounded-lg">
@@ -216,13 +247,37 @@ const UserDetails = ({ user, activeTab, handleGoBack, handleEditUser }: UserDeta
                 </div>
                 {user.managedAccounts && (
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-500">Managed Accounts</p>
+                    <div className="flex items-center gap-1">
+                      <p className="text-sm text-gray-500">Managed Accounts</p>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span><Edit2 className="h-3 w-3 text-gray-400" /></span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>This field is editable</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
                     <p className="text-2xl font-semibold">{user.managedAccounts}</p>
                   </div>
                 )}
                 {user.monthlyTarget && (
                   <div className="bg-gray-50 p-4 rounded-lg">
-                    <p className="text-sm text-gray-500">Monthly Target</p>
+                    <div className="flex items-center gap-1">
+                      <p className="text-sm text-gray-500">Monthly Target</p>
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span><Edit2 className="h-3 w-3 text-gray-400" /></span>
+                          </TooltipTrigger>
+                          <TooltipContent>
+                            <p>This field is editable</p>
+                          </TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    </div>
                     <p className="text-2xl font-semibold">{user.monthlyTarget}</p>
                   </div>
                 )}

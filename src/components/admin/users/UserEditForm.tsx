@@ -4,11 +4,12 @@ import { useForm } from "react-hook-form";
 import { Brand, Buyer, SalesManager } from "@/types/users";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Save } from "lucide-react";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { toast } from "sonner";
 
 interface UserEditFormProps {
   user: Brand | Buyer | SalesManager;
@@ -27,8 +28,61 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
   };
 
   const isSalesManager = (user: any): user is SalesManager => {
-    return 'quarterlyPerformance' in user && 'seniorityLevel' in user;
+    return 'commissionRate' in user && 'ytdCommissions' in user;
   };
+
+  // Define editable and readonly fields based on user type
+  const getFieldConfig = () => {
+    if (isSalesManager(user)) {
+      return {
+        editable: [
+          "name", 
+          "status", 
+          "email", 
+          "phone", 
+          "description", 
+          "seniorityLevel", 
+          "region", 
+          "commissionRate", 
+          "managedAccounts", 
+          "monthlyTarget"
+        ],
+        readonly: [
+          "id",
+          "startDate",
+          "yearsInCompany",
+          "salaryPerMonth",
+          "totalCommissions",
+          "ytdCommissions",
+          "activeSince",
+          "quarterlyPerformance",
+          "lastActivity"
+        ]
+      };
+    } else if (isBrand(user) || isBuyer(user)) {
+      return {
+        editable: [
+          "name",
+          "status",
+          "plan",
+          "contactPerson",
+          "email",
+          "phone",
+          "website",
+          "description",
+          "marketSegment",
+          "activeSince"
+        ],
+        readonly: [
+          "id",
+          "lastActivity"
+        ]
+      };
+    }
+    return { editable: [], readonly: [] };
+  };
+
+  const { editable, readonly } = getFieldConfig();
 
   const editUserForm = useForm({
     defaultValues: {
@@ -40,21 +94,37 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
       email: user.email,
       phone: user.phone,
       website: isBrand(user) || isBuyer(user) ? user.website : "",
-      description: user.description,
+      description: user.description || "",
       marketSegment: isBrand(user) || isBuyer(user) ? user.marketSegment : "",
       productsCount: isBrand(user) ? user.productsCount : 0,
-      activeSince: user.activeSince,
+      activeSince: user.activeSince || "",
       avgOrderValue: isBrand(user) || isBuyer(user) ? user.avgOrderValue : "",
       totalSales: isBrand(user) ? user.totalSales : "",
       storeCount: isBuyer(user) ? user.storeCount : 0,
       annualPurchases: isBuyer(user) ? user.annualPurchases : "",
-      seniorityLevel: isSalesManager(user) ? user.seniorityLevel : "",
-      region: isSalesManager(user) ? user.region : "",
-      managedAccounts: isSalesManager(user) ? user.managedAccounts : 0,
-      monthlyTarget: isSalesManager(user) ? user.monthlyTarget : "",
-      quarterlyPerformance: isSalesManager(user) ? user.quarterlyPerformance : ""
+      startDate: isSalesManager(user) ? user.startDate : "",
+      yearsInCompany: isSalesManager(user) ? user.yearsInCompany : 0,
+      salaryPerMonth: isSalesManager(user) ? user.salaryPerMonth : "",
+      totalCommissions: isSalesManager(user) ? user.totalCommissions : "",
+      ytdCommissions: isSalesManager(user) ? user.ytdCommissions : "",
+      commissionRate: isSalesManager(user) ? user.commissionRate : "",
+      seniorityLevel: isSalesManager(user) ? user.seniorityLevel || "" : "",
+      region: isSalesManager(user) ? user.region || "" : "",
+      managedAccounts: isSalesManager(user) ? user.managedAccounts || 0 : 0,
+      monthlyTarget: isSalesManager(user) ? user.monthlyTarget || "" : "",
+      quarterlyPerformance: isSalesManager(user) ? user.quarterlyPerformance || "" : ""
     }
   });
+
+  const onSubmit = (data: any) => {
+    toast.success("Changes saved successfully");
+    handleEditUserSubmit(data);
+  };
+
+  // Check if a field is editable
+  const isEditable = (fieldName: string) => editable.includes(fieldName);
+  // Check if a field is readonly
+  const isReadonly = (fieldName: string) => readonly.includes(fieldName);
 
   return (
     <Card className="border border-gray-200">
@@ -75,7 +145,7 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
       </CardHeader>
       <CardContent>
         <Form {...editUserForm}>
-          <form onSubmit={editUserForm.handleSubmit(handleEditUserSubmit)} className="space-y-6">
+          <form onSubmit={editUserForm.handleSubmit(onSubmit)} className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <h3 className="text-lg font-semibold mb-4">
@@ -91,7 +161,7 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
                           {isSalesManager(user) ? "Name" : "Company Name"}
                         </FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <Input {...field} disabled={!isEditable("name")} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -107,6 +177,7 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
                         <Select 
                           onValueChange={field.onChange} 
                           defaultValue={field.value}
+                          disabled={!isEditable("status")}
                         >
                           <FormControl>
                             <SelectTrigger>
@@ -123,7 +194,7 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
                       </FormItem>
                     )}
                   />
-                  
+
                   {(isBrand(user) || isBuyer(user)) && (
                     <FormField
                       control={editUserForm.control}
@@ -134,6 +205,7 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
                           <Select 
                             onValueChange={field.onChange} 
                             defaultValue={field.value}
+                            disabled={!isEditable("plan")}
                           >
                             <FormControl>
                               <SelectTrigger>
@@ -153,7 +225,7 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
                     />
                   )}
                   
-                  {isSalesManager(user) && (
+                  {isSalesManager(user) && isEditable("seniorityLevel") && (
                     <FormField
                       control={editUserForm.control}
                       name="seniorityLevel"
@@ -182,6 +254,44 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
                     />
                   )}
                   
+                  {isSalesManager(user) && isReadonly("startDate") && (
+                    <FormField
+                      control={editUserForm.control}
+                      name="startDate"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Start Date</FormLabel>
+                          <FormControl>
+                            <Input {...field} className="bg-gray-50" readOnly />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+
+                  {isSalesManager(user) && isReadonly("yearsInCompany") && (
+                    <FormField
+                      control={editUserForm.control}
+                      name="yearsInCompany"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Years in Company</FormLabel>
+                          <FormControl>
+                            <Input 
+                              type="number" 
+                              {...field} 
+                              className="bg-gray-50" 
+                              readOnly
+                              value={field.value?.toString()}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+                  
                   {(isBrand(user) || isBuyer(user)) && (
                     <FormField
                       control={editUserForm.control}
@@ -192,6 +302,7 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
                           <Select 
                             onValueChange={field.onChange} 
                             defaultValue={field.value}
+                            disabled={!isEditable("marketSegment")}
                           >
                             <FormControl>
                               <SelectTrigger>
@@ -232,7 +343,7 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
                         <FormItem>
                           <FormLabel>Website</FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input {...field} disabled={!isEditable("website")} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -240,7 +351,7 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
                     />
                   )}
                   
-                  {isSalesManager(user) && (
+                  {isSalesManager(user) && isEditable("region") && (
                     <FormField
                       control={editUserForm.control}
                       name="region"
@@ -278,7 +389,12 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
                       <FormItem>
                         <FormLabel>Active Since</FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <Input 
+                            {...field} 
+                            className={isReadonly("activeSince") ? "bg-gray-50" : ""}
+                            readOnly={isReadonly("activeSince")}
+                            disabled={!isEditable("activeSince")}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -298,7 +414,7 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
                         <FormItem>
                           <FormLabel>Contact Person</FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input {...field} disabled={!isEditable("contactPerson")} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -313,7 +429,7 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
                       <FormItem>
                         <FormLabel>Email</FormLabel>
                         <FormControl>
-                          <Input type="email" {...field} />
+                          <Input type="email" {...field} disabled={!isEditable("email")} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -327,7 +443,7 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
                       <FormItem>
                         <FormLabel>Phone</FormLabel>
                         <FormControl>
-                          <Input {...field} />
+                          <Input {...field} disabled={!isEditable("phone")} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -344,110 +460,86 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
-                    <Textarea className="min-h-32" {...field} />
+                    <Textarea 
+                      className={`min-h-32 ${!isEditable("description") ? "bg-gray-50" : ""}`}
+                      {...field} 
+                      disabled={!isEditable("description")}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
               )}
             />
             
-            <div>
-              <h3 className="text-lg font-semibold mb-4">Performance Metrics</h3>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {isBrand(user) && (
-                  <>
+            {isSalesManager(user) && (
+              <div>
+                <h3 className="text-lg font-semibold mb-4">Performance Metrics</h3>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {isReadonly("salaryPerMonth") && (
                     <FormField
                       control={editUserForm.control}
-                      name="productsCount"
+                      name="salaryPerMonth"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Products Count</FormLabel>
+                          <FormLabel>Salary per Month</FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} value={field.value?.toString()} onChange={e => field.onChange(parseInt(e.target.value) || 0)} />
+                            <Input {...field} className="bg-gray-50" readOnly />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                    
+                  )}
+                  
+                  {isEditable("commissionRate") && (
                     <FormField
                       control={editUserForm.control}
-                      name="avgOrderValue"
+                      name="commissionRate"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Average Order Value</FormLabel>
+                          <FormLabel>Current Commission Rate</FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input {...field} className="font-semibold"/>
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                    
+                  )}
+                  
+                  {isReadonly("totalCommissions") && (
                     <FormField
                       control={editUserForm.control}
-                      name="totalSales"
+                      name="totalCommissions"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Total Sales</FormLabel>
+                          <FormLabel>Total Commissions</FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input {...field} className="bg-gray-50" readOnly />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                  </>
-                )}
-                
-                {isBuyer(user) && (
-                  <>
+                  )}
+                  
+                  {isReadonly("ytdCommissions") && (
                     <FormField
                       control={editUserForm.control}
-                      name="storeCount"
+                      name="ytdCommissions"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Store Count</FormLabel>
+                          <FormLabel>YTD Commissions</FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} value={field.value?.toString()} onChange={e => field.onChange(parseInt(e.target.value) || 0)} />
+                            <Input {...field} className="bg-gray-50" readOnly />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                    
-                    <FormField
-                      control={editUserForm.control}
-                      name="avgOrderValue"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Average Order Value</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={editUserForm.control}
-                      name="annualPurchases"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Annual Purchases</FormLabel>
-                          <FormControl>
-                            <Input {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </>
-                )}
-                
-                {isSalesManager(user) && (
-                  <>
+                  )}
+
+                  {isEditable("managedAccounts") && (
                     <FormField
                       control={editUserForm.control}
                       name="managedAccounts"
@@ -455,13 +547,20 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
                         <FormItem>
                           <FormLabel>Managed Accounts</FormLabel>
                           <FormControl>
-                            <Input type="number" {...field} value={field.value?.toString()} onChange={e => field.onChange(parseInt(e.target.value) || 0)} />
+                            <Input 
+                              type="number" 
+                              {...field} 
+                              value={field.value?.toString() || "0"} 
+                              onChange={e => field.onChange(parseInt(e.target.value) || 0)}
+                            />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                    
+                  )}
+                  
+                  {isEditable("monthlyTarget") && (
                     <FormField
                       control={editUserForm.control}
                       name="monthlyTarget"
@@ -475,7 +574,9 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
                         </FormItem>
                       )}
                     />
-                    
+                  )}
+                  
+                  {isReadonly("quarterlyPerformance") && (
                     <FormField
                       control={editUserForm.control}
                       name="quarterlyPerformance"
@@ -483,16 +584,16 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
                         <FormItem>
                           <FormLabel>Quarterly Performance</FormLabel>
                           <FormControl>
-                            <Input {...field} />
+                            <Input {...field} className="bg-gray-50" readOnly />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
                       )}
                     />
-                  </>
-                )}
+                  )}
+                </div>
               </div>
-            </div>
+            )}
             
             <div className="flex justify-end space-x-3 pt-4">
               <Button 
@@ -506,7 +607,7 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
                 type="submit" 
                 className="bg-black text-white"
               >
-                Save Changes
+                <Save className="mr-2 h-4 w-4" /> Save Changes
               </Button>
             </div>
           </form>
