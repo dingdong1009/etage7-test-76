@@ -41,7 +41,12 @@ const AdminHeader = () => {
         >
           <Menu size={24} />
         </button>
-
+        {/* User options on desktop */}
+        <div className="hidden md:flex items-center space-x-4">
+          <Link to="/" className="text-gray-600 hover:text-black text-sm">
+            BACK TO SITE
+          </Link>
+        </div>
       </div>
       
       {/* Desktop Navigation - Moved below the header bar */}
@@ -68,12 +73,7 @@ const AdminHeader = () => {
           </ul>
         </div>
                 
-        {/* User options on desktop */}
-        <div className="hidden md:flex items-center space-x-4">
-          <Link to="/" className="text-gray-600 hover:text-black text-sm">
-            BACK TO SITE
-          </Link>
-        </div>
+
       </nav>
       
       {/* Mobile Menu */}
