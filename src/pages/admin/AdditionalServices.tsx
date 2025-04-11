@@ -4,14 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Check, X, Calendar, MessagesSquare, User, Clock, FileText, CircleAlert } from "lucide-react";
+import { Check, X, Calendar, MessagesSquare, User, Clock, FileText, CircleAlert, PlusCircle } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
-import { Form, FormField, FormItem, FormLabel, FormControl } from "@/components/ui/form";
+import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/hooks/use-toast";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 
 interface ServiceBooking {
   id: string;
@@ -28,11 +30,25 @@ interface ServiceBooking {
   userType: "brand" | "buyer";
 }
 
+// Schema for the new service form validation
+const newServiceSchema = z.object({
+  name: z.string().min(3, "Service name must be at least 3 characters"),
+  description: z.string().min(10, "Description must be at least 10 characters"),
+  category: z.string().min(1, "Category is required"),
+  price: z.string().min(1, "Price is required"),
+  duration: z.string().min(1, "Duration is required"),
+  targetUserType: z.enum(["brand", "buyer", "both"]),
+  features: z.string().min(1, "At least one feature is required")
+});
+
+type NewServiceFormValues = z.infer<typeof newServiceSchema>;
+
 const AdminAdditionalServices = () => {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState<string>("all");
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isAssignDialogOpen, setIsAssignDialogOpen] = useState(false);
+  const [isNewServiceDialogOpen, setIsNewServiceDialogOpen] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState<ServiceBooking | null>(null);
   
   // Mock data for service bookings
@@ -106,6 +122,20 @@ const AdminAdditionalServices = () => {
       userType: "brand"
     }
   ];
+
+  // New service form
+  const newServiceForm = useForm<NewServiceFormValues>({
+    resolver: zodResolver(newServiceSchema),
+    defaultValues: {
+      name: "",
+      description: "",
+      category: "",
+      price: "",
+      duration: "",
+      targetUserType: "both",
+      features: ""
+    }
+  });
   
   // Filter bookings based on active tab
   const filteredBookings = activeTab === "all" 
@@ -152,6 +182,26 @@ const AdminAdditionalServices = () => {
       description: `Booking status changed to ${newStatus}`
     });
   };
+
+  const handleAddNewService = () => {
+    setIsNewServiceDialogOpen(true);
+  };
+
+  const handleNewServiceSubmit = (data: NewServiceFormValues) => {
+    // In a real app, this would create a new service in the database
+    console.log("New service data:", data);
+
+    // Parse features from newline-separated string to array
+    const featuresArray = data.features.split('\n').filter(feature => feature.trim() !== '');
+    
+    toast({
+      title: "Service Created",
+      description: `New service "${data.name}" has been created successfully.`
+    });
+    
+    newServiceForm.reset();
+    setIsNewServiceDialogOpen(false);
+  };
   
   // Component for status badge
   const StatusBadge = ({ status }: { status: ServiceBooking["status"] }) => {
@@ -186,7 +236,8 @@ const AdminAdditionalServices = () => {
       <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8">
         <h1 className="text-2xl font-semibold mb-4 lg:mb-0">Additional Services Management</h1>
         <div className="flex space-x-4">
-          <Button>
+          <Button onClick={handleAddNewService}>
+            <PlusCircle className="w-4 h-4 mr-2" />
             Add New Service
           </Button>
           <Button variant="outline">
@@ -572,8 +623,166 @@ const AdminAdditionalServices = () => {
           )}
         </DialogContent>
       </Dialog>
+
+      {/* Add New Service Dialog */}
+      <Dialog open={isNewServiceDialogOpen} onOpenChange={setIsNewServiceDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Add New Service</DialogTitle>
+          </DialogHeader>
+          
+          <Form {...newServiceForm}>
+            <form onSubmit={newServiceForm.handleSubmit(handleNewServiceSubmit)} className="space-y-4">
+              <FormField
+                control={newServiceForm.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Service Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g., Brand Positioning" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={newServiceForm.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Description</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Describe the service in detail..." 
+                        className="min-h-[100px]" 
+                        {...field} 
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={newServiceForm.control}
+                  name="category"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Category</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select category" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="Strategy">Strategy</SelectItem>
+                          <SelectItem value="Marketing">Marketing</SelectItem>
+                          <SelectItem value="Sales">Sales</SelectItem>
+                          <SelectItem value="Analysis">Analysis</SelectItem>
+                          <SelectItem value="Curation">Curation</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={newServiceForm.control}
+                  name="price"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Price</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., $1,200+" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={newServiceForm.control}
+                  name="duration"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Duration</FormLabel>
+                      <FormControl>
+                        <Input placeholder="e.g., 2-3 weeks" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={newServiceForm.control}
+                  name="targetUserType"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Target User Type</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select user type" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="brand">Brand</SelectItem>
+                          <SelectItem value="buyer">Buyer</SelectItem>
+                          <SelectItem value="both">Both</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              
+              <FormField
+                control={newServiceForm.control}
+                name="features"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Service Features</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Enter each feature on a separate line" 
+                        className="min-h-[100px]" 
+                        {...field} 
+                      />
+                    </FormControl>
+                    <p className="text-xs text-gray-500 mt-1">Enter one feature per line</p>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              
+              <DialogFooter className="flex justify-between items-center mt-6">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => setIsNewServiceDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit">
+                  Create Service
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
 
 export default AdminAdditionalServices;
+
