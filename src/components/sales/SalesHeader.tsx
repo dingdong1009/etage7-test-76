@@ -25,9 +25,9 @@ const SalesHeader = () => {
 
   return (
     <header className="sticky top-0 left-0 right-0 z-40 bg-white">
-      <div className="max-w-[1481px] mx-auto px-4 flex justify-between items-center h-16">
+      <div className="max-w-full px-4 flex justify-between items-center h-16">
         <div className="flex items-center gap-2">
-        <Link to="/" className="text-black text-2xl font-bold uppercase">ETAGE7</Link>
+        <Link to="/" className="text-black text-2xl font-bold uppercase">ETAGE7</Link> | SALES MANAGER
 
         </div>
         
@@ -46,7 +46,6 @@ const SalesHeader = () => {
             Back to Site
           </Link>
         </div>
-        <div className="text-black text-2xl font-bold uppercase">SALES MANAGER</div>
       </div>
       
       {/* Desktop Navigation - Moved below the header bar */}

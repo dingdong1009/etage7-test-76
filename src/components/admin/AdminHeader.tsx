@@ -28,7 +28,7 @@ const AdminHeader = () => {
 
   return (
     <header className="sticky top-0 left-0 right-0 z-40 bg-white">
-      <div className="max-w-[1481px] mx-auto px-4 flex justify-between items-center h-16">
+      <div className="max-w-full px-4 flex justify-between items-center h-16">
         <div className="flex items-center gap-2">
         <Link to="/" className="text-black text-2xl font-bold uppercase">ETAGE7</Link> | ADMIN
         </div>
@@ -41,9 +41,12 @@ const AdminHeader = () => {
         >
           <Menu size={24} />
         </button>
+        
         {/* User options on desktop */}
         <div className="hidden md:flex items-center space-x-4">
+          <Link to="/" className="text-gray-600 hover:text-black text-sm">
             BACK TO SITE
+          </Link>
         </div>
       </div>
       
@@ -69,15 +72,7 @@ const AdminHeader = () => {
               </li>
             ))}
           </ul>
-                  {/* User options on desktop */}
-        <ul className="hidden md:flex items-center space-x-4">
-          <Link to="/" className="text-gray-600 hover:text-black text-sm">
-            BACK TO SITE
-          </Link>
-        </ul>
         </div>
-                
-
       </nav>
       
       {/* Mobile Menu */}
