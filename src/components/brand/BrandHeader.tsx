@@ -75,6 +75,12 @@ const BrandHeader = () => {
             ))}
           </ul>
         </div>
+                {/* User options on desktop */}
+                <div className="hidden md:flex items-center space-x-4">
+        Brand | <Link to="/" className="text-gray-600 uppercase hover:text-black text-sm">
+            Back to Site
+          </Link>
+        </div>
       </nav>
       
       {/* Mobile Menu */}
