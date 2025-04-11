@@ -67,11 +67,11 @@ const AdminHeader = () => {
             ))}
           </ul>
                   {/* User options on desktop */}
-        <div className="hidden md:flex items-center space-x-4">
-          <Link to="/" className="text-gray-600 hover:text-black text-sm">
-            BACK TO SITE
-          </Link>
-        </div>
+          <ul className="hidden md:flex items-center space-x-4">
+            <Link to="/" className="text-gray-600 hover:text-black text-sm">
+              BACK TO SITE
+            </Link>
+          </ul>
         </div>
                 
 
