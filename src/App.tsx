@@ -27,6 +27,7 @@ import AdminPages from "./pages/admin/Pages";
 import AdminAnnouncements from "./pages/admin/Announcements";
 import AdminSettings from "./pages/admin/Settings";
 import AdminSubscriptions from "./pages/admin/Subscriptions";
+import AdminAdditionalServices from "./pages/admin/AdditionalServices";
 import AdminResources from "./pages/admin/Resources";
 
 // Sales components
@@ -90,6 +91,7 @@ const App = () => (
             <Route path="announcements" element={<AdminAnnouncements />} />
             <Route path="settings" element={<AdminSettings />} />
             <Route path="subscriptions" element={<AdminSubscriptions />} />
+            <Route path="additional-services" element={<AdminAdditionalServices />} />
             <Route path="resources" element={<AdminResources />} />
           </Route>
           

@@ -14,6 +14,7 @@ const AdminHeader = () => {
     { name: "Pages", path: "/admin/pages" },
     { name: "Announcements", path: "/admin/announcements" },
     { name: "Subscriptions", path: "/admin/subscriptions" },
+    { name: "Additional Services", path: "/admin/additional-services" },
     { name: "Resources", path: "/admin/resources" },
     { name: "Settings", path: "/admin/settings" }
   ];
