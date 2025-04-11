@@ -50,16 +50,30 @@ const BrandHeader = () => {
             Back to Site
           </Link>
         </div>
-        <div className="hidden md:flex items-center space-x-4">
-        Brand | <Link to="/" className="text-gray-600 uppercase hover:text-black text-sm">
-            Back to Site
-          </Link>
-        </div>
       </div>
       
       {/* Desktop Navigation - Moved below the header bar */}
       <nav className="hidden md:block border-b border-t border-gray-200 bg-white">
         <div className="max-w-full px-4 py-2">
+        <ul className="flex space-x-4">
+            {menuItems.map((item) => (
+              <li key={item.name}>
+                <Link
+                  to={item.path}
+                  className={`text-sm font-light transition-all relative group ${
+                    isActive(item.path) ? "text-black" : "text-gray-600 hover:text-black"
+                  }`}
+                >
+                  {item.name.toUpperCase()}
+                  <span
+                    className={`absolute left-0 bottom-[-3px] w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full ${
+                      isActive(item.path) ? "w-full" : ""
+                    }`}
+                  ></span>
+                </Link>
+              </li>
+            ))}
+          </ul>
           <ul className="flex space-x-4">
             {menuItems.map((item) => (
               <li key={item.name}>
