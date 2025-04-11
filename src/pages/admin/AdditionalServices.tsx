@@ -184,7 +184,7 @@ const AdminAdditionalServices = () => {
   return (
     <div className="container mx-auto py-8">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8">
-        <h1 className="text-2xl font-semibold mb-4 lg:mb-0">Additional Services Management</h1>
+        <h1 className="text-3xl md:text-5xl uppercase font-thin">Additional Services Management</h1>
         <div className="flex space-x-4">
           <Button>
             Add New Service
