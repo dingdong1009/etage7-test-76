@@ -1,10 +1,122 @@
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Calendar, Check } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
+import { Form, FormField, FormItem, FormLabel, FormControl } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useForm } from "react-hook-form";
+import { useToast } from "@/hooks/use-toast";
+
+interface Service {
+  id: number;
+  name: string;
+  description: string;
+  price: string;
+  duration: string;
+  category: string;
+}
+
+interface BookingFormValues {
+  name: string;
+  email: string;
+  companyName: string;
+  serviceType: string;
+  date: string;
+  message: string;
+}
 
 const ServicesPage = () => {
+  const { toast } = useToast();
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
+
+  const bookingForm = useForm<BookingFormValues>({
+    defaultValues: {
+      name: "",
+      email: "",
+      companyName: "",
+      serviceType: "",
+      date: "",
+      message: ""
+    }
+  });
+
+  const brandServices = [
+    {
+      id: 1,
+      name: "Market Entry Strategy",
+      description: "Comprehensive analysis and strategic planning for brands looking to enter new geographic markets.",
+      price: "$1,500+",
+      duration: "2-4 weeks",
+      category: "Strategy"
+    },
+    {
+      id: 2,
+      name: "Brand Positioning",
+      description: "Refine your brand identity and messaging to resonate with your target audience and stand out in the market.",
+      price: "$1,200+",
+      duration: "2-3 weeks",
+      category: "Marketing"
+    },
+    {
+      id: 3,
+      name: "Sales Optimization",
+      description: "Enhance your sales approach, materials, and processes to increase buyer engagement and conversion.",
+      price: "$950+",
+      duration: "1-2 weeks",
+      category: "Sales"
+    }
+  ];
+
+  const buyerServices = [
+    {
+      id: 4,
+      name: "Trend Forecasting",
+      description: "Stay ahead of market trends with our detailed seasonal forecasts and consumer behavior analysis.",
+      price: "$800+",
+      duration: "1 week",
+      category: "Analysis"
+    },
+    {
+      id: 5,
+      name: "Curated Brand Discovery",
+      description: "Personalized brand scouting tailored to your store's unique aesthetic, customer base, and price points.",
+      price: "$1,100+",
+      duration: "2 weeks",
+      category: "Curation"
+    },
+    {
+      id: 6,
+      name: "Buying Strategy",
+      description: "Optimize your inventory planning, budget allocation, and merchandise mix for maximum ROI.",
+      price: "$1,300+",
+      duration: "2-3 weeks",
+      category: "Strategy"
+    }
+  ];
+
+  const openBookingDialog = (service: Service) => {
+    setSelectedService(service);
+    bookingForm.setValue("serviceType", service.name);
+    setIsBookingOpen(true);
+  };
+
+  const handleBookingSubmit = (data: BookingFormValues) => {
+    console.log("Booking submitted:", data);
+    
+    toast({
+      title: "Booking Request Submitted",
+      description: "We'll contact you shortly to confirm your booking."
+    });
+    
+    setIsBookingOpen(false);
+    bookingForm.reset();
+  };
+
   return (
     <div className="w-full">
-      {/* Hero Section */}
       <section className="bg-black text-white py-24 px-4">
         <div className="max-w-[1481px] mx-auto">
           <h1 className="text-3xl md:text-5xl uppercase font-thin mb-6">
@@ -20,7 +132,6 @@ const ServicesPage = () => {
         </div>
       </section>
 
-      {/* Overview Section */}
       <section className="py-16 px-4">
         <div className="max-w-[1481px] mx-auto">
           <div className="text-center max-w-3xl mx-auto mb-16">
@@ -59,7 +170,6 @@ const ServicesPage = () => {
         </div>
       </section>
 
-      {/* Brand Services Section */}
       <section className="py-16 px-4 bg-gray-50">
         <div className="max-w-[1481px] mx-auto">
           <h2 className="text-2xl md:text-4xl uppercase font-thin mb-12 text-center">
@@ -67,49 +177,36 @@ const ServicesPage = () => {
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 border border-gray-200">
-              <h3 className="uppercase font-normal text-xl mb-4">MARKET ENTRY STRATEGY</h3>
-              <p className="font-light mb-4">
-                Comprehensive analysis and strategic planning for brands looking to enter new geographic markets.
-              </p>
-              <ul className="space-y-2 mb-6">
-                <li className="font-light text-sm">• Market analysis and opportunity assessment</li>
-                <li className="font-light text-sm">• Competitive landscape mapping</li>
-                <li className="font-light text-sm">• Distribution channel strategy</li>
-                <li className="font-light text-sm">• Pricing and positioning recommendations</li>
-              </ul>
-            </div>
-            
-            <div className="bg-white p-8 border border-gray-200">
-              <h3 className="uppercase font-normal text-xl mb-4">BRAND POSITIONING</h3>
-              <p className="font-light mb-4">
-                Refine your brand identity and messaging to resonate with your target audience and stand out in the market.
-              </p>
-              <ul className="space-y-2 mb-6">
-                <li className="font-light text-sm">• Brand identity assessment</li>
-                <li className="font-light text-sm">• Target audience analysis</li>
-                <li className="font-light text-sm">• Messaging and visual identity refinement</li>
-                <li className="font-light text-sm">• Competitive differentiation strategy</li>
-              </ul>
-            </div>
-            
-            <div className="bg-white p-8 border border-gray-200">
-              <h3 className="uppercase font-normal text-xl mb-4">SALES OPTIMIZATION</h3>
-              <p className="font-light mb-4">
-                Enhance your sales approach, materials, and processes to increase buyer engagement and conversion.
-              </p>
-              <ul className="space-y-2 mb-6">
-                <li className="font-light text-sm">• Sales collateral development</li>
-                <li className="font-light text-sm">• Pricing strategy optimization</li>
-                <li className="font-light text-sm">• Buyer presentation coaching</li>
-                <li className="font-light text-sm">• Negotiation strategy and support</li>
-              </ul>
-            </div>
+            {brandServices.map((service) => (
+              <div key={service.id} className="bg-white p-8 border border-gray-200 flex flex-col">
+                <h3 className="uppercase font-normal text-xl mb-4">{service.name}</h3>
+                <p className="font-light mb-4">
+                  {service.description}
+                </p>
+                <ul className="space-y-2 mb-6">
+                  <li className="font-light text-sm">• Market analysis and opportunity assessment</li>
+                  <li className="font-light text-sm">• Competitive landscape mapping</li>
+                  <li className="font-light text-sm">• Distribution channel strategy</li>
+                  <li className="font-light text-sm">• Pricing and positioning recommendations</li>
+                </ul>
+                <div className="mt-auto">
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="text-lg font-medium">{service.price}</span>
+                    <span className="text-sm text-gray-500">{service.duration}</span>
+                  </div>
+                  <Button 
+                    className="w-full bg-black text-white hover:bg-gray-800"
+                    onClick={() => openBookingDialog(service)}
+                  >
+                    Book Consultation <Calendar className="ml-2 h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Buyer Services Section */}
       <section className="py-16 px-4">
         <div className="max-w-[1481px] mx-auto">
           <h2 className="text-2xl md:text-4xl uppercase font-thin mb-12 text-center">
@@ -117,49 +214,36 @@ const ServicesPage = () => {
           </h2>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white p-8 border border-gray-200">
-              <h3 className="uppercase font-normal text-xl mb-4">TREND FORECASTING</h3>
-              <p className="font-light mb-4">
-                Stay ahead of market trends with our detailed seasonal forecasts and consumer behavior analysis.
-              </p>
-              <ul className="space-y-2 mb-6">
-                <li className="font-light text-sm">• Seasonal trend reports</li>
-                <li className="font-light text-sm">• Color and material forecasting</li>
-                <li className="font-light text-sm">• Consumer behavior insights</li>
-                <li className="font-light text-sm">• Market-specific trend analysis</li>
-              </ul>
-            </div>
-            
-            <div className="bg-white p-8 border border-gray-200">
-              <h3 className="uppercase font-normal text-xl mb-4">CURATED BRAND DISCOVERY</h3>
-              <p className="font-light mb-4">
-                Personalized brand scouting tailored to your store's unique aesthetic, customer base, and price points.
-              </p>
-              <ul className="space-y-2 mb-6">
-                <li className="font-light text-sm">• Custom brand portfolio creation</li>
-                <li className="font-light text-sm">• Emerging designer spotlighting</li>
-                <li className="font-light text-sm">• Exclusive brand introductions</li>
-                <li className="font-light text-sm">• Sample coordination and management</li>
-              </ul>
-            </div>
-            
-            <div className="bg-white p-8 border border-gray-200">
-              <h3 className="uppercase font-normal text-xl mb-4">BUYING STRATEGY</h3>
-              <p className="font-light mb-4">
-                Optimize your inventory planning, budget allocation, and merchandise mix for maximum ROI.
-              </p>
-              <ul className="space-y-2 mb-6">
-                <li className="font-light text-sm">• Inventory planning</li>
-                <li className="font-light text-sm">• Budget optimization</li>
-                <li className="font-light text-sm">• Category mix analysis</li>
-                <li className="font-light text-sm">• Seasonal buying calendar development</li>
-              </ul>
-            </div>
+            {buyerServices.map((service) => (
+              <div key={service.id} className="bg-white p-8 border border-gray-200 flex flex-col">
+                <h3 className="uppercase font-normal text-xl mb-4">{service.name}</h3>
+                <p className="font-light mb-4">
+                  {service.description}
+                </p>
+                <ul className="space-y-2 mb-6">
+                  <li className="font-light text-sm">• Personalized consulting</li>
+                  <li className="font-light text-sm">• Data-driven insights</li>
+                  <li className="font-light text-sm">• Industry expert guidance</li>
+                  <li className="font-light text-sm">• Ongoing support</li>
+                </ul>
+                <div className="mt-auto">
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="text-lg font-medium">{service.price}</span>
+                    <span className="text-sm text-gray-500">{service.duration}</span>
+                  </div>
+                  <Button 
+                    className="w-full bg-black text-white hover:bg-gray-800"
+                    onClick={() => openBookingDialog(service)}
+                  >
+                    Book Consultation <Calendar className="ml-2 h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Team Section */}
       <section className="py-16 px-4 bg-white">
         <div className="max-w-[1481px] mx-auto">
           <h2 className="text-2xl md:text-4xl uppercase font-thin mb-12 text-center">
@@ -215,7 +299,6 @@ const ServicesPage = () => {
         </div>
       </section>
 
-      {/* Why Join Section */}
       <section className="py-16 px-4 bg-black text-white">
         <div className="max-w-[1481px] mx-auto">
           <h2 className="text-2xl md:text-4xl uppercase font-thin mb-12 text-center">
@@ -278,7 +361,6 @@ const ServicesPage = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="py-16 px-4">
         <div className="max-w-[1481px] mx-auto text-center">
           <h2 className="text-2xl md:text-4xl uppercase font-thin mb-6">
@@ -297,6 +379,129 @@ const ServicesPage = () => {
           </div>
         </div>
       </section>
+
+      <Dialog open={isBookingOpen} onOpenChange={setIsBookingOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Book {selectedService?.name}</DialogTitle>
+          </DialogHeader>
+          
+          <Form {...bookingForm}>
+            <form onSubmit={bookingForm.handleSubmit(handleBookingSubmit)} className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <FormField
+                  control={bookingForm.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Full Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Your name" required {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                
+                <FormField
+                  control={bookingForm.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="Your email" required {...field} />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+              </div>
+              
+              <FormField
+                control={bookingForm.control}
+                name="companyName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Company Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Your company" required {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={bookingForm.control}
+                name="serviceType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Service Type</FormLabel>
+                    <Select 
+                      onValueChange={field.onChange} 
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select service" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {[...brandServices, ...buyerServices].map((service) => (
+                          <SelectItem key={service.id} value={service.name}>
+                            {service.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={bookingForm.control}
+                name="date"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Preferred Date</FormLabel>
+                    <FormControl>
+                      <Input type="date" required {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={bookingForm.control}
+                name="message"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Additional Information</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Please share any specific requirements or questions" 
+                        className="min-h-[100px]" 
+                        {...field} 
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              
+              <DialogFooter className="flex justify-between items-center mt-6">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => setIsBookingOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit">
+                  Submit Booking Request
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

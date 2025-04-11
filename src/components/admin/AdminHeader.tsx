@@ -1,22 +1,32 @@
 
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu } from "lucide-react";
+import { Menu, Bell } from "lucide-react";
+import { 
+  Tooltip, 
+  TooltipContent, 
+  TooltipProvider, 
+  TooltipTrigger 
+} from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
 
 const AdminHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   
+  // Mock notification count - this would be fetched from a backend in a real app
+  const notificationCount = 3;
+  
   const menuItems = [
-    { name: "Dashboard", path: "/admin" },
-    { name: "Users", path: "/admin/users" },
-    { name: "Contracts", path: "/admin/contracts" },
-    { name: "Pages", path: "/admin/pages" },
-    { name: "Announcements", path: "/admin/announcements" },
-    { name: "Subscriptions", path: "/admin/subscriptions" },
-    { name: "Additional Services", path: "/admin/additional-services" },
-    { name: "Resources", path: "/admin/resources" },
-    { name: "Settings", path: "/admin/settings" }
+    { name: "Dashboard", path: "/admin", tooltip: "Admin dashboard overview" },
+    { name: "Users", path: "/admin/users", tooltip: "Manage platform users" },
+    { name: "Contracts", path: "/admin/contracts", tooltip: "Manage contracts" },
+    { name: "Pages", path: "/admin/pages", tooltip: "Edit website pages" },
+    { name: "Announcements", path: "/admin/announcements", tooltip: "Create and publish announcements" },
+    { name: "Subscriptions", path: "/admin/subscriptions", tooltip: "Manage user subscriptions" },
+    { name: "Additional Services", path: "/admin/additional-services", tooltip: "Manage bookings and service offerings" },
+    { name: "Resources", path: "/admin/resources", tooltip: "Manage educational resources" },
+    { name: "Settings", path: "/admin/settings", tooltip: "Admin settings" }
   ];
 
   const toggleMenu = () => {
@@ -31,7 +41,7 @@ const AdminHeader = () => {
     <header className="sticky top-0 left-0 right-0 z-40 bg-white">
       <div className="max-w-full px-4 flex justify-between items-center h-16">
         <div className="flex items-center gap-2">
-        <Link to="/" className="text-black text-2xl font-bold uppercase">ETAGE7</Link> | ADMIN
+          <Link to="/" className="text-black text-2xl font-bold uppercase">ETAGE7</Link> | ADMIN
         </div>
         
         {/* Mobile menu button */}
@@ -45,6 +55,26 @@ const AdminHeader = () => {
         
         {/* User options on desktop */}
         <div className="hidden md:flex items-center space-x-4">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="relative">
+                  <Bell size={20} className="text-gray-600 hover:text-black cursor-pointer" />
+                  {notificationCount > 0 && (
+                    <Badge 
+                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-red-500 text-white text-xs rounded-full"
+                    >
+                      {notificationCount}
+                    </Badge>
+                  )}
+                </div>
+              </TooltipTrigger>
+              <TooltipContent showArrow={true}>
+                <p>{notificationCount} new service bookings</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          
           <Link to="/" className="text-gray-600 hover:text-black text-sm">
             BACK TO SITE
           </Link>
@@ -57,19 +87,28 @@ const AdminHeader = () => {
           <ul className="flex space-x-6">
             {menuItems.map((item) => (
               <li key={item.name}>
-                <Link
-                  to={item.path}
-                  className={`text-sm font-light transition-all relative group ${
-                    isActive(item.path) ? "text-black" : "text-gray-600 hover:text-black"
-                  }`}
-                >
-                  {item.name.toUpperCase()}
-                  <span
-                    className={`absolute left-0 bottom-[-3px] w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full ${
-                      isActive(item.path) ? "w-full" : ""
-                    }`}
-                  ></span>
-                </Link>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Link
+                        to={item.path}
+                        className={`text-sm font-light transition-all relative group ${
+                          isActive(item.path) ? "text-black" : "text-gray-600 hover:text-black"
+                        }`}
+                      >
+                        {item.name.toUpperCase()}
+                        <span
+                          className={`absolute left-0 bottom-[-3px] w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full ${
+                            isActive(item.path) ? "w-full" : ""
+                          }`}
+                        ></span>
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent showArrow={true}>
+                      <p>{item.tooltip}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </li>
             ))}
           </ul>
