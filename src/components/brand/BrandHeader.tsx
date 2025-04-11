@@ -30,7 +30,7 @@ const BrandHeader = () => {
 
   return (
     <header className="sticky top-0 left-0 right-0 z-40 bg-white">
-      <div className="max-w-full px-4 flex bg-black justify-between items-center h-16">
+      <div className="max-w-[1481px] mx-auto px-4 flex justify-between items-center h-16">
         <div className="flex items-center gap-2">
           <Link to="/" className="text-white text-2xl font-bold uppercase">ETAGE7</Link>
         </div>
