@@ -1,5 +1,8 @@
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { LineChart, BarChart } from "recharts";
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { Eye, ArrowUpDown, BadgeDollarSign, Package } from "lucide-react";
 
 const BrandDashboard = () => {
   // Sample data for charts
@@ -35,7 +38,7 @@ const BrandDashboard = () => {
               <div className="mt-2 text-3xl">1,234</div>
               <p className="mt-2 text-sm text-green-500">+12.5% from last month</p>
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8 text-gray-400"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path><circle cx="12" cy="12" r="3"></circle></svg>
+            <Eye className="h-8 w-8 text-gray-400" />
           </div>
         </Card>
         
@@ -46,7 +49,7 @@ const BrandDashboard = () => {
               <div className="mt-2 text-3xl">42</div>
               <p className="mt-2 text-sm text-green-500">+5.2% from last month</p>
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8 text-gray-400"><path d="M12 2v20"></path><path d="m17 5-5-3-5 3"></path><path d="m17 19-5 3-5-3"></path><path d="M20 10h-8"></path><path d="m16 7-3 3 3 3"></path><path d="M4 14h8"></path><path d="m8 11-3 3 3 3"></path></svg>
+            <ArrowUpDown className="h-8 w-8 text-gray-400" />
           </div>
         </Card>
         
@@ -57,7 +60,7 @@ const BrandDashboard = () => {
               <div className="mt-2 text-3xl">$12,345</div>
               <p className="mt-2 text-sm text-green-500">+8.4% from last month</p>
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8 text-gray-400"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>
+            <BadgeDollarSign className="h-8 w-8 text-gray-400" />
           </div>
         </Card>
         
@@ -68,7 +71,7 @@ const BrandDashboard = () => {
               <div className="mt-2 text-3xl">86</div>
               <p className="mt-2 text-sm text-red-500">-2.3% from last month</p>
             </div>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-8 w-8 text-gray-400"><path d="M4 10V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v4"></path><rect width="20" height="12" x="2" y="10" rx="2"></rect></svg>
+            <Package className="h-8 w-8 text-gray-400" />
           </div>
         </Card>
       </div>
@@ -80,19 +83,30 @@ const BrandDashboard = () => {
           </CardHeader>
           <CardContent>
             <div className="h-[300px] w-full">
-              <LineChart
-                width={500}
-                height={300}
-                data={viewsData}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
-                <p className="text-center text-gray-500 pt-32">Views trend visualization</p>
-              </LineChart>
+              <ChartContainer config={{}}>
+                <LineChart
+                  data={viewsData}
+                  margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip formatter={(value) => `${value} views`} />
+                  <Legend />
+                  <Line 
+                    type="monotone" 
+                    dataKey="views" 
+                    stroke="#8884d8" 
+                    activeDot={{ r: 8 }}
+                    strokeWidth={2}
+                  />
+                </LineChart>
+              </ChartContainer>
             </div>
           </CardContent>
         </Card>
@@ -103,19 +117,29 @@ const BrandDashboard = () => {
           </CardHeader>
           <CardContent>
             <div className="h-[300px] w-full">
-              <BarChart
-                width={500}
-                height={300}
-                data={conversionData}
-                margin={{
-                  top: 5,
-                  right: 30,
-                  left: 20,
-                  bottom: 5,
-                }}
-              >
-                <p className="text-center text-gray-500 pt-32">Conversion rate visualization</p>
-              </BarChart>
+              <ChartContainer config={{}}>
+                <BarChart
+                  data={conversionData}
+                  margin={{
+                    top: 5,
+                    right: 30,
+                    left: 20,
+                    bottom: 5,
+                  }}
+                >
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
+                  <Tooltip formatter={(value) => `${value}%`} />
+                  <Legend />
+                  <Bar 
+                    dataKey="rate" 
+                    name="Conversion Rate" 
+                    fill="#82ca9d"
+                    radius={[4, 4, 0, 0]}
+                  />
+                </BarChart>
+              </ChartContainer>
             </div>
           </CardContent>
         </Card>
