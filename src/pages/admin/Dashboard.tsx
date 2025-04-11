@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Legend, PieChart, Pie, Cell } from "recharts";
-import { ChevronDown, Users, CreditCard, BadgePercent, BarChart3, ChartLine, PieChart as PieChartIcon } from "lucide-react";
+import { ChevronDown, Users, CreditCard, BadgePercent, BarChart3, ChartLine, PieChartIcon, Clock } from "lucide-react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 const AdminDashboard = () => {
@@ -35,12 +35,13 @@ const AdminDashboard = () => {
     { name: 'Jun', subscriptions: 584 }
   ];
 
-  const salesManagerPerformance = [
-    { name: 'John', sales: 120000 },
-    { name: 'Sarah', sales: 86000 },
-    { name: 'Michael', sales: 99000 },
-    { name: 'Emily', sales: 110000 },
-    { name: 'David', sales: 65000 }
+  // New expiring subscriptions data
+  const expiringSubscriptionsData = [
+    { name: '7 days', count: 12, fill: '#8884d8' },
+    { name: '14 days', count: 18, fill: '#83a6ed' },
+    { name: '30 days', count: 24, fill: '#8dd1e1' },
+    { name: '60 days', count: 35, fill: '#82ca9d' },
+    { name: '90 days', count: 47, fill: '#a4de6c' }
   ];
 
   const individualSalesData = {
@@ -95,7 +96,7 @@ const AdminDashboard = () => {
   };
 
   // Colors for charts
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
+  const COLORS = ['#8884d8', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
 
   return (
     <div className="space-y-6">
@@ -159,20 +160,20 @@ const AdminDashboard = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="border border-gray-200">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Sales Manager Performance</CardTitle>
-            <BarChart3 className="h-4 w-4 text-gray-500" />
+            <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Expiring Subscriptions</CardTitle>
+            <Clock className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent className="pt-0">
             <ChartContainer config={{}}>
-              <BarChart data={salesManagerPerformance} layout="vertical" margin={{ top: 5, right: 30, left: 50, bottom: 5 }}>
+              <BarChart data={expiringSubscriptionsData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis type="number" />
-                <YAxis dataKey="name" type="category" />
-                <Tooltip formatter={(value) => `$${value.toLocaleString()}`} />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip formatter={(value) => `${value} subscriptions`} />
                 <Legend />
-                <Bar dataKey="sales" fill="#8884d8">
-                  {salesManagerPerformance.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                <Bar dataKey="count" name="Expiring Subscriptions">
+                  {expiringSubscriptionsData.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={entry.fill} />
                   ))}
                 </Bar>
               </BarChart>
