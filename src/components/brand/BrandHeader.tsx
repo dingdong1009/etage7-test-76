@@ -74,25 +74,6 @@ const BrandHeader = () => {
               </li>
             ))}
           </ul>
-          <ul className="flex space-x-4">
-            {menuItems.map((item) => (
-              <li key={item.name}>
-                <Link
-                  to={item.path}
-                  className={`text-sm font-light transition-all relative group ${
-                    isActive(item.path) ? "text-black" : "text-gray-600 hover:text-black"
-                  }`}
-                >
-                  {item.name.toUpperCase()}
-                  <span
-                    className={`absolute left-0 bottom-[-3px] w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full ${
-                      isActive(item.path) ? "w-full" : ""
-                    }`}
-                  ></span>
-                </Link>
-              </li>
-            ))}
-          </ul>
         </div>
       </nav>
       
