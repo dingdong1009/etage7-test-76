@@ -3,11 +3,13 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
 import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Legend, PieChart, Pie, Cell } from "recharts";
-import { ChevronDown, Users, CreditCard, BadgePercent, BarChart3, ChartLine, PieChart as PieChartIcon } from "lucide-react";
+import { ChevronDown, Users, CreditCard, BadgePercent, BarChart3, ChartLine, PieChartIcon, AlertTriangle } from "lucide-react";
 import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 
 const AdminDashboard = () => {
   const [selectedSalesManager, setSelectedSalesManager] = useState("all");
+  const [expiringView, setExpiringView] = useState("week");
 
   const stats = [
     { title: "Active Users", count: 1254, description: "Registered users", icon: Users },
@@ -26,14 +28,46 @@ const AdminDashboard = () => {
     { name: 'Jun', users: 1254 }
   ];
 
-  const monthlySubscriptionData = [
-    { name: 'Jan', subscriptions: 200 },
-    { name: 'Feb', subscriptions: 300 },
-    { name: 'Mar', subscriptions: 350 },
-    { name: 'Apr', subscriptions: 450 },
-    { name: 'May', subscriptions: 520 },
-    { name: 'Jun', subscriptions: 584 }
+  // Data for the upcoming expiring subscriptions
+  const expiringSubscriptionsWeekly = [
+    { name: 'Mon', expiring: 4 },
+    { name: 'Tue', expiring: 6 },
+    { name: 'Wed', expiring: 3 },
+    { name: 'Thu', expiring: 7 },
+    { name: 'Fri', expiring: 5 },
+    { name: 'Sat', expiring: 2 },
+    { name: 'Sun', expiring: 0 }
   ];
+
+  const expiringSubscriptionsMonthly = [
+    { name: 'Week 1', expiring: 20 },
+    { name: 'Week 2', expiring: 15 },
+    { name: 'Week 3', expiring: 18 },
+    { name: 'Week 4', expiring: 12 }
+  ];
+
+  const expiringSubscriptionsQuarterly = [
+    { name: 'Jan', expiring: 28 },
+    { name: 'Feb', expiring: 24 },
+    { name: 'Mar', expiring: 32 },
+    { name: 'Apr', expiring: 18 },
+    { name: 'May', expiring: 27 },
+    { name: 'Jun', expiring: 22 }
+  ];
+
+  // Function to get the appropriate data based on selected view
+  const getExpiringSubscriptionsData = () => {
+    switch(expiringView) {
+      case 'week':
+        return expiringSubscriptionsWeekly;
+      case 'month':
+        return expiringSubscriptionsMonthly;
+      case 'quarter':
+        return expiringSubscriptionsQuarterly;
+      default:
+        return expiringSubscriptionsWeekly;
+    }
+  };
 
   const salesManagerPerformance = [
     { name: 'John', sales: 120000 },
@@ -138,19 +172,42 @@ const AdminDashboard = () => {
         
         <Card className="border border-gray-200">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Subscription Growth</CardTitle>
-            <CreditCard className="h-4 w-4 text-gray-500" />
+            <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Upcoming Expiring Subscriptions</CardTitle>
+            <div className="flex items-center gap-2">
+              <AlertTriangle className="h-4 w-4 text-amber-500" />
+              <Tabs value={expiringView} onValueChange={setExpiringView} className="w-[180px]">
+                <TabsList className="h-8 text-xs">
+                  <TabsTrigger value="week" className="px-2 py-1 text-xs">This Week</TabsTrigger>
+                  <TabsTrigger value="month" className="px-2 py-1 text-xs">This Month</TabsTrigger>
+                  <TabsTrigger value="quarter" className="px-2 py-1 text-xs">This Quarter</TabsTrigger>
+                </TabsList>
+              </Tabs>
+            </div>
           </CardHeader>
           <CardContent className="pt-0">
             <ChartContainer config={{}}>
-              <LineChart data={monthlySubscriptionData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+              <BarChart data={getExpiringSubscriptionsData()} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" />
                 <YAxis />
-                <ChartTooltip content={<ChartTooltipContent />} />
+                <ChartTooltip 
+                  content={({ active, payload }) => {
+                    if (active && payload && payload.length) {
+                      return (
+                        <div className="bg-white p-2 border border-gray-200 shadow-md rounded-md">
+                          <p className="text-sm font-medium">{payload[0].payload.name}</p>
+                          <p className="text-sm text-amber-600">
+                            <span className="font-bold">{payload[0].value}</span> subscriptions expiring
+                          </p>
+                        </div>
+                      );
+                    }
+                    return null;
+                  }} 
+                />
                 <Legend />
-                <Line type="monotone" dataKey="subscriptions" stroke="#00C49F" activeDot={{ r: 8 }} />
-              </LineChart>
+                <Bar dataKey="expiring" fill="#FFBB28" />
+              </BarChart>
             </ChartContainer>
           </CardContent>
         </Card>
