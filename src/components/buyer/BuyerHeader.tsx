@@ -1,18 +1,30 @@
 
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu } from "lucide-react";
+import { Menu, Bell } from "lucide-react";
+import { 
+  Tooltip, 
+  TooltipContent, 
+  TooltipProvider, 
+  TooltipTrigger 
+} from "@/components/ui/tooltip";
+import { Badge } from "@/components/ui/badge";
 
 const BuyerHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   
+  // Mock notification count - this would be fetched from a backend in a real app
+  const notificationCount = 2;
+  
   const menuItems = [
-    { name: "Dashboard", path: "/buyer" },
-    { name: "Orders", path: "/buyer/orders" },
-    { name: "Messages", path: "/buyer/messages" },
-    { name: "Team", path: "/buyer/team" },
-    { name: "Settings", path: "/buyer/settings" }
+    { name: "Dashboard", path: "/buyer", tooltip: "Buyer dashboard overview" },
+    { name: "Orders", path: "/buyer/orders", tooltip: "View and manage orders" },
+    { name: "Messages", path: "/buyer/messages", tooltip: "Communication with brands" },
+    { name: "Additional Services", path: "/buyer/additional-services", tooltip: "Book consulting services" },
+    { name: "Team", path: "/buyer/team", tooltip: "Manage your team" },
+    { name: "Resources", path: "/buyer/resources", tooltip: "Educational resources" },
+    { name: "Settings", path: "/buyer/settings", tooltip: "Account settings" },
   ];
 
   const toggleMenu = () => {
@@ -27,8 +39,7 @@ const BuyerHeader = () => {
     <header className="sticky top-0 left-0 right-0 z-40 bg-white">
       <div className="max-w-full px-4 flex justify-between items-center h-16">
         <div className="flex items-center gap-2">
-        <Link to="/" className="text-black text-2xl font-bold uppercase">ETAGE7</Link> | buyer
-
+          <Link to="/" className="text-black text-2xl font-bold uppercase">ETAGE7</Link> | BUYER
         </div>
         
         {/* Mobile menu button */}
@@ -42,8 +53,28 @@ const BuyerHeader = () => {
         
         {/* User options on desktop */}
         <div className="hidden md:flex items-center space-x-4">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="relative">
+                  <Bell size={20} className="text-gray-600 hover:text-black cursor-pointer" />
+                  {notificationCount > 0 && (
+                    <Badge 
+                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-red-500 text-white text-xs rounded-full"
+                    >
+                      {notificationCount}
+                    </Badge>
+                  )}
+                </div>
+              </TooltipTrigger>
+              <TooltipContent showArrow={true}>
+                <p>{notificationCount} confirmed service bookings</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          
           <Link to="/" className="text-gray-600 hover:text-black text-sm">
-            Back to Site
+            BACK TO SITE
           </Link>
         </div>
       </div>
@@ -54,19 +85,28 @@ const BuyerHeader = () => {
           <ul className="flex space-x-6">
             {menuItems.map((item) => (
               <li key={item.name}>
-                <Link
-                  to={item.path}
-                  className={`text-sm font-light transition-all relative group ${
-                    isActive(item.path) ? "text-black" : "text-gray-600 hover:text-black"
-                  }`}
-                >
-                  {item.name.toUpperCase()}
-                  <span
-                    className={`absolute left-0 bottom-[-3px] w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full ${
-                      isActive(item.path) ? "w-full" : ""
-                    }`}
-                  ></span>
-                </Link>
+                <TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Link
+                        to={item.path}
+                        className={`text-sm font-light transition-all relative group ${
+                          isActive(item.path) ? "text-black" : "text-gray-600 hover:text-black"
+                        }`}
+                      >
+                        {item.name.toUpperCase()}
+                        <span
+                          className={`absolute left-0 bottom-[-3px] w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full ${
+                            isActive(item.path) ? "w-full" : ""
+                          }`}
+                        ></span>
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent showArrow={true}>
+                      <p>{item.tooltip}</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
               </li>
             ))}
           </ul>
@@ -96,7 +136,7 @@ const BuyerHeader = () => {
                 className="block py-3 px-4 text-gray-600"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Back to Site
+                BACK TO SITE
               </Link>
             </li>
           </ul>

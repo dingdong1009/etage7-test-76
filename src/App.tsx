@@ -51,6 +51,7 @@ import BrandMessages from "./pages/brand/Messages";
 import BrandSubscriptions from "./pages/brand/Subscriptions";
 import BrandResources from "./pages/brand/Resources";
 import BrandSettings from "./pages/brand/Settings";
+import BrandAdditionalServices from "./pages/brand/AdditionalServices";
 
 // Buyer components
 import BuyerLayout from "./components/buyer/BuyerLayout";
@@ -60,6 +61,7 @@ import BuyerMessages from "./pages/buyer/Messages";
 import BuyerTeam from "./pages/buyer/Team";
 import BuyerSettings from "./pages/buyer/Settings";
 import BuyerResources from "./pages/buyer/Resources";
+import BuyerAdditionalServices from "./pages/buyer/AdditionalServices";
 
 const queryClient = new QueryClient();
 
@@ -117,6 +119,7 @@ const App = () => (
             <Route path="subscriptions" element={<BrandSubscriptions />} />
             <Route path="resources" element={<BrandResources />} />
             <Route path="settings" element={<BrandSettings />} />
+            <Route path="additional-services" element={<BrandAdditionalServices />} />
           </Route>
           
           {/* Buyer Routes */}
@@ -127,6 +130,7 @@ const App = () => (
             <Route path="team" element={<BuyerTeam />} />
             <Route path="settings" element={<BuyerSettings />} />
             <Route path="resources" element={<BuyerResources />} />
+            <Route path="additional-services" element={<BuyerAdditionalServices />} />
           </Route>
           
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
