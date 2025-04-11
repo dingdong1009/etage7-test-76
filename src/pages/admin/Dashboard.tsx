@@ -185,7 +185,7 @@ const AdminDashboard = () => {
             <div className="flex flex-col md:flex-row gap-2 md:items-center w-full">
               <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Individual Performance</CardTitle>
               <Select value={selectedSalesManager} onValueChange={setSelectedSalesManager}>
-                <SelectTrigger className="w-[180px] h-8">
+                <SelectTrigger className="w-[180px] h-6">
                   <SelectValue placeholder="Select Manager" />
                 </SelectTrigger>
                 <SelectContent>
