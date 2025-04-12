@@ -84,19 +84,29 @@ const EventsPage = () => {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="bg-black text-white py-24 px-4">
-        <div className="max-w-[1481px] mx-auto">
-          <h1 className="text-3xl md:text-5xl uppercase font-thin mb-6">
-            UPCOMING <br/>
-            <span className="font-normal">EVENTS</span>
-          </h1>
-          <p className="max-w-2xl text-lg font-light mb-8">
+      <section className="relative h-screen bg-black text-white flex items-center">
+        <div className="container-lg">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
+              UPCOMING<br/>
+              <span className="font-normal">EVENTS</span>
+            </h1>
+            <p className="text-lg md:text-xl font-light text-gray-300 mb-12 max-w-2xl">
             Join us at exclusive fashion industry events connecting brands and buyers.
-          </p>
-          <Button className="bg-white text-black border-0 hover:bg-gray-100">
-            EXPLORE EVENTS <ArrowRight className="ml-2 h-4 w-4" />
-          </Button>
+            </p>
+          </div>
         </div>
+        
+        {/* Scroll indicator */}
+        <button 
+          onClick={() => scrollToSection('platform')}
+          className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 ${
+            scrolled ? 'opacity-0' : 'opacity-100'
+          }`}
+          aria-label="Scroll to learn more"
+        >
+          <ChevronDown size={24} className="animate-bounce" />
+        </button>
       </section>
 
       {/* Events Calendar Section */}

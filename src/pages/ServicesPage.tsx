@@ -120,7 +120,7 @@ const ServicesPage = () => {
   return (
     <div className="w-full">
       {/* Hero Section - Aligned with the Index page hero section */}
-      <section className="relative h-[80vh] bg-black text-white flex items-center">
+      <section className="relative h-screen bg-black text-white flex items-center">
         <div className="container-lg">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
