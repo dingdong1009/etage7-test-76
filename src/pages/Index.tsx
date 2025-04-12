@@ -169,7 +169,7 @@ const Index = () => {
               OUR SERVICES
             </h2>
             <p className="text-gray-700 mb-10">
-              Beyond our digital platform, we offer specialized consulting services for both brands and buyers.
+              Beyond our digital platform, we offer specialized consulting services for both brands and buyers. 
             </p>
             <Button asChild className="btn btn-primary">
               <Link to="/services">
