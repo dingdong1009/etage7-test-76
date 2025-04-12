@@ -34,8 +34,7 @@ const Index = () => {
               <span className="font-normal">FASHION BRANDS & BUYERS</span>
             </h1>
             <p className="text-lg md:text-xl font-light text-gray-300 mb-12 max-w-2xl">
-              ETAGE7 is the premium platform that brings together fashion brands and professional buyers, 
-              revolutionizing how the industry connects and conducts business.
+            ETAGE7 – это премиальный цифровой маркетплейс, который объединяет премиум бренды с профессиональными байерами и владельцами мультибрендов, меняя традиционные подходы к оптовым закупкам.
             </p>
           </div>
         </div>
