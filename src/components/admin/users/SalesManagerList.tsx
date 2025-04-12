@@ -3,9 +3,10 @@ import { useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Eye, Pencil, Plus } from "lucide-react";
+import { Eye, Pencil, Plus, Search } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import { SalesManager } from "@/types/users";
 
 interface SalesManagerListProps {
@@ -25,17 +26,30 @@ const SalesManagerList = ({
   handleViewUser,
   handleEditUser
 }: SalesManagerListProps) => {
-  const filteredUsers = statusFilter === "all" 
-    ? salesManagers 
-    : salesManagers.filter(user => user.status.toLowerCase() === statusFilter.toLowerCase());
+  const [searchQuery, setSearchQuery] = useState("");
+  
+  const filteredUsers = salesManagers
+    .filter(user => statusFilter === "all" || user.status.toLowerCase() === statusFilter.toLowerCase())
+    .filter(user => 
+      searchQuery === "" || 
+      user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchQuery.toLowerCase())
+    );
     
   return (
-    <Card className="border border-gray-200 shadow-sm rounded-lg transition-all duration-300 hover:shadow-md">
-      <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between pb-2 border-b border-gray-100">
-        <CardTitle className="text-xl md:text-2xl font-light mb-4 sm:mb-0 tracking-tighter">
-          Sales Managers
-        </CardTitle>
-        <div className="flex flex-wrap items-center gap-2 mt-2 sm:mt-0">
+    <div className="space-y-4">
+      <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-6">
+        <div className="relative w-full max-w-sm">
+          <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+          <Input
+            type="search"
+            placeholder="Search sales managers..."
+            className="pl-9 bg-white border-gray-200"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+          />
+        </div>
+        <div className="flex items-center space-x-3">
           <Select
             value={statusFilter}
             onValueChange={(value) => setStatusFilter(value)}
@@ -50,93 +64,91 @@ const SalesManagerList = ({
               <SelectItem value="inactive">Inactive</SelectItem>
             </SelectContent>
           </Select>
-          <Button 
-            className="bg-black hover:bg-gray-800 text-white text-sm transition-colors" 
-            onClick={handleAddUser}
-          >
-            <Plus className="mr-1 h-4 w-4" /> Add User
-          </Button>
-          <Button 
-            variant="outline" 
-            className="border-gray-200 text-gray-700 hover:bg-gray-50 text-sm transition-colors"
-          >
-            Export
+          <Button className="bg-black hover:bg-gray-800 text-white text-sm" onClick={handleAddUser}>
+            <Plus className="mr-1 h-4 w-4" /> Add Manager
           </Button>
         </div>
-      </CardHeader>
-      <CardContent className="pt-4 overflow-hidden">
-        <div className="overflow-x-auto">
-          <Table>
-            <TableHeader>
-              <TableRow className="bg-gray-50">
-                <TableHead className="w-[100px] font-medium text-gray-600 text-sm">ID</TableHead>
-                <TableHead className="font-medium text-gray-600 text-sm">Name</TableHead>
-                <TableHead className="font-medium text-gray-600 text-sm">Start Date</TableHead>
-                <TableHead className="font-medium text-gray-600 text-sm">Years in Company</TableHead>
-                <TableHead className="font-medium text-gray-600 text-sm">Salary/Month</TableHead>
-                <TableHead className="font-medium text-gray-600 text-sm">Commission Rate</TableHead>
-                <TableHead className="font-medium text-gray-600 text-sm">YTD Commissions</TableHead>
-                <TableHead className="font-medium text-gray-600 text-sm">Status</TableHead>
-                <TableHead className="text-right font-medium text-gray-600 text-sm">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {filteredUsers.length === 0 ? (
-                <TableRow>
-                  <TableCell colSpan={9} className="text-center py-8 text-gray-500">
-                    No sales managers found with the selected filter
-                  </TableCell>
+      </div>
+      
+      <Card className="border border-gray-200 shadow-none rounded-lg">
+        <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
+          <CardTitle className="text-lg font-medium text-gray-900">
+            Sales Managers ({filteredUsers.length})
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-0">
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow className="hover:bg-transparent">
+                  <TableHead className="w-[80px] font-medium text-gray-600 text-sm">ID</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm">Name</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm">Start Date</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm">Years in Company</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm">Salary/Month</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm">Commission Rate</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm">Status</TableHead>
+                  <TableHead className="text-right font-medium text-gray-600 text-sm">Actions</TableHead>
                 </TableRow>
-              ) : (
-                filteredUsers.map((user) => (
-                  <TableRow key={user.id} className="border-t border-gray-100 hover:bg-gray-50 transition-colors">
-                    <TableCell className="font-medium">{user.id}</TableCell>
-                    <TableCell>{user.name}</TableCell>
-                    <TableCell>{user.startDate}</TableCell>
-                    <TableCell>{user.yearsInCompany}</TableCell>
-                    <TableCell>{user.salaryPerMonth}</TableCell>
-                    <TableCell>{user.commissionRate}</TableCell>
-                    <TableCell>{user.ytdCommissions}</TableCell>
-                    <TableCell>
-                      <Badge 
-                        className={`
-                          ${user.status === "active" ? "bg-accent-mint text-gray-800" :
-                            user.status === "pending" ? "bg-accent-yellow text-gray-800" :
-                            "bg-gray-100 text-gray-800"}
-                          text-xs font-medium px-2 py-0.5
-                        `}
-                      >
-                        {user.status}
-                      </Badge>
-                    </TableCell>
-                    <TableCell className="flex justify-end space-x-2">
-                      <Button 
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 p-0 hover:bg-gray-100 transition-colors"
-                        onClick={() => handleViewUser("salesManager", user.id)}
-                        title="View"
-                      >
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button 
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 p-0 hover:bg-gray-100 transition-colors"
-                        onClick={() => handleEditUser("salesManager", user.id)}
-                        title="Edit"
-                      >
-                        <Pencil className="h-4 w-4" />
-                      </Button>
+              </TableHeader>
+              <TableBody>
+                {filteredUsers.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={8} className="text-center py-10 text-gray-500">
+                      No sales managers found with the current filters
                     </TableCell>
                   </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </div>
-      </CardContent>
-    </Card>
+                ) : (
+                  filteredUsers.map((user) => (
+                    <TableRow key={user.id} className="border-t border-gray-100 hover:bg-gray-50/50">
+                      <TableCell className="font-medium">{user.id}</TableCell>
+                      <TableCell>{user.name}</TableCell>
+                      <TableCell>{user.startDate}</TableCell>
+                      <TableCell>{user.yearsInCompany}</TableCell>
+                      <TableCell>{user.salaryPerMonth}</TableCell>
+                      <TableCell>{user.commissionRate}</TableCell>
+                      <TableCell>
+                        <Badge 
+                          variant="outline"
+                          className={`
+                            ${user.status === "active" ? "bg-emerald-50 text-emerald-700 border-emerald-200" :
+                              user.status === "pending" ? "bg-amber-50 text-amber-700 border-amber-200" :
+                              "bg-gray-50 text-gray-700 border-gray-200"}
+                            text-xs font-medium px-2 py-0.5
+                          `}
+                        >
+                          {user.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="flex justify-end space-x-2">
+                        <Button 
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 p-0 hover:bg-gray-100"
+                          onClick={() => handleViewUser("salesManager", user.id)}
+                          title="View"
+                        >
+                          <Eye className="h-4 w-4" />
+                        </Button>
+                        <Button 
+                          variant="ghost"
+                          size="icon"
+                          className="h-8 w-8 p-0 hover:bg-gray-100"
+                          onClick={() => handleEditUser("salesManager", user.id)}
+                          title="Edit"
+                        >
+                          <Pencil className="h-4 w-4" />
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </CardContent>
+      </Card>
+    </div>
   );
 };
 

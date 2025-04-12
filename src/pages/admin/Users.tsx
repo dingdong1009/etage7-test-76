@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Brand, Buyer, CommissionChange, SalesManager, UserType, ViewMode } from "@/types/users";
@@ -443,15 +442,32 @@ const SalesUsers = () => {
   };
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">User Management</h1>
+    <div className="space-y-6 animate-fade-in">
+      <h1 className="text-3xl md:text-4xl font-light tracking-tight mb-6">User Management</h1>
       
       <Tabs defaultValue="brand" className="w-full" onValueChange={(value) => setActiveTab(value as UserType)}>
-        <TabsList className="mb-4">
-          <TabsTrigger value="brand">Managed Brands</TabsTrigger>
-          <TabsTrigger value="buyer">Managed Buyers</TabsTrigger>
-          <TabsTrigger value="salesManager">Sales Managers</TabsTrigger>
-        </TabsList>
+        <div className="border-b border-gray-200 mb-6">
+          <TabsList className="flex h-11 mb-0 space-x-2 w-full max-w-md bg-transparent">
+            <TabsTrigger 
+              value="brand" 
+              className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none rounded-none border-b-2 border-transparent px-6 font-light h-11 transition-none"
+            >
+              Managed Brands
+            </TabsTrigger>
+            <TabsTrigger 
+              value="buyer" 
+              className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none rounded-none border-b-2 border-transparent px-6 font-light h-11 transition-none"
+            >
+              Managed Buyers
+            </TabsTrigger>
+            <TabsTrigger 
+              value="salesManager" 
+              className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none rounded-none border-b-2 border-transparent px-6 font-light h-11 transition-none"
+            >
+              Sales Managers
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="brand">
           {viewMode === "list" && (
