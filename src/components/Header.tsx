@@ -41,11 +41,12 @@ const Header = () => {
     { name: "BUYERS", path: "/buyers" },
     { name: "SERVICES", path: "/services" },
     { name: "EVENTS", path: "/events" },
+    { name: "RESOURCES", path: "/resources" },
+    { name: "CURATED", path: "/curated" },
   ];
 
   const secondaryNavItems = [
-    { name: "RESOURCES", path: "/resources" },
-    { name: "CURATED", path: "/curated" },
+
     { name: "LOGIN", path: "/login" },
     { name: "REGISTER", path: "/register" },
   ];
@@ -80,7 +81,7 @@ const Header = () => {
               <li key={item.name}>
                 <Link 
                   to={item.path} 
-                  className="text-sm font-light uppercase relative group transition-fast"
+                  className="text-xs font-light uppercase relative group transition-fast"
                 >
                   {item.name}
                   <span className="absolute left-0 bottom-[-2px] w-0 h-[0.5px] bg-black transition-all duration-300 group-hover:w-full"></span>
