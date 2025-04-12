@@ -52,7 +52,7 @@ const Index = () => {
       </section>
 
       {/* Platform Overview */}
-      <section id="platform" className="py-24 bg-black text-white md:py-32 bg-gray-50">
+      <section id="platform" className="py-24 bg-black text-white md:py-32">
         <div className="container-lg">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-light tracking-tighter mb-6">
