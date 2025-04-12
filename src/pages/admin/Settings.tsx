@@ -29,67 +29,91 @@ const AdminSettings = () => {
   ];
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Settings</h1>
+    <div className="space-y-6 animate-fade-in">
+      <h1 className="admin-title">Settings</h1>
       
       <Tabs defaultValue="general" className="w-full">
-        <TabsList className="mb-4">
-          <TabsTrigger value="general">General</TabsTrigger>
-          <TabsTrigger value="integrations">Integrations</TabsTrigger>
-          <TabsTrigger value="features">Features</TabsTrigger>
-          <TabsTrigger value="logs">System Logs</TabsTrigger>
+        <TabsList className="mb-6 bg-transparent border-b border-gray-200 p-0 h-auto flex space-x-6 overflow-x-auto">
+          <TabsTrigger 
+            value="general"
+            className="py-3 px-1 rounded-none data-[state=active]:text-black data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:font-medium data-[state=active]:shadow-none text-gray-600 hover:text-black transition-colors bg-transparent"
+          >
+            General
+          </TabsTrigger>
+          <TabsTrigger 
+            value="integrations"
+            className="py-3 px-1 rounded-none data-[state=active]:text-black data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:font-medium data-[state=active]:shadow-none text-gray-600 hover:text-black transition-colors bg-transparent"
+          >
+            Integrations
+          </TabsTrigger>
+          <TabsTrigger 
+            value="features"
+            className="py-3 px-1 rounded-none data-[state=active]:text-black data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:font-medium data-[state=active]:shadow-none text-gray-600 hover:text-black transition-colors bg-transparent"
+          >
+            Features
+          </TabsTrigger>
+          <TabsTrigger 
+            value="logs"
+            className="py-3 px-1 rounded-none data-[state=active]:text-black data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:font-medium data-[state=active]:shadow-none text-gray-600 hover:text-black transition-colors bg-transparent"
+          >
+            System Logs
+          </TabsTrigger>
         </TabsList>
         
-        <TabsContent value="general" className="space-y-4">
-          <Card className="p-6 border border-gray-200">
-            <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">General Settings</h2>
+        <TabsContent value="general" className="space-y-4 mt-6">
+          <Card className="p-6 border border-gray-200 shadow-sm rounded-none">
+            <h2 className="admin-subtitle mb-6">General Settings</h2>
             
-            <form className="space-y-4">
-              <div>
-                <label htmlFor="siteName" className="block text-sm font-medium mb-1">
-                  Site Name
-                </label>
-                <Input
-                  id="siteName"
-                  defaultValue="ETAGE7"
-                  className="border-gray-300 rounded-none"
-                />
+            <form className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="siteName" className="block text-sm font-medium mb-1">
+                    Site Name
+                  </label>
+                  <Input
+                    id="siteName"
+                    defaultValue="ETAGE7"
+                    className="border-gray-300 rounded-none"
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="adminEmail" className="block text-sm font-medium mb-1">
+                    Admin Email
+                  </label>
+                  <Input
+                    id="adminEmail"
+                    type="email"
+                    defaultValue="admin@etage7.com"
+                    className="border-gray-300 rounded-none"
+                  />
+                </div>
               </div>
               
-              <div>
-                <label htmlFor="adminEmail" className="block text-sm font-medium mb-1">
-                  Admin Email
-                </label>
-                <Input
-                  id="adminEmail"
-                  type="email"
-                  defaultValue="admin@etage7.com"
-                  className="border-gray-300 rounded-none"
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="currentPassword" className="block text-sm font-medium mb-1">
-                  Current Password
-                </label>
-                <Input
-                  id="currentPassword"
-                  type="password"
-                  placeholder="Enter current password"
-                  className="border-gray-300 rounded-none"
-                />
-              </div>
-              
-              <div>
-                <label htmlFor="newPassword" className="block text-sm font-medium mb-1">
-                  New Password
-                </label>
-                <Input
-                  id="newPassword"
-                  type="password"
-                  placeholder="Enter new password"
-                  className="border-gray-300 rounded-none"
-                />
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label htmlFor="currentPassword" className="block text-sm font-medium mb-1">
+                    Current Password
+                  </label>
+                  <Input
+                    id="currentPassword"
+                    type="password"
+                    placeholder="Enter current password"
+                    className="border-gray-300 rounded-none"
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="newPassword" className="block text-sm font-medium mb-1">
+                    New Password
+                  </label>
+                  <Input
+                    id="newPassword"
+                    type="password"
+                    placeholder="Enter new password"
+                    className="border-gray-300 rounded-none"
+                  />
+                </div>
               </div>
               
               <div>
@@ -104,23 +128,23 @@ const AdminSettings = () => {
                 />
               </div>
               
-              <div className="flex space-x-4">
+              <div className="flex flex-col space-y-4 md:flex-row md:space-y-0 md:space-x-6">
                 <div className="flex items-center space-x-2">
-                  <Switch id="maintenanceMode" />
+                  <Switch id="maintenanceMode" className="data-[state=checked]:bg-black" />
                   <Label htmlFor="maintenanceMode">Maintenance Mode</Label>
                 </div>
                 
                 <div className="flex items-center space-x-2">
-                  <Switch id="allowRegistration" defaultChecked />
+                  <Switch id="allowRegistration" defaultChecked className="data-[state=checked]:bg-black" />
                   <Label htmlFor="allowRegistration">Allow Registration</Label>
                 </div>
               </div>
               
-              <div className="flex justify-end space-x-2">
-                <Button variant="outline" className="border-gray-300">
+              <div className="flex justify-end space-x-3">
+                <Button variant="outline" className="border-gray-300 rounded-none">
                   Cancel
                 </Button>
-                <Button className="bg-black text-white border-none">
+                <Button className="bg-black text-white border-none rounded-none hover:bg-gray-800">
                   Save Changes
                 </Button>
               </div>
@@ -128,45 +152,47 @@ const AdminSettings = () => {
           </Card>
         </TabsContent>
         
-        <TabsContent value="integrations" className="space-y-4">
-          <Card className="p-6 border border-gray-200">
-            <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">API Integrations</h2>
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-gray-50">
-                  <TableHead className="font-medium">Service</TableHead>
-                  <TableHead className="font-medium">Status</TableHead>
-                  <TableHead className="font-medium">API Key</TableHead>
-                  <TableHead className="font-medium text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {integrations.map((integration) => (
-                  <TableRow key={integration.id} className="border-t border-gray-200">
-                    <TableCell className="font-medium">{integration.name}</TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        <Switch id={`integration-${integration.id}`} checked={integration.status} />
-                        <span className={integration.status ? "text-green-600" : "text-gray-400"}>
-                          {integration.status ? "Active" : "Inactive"}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      {integration.apiKey || <span className="text-gray-400 italic">Not set</span>}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <Button variant="ghost" size="icon" className="h-8 w-8">
-                        <Settings2 className="h-4 w-4" />
-                        <span className="sr-only">Configure</span>
-                      </Button>
-                    </TableCell>
+        <TabsContent value="integrations" className="space-y-4 mt-6">
+          <Card className="p-6 border border-gray-200 shadow-sm rounded-none">
+            <h2 className="admin-subtitle mb-6">API Integrations</h2>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow className="hover:bg-gray-50">
+                    <TableHead className="font-medium text-gray-700">Service</TableHead>
+                    <TableHead className="font-medium text-gray-700">Status</TableHead>
+                    <TableHead className="font-medium text-gray-700">API Key</TableHead>
+                    <TableHead className="font-medium text-gray-700 text-right">Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {integrations.map((integration) => (
+                    <TableRow key={integration.id} className="border-t border-gray-200 hover:bg-gray-50">
+                      <TableCell className="font-medium">{integration.name}</TableCell>
+                      <TableCell>
+                        <div className="flex items-center space-x-2">
+                          <Switch id={`integration-${integration.id}`} checked={integration.status} className="data-[state=checked]:bg-black" />
+                          <span className={integration.status ? "text-green-600" : "text-gray-400"}>
+                            {integration.status ? "Active" : "Inactive"}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        {integration.apiKey || <span className="text-gray-400 italic">Not set</span>}
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <Settings2 className="h-4 w-4" />
+                          <span className="sr-only">Configure</span>
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
             <div className="p-4 flex justify-end">
-              <Button className="bg-black text-white border-none lex items-center gap-2">
+              <Button className="bg-black text-white border-none rounded-none hover:bg-gray-800 flex items-center gap-2">
                 <Plus className="h-4 w-4" />
                 Add New Integration
               </Button>
@@ -174,47 +200,49 @@ const AdminSettings = () => {
           </Card>
         </TabsContent>
         
-        <TabsContent value="features" className="space-y-4">
-          <Card className="p-6 border border-gray-200">
-            <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">Feature Management</h2>
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-gray-50">
-                  <TableHead className="font-medium">Feature</TableHead>
-                  <TableHead className="font-medium">Description</TableHead>
-                  <TableHead className="font-medium">Status</TableHead>
-                  <TableHead className="font-medium text-right">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {features.map((feature) => (
-                  <TableRow key={feature.id} className="border-t border-gray-200">
-                    <TableCell className="font-medium">{feature.name}</TableCell>
-                    <TableCell>{feature.description}</TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        <Switch id={`feature-${feature.id}`} checked={feature.status} />
-                        <span className={feature.status ? "text-green-600" : "text-gray-400"}>
-                          {feature.status ? "Enabled" : "Disabled"}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell className="text-right flex justify-end space-x-1">
-                      <Button variant="ghost" size="icon" className="h-8 w-8">
-                        <Settings2 className="h-4 w-4" />
-                        <span className="sr-only">Edit</span>
-                      </Button>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-red-600 hover:text-red-700">
-                        <Trash2 className="h-4 w-4" />
-                        <span className="sr-only">Delete</span>
-                      </Button>
-                    </TableCell>
+        <TabsContent value="features" className="space-y-4 mt-6">
+          <Card className="p-6 border border-gray-200 shadow-sm rounded-none">
+            <h2 className="admin-subtitle mb-6">Feature Management</h2>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow className="hover:bg-gray-50">
+                    <TableHead className="font-medium text-gray-700">Feature</TableHead>
+                    <TableHead className="font-medium text-gray-700">Description</TableHead>
+                    <TableHead className="font-medium text-gray-700">Status</TableHead>
+                    <TableHead className="font-medium text-gray-700 text-right">Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {features.map((feature) => (
+                    <TableRow key={feature.id} className="border-t border-gray-200 hover:bg-gray-50">
+                      <TableCell className="font-medium">{feature.name}</TableCell>
+                      <TableCell>{feature.description}</TableCell>
+                      <TableCell>
+                        <div className="flex items-center space-x-2">
+                          <Switch id={`feature-${feature.id}`} checked={feature.status} className="data-[state=checked]:bg-black" />
+                          <span className={feature.status ? "text-green-600" : "text-gray-400"}>
+                            {feature.status ? "Enabled" : "Disabled"}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell className="text-right flex justify-end space-x-1">
+                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <Settings2 className="h-4 w-4" />
+                          <span className="sr-only">Edit</span>
+                        </Button>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 text-red-600 hover:text-red-700">
+                          <Trash2 className="h-4 w-4" />
+                          <span className="sr-only">Delete</span>
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
             <div className="p-4 flex justify-end">
-              <Button className="bg-black text-white border-none flex items-center gap-2">
+              <Button className="bg-black text-white border-none rounded-none hover:bg-gray-800 flex items-center gap-2">
                 <Plus className="h-4 w-4" />
                 Add New Feature
               </Button>
@@ -222,40 +250,42 @@ const AdminSettings = () => {
           </Card>
         </TabsContent>
         
-        <TabsContent value="logs" className="space-y-4">
-          <Card className="p-6 border border-gray-200">
-            <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">System Logs</h2>
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-gray-50">
-                  <TableHead className="font-medium">Action</TableHead>
-                  <TableHead className="font-medium">User</TableHead>
-                  <TableHead className="font-medium">Timestamp</TableHead>
-                  <TableHead className="font-medium text-right">Details</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {logs.map((log) => (
-                  <TableRow key={log.id} className="border-t border-gray-200">
-                    <TableCell>{log.action}</TableCell>
-                    <TableCell>{log.user}</TableCell>
-                    <TableCell>{log.timestamp}</TableCell>
-                    <TableCell className="text-right">
-                      <Button variant="ghost" size="icon" className="h-8 w-8">
-                        <Eye className="h-4 w-4" />
-                        <span className="sr-only">View Details</span>
-                      </Button>
-                    </TableCell>
+        <TabsContent value="logs" className="space-y-4 mt-6">
+          <Card className="p-6 border border-gray-200 shadow-sm rounded-none">
+            <h2 className="admin-subtitle mb-6">System Logs</h2>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow className="hover:bg-gray-50">
+                    <TableHead className="font-medium text-gray-700">Action</TableHead>
+                    <TableHead className="font-medium text-gray-700">User</TableHead>
+                    <TableHead className="font-medium text-gray-700">Timestamp</TableHead>
+                    <TableHead className="font-medium text-gray-700 text-right">Details</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
+                </TableHeader>
+                <TableBody>
+                  {logs.map((log) => (
+                    <TableRow key={log.id} className="border-t border-gray-200 hover:bg-gray-50">
+                      <TableCell>{log.action}</TableCell>
+                      <TableCell>{log.user}</TableCell>
+                      <TableCell>{log.timestamp}</TableCell>
+                      <TableCell className="text-right">
+                        <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <Eye className="h-4 w-4" />
+                          <span className="sr-only">View Details</span>
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
             <div className="p-4 flex justify-between">
-              <Button variant="outline" className="border-gray-200 flex items-center gap-2">
+              <Button variant="outline" className="border-gray-200 rounded-none flex items-center gap-2">
                 <Download className="h-4 w-4" />
                 Export Logs
               </Button>
-              <Button variant="outline" className="border-gray-200 text-red-600 hover:text-red-700 flex items-center gap-2">
+              <Button variant="outline" className="border-gray-200 rounded-none text-red-600 hover:text-red-700 hover:bg-red-50 flex items-center gap-2">
                 <X className="h-4 w-4" />
                 Clear Logs
               </Button>
