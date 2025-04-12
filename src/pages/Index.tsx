@@ -169,7 +169,7 @@ const Index = () => {
           </h2>
           <p className="max-w-2xl mx-auto mb-12 text-gray-300">
             Whether you're a brand looking to expand your market reach or a buyer seeking the perfect brand 
-            partners, ETAGE7 is designed to transform how you do business.
+            partners, ETAGE7 is designed to transform how you do business. 
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-6">
             <Button asChild className="bg-white text-black hover:bg-gray-100 btn">
