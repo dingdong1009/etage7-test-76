@@ -121,12 +121,6 @@ const Header = () => {
             <Link to="/login" className="hover:text-gray-600 transition-fast hidden sm:block">
               <User size={18} strokeWidth={1} />
             </Link>
-            <Link to="/cart" className="hover:text-gray-600 transition-fast relative">
-              <ShoppingBag size={18} strokeWidth={1} />
-              <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-black text-white text-[10px] font-light flex items-center justify-center rounded-full">
-                0
-              </span>
-            </Link>
           </div>
         </div>
       </div>
