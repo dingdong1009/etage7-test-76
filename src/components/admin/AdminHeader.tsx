@@ -38,10 +38,10 @@ const AdminHeader = () => {
   };
 
   return (
-    <header className="sticky top-0 left-0 right-0 z-40 bg-white">
-      <div className="max-w-[1481px] bg-black mx-auto px-4 flex justify-between items-center h-16">
+    <header className="sticky max-w-[1481px] mx-auto top-0 left-0 right-0 z-40 bg-white">
+      <div className="max-w-full px-4 flex justify-between items-center h-16">
         <div className="flex items-center gap-2">
-          <Link to="/" className="text-white text-2xl font-bold uppercase">ETAGE7</Link> | ADMIN
+          <Link to="/" className="text-black text-2xl font-bold uppercase">ETAGE7</Link> | ADMIN
         </div>
         
         {/* Mobile menu button */}
@@ -82,7 +82,7 @@ const AdminHeader = () => {
       </div>
       
       {/* Desktop Navigation - Moved below the header bar */}
-      <nav className="hidden md:block max-w-[1481px] mx-auto border-b border-t border-gray-200 bg-white">
+      <nav className="hidden md:block border-b border-t border-gray-200 bg-white">
         <div className="max-w-full px-4 py-2">
           <ul className="flex space-x-6">
             {menuItems.map((item) => (
