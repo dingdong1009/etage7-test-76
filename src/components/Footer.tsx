@@ -78,26 +78,26 @@ const Footer = () => {
           
           <div>
             <h4 className="text-xs uppercase font-light tracking-tight mb-6">LEGAL</h4>
-            <ul className="space-y-4">
+            <ul className="space-y-4 text-xs uppercase">
               <li>
                 <Link to="/terms" className="text-sm text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-light">
-                  <FileText size={14} strokeWidth={1} /> Terms of Service
+                  Terms of Service
                 </Link>
               </li>
               <li>
                 <Link to="/privacy" className="text-sm text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-light">
-                  <ShieldCheck size={14} strokeWidth={1} /> Privacy Policy
+                  Privacy Policy
                 </Link>
               </li>
               <li>
                 <Link to="/faq" className="text-sm text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-light">
-                  <HelpCircle size={14} strokeWidth={1} /> FAQ
+                 FAQ
                 </Link>
               </li>
             </ul>
           </div>
           
-          <div>
+          <div className="text-xs uppercase">
             <h4 className="text-xs uppercase font-light tracking-tight mb-6">CONTACT</h4>
             <ul className="space-y-4">
               <li className="text-sm text-gray-600 font-light">Email: info@etage7.com</li>
@@ -108,19 +108,10 @@ const Footer = () => {
         </div>
         
         <div className="flex flex-col md:flex-row justify-between items-center mt-16 pt-8 border-t border-gray-100">
-          <p className="text-xs text-gray-500 mb-4 md:mb-0 font-light">
+          <p className="text-xs text-gray-500 mb-4 md:mb-0 font-light uppercase">
             &copy; {new Date().getFullYear()} ETAGE7. All rights reserved.
           </p>
           <div className="flex items-center space-x-5">
-            <Link to="/faq" className="text-xs text-gray-500 hover:text-black transition-fast font-light">
-              FAQ
-            </Link>
-            <Link to="/terms" className="text-xs text-gray-500 hover:text-black transition-fast font-light">
-              Terms
-            </Link>
-            <Link to="/privacy" className="text-xs text-gray-500 hover:text-black transition-fast font-light">
-              Privacy
-            </Link>
             <button 
               onClick={scrollToTop} 
               className="ml-2 p-2 bg-gray-50 rounded-full hover:bg-gray-100 transition-fast text-gray-600"
