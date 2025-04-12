@@ -52,7 +52,7 @@ const Index = () => {
       </section>
 
       {/* Platform Overview */}
-      <section id="platform" className="py-24 bg-black text-white md:py-32">
+      <section id="platform" className="py-24 md:py-32 bg-white">
         <div className="container-lg">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-light tracking-tighter mb-6">
@@ -85,7 +85,7 @@ const Index = () => {
               <h3 className="text-lg uppercase font-normal mb-4">EXPERT CONSULTING</h3>
               <p className="text-gray-600">
                 Beyond the platform, our team of industry experts provides personalized consulting 
-                services for both brands and buyers seeking to optimize their business strategies. 
+                services for both brands and buyers seeking to optimize their business strategies.
               </p>
             </div>
           </div>
@@ -93,7 +93,7 @@ const Index = () => {
       </section>
 
       {/* For Brands & Buyers Section */}
-      <section className="py-24 bg-black text-white md:py-32">
+      <section className="py-24 md:py-32">
         <div className="container-lg">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
             <div>
