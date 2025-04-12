@@ -46,7 +46,7 @@ const Footer = () => {
             <h3 className="text-2xl font-light tracking-tighter uppercase mb-6">ETAGE7</h3>
             <form onSubmit={handleNewsletterSubmit} className="mb-6">
               <p className="text-sm text-gray-600 font-light mb-4">
-                Subscribe to receive updates on new brands and events.
+                Subscribe to receive updates on new brands and events. 
               </p>
               <div className="flex flex-col sm:flex-row gap-2">
                 <div className="flex-grow">
