@@ -38,15 +38,20 @@ const AdminHeader = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 transition-medium">
-  <div className="container-lg h-16 border-b flex items-center justify-between">
-        <div className="flex items-center space-x-6">
+    <header className="sticky top-0 left-0 right-0 z-40 bg-white">
+  <div className="max-w-full px-4 flex justify-between items-center h-16">
+        <div className="flex items-center gap-2">
+          <Link to="/" className="text-black text-2xl font-bold uppercase">ETAGE7</Link> | BRAND
+        </div>
+        
         {/* Mobile menu button */}
-        <button className="lg:hidden text-black focus:outline-none" onClick={toggleMenu} aria-label="Toggle menu">
+        <button
+          className="md:hidden text-black p-2"
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
+        >
           <Menu size={24} />
         </button>
-          <Link to="/" className="text-black text-5xl font-medium tracking-tighter uppercase">ETAGE7</Link> | BRAND
-        </div>
         
         {/* User options on desktop */}
         <div className="hidden md:flex items-center space-x-4">

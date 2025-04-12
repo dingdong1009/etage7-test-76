@@ -59,13 +59,17 @@ const Header = () => {
       <div className="container-lg h-16 border-b flex items-center justify-between">
         <div className="flex items-center space-x-6">
           {/* Mobile menu button */}
-          <button className="lg:hidden text-black focus:outline-none" onClick={toggleMenu} aria-label={isMenuOpen ? "Close menu" : "Open menu"}>
+          <button 
+            className="lg:hidden text-black focus:outline-none"
+            onClick={toggleMenu}
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          >
             {isMenuOpen ? <X size={18} strokeWidth={1} /> : <Menu size={18} strokeWidth={1} />}
           </button>
           
           {/* Logo */}
           <Link to="/" className="text-black text-5xl font-medium tracking-tighter uppercase">
-            ETAGE7 
+            ETAGE7
           </Link>
         </div>
         
@@ -88,7 +92,7 @@ const Header = () => {
 
         {/* Right side actions */}
         <div className="flex items-center space-x-5">      
-          {/* Search, User */}
+          {/* Search, User and Cart */}
           <div className="flex items-center space-x-5">
             <button 
               onClick={toggleSearch}
