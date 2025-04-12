@@ -38,53 +38,53 @@ const AdminHeader = () => {
   };
 
   return (
-    <header className="sticky top-0 left-0 right-0 z-40 bg-white">
-  <div className="max-w-full px-4 flex justify-between items-center h-16">
+    <header className="sticky top-0 left-0 right-0 z-40 bg-white border-b border-gray-100">
+      <div className="max-w-full px-4 flex justify-between items-center h-16">
         <div className="flex items-center gap-2">
-          <Link to="/" className="text-black text-2xl font-bold uppercase">ETAGE7</Link> | BRAND
+          <Link to="/" className="text-black text-2xl font-light uppercase tracking-tighter">ETAGE7</Link>
         </div>
         
         {/* Mobile menu button */}
         <button
-          className="md:hidden text-black p-2"
+          className="md:hidden text-black p-2 transition-colors hover:text-gray-600"
           onClick={toggleMenu}
           aria-label="Toggle menu"
         >
-          <Menu size={24} />
+          <Menu size={24} strokeWidth={1} />
         </button>
         
         {/* User options on desktop */}
-        <div className="hidden md:flex items-center space-x-4">
+        <div className="hidden md:flex items-center space-x-6">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <div className="relative">
-                  <Bell size={20} className="text-gray-600 hover:text-black cursor-pointer" />
+                  <Bell size={20} strokeWidth={1} className="text-gray-600 hover:text-black cursor-pointer transition-colors" />
                   {notificationCount > 0 && (
                     <Badge 
-                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-red-500 text-white text-xs rounded-full"
+                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-accent-pink text-black text-xs rounded-full font-light"
                     >
                       {notificationCount}
                     </Badge>
                   )}
                 </div>
               </TooltipTrigger>
-              <TooltipContent showArrow={true}>
-                <p>{notificationCount} confirmed service booking</p>
+              <TooltipContent className="bg-white shadow-md" showArrow={true}>
+                <p className="text-xs font-light">{notificationCount} unread notifications</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
           
-          <Link to="/" className="text-gray-600 hover:text-black text-sm">
-            BACK TO SITE
+          <Link to="/" className="text-gray-600 hover:text-black text-xs uppercase font-light tracking-wide transition-colors">
+            Back to Site
           </Link>
         </div>
       </div>
       
       {/* Desktop Navigation - Below the header bar */}
-      <nav className="hidden md:block border-b border-gray-200 bg-white">
+      <nav className="hidden md:block bg-white">
         <div className="max-w-[1481px] mx-auto px-4 py-2">
-          <ul className="flex space-x-6 overflow-x-auto">
+          <ul className="flex space-x-8 overflow-x-auto">
             {menuItems.map((item) => (
               <li key={item.name}>
                 <TooltipProvider>
@@ -92,20 +92,20 @@ const AdminHeader = () => {
                     <TooltipTrigger asChild>
                       <Link
                         to={item.path}
-                        className={`text-sm font-light transition-all whitespace-nowrap relative group ${
+                        className={`text-xs font-light transition-all uppercase whitespace-nowrap relative group ${
                           isActive(item.path) ? "text-black" : "text-gray-600 hover:text-black"
                         }`}
                       >
-                        {item.name.toUpperCase()}
+                        {item.name}
                         <span
-                          className={`absolute left-0 bottom-[-3px] w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full ${
+                          className={`absolute left-0 bottom-[-3px] w-0 h-[0.5px] bg-black transition-all duration-300 group-hover:w-full ${
                             isActive(item.path) ? "w-full" : ""
                           }`}
                         ></span>
                       </Link>
                     </TooltipTrigger>
                     <TooltipContent className="bg-white shadow-md">
-                      <p>{item.tooltip}</p>
+                      <p className="text-xs font-light">{item.tooltip}</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
@@ -117,28 +117,35 @@ const AdminHeader = () => {
       
       {/* Mobile Menu - Full overlay */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-0 bg-white z-50 pt-16 overflow-y-auto">
+        <div className="md:hidden fixed inset-0 bg-white z-50 pt-16 overflow-y-auto animate-fade-in">
           <div className="p-4">
-            <ul className="flex flex-col space-y-1">
+            <button 
+              className="absolute top-4 right-4 p-2 text-black"
+              onClick={toggleMenu}
+              aria-label="Close menu"
+            >
+              <X size={24} strokeWidth={1} />
+            </button>
+            <ul className="flex flex-col space-y-1 pt-6">
               {menuItems.map((item) => (
                 <li key={item.name}>
                   <Link
                     to={item.path}
-                    className={`block py-3 px-4 transition-colors ${
+                    className={`block py-3 px-4 transition-colors text-sm uppercase font-light tracking-wide ${
                       isActive(item.path) 
-                        ? "bg-gray-50 text-black font-medium" 
-                        : "text-gray-600 hover:bg-gray-50 hover:text-black"
+                        ? "text-black" 
+                        : "text-gray-600 hover:text-black"
                     }`}
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    {item.name.toUpperCase()}
+                    {item.name}
                   </Link>
                 </li>
               ))}
               <li className="border-t border-gray-100 mt-4 pt-4">
                 <Link
                   to="/"
-                  className="block py-3 px-4 text-gray-600 hover:bg-gray-50 hover:text-black"
+                  className="block py-3 px-4 text-gray-600 hover:text-black transition-colors text-sm uppercase font-light tracking-wide"
                   onClick={() => setIsMenuOpen(false)}
                 >
                   BACK TO SITE

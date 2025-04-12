@@ -37,11 +37,11 @@ const AdminDashboard = () => {
 
   // New expiring subscriptions data
   const expiringSubscriptionsData = [
-    { name: '7 days', count: 12, fill: '#8884d8' },
-    { name: '14 days', count: 18, fill: '#83a6ed' },
-    { name: '30 days', count: 24, fill: '#8dd1e1' },
-    { name: '60 days', count: 35, fill: '#82ca9d' },
-    { name: '90 days', count: 47, fill: '#a4de6c' }
+    { name: '7 days', count: 12, fill: '#FFDEE2' }, // soft pink
+    { name: '14 days', count: 18, fill: '#D3E4FD' }, // soft blue
+    { name: '30 days', count: 24, fill: '#D3E4FD' }, // soft blue
+    { name: '60 days', count: 35, fill: '#F1F0FB' }, // soft gray
+    { name: '90 days', count: 47, fill: '#F1F0FB' }  // soft gray
   ];
 
   const individualSalesData = {
@@ -95,62 +95,75 @@ const AdminDashboard = () => {
     ]
   };
 
-  // Colors for charts
-  const COLORS = ['#8884d8', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
-
   return (
-    <div className="space-y-6 animate-fade-in">
-      <h1 className="text-4xl md:text-5xl lg:text-7xl font-normal tracking-tighter mb-6">Dashboard</h1>
+    <div className="space-y-6">
+      <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">DASHBOARD</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, index) => (
-          <Card key={index} className="admin-stat-card">
-            <div className="flex justify-between items-start">
-              <div>
-                <h2 className="text-lg font-light mb-2 text-gray-700">{stat.title}</h2>
-                <div className="mt-2 text-3xl font-light">{stat.count.toLocaleString()}</div>
-                <p className="mt-2 text-sm text-gray-500">{stat.description}</p>
+          <Card key={index} className="border border-gray-200 shadow-none rounded-none hover:shadow-md transition-shadow">
+            <div className="p-6">
+              <div className="flex justify-between items-start">
+                <div>
+                  <h2 className="text-sm font-light mb-2 text-gray-700 uppercase">{stat.title}</h2>
+                  <div className="mt-2 text-3xl font-light">{stat.count.toLocaleString()}</div>
+                  <p className="mt-2 text-xs text-gray-500 font-light">{stat.description}</p>
+                </div>
+                <stat.icon className="h-8 w-8 text-gray-300" strokeWidth={1} />
               </div>
-              <stat.icon className="h-8 w-8 text-gray-400" />
             </div>
           </Card>
         ))}
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="admin-card">
-          <CardHeader className="admin-card-header">
-            <CardTitle className="text-xl md:text-2xl font-light">User Growth</CardTitle>
-            <ChartLine className="h-4 w-4 text-gray-500" />
+        <Card className="border border-gray-200 shadow-none rounded-none hover:shadow-md transition-shadow">
+          <CardHeader className="px-6 py-4 border-b border-gray-100 flex flex-row items-center justify-between">
+            <CardTitle className="text-lg font-light">USER GROWTH</CardTitle>
+            <ChartLine className="h-4 w-4 text-gray-500" strokeWidth={1} />
           </CardHeader>
-          <CardContent className="pt-4">
+          <CardContent className="pt-4 p-6">
             <ChartContainer config={{}}>
               <LineChart data={monthlyUserData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis dataKey="name" stroke="#888" strokeWidth={0.5} fontSize={12} tickLine={false} />
+                <YAxis stroke="#888" strokeWidth={0.5} fontSize={12} tickLine={false} />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <Legend />
-                <Line type="monotone" dataKey="users" stroke="#0088FE" activeDot={{ r: 8 }} />
+                <Line 
+                  type="monotone" 
+                  dataKey="users" 
+                  stroke="#000" 
+                  strokeWidth={1.5} 
+                  dot={{ stroke: '#000', strokeWidth: 1, fill: '#fff', r: 3 }} 
+                  activeDot={{ r: 5 }} 
+                />
               </LineChart>
             </ChartContainer>
           </CardContent>
         </Card>
         
-        <Card className="admin-card">
-          <CardHeader className="admin-card-header">
-            <CardTitle className="text-xl md:text-2xl font-light">Subscription Growth</CardTitle>
-            <CreditCard className="h-4 w-4 text-gray-500" />
+        <Card className="border border-gray-200 shadow-none rounded-none hover:shadow-md transition-shadow">
+          <CardHeader className="px-6 py-4 border-b border-gray-100 flex flex-row items-center justify-between">
+            <CardTitle className="text-lg font-light">SUBSCRIPTION GROWTH</CardTitle>
+            <CreditCard className="h-4 w-4 text-gray-500" strokeWidth={1} />
           </CardHeader>
-          <CardContent className="pt-4">
+          <CardContent className="pt-4 p-6">
             <ChartContainer config={{}}>
               <LineChart data={monthlySubscriptionData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis dataKey="name" stroke="#888" strokeWidth={0.5} fontSize={12} tickLine={false} />
+                <YAxis stroke="#888" strokeWidth={0.5} fontSize={12} tickLine={false} />
                 <ChartTooltip content={<ChartTooltipContent />} />
                 <Legend />
-                <Line type="monotone" dataKey="subscriptions" stroke="#00C49F" activeDot={{ r: 8 }} />
+                <Line 
+                  type="monotone" 
+                  dataKey="subscriptions" 
+                  stroke="#000" 
+                  strokeWidth={1.5} 
+                  dot={{ stroke: '#000', strokeWidth: 1, fill: '#fff', r: 3 }} 
+                  activeDot={{ r: 5 }} 
+                />
               </LineChart>
             </ChartContainer>
           </CardContent>
@@ -158,17 +171,17 @@ const AdminDashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="admin-card">
-          <CardHeader className="admin-card-header">
-            <CardTitle className="text-xl md:text-2xl font-light">Expiring Subscriptions</CardTitle>
-            <Clock className="h-4 w-4 text-gray-500" />
+        <Card className="border border-gray-200 shadow-none rounded-none hover:shadow-md transition-shadow">
+          <CardHeader className="px-6 py-4 border-b border-gray-100 flex flex-row items-center justify-between">
+            <CardTitle className="text-lg font-light">EXPIRING SUBSCRIPTIONS</CardTitle>
+            <Clock className="h-4 w-4 text-gray-500" strokeWidth={1} />
           </CardHeader>
-          <CardContent className="pt-4">
+          <CardContent className="pt-4 p-6">
             <ChartContainer config={{}}>
               <BarChart data={expiringSubscriptionsData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis dataKey="name" stroke="#888" strokeWidth={0.5} fontSize={12} tickLine={false} />
+                <YAxis stroke="#888" strokeWidth={0.5} fontSize={12} tickLine={false} />
                 <Tooltip formatter={(value) => `${value} subscriptions`} />
                 <Legend />
                 <Bar dataKey="count" name="Expiring Subscriptions">
@@ -181,37 +194,44 @@ const AdminDashboard = () => {
           </CardContent>
         </Card>
         
-        <Card className="admin-card">
-          <CardHeader className="admin-card-header">
+        <Card className="border border-gray-200 shadow-none rounded-none hover:shadow-md transition-shadow">
+          <CardHeader className="px-6 py-4 border-b border-gray-100 flex flex-row items-center justify-between">
             <div className="flex flex-col md:flex-row gap-2 md:items-center w-full">
-              <CardTitle className="text-xl md:text-2xl font-light">Individual Performance</CardTitle>
+              <CardTitle className="text-lg font-light">INDIVIDUAL PERFORMANCE</CardTitle>
               <Select value={selectedSalesManager} onValueChange={setSelectedSalesManager}>
-                <SelectTrigger className="w-[180px] h-8 border-gray-200">
+                <SelectTrigger className="w-[180px] h-8 border-gray-200 rounded-none text-xs font-light">
                   <SelectValue placeholder="Select Manager" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectGroup className="uppercase">
+                <SelectContent className="rounded-none">
+                  <SelectGroup className="uppercase text-xs font-light">
                     <SelectItem value="all">ALL MANAGERS</SelectItem>
-                    <SelectItem value="john">John</SelectItem>
-                    <SelectItem value="sarah">Sarah</SelectItem>
-                    <SelectItem value="michael">Michael</SelectItem>
-                    <SelectItem value="emily">Emily</SelectItem>
-                    <SelectItem value="david">David</SelectItem>
+                    <SelectItem value="john">JOHN</SelectItem>
+                    <SelectItem value="sarah">SARAH</SelectItem>
+                    <SelectItem value="michael">MICHAEL</SelectItem>
+                    <SelectItem value="emily">EMILY</SelectItem>
+                    <SelectItem value="david">DAVID</SelectItem>
                   </SelectGroup>
                 </SelectContent>
               </Select>
             </div>
-            <PieChartIcon className="h-4 w-4 text-gray-500" />
+            <PieChartIcon className="h-4 w-4 text-gray-500" strokeWidth={1} />
           </CardHeader>
-          <CardContent className="pt-4">
+          <CardContent className="pt-4 p-6">
             <ChartContainer config={{}}>
               <LineChart data={individualSalesData[selectedSalesManager]} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="month" />
-                <YAxis />
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis dataKey="month" stroke="#888" strokeWidth={0.5} fontSize={12} tickLine={false} />
+                <YAxis stroke="#888" strokeWidth={0.5} fontSize={12} tickLine={false} />
                 <Tooltip formatter={(value) => `$${value.toLocaleString()}`} />
                 <Legend />
-                <Line type="monotone" dataKey="sales" stroke="#FF8042" activeDot={{ r: 8 }} />
+                <Line 
+                  type="monotone" 
+                  dataKey="sales" 
+                  stroke="#000" 
+                  strokeWidth={1.5} 
+                  dot={{ stroke: '#000', strokeWidth: 1, fill: '#fff', r: 3 }} 
+                  activeDot={{ r: 5 }} 
+                />
               </LineChart>
             </ChartContainer>
           </CardContent>

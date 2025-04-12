@@ -152,24 +152,24 @@ const AdminAdditionalServices = () => {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in">
+    <div className="space-y-8">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8">
-        <h1 className="text-4xl md:text-5xl lg:text-7xl font-normal tracking-tighter mb-6 uppercase">
+        <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">
           ADDITIONAL SERVICES
         </h1>
         <div className="flex flex-wrap gap-4 mt-4 lg:mt-0">
           <Button 
-            className="admin-button-primary"
+            className="bg-black text-white border-none hover:bg-gray-800 text-xs font-light"
             onClick={handleAddNewService}
           >
-            <PlusCircle className="w-4 h-4 mr-2" />
+            <PlusCircle className="w-4 h-4 mr-2" strokeWidth={1} />
             Add New Service
           </Button>
           <Button 
             variant="outline"
-            className="admin-button-outline"
+            className="border-gray-200 hover:bg-gray-100 text-xs font-light"
           >
-            <FileText className="w-4 h-4 mr-2" />
+            <FileText className="w-4 h-4 mr-2" strokeWidth={1} />
             Export Bookings
           </Button>
         </div>
@@ -177,48 +177,48 @@ const AdminAdditionalServices = () => {
       
       <ServiceStats bookings={mockBookings} />
       
-      <Card className="border border-gray-200 shadow-none rounded-lg">
+      <Card className="border border-gray-200 shadow-none rounded-none">
         <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
-          <CardTitle className="text-lg font-medium text-gray-900">
+          <CardTitle className="text-base font-light text-gray-900">
             Service Bookings
           </CardTitle>
         </CardHeader>
         <CardContent className="p-6">
           <Tabs defaultValue="all" className="w-full" onValueChange={setActiveTab}>
-            <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6">
+            <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
               <TabsTrigger 
                 value="all"
-                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
+                className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
               >
                 All
               </TabsTrigger>
               <TabsTrigger 
                 value="pending"
-                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
+                className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
               >
                 Pending
               </TabsTrigger>
               <TabsTrigger 
                 value="confirmed"
-                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
+                className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
               >
                 Confirmed
               </TabsTrigger>
               <TabsTrigger 
                 value="in_progress"
-                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
+                className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
               >
                 In Progress
               </TabsTrigger>
               <TabsTrigger 
                 value="completed"
-                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
+                className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
               >
                 Completed
               </TabsTrigger>
               <TabsTrigger 
                 value="cancelled"
-                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
+                className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
               >
                 Cancelled
               </TabsTrigger>
@@ -238,12 +238,12 @@ const AdminAdditionalServices = () => {
       </Card>
       
       <div className="mt-8 text-center">
-        <h3 className="text-xl font-medium mb-4">Need help with additional services?</h3>
-        <p className="mb-6 max-w-2xl mx-auto text-gray-600">
+        <h3 className="text-xl font-light mb-4">Need help with additional services?</h3>
+        <p className="mb-6 max-w-2xl mx-auto text-gray-600 text-sm font-light">
           Check out our comprehensive guides and documentation to learn more about managing additional services.
         </p>
-        <Button variant="outline" className="border-black text-black hover:bg-gray-100">
-          View Service Management Guides <ArrowRight className="ml-2 h-4 w-4" />
+        <Button variant="outline" className="border-black text-black hover:bg-gray-100 text-xs font-light">
+          View Service Management Guides <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
         </Button>
       </div>
       

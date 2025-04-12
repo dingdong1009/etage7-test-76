@@ -21,6 +21,7 @@ const AdminSubscriptions = () => {
   const [isEditing, setIsEditing] = useState(false);
   const [currentItemId, setCurrentItemId] = useState<number | null>(null);
   
+  // Sample data
   const [subscriptionPlans, setSubscriptionPlans] = useState([
     { id: 1, name: "Basic", price: "$99/month", features: ["Feature 1", "Feature 2"], active: true, duration: "Monthly", renewable: true, type: "plan" },
     { id: 2, name: "Premium", price: "$199/month", features: ["Feature 1", "Feature 2", "Feature 3"], active: true, duration: "Annual", renewable: true, type: "plan" },
@@ -171,42 +172,52 @@ const AdminSubscriptions = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-4xl md:text-5xl lg:text-7xl font-normal tracking-tighter mb-6 uppercase">Subscription Management</h1>
+      <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">SUBSCRIPTION MANAGEMENT</h1>
 
       <Tabs defaultValue="plans" className="w-full">
-        <TabsList className="mb-4">
-          <TabsTrigger value="plans">Subscription Plans</TabsTrigger>
-          <TabsTrigger value="additional">Additional Services</TabsTrigger>
+        <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
+          <TabsTrigger 
+            value="plans" 
+            className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
+          >
+            Subscription Plans
+          </TabsTrigger>
+          <TabsTrigger 
+            value="additional" 
+            className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
+          >
+            Additional Services
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="plans" className="space-y-4">
           <div className="flex justify-end mb-4">
             <Button 
-              className="bg-black text-white border-none"
+              className="bg-black text-white border-none hover:bg-gray-800 text-xs font-light rounded-none"
               onClick={() => handleAddNew("plan")}
             >
-              <PlusCircleIcon className="w-4 h-4 mr-2" />
+              <PlusCircleIcon className="w-4 h-4 mr-2" strokeWidth={1} />
               Add New Plan
             </Button>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {subscriptionPlans.map((plan) => (
-              <Card key={plan.id} className="p-6 border border-gray-200">
+              <Card key={plan.id} className="p-6 border border-gray-200 shadow-none rounded-none hover:shadow-md transition-shadow">
                 <div className="flex justify-between items-start">
-                  <h3 className="text-xl font-bold">{plan.name}</h3>
-                  <div className={`px-2 py-1 text-xs rounded-sm ${plan.active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                  <h3 className="text-lg font-light">{plan.name}</h3>
+                  <div className={`px-2 py-1 text-xs rounded-sm ${plan.active ? 'bg-accent-mint text-gray-800' : 'bg-gray-100 text-gray-800'}`}>
                     {plan.active ? 'Active' : 'Inactive'}
                   </div>
                 </div>
-                <div className="text-2xl font-bold mt-2">{plan.price}</div>
-                <div className="flex items-center mt-2 text-sm text-gray-500">
-                  <CalendarIcon className="w-4 h-4 mr-1" />
+                <div className="text-2xl font-light mt-2">{plan.price}</div>
+                <div className="flex items-center mt-2 text-xs text-gray-500">
+                  <CalendarIcon className="w-4 h-4 mr-1" strokeWidth={1} />
                   <span>{plan.duration} {plan.renewable ? '• Renewable' : '• Non-renewable'}</span>
                 </div>
                 <ul className="mt-4 space-y-2">
                   {plan.features.map((feature, idx) => (
-                    <li key={idx} className="flex items-center text-sm">
+                    <li key={idx} className="flex items-center text-sm font-light">
                       <span className="mr-2">•</span> {feature}
                     </li>
                   ))}
@@ -215,18 +226,18 @@ const AdminSubscriptions = () => {
                   <Button 
                     variant="outline" 
                     size="icon" 
-                    className="border-gray-200 h-8 w-8"
+                    className="border-gray-200 h-8 w-8 rounded-none hover:bg-gray-100"
                     onClick={() => handleEdit(plan)}
                   >
-                    <PencilIcon className="h-4 w-4" />
+                    <PencilIcon className="h-4 w-4" strokeWidth={1} />
                   </Button>
                   <Button 
                     variant="outline" 
                     size="icon" 
-                    className="border-gray-200 text-red-600 hover:text-red-700 h-8 w-8"
+                    className="border-gray-200 text-red-600 hover:text-red-700 h-8 w-8 rounded-none hover:bg-gray-100"
                     onClick={() => handleDeleteItem("plan", plan.id)}
                   >
-                    <Trash2Icon className="h-4 w-4" />
+                    <Trash2Icon className="h-4 w-4" strokeWidth={1} />
                   </Button>
                 </div>
               </Card>
@@ -237,37 +248,37 @@ const AdminSubscriptions = () => {
         <TabsContent value="additional" className="space-y-4">
           <div className="flex justify-end mb-4">
             <Button 
-              className="bg-black text-white border-none"
+              className="bg-black text-white border-none hover:bg-gray-800 text-xs font-light rounded-none"
               onClick={() => handleAddNew("service")}
             >
-              <PlusCircleIcon className="w-4 h-4 mr-2" />
+              <PlusCircleIcon className="w-4 h-4 mr-2" strokeWidth={1} />
               Add New Service
             </Button>
           </div>
 
-          <div className="rounded-none border border-gray-200 overflow-hidden">
+          <div className="rounded-none border border-gray-200 overflow-hidden shadow-sm">
             <Table>
               <TableHeader>
-                <TableRow className="bg-gray-50">
-                  <TableHead className="font-medium">Service Name</TableHead>
-                  <TableHead className="font-medium">Price</TableHead>
-                  <TableHead className="font-medium">Description</TableHead>
-                  <TableHead className="font-medium">Duration</TableHead>
-                  <TableHead className="font-medium w-24 text-center">Status</TableHead>
-                  <TableHead className="font-medium text-right">Actions</TableHead>
+                <TableRow className="bg-gray-50 border-b border-gray-200">
+                  <TableHead className="font-light text-xs uppercase text-gray-500 py-3">Service Name</TableHead>
+                  <TableHead className="font-light text-xs uppercase text-gray-500 py-3">Price</TableHead>
+                  <TableHead className="font-light text-xs uppercase text-gray-500 py-3">Description</TableHead>
+                  <TableHead className="font-light text-xs uppercase text-gray-500 py-3">Duration</TableHead>
+                  <TableHead className="font-light text-xs uppercase text-gray-500 py-3 w-24 text-center">Status</TableHead>
+                  <TableHead className="font-light text-xs uppercase text-gray-500 py-3 text-right">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {additionalServices.map((service) => (
                   <TableRow key={service.id} className="border-t border-gray-200">
-                    <TableCell className="font-medium">{service.name}</TableCell>
-                    <TableCell>{service.price}</TableCell>
-                    <TableCell>{service.description}</TableCell>
-                    <TableCell>
+                    <TableCell className="font-light">{service.name}</TableCell>
+                    <TableCell className="font-light">{service.price}</TableCell>
+                    <TableCell className="font-light">{service.description}</TableCell>
+                    <TableCell className="font-light text-sm">
                       {service.duration} {service.renewable ? '• Renewable' : '• Non-renewable'}
                     </TableCell>
                     <TableCell className="text-center">
-                      <div className={`inline-block px-2 py-1 text-xs rounded-full ${service.active ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'}`}>
+                      <div className={`inline-block px-2 py-1 text-xs rounded-sm ${service.active ? 'bg-accent-mint text-gray-800' : 'bg-gray-100 text-gray-800'}`}>
                         {service.active ? 'Active' : 'Inactive'}
                       </div>
                     </TableCell>
@@ -275,18 +286,18 @@ const AdminSubscriptions = () => {
                       <Button 
                         variant="outline" 
                         size="icon" 
-                        className="border-gray-200 h-8 w-8"
+                        className="border-gray-200 h-8 w-8 rounded-none hover:bg-gray-100"
                         onClick={() => handleEdit(service)}
                       >
-                        <PencilIcon className="h-4 w-4" />
+                        <PencilIcon className="h-4 w-4" strokeWidth={1} />
                       </Button>
                       <Button 
                         variant="outline" 
                         size="icon" 
-                        className="border-gray-200 text-red-600 hover:text-red-700 h-8 w-8"
+                        className="border-gray-200 text-red-600 hover:text-red-700 h-8 w-8 rounded-none hover:bg-gray-100"
                         onClick={() => handleDeleteItem("service", service.id)}
                       >
-                        <Trash2Icon className="h-4 w-4" />
+                        <Trash2Icon className="h-4 w-4" strokeWidth={1} />
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -306,9 +317,9 @@ const AdminSubscriptions = () => {
           }
         }}
       >
-        <DialogContent>
+        <DialogContent className="rounded-none">
           <DialogHeader>
-            <DialogTitle>
+            <DialogTitle className="text-xl font-light tracking-tight">
               {isEditing 
                 ? `Edit ${itemForm.watch("type") === "plan" ? "Subscription Plan" : "Service"}`
                 : `Add New ${itemForm.watch("type") === "plan" ? "Subscription Plan" : "Service"}`
@@ -322,7 +333,7 @@ const AdminSubscriptions = () => {
                 name="type"
                 render={({ field }) => (
                   <FormItem className="space-y-3">
-                    <FormLabel>Item Type</FormLabel>
+                    <FormLabel className="text-sm font-light">Item Type</FormLabel>
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
@@ -333,13 +344,13 @@ const AdminSubscriptions = () => {
                           <FormControl>
                             <RadioGroupItem value="plan" />
                           </FormControl>
-                          <FormLabel className="font-normal">Subscription Plan</FormLabel>
+                          <FormLabel className="font-light text-sm">Subscription Plan</FormLabel>
                         </FormItem>
                         <FormItem className="flex items-center space-x-2 space-y-0">
                           <FormControl>
                             <RadioGroupItem value="service" />
                           </FormControl>
-                          <FormLabel className="font-normal">Additional Service</FormLabel>
+                          <FormLabel className="font-light text-sm">Additional Service</FormLabel>
                         </FormItem>
                       </RadioGroup>
                     </FormControl>
@@ -352,9 +363,13 @@ const AdminSubscriptions = () => {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Name</FormLabel>
+                    <FormLabel className="text-sm font-light">Name</FormLabel>
                     <FormControl>
-                      <Input placeholder={field.value === "plan" ? "e.g. Pro Plan" : "e.g. Premium Support"} {...field} />
+                      <Input
+                        placeholder={field.value === "plan" ? "e.g. Pro Plan" : "e.g. Premium Support"} 
+                        {...field}
+                        className="rounded-none border-gray-200" 
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -366,9 +381,13 @@ const AdminSubscriptions = () => {
                 name="price"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Price</FormLabel>
+                    <FormLabel className="text-sm font-light">Price</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g. $99/month" {...field} />
+                      <Input 
+                        placeholder="e.g. $99/month" 
+                        {...field}
+                        className="rounded-none border-gray-200" 
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -380,18 +399,18 @@ const AdminSubscriptions = () => {
                 name="features"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{itemForm.watch("type") === "plan" ? "Features" : "Details"}</FormLabel>
+                    <FormLabel className="text-sm font-light">{itemForm.watch("type") === "plan" ? "Features" : "Details"}</FormLabel>
                     <FormControl>
                       <Textarea 
                         placeholder={itemForm.watch("type") === "plan" 
                           ? "Add features (one per line)" 
                           : "Add service details"
                         }
-                        className="min-h-[80px]"
+                        className="min-h-[80px] rounded-none border-gray-200"
                         {...field} 
                       />
                     </FormControl>
-                    <FormDescription className="text-xs">
+                    <FormDescription className="text-xs font-light">
                       {itemForm.watch("type") === "plan" ? "Enter each feature on a new line" : "Describe the service"}
                     </FormDescription>
                     <FormMessage />
@@ -404,14 +423,14 @@ const AdminSubscriptions = () => {
                 name="duration"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Duration</FormLabel>
+                    <FormLabel className="text-sm font-light">Duration</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value} value={field.value}>
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger className="rounded-none border-gray-200">
                           <SelectValue placeholder="Select duration" />
                         </SelectTrigger>
                       </FormControl>
-                      <SelectContent>
+                      <SelectContent className="rounded-none">
                         <SelectItem value="Monthly">Monthly</SelectItem>
                         <SelectItem value="Annual">Annual</SelectItem>
                         <SelectItem value="One-time">One-time</SelectItem>
@@ -423,7 +442,7 @@ const AdminSubscriptions = () => {
                 )}
               />
 
-              <div className="flex space-x-4">
+              <div className="flex space-x-8">
                 <FormField
                   control={itemForm.control}
                   name="renewable"
@@ -433,9 +452,10 @@ const AdminSubscriptions = () => {
                         <Switch
                           checked={field.value}
                           onCheckedChange={field.onChange}
+                          className="rounded-full"
                         />
                       </FormControl>
-                      <FormLabel className="font-normal">Renewable</FormLabel>
+                      <FormLabel className="font-light text-sm">Renewable</FormLabel>
                     </FormItem>
                   )}
                 />
@@ -449,9 +469,10 @@ const AdminSubscriptions = () => {
                         <Switch
                           checked={field.value}
                           onCheckedChange={field.onChange}
+                          className="rounded-full"
                         />
                       </FormControl>
-                      <FormLabel className="font-normal">Active</FormLabel>
+                      <FormLabel className="font-light text-sm">Active</FormLabel>
                     </FormItem>
                   )}
                 />
@@ -462,10 +483,14 @@ const AdminSubscriptions = () => {
                   type="button" 
                   variant="outline" 
                   onClick={() => setIsItemDialogOpen(false)}
+                  className="rounded-none border-gray-200 text-xs font-light"
                 >
                   Cancel
                 </Button>
-                <Button type="submit">
+                <Button 
+                  type="submit"
+                  className="rounded-none bg-black text-white hover:bg-gray-800 text-xs font-light"
+                >
                   {isEditing ? "Save Changes" : `Add ${itemForm.watch("type") === "plan" ? "Plan" : "Service"}`}
                 </Button>
               </DialogFooter>

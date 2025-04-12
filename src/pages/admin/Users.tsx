@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Brand, Buyer, CommissionChange, SalesManager, UserType, ViewMode } from "@/types/users";
@@ -14,6 +15,7 @@ const SalesUsers = () => {
   const [selectedUser, setSelectedUser] = useState<Brand | Buyer | SalesManager | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>("all");
   
+  // Sample data moved higher up
   const brands: Brand[] = [
     { 
       id: 1, 
@@ -442,27 +444,27 @@ const SalesUsers = () => {
   };
 
   return (
-    <div className="space-y-6 animate-fade-in">
-      <h1 className="text-4xl md:text-5xl lg:text-7xl font-normal tracking-tighter mb-6 uppercase">User Management</h1>
+    <div className="space-y-6">
+      <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">USER MANAGEMENT</h1>
       
       <Tabs defaultValue="brand" className="w-full" onValueChange={(value) => setActiveTab(value as UserType)}>
         <div className="border-b border-gray-200 mb-6">
           <TabsList className="flex h-11 mb-0 space-x-2 w-full max-w-md bg-transparent">
             <TabsTrigger 
               value="brand" 
-              className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none rounded-none border-b-2 border-transparent px-6 font-light h-11 transition-none"
+              className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none rounded-none border-b-2 border-transparent px-6 font-light h-11 text-xs uppercase transition-fast"
             >
               Managed Brands
             </TabsTrigger>
             <TabsTrigger 
               value="buyer" 
-              className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none rounded-none border-b-2 border-transparent px-6 font-light h-11 transition-none"
+              className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none rounded-none border-b-2 border-transparent px-6 font-light h-11 text-xs uppercase transition-fast"
             >
               Managed Buyers
             </TabsTrigger>
             <TabsTrigger 
               value="salesManager" 
-              className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none rounded-none border-b-2 border-transparent px-6 font-light h-11 transition-none"
+              className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none rounded-none border-b-2 border-transparent px-6 font-light h-11 text-xs uppercase transition-fast"
             >
               Sales Managers
             </TabsTrigger>
