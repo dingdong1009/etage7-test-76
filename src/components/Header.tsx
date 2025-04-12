@@ -69,7 +69,7 @@ const Header = () => {
           
           {/* Logo */}
           <Link to="/" className="text-black text-5xl font-medium tracking-tighter uppercase">
-            ETAGE7
+            éTAGE7
           </Link>
         </div>
         
