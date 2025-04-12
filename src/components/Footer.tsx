@@ -52,24 +52,24 @@ const Footer = () => {
           
           <div>
             <h4 className="text-xs uppercase font-light tracking-tight mb-6">QUICK LINKS</h4>
-            <ul className="space-y-4">
+            <ul className="space-y-4 uppercase">
               <li>
-                <Link to="/brands" className="text-sm text-gray-600 hover:text-black transition-fast font-light">
+                <Link to="/brands" className="text-xs text-gray-600 hover:text-black transition-fast font-light">
                   For Brands
                 </Link>
               </li>
               <li>
-                <Link to="/buyers" className="text-sm text-gray-600 hover:text-black transition-fast font-light">
+                <Link to="/buyers" className="text-xs text-gray-600 hover:text-black transition-fast font-light">
                   For Buyers
                 </Link>
               </li>
               <li>
-                <Link to="/services" className="text-sm text-gray-600 hover:text-black transition-fast font-light">
+                <Link to="/services" className="text-xs text-gray-600 hover:text-black transition-fast font-light">
                   Services
                 </Link>
               </li>
               <li>
-                <Link to="/events" className="text-sm text-gray-600 hover:text-black transition-fast font-light">
+                <Link to="/events" className="text-xs text-gray-600 hover:text-black transition-fast font-light">
                   Events
                 </Link>
               </li>
@@ -80,26 +80,26 @@ const Footer = () => {
             <h4 className="text-xs uppercase font-light tracking-tight mb-6">LEGAL</h4>
             <ul className="space-y-4 text-xs uppercase">
               <li>
-                <Link to="/terms" className="text-sm text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-light">
+                <Link to="/terms" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-light">
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link to="/privacy" className="text-sm text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-light">
+                <Link to="/privacy" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-light">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link to="/faq" className="text-sm text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-light">
+                <Link to="/faq" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-light">
                  FAQ
                 </Link>
               </li>
             </ul>
           </div>
           
-          <div className="text-xs uppercase">
-            <h4 className="text-xs uppercase font-light tracking-tight mb-6">CONTACT</h4>
-            <ul className="space-y-4">
+          <div>
+            <h4 className="font-light tracking-tight mb-6">CONTACT</h4>
+            <ul className="space-y-4 uppercase">
               <li className="text-sm text-gray-600 font-light">Email: info@etage7.com</li>
               <li className="text-sm text-gray-600 font-light">Phone: +33 (0) 1 XX XX XX XX</li>
               <li className="text-sm text-gray-600 font-light">Paris, France</li>
