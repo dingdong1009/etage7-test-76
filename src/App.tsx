@@ -38,107 +38,58 @@ import SalesUsers from "./pages/sales/Users";
 import SalesMessages from "./pages/sales/Messages";
 import SalesSettings from "./pages/sales/Settings";
 
-// Brand components
-import BrandLayout from "./components/brand/BrandLayout";
-import BrandDashboard from "./pages/brand/Dashboard";
-import BrandProducts from "./pages/brand/Products";
-import BrandOrders from "./pages/brand/Orders";
-import BrandOrderDetails from "./pages/brand/OrderDetails";
-import BrandLookbook from "./pages/brand/Lookbook";
-import BrandTeam from "./pages/brand/Team";
-import BrandStore from "./pages/brand/Store";
-import BrandMessages from "./pages/brand/Messages";
-import BrandSubscriptions from "./pages/brand/Subscriptions";
-import BrandResources from "./pages/brand/Resources";
-import BrandSettings from "./pages/brand/Settings";
-import BrandAdditionalServices from "./pages/brand/AdditionalServices";
-
-// Buyer components
-import BuyerLayout from "./components/buyer/BuyerLayout";
-import BuyerDashboard from "./pages/buyer/Dashboard";
-import BuyerOrders from "./pages/buyer/Orders";
-import BuyerMessages from "./pages/buyer/Messages";
-import BuyerTeam from "./pages/buyer/Team";
-import BuyerSettings from "./pages/buyer/Settings";
-import BuyerResources from "./pages/buyer/Resources";
-import BuyerAdditionalServices from "./pages/buyer/AdditionalServices";
-
+// Initialize QueryClient
 const queryClient = new QueryClient();
 
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout><Index /></Layout>} />
-          <Route path="/brands" element={<Layout><BrandsPage /></Layout>} />
-          <Route path="/buyers" element={<Layout><BuyersPage /></Layout>} />
-          <Route path="/services" element={<Layout><ServicesPage /></Layout>} />
-          <Route path="/events" element={<Layout><EventsPage /></Layout>} />
-          <Route path="/resources" element={<Layout><ResourcesPage /></Layout>} />
-          <Route path="/curated" element={<Layout><CuratedPage /></Layout>} />
-          <Route path="/login" element={<Layout><LoginPage /></Layout>} />
-          <Route path="/register" element={<Layout><RegisterPage /></Layout>} />
-          <Route path="/thank-you" element={<Layout><ThankYouPage /></Layout>} />
-          <Route path="/reset-password" element={<Layout><ResetPasswordPage /></Layout>} />
-          
-          {/* Admin Routes */}
-          <Route path="/admin" element={<AdminLayout />}>
-            <Route index element={<AdminDashboard />} />
-            <Route path="users" element={<AdminUsers />} />
-            <Route path="contracts" element={<AdminContracts />} />
-            <Route path="pages" element={<AdminPages />} />
-            <Route path="announcements" element={<AdminAnnouncements />} />
-            <Route path="settings" element={<AdminSettings />} />
-            <Route path="subscriptions" element={<AdminSubscriptions />} />
-            <Route path="additional-services" element={<AdminAdditionalServices />} />
-            <Route path="resources" element={<AdminResources />} />
-          </Route>
-          
-          {/* Sales Routes */}
-          <Route path="/sales" element={<SalesLayout />}>
-            <Route index element={<SalesDashboard />} />
-            <Route path="performance" element={<SalesPerformance />} />
-            <Route path="users" element={<SalesUsers />} />
-            <Route path="messages" element={<SalesMessages />} />
-            <Route path="settings" element={<SalesSettings />} />
-          </Route>
-          
-          {/* Brand Routes */}
-          <Route path="/brand" element={<BrandLayout />}>
-            <Route index element={<BrandDashboard />} />
-            <Route path="products" element={<BrandProducts />} />
-            <Route path="orders" element={<BrandOrders />} />
-            <Route path="orders/:orderId" element={<BrandOrderDetails />} />
-            <Route path="lookbook" element={<BrandLookbook />} />
-            <Route path="team" element={<BrandTeam />} />
-            <Route path="store" element={<BrandStore />} />
-            <Route path="messages" element={<BrandMessages />} />
-            <Route path="subscriptions" element={<BrandSubscriptions />} />
-            <Route path="resources" element={<BrandResources />} />
-            <Route path="settings" element={<BrandSettings />} />
-            <Route path="additional-services" element={<BrandAdditionalServices />} />
-          </Route>
-          
-          {/* Buyer Routes */}
-          <Route path="/buyer" element={<BuyerLayout />}>
-            <Route index element={<BuyerDashboard />} />
-            <Route path="orders" element={<BuyerOrders />} />
-            <Route path="messages" element={<BuyerMessages />} />
-            <Route path="team" element={<BuyerTeam />} />
-            <Route path="settings" element={<BuyerSettings />} />
-            <Route path="resources" element={<BuyerResources />} />
-            <Route path="additional-services" element={<BuyerAdditionalServices />} />
-          </Route>
-          
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+const App = () => {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <TooltipProvider>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<Layout />}>
+              <Route index element={<Index />} />
+              <Route path="brands" element={<BrandsPage />} />
+              <Route path="buyers" element={<BuyersPage />} />
+              <Route path="services" element={<ServicesPage />} />
+              <Route path="events" element={<EventsPage />} />
+              <Route path="resources" element={<ResourcesPage />} />
+              <Route path="curated" element={<CuratedPage />} />
+              <Route path="login" element={<LoginPage />} />
+              <Route path="register" element={<RegisterPage />} />
+              <Route path="thank-you" element={<ThankYouPage />} />
+              <Route path="reset-password" element={<ResetPasswordPage />} />
+              <Route path="*" element={<NotFound />} />
+            </Route>
+            
+            {/* Admin routes */}
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route index element={<AdminDashboard />} />
+              <Route path="users" element={<AdminUsers />} />
+              <Route path="contracts" element={<AdminContracts />} />
+              <Route path="pages" element={<AdminPages />} />
+              <Route path="announcements" element={<AdminAnnouncements />} />
+              <Route path="settings" element={<AdminSettings />} />
+              <Route path="subscriptions" element={<AdminSubscriptions />} />
+              <Route path="additional-services" element={<AdminAdditionalServices />} />
+              <Route path="resources" element={<AdminResources />} />
+            </Route>
+            
+            {/* Sales routes */}
+            <Route path="/sales" element={<SalesLayout />}>
+              <Route index element={<SalesDashboard />} />
+              <Route path="performance" element={<SalesPerformance />} />
+              <Route path="users" element={<SalesUsers />} />
+              <Route path="messages" element={<SalesMessages />} />
+              <Route path="settings" element={<SalesSettings />} />
+            </Route>
+          </Routes>
+        </BrowserRouter>
+        <Toaster />
+        <Sonner />
+      </TooltipProvider>
+    </QueryClientProvider>
+  );
+};
 
 export default App;

@@ -1,4 +1,3 @@
-
 import { Brand, Buyer, SalesManager } from "@/types/users";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -27,7 +26,6 @@ const UserDetails = ({ user, activeTab, handleGoBack, handleEditUser }: UserDeta
     return 'commissionRate' in user && 'ytdCommissions' in user;
   };
 
-  // Defining which fields are editable for a sales manager
   const editableFields = [
     "name", 
     "status", 
@@ -41,7 +39,6 @@ const UserDetails = ({ user, activeTab, handleGoBack, handleEditUser }: UserDeta
     "managedAccounts"
   ];
 
-  // Helper function to render field with edit indicator
   const renderField = (label: string, value: any, isEditable: boolean = false) => (
     <div>
       <div className="flex items-center gap-1">
@@ -58,7 +55,7 @@ const UserDetails = ({ user, activeTab, handleGoBack, handleEditUser }: UserDeta
             </Tooltip>
           </TooltipProvider>
         )}
-        {!isEditable && isSalesManager(user) && (
+        {!isEditable && (
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
