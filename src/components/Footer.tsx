@@ -132,6 +132,22 @@ const Footer = () => {
                   Privacy Policy
                 </Link>
               </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-xs uppercase font-normal tracking-tight mb-6">About Us</h4>
+            <ul className="space-y-2 uppercase">
+              <li>
+                <Link to="/terms" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-normal">
+                 The Company
+                </Link>
+              </li>
+              <li>
+                <Link to="/privacy" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-normal">
+                  The Team
+                </Link>
+              </li>
               <li>
                 <Link to="/faq" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-normal">
                  FAQ
@@ -139,7 +155,7 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          
+
           <div>
             <h4 className="text-xs uppercase font-normal tracking-tight mb-6">CONTACT</h4>
             <ul className="space-y-2 uppercase">
