@@ -85,7 +85,7 @@ const Index = () => {
               <h3 className="text-lg uppercase font-normal mb-4">EXPERT CONSULTING</h3>
               <p className="text-gray-600">
                 Beyond the platform, our team of industry experts provides personalized consulting 
-                services for both brands and buyers seeking to optimize their business strategies.
+                services for both brands and buyers seeking to optimize their business strategies. 
               </p>
             </div>
           </div>
