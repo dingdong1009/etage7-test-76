@@ -39,19 +39,22 @@ const AdminHeader = () => {
 
   return (
     <header className="sticky top-0 left-0 right-0 z-40 bg-white border-b border-gray-100">
-      <div className="max-w-full px-4 flex justify-between items-center h-16">
-        <div className="flex items-center gap-2">
-          <Link to="/" className="text-black text-2xl font-light uppercase tracking-tighter">ETAGE7</Link>
+      <div className="container-lg h-16 border-b flex items-center justify-between">
+        <div className="flex items-center space-x-6">
+          {/* Mobile menu button */}
+          <button 
+            className="lg:hidden text-black focus:outline-none"
+            onClick={toggleMenu}
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          >
+            {isMenuOpen ? <X size={18} strokeWidth={1} /> : <Menu size={18} strokeWidth={1} />}
+          </button>
+          
+          {/* Logo */}
+          <Link to="/" className="text-black text-5xl font-medium tracking-tighter uppercase">
+            éTAGE7 
+          </Link>
         </div>
-        
-        {/* Mobile menu button */}
-        <button
-          className="md:hidden text-black p-2 transition-colors hover:text-gray-600"
-          onClick={toggleMenu}
-          aria-label="Toggle menu"
-        >
-          <Menu size={24} strokeWidth={1} />
-        </button>
         
         {/* User options on desktop */}
         <div className="hidden md:flex items-center space-x-6">
