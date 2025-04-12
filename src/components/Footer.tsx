@@ -16,8 +16,8 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-white max-w-[1481px] flex border-t border-gray-100 pt-16 pb-8">
-      <div className="container-lg max-w-full">
+    <footer className="bg-white border-t border-gray-100 pt-16 pb-8">
+      <div className="container-lg">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-4">
           <div className="lg:col-span-2">
             <h3 className="text-xl font-light tracking-tighter uppercase mb-6">ETAGE7</h3>
