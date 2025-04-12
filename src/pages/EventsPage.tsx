@@ -99,7 +99,7 @@ const EventsPage = () => {
         
         {/* Scroll indicator */}
         <button 
-          onClick={() => scrollToSection('platform')}
+          onClick={() => scrollToSection('calendar')}
           className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 ${
             scrolled ? 'opacity-0' : 'opacity-100'
           }`}
@@ -110,7 +110,7 @@ const EventsPage = () => {
       </section>
 
       {/* Events Calendar Section */}
-      <section className="py-16 px-4">
+      <section id="Calendar" className="py-16 px-4">
         <div className="max-w-[1481px] mx-auto">
           <h2 className="text-2xl md:text-4xl uppercase font-thin mb-10 text-center">
             EVENTS <span className="font-normal">CALENDAR</span>
