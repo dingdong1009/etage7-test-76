@@ -109,7 +109,7 @@ const Footer = () => {
         
         <div className="flex flex-col md:flex-row justify-between items-center mt-16 pt-8 border-t border-gray-100">
           <p className="text-xs text-gray-500 mb-4 md:mb-0 font-light uppercase">
-            &copy; {new Date().getFullYear()} ETAGE7. All rights reserved.
+            &copy; {new Date().getFullYear()} ETAGE7. All rights reserved. 
           </p>
           <div className="flex items-center space-x-5">
             <button 
