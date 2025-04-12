@@ -145,7 +145,7 @@ const BuyerHeader = () => {
       )}
       
       {/* Desktop Navigation - Below the header bar */}
-      <nav className="absolute hidden lg:block bg-white border-b">
+      <nav className="hidden md:block bg-white border-b">
         <div className="container-lg py-2">
           <ul className="flex space-x-8">
             {menuItems.map((item) => (
@@ -210,7 +210,7 @@ const BuyerHeader = () => {
               </ul>
             </nav>
             <div className="pt-10 pb-4 mt-auto border-t border-gray-100">
-              <p className="text-sm text-gray-500 font-light">© {new Date().getFullYear()} ETAGE7</p>
+              <p className="text-sm text-gray-500 font-light">© {new Date().getFullYear()} ETAGE7 </p>
             </div>
           </div>
         </div>
