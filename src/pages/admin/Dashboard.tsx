@@ -100,7 +100,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <h1 className="admin-title">Dashboard</h1>
+      <h1 className="text-4xl md:text-5xl lg:text-7xl font-normal tracking-tighter mb-6">Dashboard</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, index) => (
