@@ -1,5 +1,5 @@
-
 import { Link } from "react-router-dom";
+import { useState } from "react";
 import { 
   Instagram, 
   MessageCircle, 
@@ -7,12 +7,35 @@ import {
   FileText, 
   ShieldCheck, 
   HelpCircle, 
-  ChevronUp 
+  ChevronUp,
+  Mail
 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
+
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleNewsletterSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Simulate submission
+    setTimeout(() => {
+      toast({
+        title: "Newsletter subscription successful",
+        description: "Thank you for subscribing to our newsletter.",
+      });
+      setEmail("");
+      setIsSubmitting(false);
+    }, 1000);
   };
 
   return (
@@ -21,10 +44,30 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-4">
           <div className="lg:col-span-2">
             <h3 className="text-2xl font-light tracking-tighter uppercase mb-6">ETAGE7</h3>
-            <p className="text-sm text-gray-600 mb-6 max-w-md font-light">
-              Connecting professional buyers and fashion brands through a premium 
-              platform with curated experiences and tailored consulting services.
-            </p>
+            <form onSubmit={handleNewsletterSubmit} className="mb-6">
+              <p className="text-sm text-gray-600 font-light mb-4">
+                Subscribe to receive updates on new brands and events.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-2">
+                <div className="flex-grow">
+                  <Input
+                    type="email"
+                    placeholder="Email address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="border-0 border-b border-gray-300 rounded-none focus:border-black"
+                  />
+                </div>
+                <Button 
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="bg-black text-white hover:bg-black hover:underline transition-all duration-300"
+                >
+                  {isSubmitting ? "Subscribing..." : "Subscribe"}
+                </Button>
+              </div>
+            </form>
             <div className="flex space-x-5">
               <a 
                 href="https://t.me/etage7" 
