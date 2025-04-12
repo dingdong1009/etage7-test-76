@@ -145,7 +145,7 @@ const BuyerHeader = () => {
       )}
       
       {/* Desktop Navigation - Below the header bar */}
-      <nav className="hidden md:block bg-white border-b">
+      <nav className="absolute hidden lg:block bg-white border-b">
         <div className="container-lg py-2">
           <ul className="flex space-x-8">
             {menuItems.map((item) => (
