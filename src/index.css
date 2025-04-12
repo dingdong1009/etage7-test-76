@@ -146,6 +146,31 @@
   .link-underline {
     @apply relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 after:bg-current after:transition-all after:duration-300 hover:after:w-full;
   }
+
+  /* Admin-specific component styles */
+  .admin-card {
+    @apply bg-white border border-gray-200 rounded-none shadow-sm transition-all duration-300 hover:shadow-md;
+  }
+  
+  .admin-stat-card {
+    @apply bg-gradient-to-br from-white to-gray-50 p-6 border border-gray-200 shadow-sm;
+  }
+  
+  .admin-accent-mint {
+    @apply bg-accent-mint text-gray-800;
+  }
+  
+  .admin-accent-blue {
+    @apply bg-accent-blue text-gray-800;
+  }
+  
+  .admin-accent-pink {
+    @apply bg-accent-pink text-gray-800;
+  }
+  
+  .admin-accent-yellow {
+    @apply bg-accent-yellow text-gray-800;
+  }
 }
 
 /* Rich Text Editor Styles */
@@ -197,4 +222,49 @@
 
 .quill .ql-container {
   @apply border-gray-200 rounded-none min-h-[150px];
+}
+
+/* Admin interface specific styling */
+.admin-table {
+  @apply w-full border-collapse;
+}
+
+.admin-table th {
+  @apply text-xs uppercase tracking-wider font-medium text-gray-500 bg-gray-50 px-4 py-3 text-left;
+}
+
+.admin-table td {
+  @apply px-4 py-3 border-t border-gray-200 text-sm;
+}
+
+.admin-card-highlight {
+  @apply border-l-4 border-accent-mint pl-4;
+}
+
+.admin-badge-active {
+  @apply bg-accent-mint text-gray-800 px-2 py-0.5 rounded-sm text-xs font-medium;
+}
+
+.admin-badge-pending {
+  @apply bg-accent-yellow text-gray-800 px-2 py-0.5 rounded-sm text-xs font-medium;
+}
+
+.admin-badge-inactive {
+  @apply bg-gray-200 text-gray-800 px-2 py-0.5 rounded-sm text-xs font-medium;
+}
+
+.admin-nav-link {
+  @apply text-gray-600 hover:text-black transition-colors;
+}
+
+.admin-nav-link-active {
+  @apply text-black font-medium;
+}
+
+.admin-button-action {
+  @apply bg-black text-white hover:bg-gray-800 px-4 py-2 text-sm transition-colors;
+}
+
+.admin-button-outline {
+  @apply border border-gray-300 hover:border-gray-400 px-4 py-2 text-sm transition-colors;
 }

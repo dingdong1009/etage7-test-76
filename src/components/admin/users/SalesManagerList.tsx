@@ -30,7 +30,7 @@ const SalesManagerList = ({
     : salesManagers.filter(user => user.status.toLowerCase() === statusFilter.toLowerCase());
     
   return (
-    <Card className="border border-gray-200">
+    <Card className="border border-gray-200 rounded-none">
       <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between pb-2">
         <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">
           Sales Managers
@@ -40,41 +40,41 @@ const SalesManagerList = ({
             value={statusFilter}
             onValueChange={(value) => setStatusFilter(value)}
           >
-            <SelectTrigger className="w-[150px]">
+            <SelectTrigger className="w-[150px] rounded-none border-gray-200">
               <SelectValue placeholder="Filter by status" />
             </SelectTrigger>
-            <SelectContent>
+            <SelectContent className="rounded-none">
               <SelectItem value="all">All Statuses</SelectItem>
               <SelectItem value="active">Active</SelectItem>
               <SelectItem value="pending">Pending</SelectItem>
               <SelectItem value="inactive">Inactive</SelectItem>
             </SelectContent>
           </Select>
-          <Button className="bg-black text-white border-none" onClick={handleAddUser}>
+          <Button className="bg-black text-white border-none rounded-none hover:bg-gray-800" onClick={handleAddUser}>
             <Plus className="mr-1 h-4 w-4" /> Add User
           </Button>
-          <Button className="bg-grey-200 text-black border hover:text-white">Export</Button>
+          <Button className="bg-white text-black border border-gray-200 rounded-none hover:bg-gray-50">Export</Button>
         </div>
       </CardHeader>
       <CardContent className="pt-0">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow>
-                <TableHead className="w-[100px]">ID</TableHead>
-                <TableHead>Name</TableHead>
-                <TableHead>Start Date</TableHead>
-                <TableHead>Years in Company</TableHead>
-                <TableHead>Salary/Month</TableHead>
-                <TableHead>Commission Rate</TableHead>
-                <TableHead>YTD Commissions</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
+              <TableRow className="bg-gray-50 hover:bg-gray-50">
+                <TableHead className="w-[100px] font-medium text-gray-600">ID</TableHead>
+                <TableHead className="font-medium text-gray-600">Name</TableHead>
+                <TableHead className="font-medium text-gray-600">Start Date</TableHead>
+                <TableHead className="font-medium text-gray-600">Years in Company</TableHead>
+                <TableHead className="font-medium text-gray-600">Salary/Month</TableHead>
+                <TableHead className="font-medium text-gray-600">Commission Rate</TableHead>
+                <TableHead className="font-medium text-gray-600">YTD Commissions</TableHead>
+                <TableHead className="font-medium text-gray-600">Status</TableHead>
+                <TableHead className="text-right font-medium text-gray-600">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredUsers.map((user) => (
-                <TableRow key={user.id}>
+                <TableRow key={user.id} className="border-t border-gray-200">
                   <TableCell className="font-medium">{user.id}</TableCell>
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.startDate}</TableCell>
@@ -84,9 +84,9 @@ const SalesManagerList = ({
                   <TableCell>{user.ytdCommissions}</TableCell>
                   <TableCell>
                     <Badge 
-                      className={`${
-                        user.status === "active" ? "bg-green-100 text-green-800" :
-                        user.status === "pending" ? "bg-yellow-100 text-yellow-800" :
+                      className={`rounded-none ${
+                        user.status === "active" ? "bg-accent-mint text-gray-800" :
+                        user.status === "pending" ? "bg-accent-yellow text-gray-800" :
                         "bg-gray-100 text-gray-800"
                       }`}
                     >
@@ -97,7 +97,7 @@ const SalesManagerList = ({
                     <Button 
                       variant="ghost"
                       size="icon"
-                      className="h-8 w-8 p-0"
+                      className="h-8 w-8 p-0 hover:bg-gray-100"
                       onClick={() => handleViewUser("salesManager", user.id)}
                       title="View"
                     >
@@ -106,7 +106,7 @@ const SalesManagerList = ({
                     <Button 
                       variant="ghost"
                       size="icon"
-                      className="h-8 w-8 p-0"
+                      className="h-8 w-8 p-0 hover:bg-gray-100"
                       onClick={() => handleEditUser("salesManager", user.id)}
                       title="Edit"
                     >
