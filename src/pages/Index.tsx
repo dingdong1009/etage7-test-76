@@ -31,7 +31,7 @@ const Index = () => {
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
               CONNECTING<br/>
-              <span className="font-thin text-xs">FASHION BRANDS & BUYERS</span>
+              <span className="font-normal">FASHION BRANDS & BUYERS</span>
             </h1>
             <p className="text-lg md:text-xl font-light text-gray-700 mb-12 max-w-2xl">
               ETAGE7 is the premium platform that brings together fashion brands and professional buyers, 
