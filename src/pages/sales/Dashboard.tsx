@@ -1,7 +1,6 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Legend } from "recharts";
 import { Users, Store, BadgeDollarSign, ChartLine } from "lucide-react";
 
 const SalesDashboard = () => {
@@ -32,15 +31,15 @@ const SalesDashboard = () => {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-4xl md:text-6xl font-light tracking-tighter mb-6">SALES <span className="font-normal">DASHBOARD</span></h1>
+      <h1 className="text-4xl font-light tracking-tighter">Sales Dashboard</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {stats.map((stat, index) => (
-          <Card key={index} className="border-gray-200 rounded-none hover:shadow-md transition-shadow">
+          <Card key={index} className="border-gray-200 shadow-none hover:shadow-sm transition-shadow">
             <div className="flex justify-between items-start p-6">
               <div>
-                <h2 className="text-xl uppercase font-light tracking-tighter mb-3">{stat.title}</h2>
-                <div className="mt-2 text-3xl font-light">{stat.count}</div>
+                <h2 className="text-xl font-light tracking-tighter mb-2">{stat.title}</h2>
+                <div className="text-3xl font-light">{stat.count}</div>
                 <p className="mt-2 text-sm text-gray-500 font-light">{stat.description}</p>
               </div>
               <stat.icon className="h-8 w-8 text-gray-400" />
@@ -50,53 +49,57 @@ const SalesDashboard = () => {
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="border-gray-200 rounded-none hover:shadow-md transition-shadow">
+        <Card className="border-gray-200 shadow-none hover:shadow-sm transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xl uppercase font-light tracking-tighter">BRANDS GROWTH</CardTitle>
+            <CardTitle className="text-xl font-light tracking-tighter">Brands Growth</CardTitle>
             <ChartLine className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent className="pt-0">
-            <ChartContainer config={{}}>
-              <LineChart data={monthlyBrandsData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f1f1f1" />
-                <XAxis dataKey="name" stroke="#666" />
-                <YAxis stroke="#666" />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Legend />
-                <Line 
-                  type="monotone" 
-                  dataKey="brands" 
-                  stroke="#000" 
-                  activeDot={{ r: 8 }} 
-                  strokeWidth={2}
-                />
-              </LineChart>
-            </ChartContainer>
+            <div className="h-[300px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={monthlyBrandsData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f1f1" />
+                  <XAxis dataKey="name" stroke="#666" />
+                  <YAxis stroke="#666" />
+                  <Tooltip />
+                  <Legend />
+                  <Line 
+                    type="monotone" 
+                    dataKey="brands" 
+                    stroke="#000" 
+                    activeDot={{ r: 8 }} 
+                    strokeWidth={2}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </CardContent>
         </Card>
         
-        <Card className="border-gray-200 rounded-none hover:shadow-md transition-shadow">
+        <Card className="border-gray-200 shadow-none hover:shadow-sm transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-xl uppercase font-light tracking-tighter">COMMISSION GROWTH</CardTitle>
+            <CardTitle className="text-xl font-light tracking-tighter">Commission Growth</CardTitle>
             <BadgeDollarSign className="h-4 w-4 text-gray-500" />
           </CardHeader>
           <CardContent className="pt-0">
-            <ChartContainer config={{}}>
-              <LineChart data={monthlyCommissionData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f1f1f1" />
-                <XAxis dataKey="name" stroke="#666" />
-                <YAxis stroke="#666" />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Legend />
-                <Line 
-                  type="monotone" 
-                  dataKey="commission" 
-                  stroke="#333" 
-                  activeDot={{ r: 8 }} 
-                  strokeWidth={2}
-                />
-              </LineChart>
-            </ChartContainer>
+            <div className="h-[300px]">
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={monthlyCommissionData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f1f1" />
+                  <XAxis dataKey="name" stroke="#666" />
+                  <YAxis stroke="#666" />
+                  <Tooltip />
+                  <Legend />
+                  <Line 
+                    type="monotone" 
+                    dataKey="commission" 
+                    stroke="#333" 
+                    activeDot={{ r: 8 }} 
+                    strokeWidth={2}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </div>
           </CardContent>
         </Card>
       </div>
