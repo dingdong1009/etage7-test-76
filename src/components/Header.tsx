@@ -52,8 +52,8 @@ const Header = () => {
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-white shadow-sm" : "bg-white"
+      className={`fixed top-0 left-0 right-0 z-50 transition-medium ${
+        isScrolled ? "bg-white border-b border-gray-100" : "bg-white"
       }`}
     >
       <div className="container-lg h-16 flex items-center justify-between">
@@ -64,11 +64,11 @@ const Header = () => {
             onClick={toggleMenu}
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           >
-            {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            {isMenuOpen ? <X size={18} strokeWidth={1} /> : <Menu size={18} strokeWidth={1} />}
           </button>
           
           {/* Logo */}
-          <Link to="/" className="text-black text-xl font-normal tracking-tighter uppercase">
+          <Link to="/" className="text-black text-xl font-light tracking-tighter uppercase">
             ETAGE7
           </Link>
         </div>
@@ -80,10 +80,10 @@ const Header = () => {
               <li key={item.name}>
                 <Link 
                   to={item.path} 
-                  className="text-sm uppercase tracking-wide relative group transition-fast"
+                  className="text-sm font-light uppercase relative group transition-fast"
                 >
                   {item.name}
-                  <span className="absolute left-0 bottom-[-4px] w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full"></span>
+                  <span className="absolute left-0 bottom-[-2px] w-0 h-[0.5px] bg-black transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               </li>
             ))}
@@ -99,10 +99,10 @@ const Header = () => {
                 <li key={item.name}>
                   <Link 
                     to={item.path} 
-                    className="text-xs uppercase tracking-wide relative group transition-fast"
+                    className="text-xs font-light uppercase relative group transition-fast"
                   >
                     {item.name}
-                    <span className="absolute left-0 bottom-[-4px] w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full"></span>
+                    <span className="absolute left-0 bottom-[-2px] w-0 h-[0.5px] bg-black transition-all duration-300 group-hover:w-full"></span>
                   </Link>
                 </li>
               ))}
@@ -116,14 +116,14 @@ const Header = () => {
               aria-label={isSearchOpen ? "Close search" : "Open search"}
               className="hover:text-gray-600 transition-fast"
             >
-              <Search size={20} strokeWidth={1.25} />
+              <Search size={18} strokeWidth={1} />
             </button>
             <Link to="/login" className="hover:text-gray-600 transition-fast hidden sm:block">
-              <User size={20} strokeWidth={1.25} />
+              <User size={18} strokeWidth={1} />
             </Link>
             <Link to="/cart" className="hover:text-gray-600 transition-fast relative">
-              <ShoppingBag size={20} strokeWidth={1.25} />
-              <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-black text-white text-[10px] font-medium flex items-center justify-center rounded-full">
+              <ShoppingBag size={18} strokeWidth={1} />
+              <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-black text-white text-[10px] font-light flex items-center justify-center rounded-full">
                 0
               </span>
             </Link>
@@ -133,14 +133,14 @@ const Header = () => {
 
       {/* Search overlay */}
       {isSearchOpen && (
-        <div className="absolute top-16 left-0 right-0 bg-white border-t border-gray-200 p-4">
+        <div className="absolute top-16 left-0 right-0 bg-white border-t border-gray-100 p-4">
           <div className="container-lg">
             <form className="flex items-center">
-              <Search size={18} strokeWidth={1.25} className="text-gray-500 mr-2" />
+              <Search size={16} strokeWidth={1} className="text-gray-500 mr-2" />
               <input
                 type="text"
                 placeholder="Search..."
-                className="w-full p-2 focus:outline-none text-lg bg-transparent"
+                className="w-full p-2 focus:outline-none text-lg bg-transparent font-light"
                 autoFocus
               />
               <button 
@@ -148,7 +148,7 @@ const Header = () => {
                 onClick={toggleSearch}
                 className="text-gray-500 hover:text-black"
               >
-                <X size={18} />
+                <X size={16} strokeWidth={1} />
               </button>
             </form>
           </div>
@@ -158,7 +158,7 @@ const Header = () => {
       {/* Mobile Menu */}
       {isMenuOpen && (
         <div className="lg:hidden fixed inset-0 top-16 bg-white z-40 overflow-y-auto">
-          <div className="container p-6 flex flex-col h-full">
+          <div className="container-lg p-6 flex flex-col h-full">
             <nav className="flex-grow">
               <ul className="space-y-8 pt-4">
                 {[...mainNavItems, ...secondaryNavItems].map((item) => (
@@ -174,8 +174,8 @@ const Header = () => {
                 ))}
               </ul>
             </nav>
-            <div className="pt-10 pb-4 mt-auto border-t border-gray-200">
-              <p className="text-sm text-gray-500">© {new Date().getFullYear()} ETAGE7</p>
+            <div className="pt-10 pb-4 mt-auto border-t border-gray-100">
+              <p className="text-sm text-gray-500 font-light">© {new Date().getFullYear()} ETAGE7</p>
             </div>
           </div>
         </div>

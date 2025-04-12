@@ -91,10 +91,10 @@ export default {
 				sm: 'calc(var(--radius) - 4px)'
 			},
 			fontFamily: {
-				sans: ['Neue Haas Grotesk Display', 'system-ui', 'sans-serif'],
+				sans: ['Neue Montreal', 'Helvetica Neue', 'system-ui', 'sans-serif'],
 			},
 			letterSpacing: {
-				tighter: '-0.02em',
+				tighter: '-0.04em',
 				tight: '-0.01em',
 			},
 			keyframes: {
