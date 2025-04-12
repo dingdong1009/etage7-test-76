@@ -7,6 +7,7 @@ const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [language, setLanguage] = useState("EN");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -33,6 +34,10 @@ const Header = () => {
     if (!isSearchOpen) {
       setIsMenuOpen(false);
     }
+  };
+  
+  const toggleLanguage = () => {
+    setLanguage(language === "EN" ? "RU" : "EN");
   };
 
   const mainNavItems = [
@@ -94,6 +99,15 @@ const Header = () => {
         <div className="flex items-center space-x-5">      
           {/* Search, User and Cart */}
           <div className="flex items-center space-x-5">
+            {/* Language selector */}
+            <button 
+              onClick={toggleLanguage}
+              className="text-xs font-light uppercase hover:text-gray-600 transition-fast"
+              aria-label="Toggle language"
+            >
+              {language}
+            </button>
+            
             <button 
               onClick={toggleSearch}
               aria-label={isSearchOpen ? "Close search" : "Open search"}
@@ -149,6 +163,16 @@ const Header = () => {
                     </Link>
                   </li>
                 ))}
+                
+                {/* Language toggle in mobile menu */}
+                <li className="py-2">
+                  <button
+                    onClick={toggleLanguage}
+                    className="text-xl uppercase font-light tracking-tighter"
+                  >
+                    {language === "EN" ? "ENGLISH" : "РУССКИЙ"}
+                  </button>
+                </li>
               </ul>
             </nav>
             <div className="pt-10 pb-4 mt-auto border-t border-gray-100">
