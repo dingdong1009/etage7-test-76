@@ -41,19 +41,16 @@ const Footer = () => {
             <ul className="space-y-2">
               <li>
                 <Link to="/terms" className="text-sm hover:underline flex items-center gap-2">
-                  <FileText size={16} />
                   Terms of Service
                 </Link>
               </li>
               <li>
                 <Link to="/privacy" className="text-sm hover:underline flex items-center gap-2">
-                  <ShieldCheck size={16} />
                   Privacy Policy
                 </Link>
               </li>
               <li>
                 <Link to="/faq" className="text-sm hover:underline flex items-center gap-2">
-                  <HelpCircle size={16} />
                   FAQ
                 </Link>
               </li>
@@ -72,11 +69,6 @@ const Footer = () => {
           <p className="text-xs text-gray-500 mb-4 md:mb-0">
             &copy; {new Date().getFullYear()} ETAGE7. All rights reserved.
           </p>
-          <div className="flex space-x-6">
-            <Link to="/privacy" className="text-xs text-gray-500 hover:underline">Privacy Policy</Link>
-            <Link to="/terms" className="text-xs text-gray-500 hover:underline">Terms of Service</Link>
-            <Link to="/faq" className="text-xs text-gray-500 hover:underline">FAQ</Link>
-          </div>
         </div>
       </div>
     </footer>
