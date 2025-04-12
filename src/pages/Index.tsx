@@ -28,7 +28,7 @@ const Index = () => {
       {/* Hero Section */}
       <section className="relative h-screen bg-black text-white flex items-center">
         <div className="container-lg">
-          <div className="max-w-3xl">
+          <div className="max-w-3xl text-center">
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
               CONNECTING<br/>
               <span className="font-normal">FASHION BRANDS & BUYERS</span>
