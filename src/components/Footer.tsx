@@ -23,7 +23,7 @@ const Footer = () => {
             <h3 className="text-xl font-light tracking-tighter uppercase mb-6">ETAGE7</h3>
             <p className="text-sm text-gray-600 mb-6 max-w-md font-light">
               Connecting professional buyers and fashion brands through a premium 
-              platform with curated experiences and tailored consulting services.
+              platform with curated experiences and tailored consulting services. 
             </p>
             <div className="flex space-x-5">
               <a 
