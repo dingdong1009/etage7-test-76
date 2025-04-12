@@ -145,7 +145,7 @@ const BuyerHeader = () => {
       )}
       
       {/* Desktop Navigation - Below the header bar */}
-      <nav className="hidden md:block bg-white">
+      <nav className="hidden md:block bg-white border-b">
         <div className="container-lg py-2">
           <ul className="flex space-x-8">
             {menuItems.map((item) => (
@@ -155,13 +155,13 @@ const BuyerHeader = () => {
                     <TooltipTrigger asChild>
                       <Link
                         to={item.path}
-                        className={`text-xs font-light transition-all uppercase relative group ${
+                        className={`text-xs font-light uppercase relative group transition-fast ${
                           isActive(item.path) ? "text-black" : "text-gray-600 hover:text-black"
                         }`}
                       >
                         {item.name}
                         <span
-                          className={`absolute left-0 bottom-[-3px] w-0 h-[0.5px] bg-black transition-all duration-300 group-hover:w-full ${
+                          className={`absolute left-0 bottom-[-2px] w-0 h-[0.5px] bg-black transition-all duration-300 group-hover:w-full ${
                             isActive(item.path) ? "w-full" : ""
                           }`}
                         ></span>
