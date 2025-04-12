@@ -37,18 +37,6 @@ const Index = () => {
               ETAGE7 is the premium platform that brings together fashion brands and professional buyers, 
               revolutionizing how the industry connects and conducts business.
             </p>
-            <div className="flex flex-col sm:flex-row gap-6">
-              <Button asChild className="btn btn-primary text-base">
-                <Link to="/brands">
-                  FOR BRANDS <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
-                </Link>
-              </Button>
-              <Button asChild className="btn btn-secondary text-base">
-                <Link to="/buyers">
-                  FOR BUYERS <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
-                </Link>
-              </Button>
-            </div>
           </div>
         </div>
         
