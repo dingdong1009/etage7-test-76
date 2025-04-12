@@ -30,6 +30,31 @@ import AdminSubscriptions from "./pages/admin/Subscriptions";
 import AdminAdditionalServices from "./pages/admin/AdditionalServices";
 import AdminResources from "./pages/admin/Resources";
 
+// Brand components
+import BrandLayout from "./components/brand/BrandLayout";
+import BrandDashboard from "./pages/brand/Dashboard";
+import BrandProducts from "./pages/brand/Products";
+import BrandOrders from "./pages/brand/Orders";
+import BrandOrderDetails from "./pages/brand/OrderDetails";
+import BrandLookbook from "./pages/brand/Lookbook";
+import BrandAdditionalServices from "./pages/brand/AdditionalServices";
+import BrandTeam from "./pages/brand/Team";
+import BrandStore from "./pages/brand/Store";
+import BrandMessages from "./pages/brand/Messages";
+import BrandSubscriptions from "./pages/brand/Subscriptions";
+import BrandResources from "./pages/brand/Resources";
+import BrandSettings from "./pages/brand/Settings";
+
+// Buyer components
+import BuyerLayout from "./components/buyer/BuyerLayout";
+import BuyerDashboard from "./pages/buyer/Dashboard";
+import BuyerOrders from "./pages/buyer/Orders";
+import BuyerMessages from "./pages/buyer/Messages";
+import BuyerAdditionalServices from "./pages/buyer/AdditionalServices";
+import BuyerTeam from "./pages/buyer/Team";
+import BuyerResources from "./pages/buyer/Resources";
+import BuyerSettings from "./pages/buyer/Settings";
+
 // Sales components
 import SalesLayout from "./components/sales/SalesLayout";
 import SalesDashboard from "./pages/sales/Dashboard";
@@ -60,6 +85,33 @@ const App = () => {
               <Route path="thank-you" element={<ThankYouPage />} />
               <Route path="reset-password" element={<ResetPasswordPage />} />
               <Route path="*" element={<NotFound />} />
+            </Route>
+            
+            {/* Brand portal routes */}
+            <Route path="/brand" element={<BrandLayout />}>
+              <Route index element={<BrandDashboard />} />
+              <Route path="products" element={<BrandProducts />} />
+              <Route path="orders" element={<BrandOrders />} />
+              <Route path="orders/:orderId" element={<BrandOrderDetails />} />
+              <Route path="lookbook" element={<BrandLookbook />} />
+              <Route path="additional-services" element={<BrandAdditionalServices />} />
+              <Route path="team" element={<BrandTeam />} />
+              <Route path="store" element={<BrandStore />} />
+              <Route path="messages" element={<BrandMessages />} />
+              <Route path="subscriptions" element={<BrandSubscriptions />} />
+              <Route path="resources" element={<BrandResources />} />
+              <Route path="settings" element={<BrandSettings />} />
+            </Route>
+            
+            {/* Buyer portal routes */}
+            <Route path="/buyer" element={<BuyerLayout />}>
+              <Route index element={<BuyerDashboard />} />
+              <Route path="orders" element={<BuyerOrders />} />
+              <Route path="messages" element={<BuyerMessages />} />
+              <Route path="additional-services" element={<BuyerAdditionalServices />} />
+              <Route path="team" element={<BuyerTeam />} />
+              <Route path="resources" element={<BuyerResources />} />
+              <Route path="settings" element={<BuyerSettings />} />
             </Route>
             
             {/* Admin routes */}

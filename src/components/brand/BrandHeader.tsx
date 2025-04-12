@@ -14,6 +14,7 @@ const BrandHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [language, setLanguage] = useState("EN");
   const location = useLocation();
   
   // Mock notification count - this would be fetched from a backend in a real app
@@ -59,13 +60,19 @@ const BrandHeader = () => {
       setIsMenuOpen(false);
     }
   };
+  
+  const toggleLanguage = () => {
+    setLanguage(language === "EN" ? "RU" : "EN");
+  };
 
   const isActive = (path: string) => {
     return location.pathname === path;
   };
 
   return (
-    <header className="sticky top-0 left-0 right-0 z-40 bg-white border-b border-gray-100">
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-medium ${
+      isScrolled ? "bg-white border-b border-gray-100" : "bg-white"
+    }`}>
       <div className="container-lg h-16 border-b flex items-center justify-between">
         <div className="flex items-center space-x-6">
           {/* Mobile menu button */}
@@ -85,6 +92,15 @@ const BrandHeader = () => {
           
         {/* User options on desktop */}
         <div className="hidden md:flex items-center space-x-6">
+          {/* Language selector */}
+          <button 
+            onClick={toggleLanguage}
+            className="text-xs font-light uppercase hover:text-gray-600 transition-fast"
+            aria-label="Toggle language"
+          >
+            {language}
+          </button>
+        
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -188,6 +204,16 @@ const BrandHeader = () => {
                     </Link>
                   </li>
                 ))}
+                
+                {/* Language toggle in mobile menu */}
+                <li className="py-2">
+                  <button
+                    onClick={toggleLanguage}
+                    className="text-xl uppercase font-light tracking-tighter"
+                  >
+                    {language === "EN" ? "ENGLISH" : "РУССКИЙ"}
+                  </button>
+                </li>
               </ul>
             </nav>
             <div className="pt-10 pb-4 mt-auto border-t border-gray-100">

@@ -1,7 +1,7 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, Bell, X } from "lucide-react";
+import { Menu, Bell, X, Search } from "lucide-react";
 import { 
   Tooltip, 
   TooltipContent, 
@@ -12,10 +12,26 @@ import { Badge } from "@/components/ui/badge";
 
 const AdminHeader = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [language, setLanguage] = useState("EN");
   const location = useLocation();
   
   // Mock notification count - this would be fetched from a backend in a real app
   const notificationCount = 3;
+  
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 0) {
+        setIsScrolled(true);
+      } else {
+        setIsScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
   
   const menuItems = [
     { name: "Dashboard", path: "/admin", tooltip: "Admin dashboard overview" },
@@ -32,13 +48,26 @@ const AdminHeader = () => {
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
   };
+  
+  const toggleSearch = () => {
+    setIsSearchOpen(!isSearchOpen);
+    if (!isSearchOpen) {
+      setIsMenuOpen(false);
+    }
+  };
+  
+  const toggleLanguage = () => {
+    setLanguage(language === "EN" ? "RU" : "EN");
+  };
 
   const isActive = (path: string) => {
     return location.pathname === path || (path !== "/admin" && location.pathname.startsWith(path));
   };
 
   return (
-    <header className="sticky top-0 left-0 right-0 z-40 bg-white border-b border-gray-100">
+    <header className={`fixed top-0 left-0 right-0 z-50 transition-medium ${
+      isScrolled ? "bg-white border-b border-gray-100" : "bg-white"
+    }`}>
       <div className="container-lg h-16 border-b flex items-center justify-between">
         <div className="flex items-center space-x-6">
           {/* Mobile menu button */}
@@ -58,6 +87,15 @@ const AdminHeader = () => {
         
         {/* User options on desktop */}
         <div className="hidden md:flex items-center space-x-6">
+          {/* Language selector */}
+          <button 
+            onClick={toggleLanguage}
+            className="text-xs font-light uppercase hover:text-gray-600 transition-fast"
+            aria-label="Toggle language"
+          >
+            {language}
+          </button>
+          
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -83,6 +121,30 @@ const AdminHeader = () => {
           </Link>
         </div>
       </div>
+      
+      {/* Search overlay */}
+      {isSearchOpen && (
+        <div className="absolute top-16 left-0 right-0 bg-white border-t border-gray-100 p-4">
+          <div className="container-lg">
+            <form className="flex items-center">
+              <Search size={16} strokeWidth={1} className="text-gray-500 mr-2" />
+              <input
+                type="text"
+                placeholder="Search..."
+                className="w-full p-2 focus:outline-none text-lg bg-transparent font-light"
+                autoFocus
+              />
+              <button 
+                type="button" 
+                onClick={toggleSearch}
+                className="text-gray-500 hover:text-black"
+              >
+                <X size={16} strokeWidth={1} />
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
       
       {/* Desktop Navigation - Below the header bar */}
       <nav className="hidden md:block bg-white">
@@ -120,15 +182,8 @@ const AdminHeader = () => {
       
       {/* Mobile Menu - Full overlay */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-0 bg-white z-50 pt-16 overflow-y-auto animate-fade-in">
-          <div className="p-4">
-            <button 
-              className="absolute top-4 right-4 p-2 text-black"
-              onClick={toggleMenu}
-              aria-label="Close menu"
-            >
-              <X size={24} strokeWidth={1} />
-            </button>
+        <div className="md:hidden fixed inset-0 top-16 bg-white z-50 overflow-y-auto animate-fade-in">
+          <div className="p-6 flex flex-col h-full">
             <ul className="flex flex-col space-y-1 pt-6">
               {menuItems.map((item) => (
                 <li key={item.name}>
@@ -145,6 +200,17 @@ const AdminHeader = () => {
                   </Link>
                 </li>
               ))}
+              
+              {/* Language toggle in mobile menu */}
+              <li className="py-2">
+                <button
+                  onClick={toggleLanguage}
+                  className="block py-3 px-4 text-sm uppercase font-light tracking-wide text-gray-600 hover:text-black"
+                >
+                  {language === "EN" ? "ENGLISH" : "РУССКИЙ"}
+                </button>
+              </li>
+              
               <li className="border-t border-gray-100 mt-4 pt-4">
                 <Link
                   to="/"
