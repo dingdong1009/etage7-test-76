@@ -6,8 +6,10 @@ const BuyerLayout = () => {
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <BuyerHeader />
-      <main className="flex-1">
-        <Outlet />
+      <main className="flex-1 px-4 md:px-8 py-8">
+        <div className="max-w-7xl mx-auto">
+          <Outlet />
+        </div>
       </main>
       <footer className="py-8 px-4 md:px-8 border-t border-gray-100 bg-white">
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">

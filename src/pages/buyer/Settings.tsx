@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -65,18 +64,38 @@ const Settings = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Settings</h1>
+      <h1 className="text-4xl md:text-6xl uppercase font-light tracking-tighter mb-6">Settings</h1>
       
       <Tabs defaultValue="profile" className="w-full">
-        <TabsList className="mb-6">
-          <TabsTrigger value="profile">Profile</TabsTrigger>
-          <TabsTrigger value="password">Password</TabsTrigger>
-          <TabsTrigger value="notifications">Notifications</TabsTrigger>
-          <TabsTrigger value="advanced">Advanced</TabsTrigger>
+        <TabsList className="mb-6 bg-gray-100 p-1">
+          <TabsTrigger 
+            value="profile"
+            className="data-[state=active]:bg-white data-[state=active]:shadow-none transition-all"
+          >
+            Profile
+          </TabsTrigger>
+          <TabsTrigger 
+            value="password"
+            className="data-[state=active]:bg-white data-[state=active]:shadow-none transition-all"
+          >
+            Password
+          </TabsTrigger>
+          <TabsTrigger 
+            value="notifications"
+            className="data-[state=active]:bg-white data-[state=active]:shadow-none transition-all"
+          >
+            Notifications
+          </TabsTrigger>
+          <TabsTrigger 
+            value="advanced"
+            className="data-[state=active]:bg-white data-[state=active]:shadow-none transition-all"
+          >
+            Advanced
+          </TabsTrigger>
         </TabsList>
         
         <TabsContent value="profile">
-          <Card className="border border-gray-200">
+          <Card className="border border-gray-200 rounded-none">
             <CardHeader>
               <CardTitle className="text-lg font-medium">Buyer Profile</CardTitle>
             </CardHeader>
@@ -92,7 +111,7 @@ const Settings = () => {
                     name="name"
                     value={profileForm.name}
                     onChange={handleProfileChange}
-                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black"
                   />
                 </div>
                 
@@ -106,7 +125,7 @@ const Settings = () => {
                     name="email"
                     value={profileForm.email}
                     onChange={handleProfileChange}
-                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black"
                   />
                 </div>
                 
@@ -120,7 +139,7 @@ const Settings = () => {
                     name="phone"
                     value={profileForm.phone}
                     onChange={handleProfileChange}
-                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black"
                   />
                 </div>
                 
@@ -134,7 +153,7 @@ const Settings = () => {
                     name="companyName"
                     value={profileForm.companyName}
                     onChange={handleProfileChange}
-                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black"
                   />
                 </div>
                 
@@ -148,7 +167,7 @@ const Settings = () => {
                     name="address"
                     value={profileForm.address}
                     onChange={handleProfileChange}
-                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black"
                   />
                 </div>
                 
@@ -162,13 +181,13 @@ const Settings = () => {
                     name="website"
                     value={profileForm.website}
                     onChange={handleProfileChange}
-                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black"
                   />
                 </div>
                 
                 <Button 
                   type="submit" 
-                  className="bg-black text-white px-4 py-2 hover:bg-black-600"
+                  className="bg-black text-white hover:bg-gray-800"
                 >
                   Update Profile
                 </Button>
@@ -178,7 +197,7 @@ const Settings = () => {
         </TabsContent>
         
         <TabsContent value="password">
-          <Card className="border border-gray-200">
+          <Card className="border border-gray-200 rounded-none">
             <CardHeader>
               <CardTitle className="text-lg font-medium">Change Password</CardTitle>
             </CardHeader>
@@ -194,7 +213,7 @@ const Settings = () => {
                     name="currentPassword"
                     value={passwordForm.currentPassword}
                     onChange={handlePasswordChange}
-                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black"
                   />
                 </div>
                 
@@ -208,7 +227,7 @@ const Settings = () => {
                     name="newPassword"
                     value={passwordForm.newPassword}
                     onChange={handlePasswordChange}
-                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black"
                   />
                 </div>
                 
@@ -222,13 +241,13 @@ const Settings = () => {
                     name="confirmPassword"
                     value={passwordForm.confirmPassword}
                     onChange={handlePasswordChange}
-                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black"
                   />
                 </div>
                 
                 <Button 
                   type="submit" 
-                  className="bg-black text-white px-4 py-2 hover:bg-black-600"
+                  className="bg-black text-white hover:bg-gray-800"
                 >
                   Update Password
                 </Button>
@@ -238,7 +257,7 @@ const Settings = () => {
         </TabsContent>
 
         <TabsContent value="notifications">
-          <Card className="border border-gray-200">
+          <Card className="border border-gray-200 rounded-none">
             <CardHeader>
               <CardTitle className="text-lg font-medium">Notification Preferences</CardTitle>
             </CardHeader>
@@ -256,112 +275,34 @@ const Settings = () => {
                       checked={notificationSettings.emailNotifications}
                       onChange={() => handleNotificationChange('emailNotifications')}
                     />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-black rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
                   </label>
                 </div>
 
-                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
-                  <div>
-                    <h3 className="font-medium">Order Updates</h3>
-                    <p className="text-sm text-gray-500">Get notified about orders status changes</p>
+                {Object.entries(notificationSettings).slice(1).map(([key, value]) => (
+                  <div key={key} className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
+                    <div>
+                      <h3 className="font-medium">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</h3>
+                      <p className="text-sm text-gray-500">Manage your {key.toLowerCase()} preferences</p>
+                    </div>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input 
+                        type="checkbox" 
+                        className="sr-only peer" 
+                        checked={value}
+                        onChange={() => handleNotificationChange(key)}
+                      />
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-black rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                    </label>
                   </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input 
-                      type="checkbox" 
-                      className="sr-only peer" 
-                      checked={notificationSettings.orderUpdates}
-                      onChange={() => handleNotificationChange('orderUpdates')}
-                    />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
-                  </label>
-                </div>
-
-                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
-                  <div>
-                    <h3 className="font-medium">Brand Announcements</h3>
-                    <p className="text-sm text-gray-500">Receive updates from brands you follow</p>
-                  </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input 
-                      type="checkbox" 
-                      className="sr-only peer" 
-                      checked={notificationSettings.brandAnnouncements}
-                      onChange={() => handleNotificationChange('brandAnnouncements')}
-                    />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
-                  </label>
-                </div>
-
-                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
-                  <div>
-                    <h3 className="font-medium">Product Alerts</h3>
-                    <p className="text-sm text-gray-500">Get notified about new products from followed brands</p>
-                  </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input 
-                      type="checkbox" 
-                      className="sr-only peer" 
-                      checked={notificationSettings.productAlerts}
-                      onChange={() => handleNotificationChange('productAlerts')}
-                    />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
-                  </label>
-                </div>
-
-                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
-                  <div>
-                    <h3 className="font-medium">Marketing Emails</h3>
-                    <p className="text-sm text-gray-500">Receive promotional emails and special offers</p>
-                  </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input 
-                      type="checkbox" 
-                      className="sr-only peer" 
-                      checked={notificationSettings.marketingEmails}
-                      onChange={() => handleNotificationChange('marketingEmails')}
-                    />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
-                  </label>
-                </div>
-
-                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
-                  <div>
-                    <h3 className="font-medium">Event Invites</h3>
-                    <p className="text-sm text-gray-500">Receive invitations to fashion events and shows</p>
-                  </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input 
-                      type="checkbox" 
-                      className="sr-only peer" 
-                      checked={notificationSettings.eventInvites}
-                      onChange={() => handleNotificationChange('eventInvites')}
-                    />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
-                  </label>
-                </div>
-
-                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
-                  <div>
-                    <h3 className="font-medium">Weekly Digest</h3>
-                    <p className="text-sm text-gray-500">Receive weekly summary of platform activities</p>
-                  </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input 
-                      type="checkbox" 
-                      className="sr-only peer" 
-                      checked={notificationSettings.weeklyDigest}
-                      onChange={() => handleNotificationChange('weeklyDigest')}
-                    />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
-                  </label>
-                </div>
+                ))}
               </div>
             </CardContent>
           </Card>
         </TabsContent>
 
         <TabsContent value="advanced">
-          <Card className="border border-gray-200">
+          <Card className="border border-gray-200 rounded-none">
             <CardHeader>
               <CardTitle className="text-lg font-medium">Advanced Settings</CardTitle>
             </CardHeader>
@@ -374,7 +315,7 @@ const Settings = () => {
                   <div>
                     <label className="block text-sm font-medium mb-1">Default Date Format</label>
                     <Select value={dateFormat} onValueChange={setDateFormat}>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className="w-full focus:ring-0 focus:border-black">
                         <SelectValue placeholder="Select date format" />
                       </SelectTrigger>
                       <SelectContent>
@@ -388,7 +329,7 @@ const Settings = () => {
                   <div>
                     <label className="block text-sm font-medium mb-1">Default Currency</label>
                     <Select value={currency} onValueChange={setCurrency}>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className="w-full focus:ring-0 focus:border-black">
                         <SelectValue placeholder="Select currency" />
                       </SelectTrigger>
                       <SelectContent>
@@ -403,7 +344,7 @@ const Settings = () => {
                   <div>
                     <label className="block text-sm font-medium mb-1">Time Zone</label>
                     <Select value={timeZone} onValueChange={setTimeZone}>
-                      <SelectTrigger className="w-full">
+                      <SelectTrigger className="w-full focus:ring-0 focus:border-black">
                         <SelectValue placeholder="Select time zone" />
                       </SelectTrigger>
                       <SelectContent>
@@ -425,7 +366,7 @@ const Settings = () => {
                   <Button variant="outline" className="border-gray-300">
                     Export Account Data
                   </Button>
-                  <Button variant="outline" className="border-red-300 text-red-600 hover:bg-red-50">
+                  <Button variant="outline" className="border-gray-300 text-gray-600 hover:bg-gray-50">
                     Delete Account
                   </Button>
                 </div>

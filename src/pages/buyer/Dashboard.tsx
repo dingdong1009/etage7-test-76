@@ -161,7 +161,7 @@ const Dashboard = () => {
         </div>
       </div>
       
-      {/* Product grid with refined monochrome styling */}
+      {/* Product grid with monochrome styling */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
@@ -193,7 +193,7 @@ const Dashboard = () => {
                     </Button>
                   </div>
                 </div>
-                {/* Product details with refined styling */}
+                {/* Product details with monochrome styling */}
                 <div className="pt-4 px-1 space-y-1">
                   <p className="text-xs text-gray-500 uppercase tracking-wide">{product.category}</p>
                   <h3 className="font-light text-sm tracking-tight">{product.name}</h3>
@@ -227,7 +227,7 @@ const Dashboard = () => {
             {[1, 2, 3].map((page) => (
               <Button 
                 key={page} 
-                variant={page === 1 ? "black" : "outline"}
+                variant={page === 1 ? "default" : "outline"}
                 size="sm"
                 className={page === 1 
                   ? "bg-black text-white border-black" 

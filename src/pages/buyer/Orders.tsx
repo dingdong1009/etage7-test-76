@@ -132,10 +132,10 @@ const Orders = () => {
                       <TableCell>
                         <span 
                           className={`inline-block px-2 py-0.5 text-xs ${
-                            order.status === "Processing" ? "bg-blue-50 text-blue-700" :
-                            order.status === "Shipped" ? "bg-yellow-50 text-yellow-700" :
-                            order.status === "Delivered" ? "bg-green-50 text-green-700" :
-                            "bg-red-50 text-red-700"
+                            order.status === "Processing" ? "bg-gray-100 text-gray-700" :
+                            order.status === "Shipped" ? "bg-gray-100 text-gray-700" :
+                            order.status === "Delivered" ? "bg-gray-100 text-gray-700" :
+                            "bg-gray-100 text-gray-700"
                           }`}
                         >
                           {order.status}
@@ -174,13 +174,7 @@ const Orders = () => {
                       <TableCell>{request.quantity}</TableCell>
                       <TableCell>
                         <span 
-                          className={`inline-block px-2 py-0.5 text-xs ${
-                            request.status === "Pending" ? "bg-yellow-50 text-yellow-700" :
-                            request.status === "Approved" ? "bg-blue-50 text-blue-700" :
-                            request.status === "Shipped" ? "bg-purple-50 text-purple-700" :
-                            request.status === "Delivered" ? "bg-green-50 text-green-700" :
-                            "bg-red-50 text-red-700"
-                          }`}
+                          className={`inline-block px-2 py-0.5 text-xs bg-gray-100 text-gray-700`}
                         >
                           {request.status}
                         </span>

@@ -111,9 +111,9 @@ const BuyerAdditionalServices = () => {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="bg-black text-white py-24 px-4">
-        <div className="max-w-[1481px] mx-auto">
-          <h1 className="text-3xl md:text-5xl uppercase font-thin mb-6">
+      <section className="bg-black text-white py-24 px-4 -mx-4 md:-mx-8">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-3xl md:text-5xl uppercase font-light mb-6">
             ADDITIONAL<br/>
             <span className="font-normal">SERVICES</span>
           </h1>
@@ -127,9 +127,9 @@ const BuyerAdditionalServices = () => {
       </section>
       
       {/* Services Section */}
-      <section className="py-16 px-4">
-        <div className="max-w-[1481px] mx-auto">
-          <h2 className="text-2xl md:text-4xl uppercase font-thin mb-12">
+      <section className="py-16">
+        <div>
+          <h2 className="text-2xl md:text-4xl uppercase font-light mb-12">
             OUR <span className="font-normal">CONSULTING SERVICES</span>
           </h2>
           
@@ -139,21 +139,21 @@ const BuyerAdditionalServices = () => {
                 key={service.id} 
                 className="bg-white p-6 md:p-8 border border-gray-200 hover:shadow-md transition-shadow flex flex-col group"
               >
-                <h3 className="text-xl font-medium mb-3">{service.name}</h3>
+                <h3 className="text-xl font-normal mb-3">{service.name}</h3>
                 <p className="text-gray-600 mb-6 font-light">
                   {service.description}
                 </p>
                 <ul className="space-y-3 mb-8 flex-1">
                   {service.features.map((feature, index) => (
                     <li key={index} className="flex items-start">
-                      <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                      <Check className="h-5 w-5 text-black mr-2 flex-shrink-0 mt-0.5" />
                       <span className="text-sm font-light">{feature}</span>
                     </li>
                   ))}
                 </ul>
                 <div className="mt-auto pt-4 border-t border-gray-100">
                   <div className="flex justify-between items-center mb-4">
-                    <span className="font-semibold">{service.price}</span>
+                    <span className="font-medium">{service.price}</span>
                     <span className="text-sm text-gray-500 font-light">{service.duration}</span>
                   </div>
                   <Button 
@@ -170,9 +170,9 @@ const BuyerAdditionalServices = () => {
       </section>
       
       {/* Contact Section */}
-      <section className="py-16 px-4 bg-gray-50">
-        <div className="max-w-[1481px] mx-auto text-center">
-          <h2 className="text-2xl md:text-4xl uppercase font-thin mb-6">
+      <section className="py-16 bg-gray-50 -mx-4 md:-mx-8 px-4">
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 className="text-2xl md:text-4xl uppercase font-light mb-6">
             NEED <span className="font-normal">ASSISTANCE?</span>
           </h2>
           <p className="max-w-2xl mx-auto mb-8 font-light text-gray-600">
@@ -201,7 +201,7 @@ const BuyerAdditionalServices = () => {
                     <FormItem>
                       <FormLabel>Full Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Your name" required {...field} />
+                        <Input placeholder="Your name" required {...field} className="focus:ring-0 focus:border-black" />
                       </FormControl>
                     </FormItem>
                   )}
@@ -214,7 +214,7 @@ const BuyerAdditionalServices = () => {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input type="email" placeholder="Your email" required {...field} />
+                        <Input type="email" placeholder="Your email" required {...field} className="focus:ring-0 focus:border-black" />
                       </FormControl>
                     </FormItem>
                   )}
@@ -228,7 +228,7 @@ const BuyerAdditionalServices = () => {
                   <FormItem>
                     <FormLabel>Store/Company Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your store or company" required {...field} />
+                      <Input placeholder="Your store or company" required {...field} className="focus:ring-0 focus:border-black" />
                     </FormControl>
                   </FormItem>
                 )}
@@ -245,7 +245,7 @@ const BuyerAdditionalServices = () => {
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger className="focus:ring-0 focus:border-black">
                           <SelectValue placeholder="Select service" />
                         </SelectTrigger>
                       </FormControl>
@@ -268,7 +268,7 @@ const BuyerAdditionalServices = () => {
                   <FormItem>
                     <FormLabel>Preferred Date</FormLabel>
                     <FormControl>
-                      <Input type="date" required {...field} />
+                      <Input type="date" required {...field} className="focus:ring-0 focus:border-black" />
                     </FormControl>
                   </FormItem>
                 )}
@@ -283,7 +283,7 @@ const BuyerAdditionalServices = () => {
                     <FormControl>
                       <Textarea 
                         placeholder="Please share any specific requirements or questions" 
-                        className="min-h-[100px]" 
+                        className="min-h-[100px] focus:ring-0 focus:border-black" 
                         {...field} 
                       />
                     </FormControl>
@@ -296,6 +296,7 @@ const BuyerAdditionalServices = () => {
                   type="button" 
                   variant="outline" 
                   onClick={() => setIsBookingOpen(false)}
+                  className="border-gray-200 hover:bg-gray-50 hover:border-gray-300"
                 >
                   Cancel
                 </Button>

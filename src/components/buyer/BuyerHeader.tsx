@@ -37,9 +37,11 @@ const BuyerHeader = () => {
 
   return (
     <header className="sticky top-0 left-0 right-0 z-40 bg-white">
-      <div className="max-w-full px-4 flex justify-between items-center h-16">
+      <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
         <div className="flex items-center gap-2">
-          <Link to="/" className="text-black text-2xl font-bold uppercase">ETAGE7</Link> | BUYER
+          <Link to="/" className="text-black text-2xl font-light uppercase tracking-wider">ETAGE7</Link>
+          <span className="text-gray-400 font-light">|</span>
+          <span className="text-gray-600 text-sm font-light">BUYER</span>
         </div>
         
         {/* Mobile menu button */}
@@ -60,29 +62,29 @@ const BuyerHeader = () => {
                   <Bell size={20} className="text-gray-600 hover:text-black cursor-pointer" />
                   {notificationCount > 0 && (
                     <Badge 
-                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-red-500 text-white text-xs rounded-full"
+                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-black text-white text-xs rounded-full"
                     >
                       {notificationCount}
                     </Badge>
                   )}
                 </div>
               </TooltipTrigger>
-              <TooltipContent showArrow={true}>
-                <p>{notificationCount} confirmed service bookings</p>
+              <TooltipContent>
+                <p>{notificationCount} unread notifications</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
           
-          <Link to="/" className="text-gray-600 hover:text-black text-sm">
+          <Link to="/" className="text-gray-600 hover:text-black text-sm font-light">
             BACK TO SITE
           </Link>
         </div>
       </div>
       
-      {/* Desktop Navigation - Moved below the header bar */}
-      <nav className="hidden md:block border-b border-t border-gray-200 bg-white">
-        <div className="max-w-full px-4 py-2">
-          <ul className="flex space-x-6">
+      {/* Desktop Navigation - Below the header bar */}
+      <nav className="hidden md:block border-b border-t border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 py-2">
+          <ul className="flex space-x-8">
             {menuItems.map((item) => (
               <li key={item.name}>
                 <TooltipProvider>
@@ -91,7 +93,7 @@ const BuyerHeader = () => {
                       <Link
                         to={item.path}
                         className={`text-sm font-light transition-all relative group ${
-                          isActive(item.path) ? "text-black" : "text-gray-600 hover:text-black"
+                          isActive(item.path) ? "text-black" : "text-gray-500 hover:text-black"
                         }`}
                       >
                         {item.name.toUpperCase()}
@@ -102,7 +104,7 @@ const BuyerHeader = () => {
                         ></span>
                       </Link>
                     </TooltipTrigger>
-                    <TooltipContent showArrow={true}>
+                    <TooltipContent>
                       <p>{item.tooltip}</p>
                     </TooltipContent>
                   </Tooltip>
@@ -121,7 +123,7 @@ const BuyerHeader = () => {
               <li key={item.name} className="border-b border-gray-100 last:border-0">
                 <Link
                   to={item.path}
-                  className={`block py-3 px-4 transition-colors ${
+                  className={`block py-3 px-4 transition-colors font-light ${
                     isActive(item.path) ? "bg-gray-50 text-black" : "text-gray-600"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
@@ -133,7 +135,7 @@ const BuyerHeader = () => {
             <li className="border-t border-gray-100">
               <Link
                 to="/"
-                className="block py-3 px-4 text-gray-600"
+                className="block py-3 px-4 text-gray-600 font-light"
                 onClick={() => setIsMenuOpen(false)}
               >
                 BACK TO SITE

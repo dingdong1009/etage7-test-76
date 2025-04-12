@@ -42,7 +42,7 @@ const Team = () => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Team</h1>
+        <h1 className="text-4xl md:text-6xl uppercase font-light tracking-tighter mb-6">Team</h1>
         <Button 
           onClick={() => setActiveTab("invite")} 
           className="bg-black hover:bg-gray-800 text-white"
@@ -59,15 +59,15 @@ const Team = () => {
         </TabsList>
         
         <TabsContent value="members">
-          <Card className="border border-gray-200">
+          <Card className="border border-gray-200 rounded-none">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Team Members</CardTitle>
+              <CardTitle className="text-1xl md:text-2xl uppercase font-light">Team Members</CardTitle>
               <div className="relative w-full max-w-sm">
                 <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
                 <Input
                   type="search" 
                   placeholder="Search team members..." 
-                  className="w-full rounded-md border border-gray-200 pl-8 py-2 text-sm outline-none focus:border-blue-500"
+                  className="w-full rounded-md border border-gray-200 pl-8 py-2 text-sm outline-none focus:border-black"
                 />
               </div>
             </CardHeader>
@@ -100,11 +100,7 @@ const Team = () => {
                         </TableCell>
                         <TableCell>
                           <Badge 
-                            className={`${
-                              member.status === "Active" ? "bg-green-100 text-green-800" : 
-                              member.status === "Pending" ? "bg-yellow-100 text-yellow-800" :
-                              "bg-gray-100 text-gray-800"
-                            }`}
+                            className={`bg-gray-100 text-gray-700`}
                           >
                             {member.status}
                           </Badge>
@@ -125,7 +121,7 @@ const Team = () => {
                               className="h-8 w-8" 
                               title="Delete team member"
                             >
-                              <Trash2 className="h-4 w-4 text-red-500" />
+                              <Trash2 className="h-4 w-4" />
                             </Button>
                           </div>
                         </TableCell>
@@ -139,9 +135,9 @@ const Team = () => {
         </TabsContent>
         
         <TabsContent value="invite">
-          <Card className="border border-gray-200">
+          <Card className="border border-gray-200 rounded-none">
             <CardHeader>
-              <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Invite New Member</CardTitle>
+              <CardTitle className="text-1xl md:text-2xl uppercase font-light">Invite New Member</CardTitle>
             </CardHeader>
             <CardContent>
               <form className="space-y-4">
@@ -152,7 +148,7 @@ const Team = () => {
                     </label>
                     <Input 
                       type="text" 
-                      className="w-full p-2 border border-gray-200 rounded"
+                      className="w-full p-2 border border-gray-200 rounded focus:border-black focus:ring-0"
                       placeholder="Enter full name"
                     />
                   </div>
@@ -163,7 +159,7 @@ const Team = () => {
                     </label>
                     <Input 
                       type="email" 
-                      className="w-full p-2 border border-gray-200 rounded"
+                      className="w-full p-2 border border-gray-200 rounded focus:border-black focus:ring-0"
                       placeholder="Enter email address"
                     />
                   </div>
@@ -174,7 +170,7 @@ const Team = () => {
                     </label>
                     <Input 
                       type="tel" 
-                      className="w-full p-2 border border-gray-200 rounded"
+                      className="w-full p-2 border border-gray-200 rounded focus:border-black focus:ring-0"
                       placeholder="Enter phone number"
                     />
                   </div>
@@ -184,7 +180,7 @@ const Team = () => {
                       Role
                     </label>
                     <Select>
-                      <SelectTrigger>
+                      <SelectTrigger className="border-gray-200 focus:ring-0 focus:border-black">
                         <SelectValue placeholder="Select role" />
                       </SelectTrigger>
                       <SelectContent>
