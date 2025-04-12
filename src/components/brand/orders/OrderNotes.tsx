@@ -11,10 +11,10 @@ const OrderNotes: React.FC<OrderNotesProps> = ({ notes }) => {
 
   return (
     <Card className="border border-gray-200 rounded-none">
-      <CardHeader className="border-b border-gray-100 pb-3">
-        <CardTitle className="text-xs uppercase font-light tracking-tight">Additional Notes</CardTitle>
+      <CardHeader>
+        <CardTitle className="text-lg uppercase font-light tracking-tighter">Additional Notes</CardTitle>
       </CardHeader>
-      <CardContent className="pt-4">
+      <CardContent>
         <p className="font-light text-sm">{notes}</p>
       </CardContent>
     </Card>
