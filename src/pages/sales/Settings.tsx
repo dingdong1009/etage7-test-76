@@ -60,12 +60,12 @@ const SalesSettings = () => {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Settings</h1>
+      <h1 className="text-4xl md:text-6xl uppercase font-light tracking-tighter mb-6">ACCOUNT <span className="font-normal">SETTINGS</span></h1>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <Card className="border border-gray-200 hover:shadow-md transition-all duration-300">
+        <Card className="border-gray-200 rounded-none hover:shadow-md transition-shadow">
           <CardHeader className="border-b border-gray-100">
-            <CardTitle className="flex items-center gap-2 text-xl font-light">
+            <CardTitle className="flex items-center gap-2 text-xl font-light tracking-tighter">
               <User size={20} className="text-gray-500" />
               Profile Information
             </CardTitle>
@@ -73,48 +73,48 @@ const SalesSettings = () => {
           <CardContent className="pt-6">
             <form onSubmit={handleProfileSubmit} className="space-y-5">
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                <label htmlFor="name" className="block text-sm font-light text-gray-700 mb-1">Name</label>
                 <input
                   type="text"
                   id="name"
                   name="name"
                   value={profileForm.name}
                   onChange={handleProfileChange}
-                  className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black transition-all"
+                  className="w-full p-2 border border-gray-200 rounded-none focus:outline-none focus:border-black transition-colors"
                 />
               </div>
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                <label htmlFor="email" className="block text-sm font-light text-gray-700 mb-1">Email</label>
                 <input
                   type="email"
                   id="email"
                   name="email"
                   value={profileForm.email}
                   onChange={handleProfileChange}
-                  className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black transition-all"
+                  className="w-full p-2 border border-gray-200 rounded-none focus:outline-none focus:border-black transition-colors"
                 />
               </div>
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
+                <label htmlFor="phone" className="block text-sm font-light text-gray-700 mb-1">Phone</label>
                 <input
                   type="tel"
                   id="phone"
                   name="phone"
                   value={profileForm.phone}
                   onChange={handleProfileChange}
-                  className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black transition-all"
+                  className="w-full p-2 border border-gray-200 rounded-none focus:outline-none focus:border-black transition-colors"
                 />
               </div>
-              <Button type="submit" variant="black" className="transition-all hover:scale-[1.02]">
+              <Button type="submit" className="bg-black text-white rounded-none hover:bg-gray-800 transition-colors">
                 Update Profile
               </Button>
             </form>
           </CardContent>
         </Card>
         
-        <Card className="border border-gray-200 hover:shadow-md transition-all duration-300">
+        <Card className="border-gray-200 rounded-none hover:shadow-md transition-shadow">
           <CardHeader className="border-b border-gray-100">
-            <CardTitle className="flex items-center gap-2 text-xl font-light">
+            <CardTitle className="flex items-center gap-2 text-xl font-light tracking-tighter">
               <Lock size={20} className="text-gray-500" />
               Change Password
             </CardTitle>
@@ -122,39 +122,39 @@ const SalesSettings = () => {
           <CardContent className="pt-6">
             <form onSubmit={handlePasswordSubmit} className="space-y-5">
               <div>
-                <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+                <label htmlFor="currentPassword" className="block text-sm font-light text-gray-700 mb-1">Current Password</label>
                 <input
                   type="password"
                   id="currentPassword"
                   name="currentPassword"
                   value={passwordForm.currentPassword}
                   onChange={handlePasswordChange}
-                  className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black transition-all"
+                  className="w-full p-2 border border-gray-200 rounded-none focus:outline-none focus:border-black transition-colors"
                 />
               </div>
               <div>
-                <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                <label htmlFor="newPassword" className="block text-sm font-light text-gray-700 mb-1">New Password</label>
                 <input
                   type="password"
                   id="newPassword"
                   name="newPassword"
                   value={passwordForm.newPassword}
                   onChange={handlePasswordChange}
-                  className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black transition-all"
+                  className="w-full p-2 border border-gray-200 rounded-none focus:outline-none focus:border-black transition-colors"
                 />
               </div>
               <div>
-                <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
+                <label htmlFor="confirmPassword" className="block text-sm font-light text-gray-700 mb-1">Confirm New Password</label>
                 <input
                   type="password"
                   id="confirmPassword"
                   name="confirmPassword"
                   value={passwordForm.confirmPassword}
                   onChange={handlePasswordChange}
-                  className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black transition-all"
+                  className="w-full p-2 border border-gray-200 rounded-none focus:outline-none focus:border-black transition-colors"
                 />
               </div>
-              <Button type="submit" variant="black" className="transition-all hover:scale-[1.02]">
+              <Button type="submit" className="bg-black text-white rounded-none hover:bg-gray-800 transition-colors">
                 Update Password
               </Button>
             </form>
@@ -162,9 +162,9 @@ const SalesSettings = () => {
         </Card>
       </div>
 
-      <Card className="border border-gray-200 hover:shadow-md transition-all duration-300">
+      <Card className="border-gray-200 rounded-none hover:shadow-md transition-shadow">
         <CardHeader className="border-b border-gray-100">
-          <CardTitle className="flex items-center gap-2 text-xl font-light">
+          <CardTitle className="flex items-center gap-2 text-xl font-light tracking-tighter">
             <Bell size={20} className="text-gray-500" />
             Notification Preferences
           </CardTitle>
@@ -173,8 +173,8 @@ const SalesSettings = () => {
           <div className="space-y-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="font-medium">Email Notifications</h3>
-                <p className="text-sm text-gray-500">Receive email notifications for new messages</p>
+                <h3 className="font-normal">Email Notifications</h3>
+                <p className="text-sm text-gray-500 font-light">Receive email notifications for new messages</p>
               </div>
               <Switch 
                 checked={notifications.emailNotifications} 
@@ -184,8 +184,8 @@ const SalesSettings = () => {
             </div>
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="font-medium">Performance Reports</h3>
-                <p className="text-sm text-gray-500">Weekly performance reports via email</p>
+                <h3 className="font-normal">Performance Reports</h3>
+                <p className="text-sm text-gray-500 font-light">Weekly performance reports via email</p>
               </div>
               <Switch 
                 checked={notifications.performanceReports} 
@@ -195,8 +195,8 @@ const SalesSettings = () => {
             </div>
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="font-medium">New Client Alerts</h3>
-                <p className="text-sm text-gray-500">Immediate notifications for new client sign-ups</p>
+                <h3 className="font-normal">New Client Alerts</h3>
+                <p className="text-sm text-gray-500 font-light">Immediate notifications for new client sign-ups</p>
               </div>
               <Switch 
                 checked={notifications.newClientAlerts} 

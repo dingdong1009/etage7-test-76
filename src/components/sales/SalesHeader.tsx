@@ -27,8 +27,7 @@ const SalesHeader = () => {
     <header className="sticky top-0 left-0 right-0 z-40 bg-white">
       <div className="max-w-full px-4 flex justify-between items-center h-16">
         <div className="flex items-center gap-2">
-        <Link to="/" className="text-black text-2xl font-bold uppercase">ETAGE7</Link> | SALES MANAGER
-
+          <Link to="/" className="text-black text-2xl font-normal uppercase tracking-tighter">ETAGE7</Link> | <span className="font-light text-sm">SALES MANAGER</span>
         </div>
         
         {/* Mobile menu button */}
@@ -42,7 +41,7 @@ const SalesHeader = () => {
         
         {/* User options on desktop */}
         <div className="hidden md:flex items-center space-x-4">
-          <Link to="/" className="text-gray-600 hover:text-black text-sm">
+          <Link to="/" className="text-gray-600 hover:text-black transition-colors text-sm font-light">
             Back to Site
           </Link>
         </div>
