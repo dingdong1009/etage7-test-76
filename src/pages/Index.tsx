@@ -100,7 +100,7 @@ const Index = () => {
               <h3 className="text-2xl md:text-3xl font-normal tracking-tighter mb-6">FOR BRANDS</h3>
               <p className="text-gray-600 mb-8">
                 Expand your reach to professional buyers from key markets around the world. 
-                Our platform provides direct access to qualified buyers looking for brands like yours.
+                Our platform provides direct access to qualified buyers looking for brands like yours. 
               </p>
               <ul className="space-y-4 mb-10">
                 <li className="flex items-start">
