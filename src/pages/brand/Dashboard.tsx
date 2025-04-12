@@ -28,47 +28,47 @@ const BrandDashboard = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-4xl md:text-6xl uppercase font-thin tracking-tighter mb-6">Brand Dashboard</h1>
+      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Brand Dashboard</h1>
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Card className="p-4 border border-gray-200 rounded-none">
+        <Card className="p-4 border border-gray-200">
           <div className="flex justify-between items-start">
             <div>
               <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">Views</h2>
-              <div className="mt-2 text-3xl font-light">1,234</div>
+              <div className="mt-2 text-3xl">1,234</div>
               <p className="mt-2 text-sm text-green-500">+12.5% from last month</p>
             </div>
             <Eye className="h-8 w-8 text-gray-400" />
           </div>
         </Card>
         
-        <Card className="p-4 border border-gray-200 rounded-none">
+        <Card className="p-4 border border-gray-200">
           <div className="flex justify-between items-start">
             <div>
               <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">Conversions</h2>
-              <div className="mt-2 text-3xl font-light">42</div>
+              <div className="mt-2 text-3xl">42</div>
               <p className="mt-2 text-sm text-green-500">+5.2% from last month</p>
             </div>
             <ArrowUpDown className="h-8 w-8 text-gray-400" />
           </div>
         </Card>
         
-        <Card className="p-4 border border-gray-200 rounded-none">
+        <Card className="p-4 border border-gray-200">
           <div className="flex justify-between items-start">
             <div>
               <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">Sales</h2>
-              <div className="mt-2 text-3xl font-light">$12,345</div>
+              <div className="mt-2 text-3xl">$12,345</div>
               <p className="mt-2 text-sm text-green-500">+8.4% from last month</p>
             </div>
             <BadgeDollarSign className="h-8 w-8 text-gray-400" />
           </div>
         </Card>
         
-        <Card className="p-4 border border-gray-200 rounded-none">
+        <Card className="p-4 border border-gray-200">
           <div className="flex justify-between items-start">
             <div>
               <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">Inventory</h2>
-              <div className="mt-2 text-3xl font-light">86</div>
+              <div className="mt-2 text-3xl">86</div>
               <p className="mt-2 text-sm text-red-500">-2.3% from last month</p>
             </div>
             <Package className="h-8 w-8 text-gray-400" />
@@ -77,7 +77,7 @@ const BrandDashboard = () => {
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="border border-gray-200 rounded-none">
+        <Card className="border border-gray-200">
           <CardHeader>
             <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Product Views</CardTitle>
           </CardHeader>
@@ -93,15 +93,15 @@ const BrandDashboard = () => {
                     bottom: 5,
                   }}
                 >
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f1f1" />
-                  <XAxis dataKey="name" stroke="#666" />
-                  <YAxis stroke="#666" />
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
                   <Tooltip formatter={(value) => `${value} views`} />
                   <Legend />
                   <Line 
                     type="monotone" 
                     dataKey="views" 
-                    stroke="#000" 
+                    stroke="#8884d8" 
                     activeDot={{ r: 8 }}
                     strokeWidth={2}
                   />
@@ -111,7 +111,7 @@ const BrandDashboard = () => {
           </CardContent>
         </Card>
         
-        <Card className="border border-gray-200 rounded-none">
+        <Card className="border border-gray-200">
           <CardHeader>
             <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Conversion Rates</CardTitle>
           </CardHeader>
@@ -127,15 +127,15 @@ const BrandDashboard = () => {
                     bottom: 5,
                   }}
                 >
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f1f1" />
-                  <XAxis dataKey="name" stroke="#666" />
-                  <YAxis stroke="#666" />
+                  <CartesianGrid strokeDasharray="3 3" />
+                  <XAxis dataKey="name" />
+                  <YAxis />
                   <Tooltip formatter={(value) => `${value}%`} />
                   <Legend />
                   <Bar 
                     dataKey="rate" 
                     name="Conversion Rate" 
-                    fill="#000"
+                    fill="#82ca9d"
                     radius={[4, 4, 0, 0]}
                   />
                 </BarChart>

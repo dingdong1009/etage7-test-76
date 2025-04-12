@@ -10,12 +10,12 @@ const OrderNotes: React.FC<OrderNotesProps> = ({ notes }) => {
   if (!notes) return null;
 
   return (
-    <Card className="border border-gray-200 rounded-none">
+    <Card className="border border-gray-200">
       <CardHeader>
-        <CardTitle className="text-lg uppercase font-light tracking-tighter">Additional Notes</CardTitle>
+        <CardTitle>Additional Notes</CardTitle>
       </CardHeader>
       <CardContent>
-        <p className="font-light text-sm">{notes}</p>
+        <p>{notes}</p>
       </CardContent>
     </Card>
   );
