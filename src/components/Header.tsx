@@ -1,10 +1,12 @@
 
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { Menu, X, Search, User, ShoppingBag } from "lucide-react";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,77 +21,163 @@ const Header = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+    if (!isMenuOpen) {
+      setIsSearchOpen(false);
+    }
+  };
+
+  const toggleSearch = () => {
+    setIsSearchOpen(!isSearchOpen);
+    if (!isSearchOpen) {
+      setIsMenuOpen(false);
+    }
+  };
+
+  const mainNavItems = [
+    { name: "HOME", path: "/" },
+    { name: "BRANDS", path: "/brands" },
+    { name: "BUYERS", path: "/buyers" },
+    { name: "SERVICES", path: "/services" },
+    { name: "EVENTS", path: "/events" },
+  ];
+
+  const secondaryNavItems = [
+    { name: "RESOURCES", path: "/resources" },
+    { name: "CURATED", path: "/curated" },
+    { name: "LOGIN", path: "/login" },
+    { name: "REGISTER", path: "/register" },
+  ];
+
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 bg-white transition-all duration-300 ${
-        isScrolled ? "shadow-sm" : ""
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? "bg-white shadow-sm" : "bg-white"
       }`}
     >
-      <div className="max-w-[1481px] border-b mx-auto px-4 flex justify-between items-center h-16">
-      <Link to="/" className="text-black text-xl font-bold uppercase">ETAGE7</Link> 
-        
-        {/* Mobile menu button */}
-        <button 
-          className="md:hidden text-black"
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-        >
-          {isMenuOpen ? "CLOSE" : "MENU"}
-        </button>
+      <div className="container-lg h-16 flex items-center justify-between">
+        <div className="flex items-center space-x-6">
+          {/* Mobile menu button */}
+          <button 
+            className="lg:hidden text-black focus:outline-none"
+            onClick={toggleMenu}
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          >
+            {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+          </button>
+          
+          {/* Logo */}
+          <Link to="/" className="text-black text-xl font-normal tracking-tighter uppercase">
+            ETAGE7
+          </Link>
+        </div>
         
         {/* Desktop Navigation */}
-        <nav className="hidden md:block">
+        <nav className="hidden lg:block">
           <ul className="flex space-x-8">
-            {[
-              { name: "HOME", path: "/" },
-              { name: "BRANDS", path: "/brands" },
-              { name: "BUYERS", path: "/buyers" },
-              { name: "SERVICES", path: "/services" },
-              { name: "EVENTS", path: "/events" },
-              { name: "RESOURCES", path: "/resources" },
-              { name: "CURATED", path: "/curated" },
-              { name: "LOGIN", path: "/login" },
-              { name: "REGISTER", path: "/register" },
-            ].map((item) => (
+            {mainNavItems.map((item) => (
               <li key={item.name}>
                 <Link 
                   to={item.path} 
-                  className="text-sm font-light relative group hover:text-black"
+                  className="text-sm uppercase tracking-wide relative group transition-fast"
                 >
-                  {item.name.toUpperCase()}
-                  <span className="absolute left-0 bottom-[-3px] w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full"></span>
+                  {item.name}
+                  <span className="absolute left-0 bottom-[-4px] w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full"></span>
                 </Link>
               </li>
             ))}
           </ul>
         </nav>
+
+        {/* Right side actions */}
+        <div className="flex items-center space-x-5">
+          {/* Secondary navigation on desktop */}
+          <nav className="hidden lg:block">
+            <ul className="flex space-x-6">
+              {secondaryNavItems.map((item) => (
+                <li key={item.name}>
+                  <Link 
+                    to={item.path} 
+                    className="text-xs uppercase tracking-wide relative group transition-fast"
+                  >
+                    {item.name}
+                    <span className="absolute left-0 bottom-[-4px] w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full"></span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+          
+          {/* Search, User and Cart */}
+          <div className="flex items-center space-x-5">
+            <button 
+              onClick={toggleSearch}
+              aria-label={isSearchOpen ? "Close search" : "Open search"}
+              className="hover:text-gray-600 transition-fast"
+            >
+              <Search size={20} strokeWidth={1.25} />
+            </button>
+            <Link to="/login" className="hover:text-gray-600 transition-fast hidden sm:block">
+              <User size={20} strokeWidth={1.25} />
+            </Link>
+            <Link to="/cart" className="hover:text-gray-600 transition-fast relative">
+              <ShoppingBag size={20} strokeWidth={1.25} />
+              <span className="absolute -top-1.5 -right-1.5 w-4 h-4 bg-black text-white text-[10px] font-medium flex items-center justify-center rounded-full">
+                0
+              </span>
+            </Link>
+          </div>
+        </div>
       </div>
+
+      {/* Search overlay */}
+      {isSearchOpen && (
+        <div className="absolute top-16 left-0 right-0 bg-white border-t border-gray-200 p-4">
+          <div className="container-lg">
+            <form className="flex items-center">
+              <Search size={18} strokeWidth={1.25} className="text-gray-500 mr-2" />
+              <input
+                type="text"
+                placeholder="Search..."
+                className="w-full p-2 focus:outline-none text-lg bg-transparent"
+                autoFocus
+              />
+              <button 
+                type="button" 
+                onClick={toggleSearch}
+                className="text-gray-500 hover:text-black"
+              >
+                <X size={18} />
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
       
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-white w-full">
-          <ul className="flex flex-col p-4">
-            {[
-              { name: "HOME", path: "/" },
-              { name: "BRANDS", path: "/brands" },
-              { name: "BUYERS", path: "/buyers" },
-              { name: "SERVICES", path: "/services" },
-              { name: "EVENTS", path: "/events" },
-              { name: "RESOURCES", path: "/resources" },
-              { name: "CURATED", path: "/curated" },
-              { name: "LOGIN", path: "/login" },
-              { name: "REGISTER", path: "/register" },
-            ].map((item) => (
-              <li key={item.name} className="py-2 border-b border-gray-100">
-                <Link 
-                  to={item.path} 
-                  className="text-black uppercase"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  {item.name.toUpperCase()}
-                </Link>
-              </li>
-            ))}
-          </ul>
+        <div className="lg:hidden fixed inset-0 top-16 bg-white z-40 overflow-y-auto">
+          <div className="container p-6 flex flex-col h-full">
+            <nav className="flex-grow">
+              <ul className="space-y-8 pt-4">
+                {[...mainNavItems, ...secondaryNavItems].map((item) => (
+                  <li key={item.name} className="py-2">
+                    <Link 
+                      to={item.path} 
+                      className="text-xl uppercase font-light tracking-tighter"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <div className="pt-10 pb-4 mt-auto border-t border-gray-200">
+              <p className="text-sm text-gray-500">© {new Date().getFullYear()} ETAGE7</p>
+            </div>
+          </div>
         </div>
       )}
     </header>
