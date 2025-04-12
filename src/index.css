@@ -153,7 +153,7 @@
   }
   
   .admin-stat-card {
-    @apply bg-gradient-to-br from-white to-gray-50 p-6 border border-gray-200 shadow-sm;
+    @apply bg-gradient-to-br from-white to-gray-50 p-6 border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-md;
   }
   
   .admin-accent-mint {
@@ -170,6 +170,51 @@
   
   .admin-accent-yellow {
     @apply bg-accent-yellow text-gray-800;
+  }
+  
+  .admin-title {
+    @apply text-4xl md:text-6xl uppercase font-thin mb-6;
+  }
+  
+  .admin-subtitle {
+    @apply text-2xl md:text-3xl font-light tracking-tighter;
+  }
+  
+  .admin-card-header {
+    @apply flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-gray-100;
+  }
+  
+  .admin-button-primary {
+    @apply bg-black hover:bg-gray-800 text-white text-sm transition-colors;
+  }
+  
+  .admin-button-outline {
+    @apply border border-gray-200 text-gray-700 hover:bg-gray-50 text-sm transition-colors;
+  }
+  
+  .admin-table-header {
+    @apply bg-gray-50;
+  }
+  
+  .admin-table-cell {
+    @apply border-t border-gray-100;
+  }
+  
+  /* Page transitions */
+  .page-enter {
+    @apply opacity-0;
+  }
+  
+  .page-enter-active {
+    @apply opacity-100 transition-opacity duration-300;
+  }
+  
+  .page-exit {
+    @apply opacity-100;
+  }
+  
+  .page-exit-active {
+    @apply opacity-0 transition-opacity duration-300;
   }
 }
 

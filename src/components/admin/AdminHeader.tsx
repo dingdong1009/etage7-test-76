@@ -34,11 +34,11 @@ const AdminHeader = () => {
   };
 
   const isActive = (path: string) => {
-    return location.pathname === path;
+    return location.pathname === path || (path !== "/admin" && location.pathname.startsWith(path));
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 bg-white">
+    <header className="fixed top-0 left-0 right-0 z-40 bg-white shadow-sm">
       <div className="max-w-[1481px] mx-auto bg-black px-4 flex justify-between items-center h-16">
         <Link to="/admin" className="flex items-center gap-2 text-white">
           <span className="text-2xl font-bold uppercase tracking-tighter">ETAGE7</span>
@@ -82,7 +82,7 @@ const AdminHeader = () => {
       </div>
       
       {/* Desktop Navigation - Below the header bar */}
-      <nav className="hidden md:block border-b border-gray-200 bg-white shadow-sm">
+      <nav className="hidden md:block border-b border-gray-200 bg-white">
         <div className="max-w-[1481px] mx-auto px-4 py-2">
           <ul className="flex space-x-6 overflow-x-auto">
             {menuItems.map((item) => (

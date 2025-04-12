@@ -151,15 +151,21 @@ const AdminAdditionalServices = () => {
   };
 
   return (
-    <div className="container mx-auto py-8">
+    <div className="animate-fade-in">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8">
-        <h1 className="text-3xl md:text-5xl uppercase font-thin">Additional Services Management</h1>
-        <div className="flex space-x-4">
-          <Button onClick={handleAddNewService}>
+        <h1 className="admin-title">Additional Services Management</h1>
+        <div className="flex flex-wrap gap-4 mt-4 lg:mt-0">
+          <Button 
+            className="admin-button-primary"
+            onClick={handleAddNewService}
+          >
             <PlusCircle className="w-4 h-4 mr-2" />
             Add New Service
           </Button>
-          <Button variant="outline">
+          <Button 
+            variant="outline"
+            className="admin-button-outline"
+          >
             Export Bookings
           </Button>
         </div>
@@ -167,8 +173,8 @@ const AdminAdditionalServices = () => {
       
       <ServiceStats bookings={mockBookings} />
       
-      <Tabs defaultValue="all" className="w-full" onValueChange={setActiveTab}>
-        <TabsList className="grid grid-cols-6 mb-6">
+      <Tabs defaultValue="all" className="w-full mt-8" onValueChange={setActiveTab}>
+        <TabsList className="grid grid-cols-3 md:grid-cols-6 gap-2 mb-6">
           <TabsTrigger value="all">All</TabsTrigger>
           <TabsTrigger value="pending">Pending</TabsTrigger>
           <TabsTrigger value="confirmed">Confirmed</TabsTrigger>

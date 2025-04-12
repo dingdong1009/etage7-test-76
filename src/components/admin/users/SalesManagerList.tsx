@@ -30,12 +30,12 @@ const SalesManagerList = ({
     : salesManagers.filter(user => user.status.toLowerCase() === statusFilter.toLowerCase());
     
   return (
-    <Card className="border border-gray-200 shadow-sm rounded-lg">
+    <Card className="border border-gray-200 shadow-sm rounded-lg transition-all duration-300 hover:shadow-md">
       <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between pb-2 border-b border-gray-100">
-        <CardTitle className="text-xl md:text-2xl font-light mb-6">
+        <CardTitle className="text-xl md:text-2xl font-light mb-4 sm:mb-0 tracking-tighter">
           Sales Managers
         </CardTitle>
-        <div className="flex items-center space-x-2 mt-2 sm:mt-0">
+        <div className="flex flex-wrap items-center gap-2 mt-2 sm:mt-0">
           <Select
             value={statusFilter}
             onValueChange={(value) => setStatusFilter(value)}
@@ -50,13 +50,21 @@ const SalesManagerList = ({
               <SelectItem value="inactive">Inactive</SelectItem>
             </SelectContent>
           </Select>
-          <Button className="bg-black hover:bg-gray-800 text-white text-sm" onClick={handleAddUser}>
+          <Button 
+            className="bg-black hover:bg-gray-800 text-white text-sm transition-colors" 
+            onClick={handleAddUser}
+          >
             <Plus className="mr-1 h-4 w-4" /> Add User
           </Button>
-          <Button variant="outline" className="border-gray-200 text-gray-700 hover:bg-gray-50 text-sm">Export</Button>
+          <Button 
+            variant="outline" 
+            className="border-gray-200 text-gray-700 hover:bg-gray-50 text-sm transition-colors"
+          >
+            Export
+          </Button>
         </div>
       </CardHeader>
-      <CardContent className="pt-4">
+      <CardContent className="pt-4 overflow-hidden">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
@@ -73,49 +81,57 @@ const SalesManagerList = ({
               </TableRow>
             </TableHeader>
             <TableBody>
-              {filteredUsers.map((user) => (
-                <TableRow key={user.id} className="border-t border-gray-100 hover:bg-gray-50">
-                  <TableCell className="font-medium">{user.id}</TableCell>
-                  <TableCell>{user.name}</TableCell>
-                  <TableCell>{user.startDate}</TableCell>
-                  <TableCell>{user.yearsInCompany}</TableCell>
-                  <TableCell>{user.salaryPerMonth}</TableCell>
-                  <TableCell>{user.commissionRate}</TableCell>
-                  <TableCell>{user.ytdCommissions}</TableCell>
-                  <TableCell>
-                    <Badge 
-                      className={`
-                        ${user.status === "active" ? "bg-accent-mint text-gray-800" :
-                          user.status === "pending" ? "bg-accent-yellow text-gray-800" :
-                          "bg-gray-100 text-gray-800"}
-                        text-xs font-medium px-2 py-0.5
-                      `}
-                    >
-                      {user.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell className="flex justify-end space-x-2">
-                    <Button 
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 p-0 hover:bg-gray-100"
-                      onClick={() => handleViewUser("salesManager", user.id)}
-                      title="View"
-                    >
-                      <Eye className="h-4 w-4" />
-                    </Button>
-                    <Button 
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 p-0 hover:bg-gray-100"
-                      onClick={() => handleEditUser("salesManager", user.id)}
-                      title="Edit"
-                    >
-                      <Pencil className="h-4 w-4" />
-                    </Button>
+              {filteredUsers.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={9} className="text-center py-8 text-gray-500">
+                    No sales managers found with the selected filter
                   </TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                filteredUsers.map((user) => (
+                  <TableRow key={user.id} className="border-t border-gray-100 hover:bg-gray-50 transition-colors">
+                    <TableCell className="font-medium">{user.id}</TableCell>
+                    <TableCell>{user.name}</TableCell>
+                    <TableCell>{user.startDate}</TableCell>
+                    <TableCell>{user.yearsInCompany}</TableCell>
+                    <TableCell>{user.salaryPerMonth}</TableCell>
+                    <TableCell>{user.commissionRate}</TableCell>
+                    <TableCell>{user.ytdCommissions}</TableCell>
+                    <TableCell>
+                      <Badge 
+                        className={`
+                          ${user.status === "active" ? "bg-accent-mint text-gray-800" :
+                            user.status === "pending" ? "bg-accent-yellow text-gray-800" :
+                            "bg-gray-100 text-gray-800"}
+                          text-xs font-medium px-2 py-0.5
+                        `}
+                      >
+                        {user.status}
+                      </Badge>
+                    </TableCell>
+                    <TableCell className="flex justify-end space-x-2">
+                      <Button 
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 p-0 hover:bg-gray-100 transition-colors"
+                        onClick={() => handleViewUser("salesManager", user.id)}
+                        title="View"
+                      >
+                        <Eye className="h-4 w-4" />
+                      </Button>
+                      <Button 
+                        variant="ghost"
+                        size="icon"
+                        className="h-8 w-8 p-0 hover:bg-gray-100 transition-colors"
+                        onClick={() => handleEditUser("salesManager", user.id)}
+                        title="Edit"
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </div>

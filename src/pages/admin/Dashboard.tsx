@@ -99,16 +99,16 @@ const AdminDashboard = () => {
   const COLORS = ['#8884d8', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Dashboard</h1>
+    <div className="space-y-6 animate-fade-in">
+      <h1 className="admin-title">Dashboard</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, index) => (
-          <Card key={index} className="p-4 border border-gray-200">
+          <Card key={index} className="admin-stat-card">
             <div className="flex justify-between items-start">
               <div>
-                <h2 className="text-1xl md:text-2xl uppercase font-thin mb-6">{stat.title}</h2>
-                <div className="mt-2 text-3xl">{stat.count.toLocaleString()}</div>
+                <h2 className="text-lg font-light mb-2 text-gray-700">{stat.title}</h2>
+                <div className="mt-2 text-3xl font-light">{stat.count.toLocaleString()}</div>
                 <p className="mt-2 text-sm text-gray-500">{stat.description}</p>
               </div>
               <stat.icon className="h-8 w-8 text-gray-400" />
@@ -118,12 +118,12 @@ const AdminDashboard = () => {
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="border border-gray-200">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">User Growth</CardTitle>
+        <Card className="admin-card">
+          <CardHeader className="admin-card-header">
+            <CardTitle className="text-xl md:text-2xl font-light">User Growth</CardTitle>
             <ChartLine className="h-4 w-4 text-gray-500" />
           </CardHeader>
-          <CardContent className="pt-0">
+          <CardContent className="pt-4">
             <ChartContainer config={{}}>
               <LineChart data={monthlyUserData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -137,12 +137,12 @@ const AdminDashboard = () => {
           </CardContent>
         </Card>
         
-        <Card className="border border-gray-200">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Subscription Growth</CardTitle>
+        <Card className="admin-card">
+          <CardHeader className="admin-card-header">
+            <CardTitle className="text-xl md:text-2xl font-light">Subscription Growth</CardTitle>
             <CreditCard className="h-4 w-4 text-gray-500" />
           </CardHeader>
-          <CardContent className="pt-0">
+          <CardContent className="pt-4">
             <ChartContainer config={{}}>
               <LineChart data={monthlySubscriptionData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -158,12 +158,12 @@ const AdminDashboard = () => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="border border-gray-200">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Expiring Subscriptions</CardTitle>
+        <Card className="admin-card">
+          <CardHeader className="admin-card-header">
+            <CardTitle className="text-xl md:text-2xl font-light">Expiring Subscriptions</CardTitle>
             <Clock className="h-4 w-4 text-gray-500" />
           </CardHeader>
-          <CardContent className="pt-0">
+          <CardContent className="pt-4">
             <ChartContainer config={{}}>
               <BarChart data={expiringSubscriptionsData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -181,12 +181,12 @@ const AdminDashboard = () => {
           </CardContent>
         </Card>
         
-        <Card className="border border-gray-200">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
+        <Card className="admin-card">
+          <CardHeader className="admin-card-header">
             <div className="flex flex-col md:flex-row gap-2 md:items-center w-full">
-              <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Individual Performance</CardTitle>
+              <CardTitle className="text-xl md:text-2xl font-light">Individual Performance</CardTitle>
               <Select value={selectedSalesManager} onValueChange={setSelectedSalesManager}>
-                <SelectTrigger className="w-[180px] h-8">
+                <SelectTrigger className="w-[180px] h-8 border-gray-200">
                   <SelectValue placeholder="Select Manager" />
                 </SelectTrigger>
                 <SelectContent>
@@ -203,7 +203,7 @@ const AdminDashboard = () => {
             </div>
             <PieChartIcon className="h-4 w-4 text-gray-500" />
           </CardHeader>
-          <CardContent className="pt-0">
+          <CardContent className="pt-4">
             <ChartContainer config={{}}>
               <LineChart data={individualSalesData[selectedSalesManager]} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
                 <CartesianGrid strokeDasharray="3 3" />
