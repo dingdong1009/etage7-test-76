@@ -65,62 +65,49 @@ const BrandHeader = () => {
   };
 
   return (
-    <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-medium ${
-        isScrolled ? "bg-white border-b border-gray-100 shadow-sm" : "bg-white"
-      }`}
-    >
-      <div className="max-w-[1481px] mx-auto px-4 md:px-6 flex justify-between items-center h-16 border-b">
-        <div className="flex items-center gap-2">
-          <Link to="/" className="text-black text-5xl font-medium tracking-tighter uppercase">ETAGE7</Link>
-          <span className="hidden sm:inline-block text-gray-400">|</span>
-          <span className="hidden sm:inline-block font-light text-sm uppercase">BRAND</span>
-        </div>
-        
-        {/* Mobile menu button */}
-        <div className="flex items-center gap-4 md:gap-6">
-          <button
-            className="md:hidden text-black focus:outline-none"
+    <header className="sticky top-0 left-0 right-0 z-40 bg-white border-b border-gray-100">
+      <div className="container-lg h-16 border-b flex items-center justify-between">
+        <div className="flex items-center space-x-6">
+          {/* Mobile menu button */}
+          <button 
+            className="lg:hidden text-black focus:outline-none"
             onClick={toggleMenu}
             aria-label={isMenuOpen ? "Close menu" : "Open menu"}
           >
             {isMenuOpen ? <X size={18} strokeWidth={1} /> : <Menu size={18} strokeWidth={1} />}
           </button>
           
-          {/* User options */}
-          <div className="flex items-center space-x-5">
-            <button 
-              onClick={toggleSearch}
-              aria-label={isSearchOpen ? "Close search" : "Open search"}
-              className="hover:text-gray-600 transition-fast"
-            >
-              <Search size={18} strokeWidth={1} />
-            </button>
-            
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <div className="relative">
-                    <Bell size={18} strokeWidth={1} className="text-gray-600 hover:text-black cursor-pointer transition-fast" />
-                    {notificationCount > 0 && (
-                      <Badge 
-                        className="absolute -top-2 -right-2 h-4 w-4 flex items-center justify-center p-0 bg-black text-white text-xs rounded-full border-white border"
-                      >
-                        {notificationCount}
-                      </Badge>
-                    )}
-                  </div>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p className="text-xs">{notificationCount} confirmed service booking</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-            
-            <Link to="/" className="text-xs uppercase text-gray-600 hover:text-black transition-fast font-light">
-              Back to Site
-            </Link>
-          </div>
+          {/* Logo */}
+          <Link to="/" className="text-black text-5xl font-medium tracking-tighter uppercase">
+            éTAGE7
+          </Link>
+        </div>
+          
+        {/* User options on desktop */}
+        <div className="hidden md:flex items-center space-x-6">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="relative">
+                  <Bell size={20} strokeWidth={1} className="text-gray-600 hover:text-black cursor-pointer transition-colors" />
+                  {notificationCount > 0 && (
+                    <Badge 
+                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-accent-pink text-black text-xs rounded-full font-light"
+                    >
+                      {notificationCount}
+                    </Badge>
+                  )}
+                </div>
+              </TooltipTrigger>
+              <TooltipContent className="bg-white shadow-md" showArrow={true}>
+                <p className="text-xs font-light">{notificationCount} unread notifications</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          
+          <Link to="/" className="text-gray-600 hover:text-black text-xs uppercase font-light tracking-wide transition-colors">
+            Back to Site
+          </Link>
         </div>
       </div>
       
@@ -148,31 +135,31 @@ const BrandHeader = () => {
         </div>
       )}
       
-      {/* Desktop Navigation - Moved below the header bar */}
-      <nav className="hidden md:block border-b border-gray-100 bg-white overflow-x-auto">
-        <div className="max-w-[1481px] mx-auto px-4 md:px-6">
-          <ul className="flex space-x-6 py-2">
+      {/* Desktop Navigation - Below the header bar */}
+      <nav className="hidden md:block bg-white">
+        <div className="max-w-[1481px] mx-auto px-4 py-2">
+          <ul className="flex space-x-8 overflow-x-auto">
             {menuItems.map((item) => (
-              <li key={item.name} className="whitespace-nowrap">
+              <li key={item.name}>
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Link
                         to={item.path}
-                        className={`text-xs uppercase font-light transition-all relative group ${
+                        className={`text-xs font-light transition-all uppercase whitespace-nowrap relative group ${
                           isActive(item.path) ? "text-black" : "text-gray-600 hover:text-black"
                         }`}
                       >
                         {item.name}
                         <span
-                          className={`absolute left-0 bottom-[-2px] w-0 h-[0.5px] bg-black transition-all duration-300 group-hover:w-full ${
+                          className={`absolute left-0 bottom-[-3px] w-0 h-[0.5px] bg-black transition-all duration-300 group-hover:w-full ${
                             isActive(item.path) ? "w-full" : ""
                           }`}
                         ></span>
                       </Link>
                     </TooltipTrigger>
-                    <TooltipContent side="bottom">
-                      <p className="text-xs">{item.tooltip}</p>
+                    <TooltipContent className="bg-white shadow-md">
+                      <p className="text-xs font-light">{item.tooltip}</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
