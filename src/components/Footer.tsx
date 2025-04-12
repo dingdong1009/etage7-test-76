@@ -20,7 +20,7 @@ const Footer = () => {
       <div className="container-lg">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-4">
           <div className="lg:col-span-2">
-            <h3 className="text-xl font-light tracking-tighter uppercase mb-6">ETAGE7</h3>
+            <h3 className="text-2xl font-light tracking-tighter uppercase mb-6">ETAGE7</h3>
             <p className="text-sm text-gray-600 mb-6 max-w-md font-light">
               Connecting professional buyers and fashion brands through a premium 
               platform with curated experiences and tailored consulting services. 
@@ -51,25 +51,25 @@ const Footer = () => {
           </div>
           
           <div>
-            <h4 className="text-xs uppercase font-light tracking-tight mb-6">QUICK LINKS</h4>
+            <h4 className="text-xs uppercase font-normal tracking-tight mb-6">QUICK LINKS</h4>
             <ul className="space-y-4 uppercase">
               <li>
-                <Link to="/brands" className="text-xs text-gray-600 hover:text-black transition-fast font-light">
+                <Link to="/brands" className="text-xs text-gray-600 hover:text-black transition-fast font-normal">
                   For Brands
                 </Link>
               </li>
               <li>
-                <Link to="/buyers" className="text-xs text-gray-600 hover:text-black transition-fast font-light">
+                <Link to="/buyers" className="text-xs text-gray-600 hover:text-black transition-fast font-normal">
                   For Buyers
                 </Link>
               </li>
               <li>
-                <Link to="/services" className="text-xs text-gray-600 hover:text-black transition-fast font-light">
+                <Link to="/services" className="text-xs text-gray-600 hover:text-black transition-fast font-normal">
                   Services
                 </Link>
               </li>
               <li>
-                <Link to="/events" className="text-xs text-gray-600 hover:text-black transition-fast font-light">
+                <Link to="/events" className="text-xs text-gray-600 hover:text-black transition-fast font-normal">
                   Events
                 </Link>
               </li>
@@ -77,20 +77,20 @@ const Footer = () => {
           </div>
           
           <div>
-            <h4 className="text-xs uppercase font-light tracking-tight mb-6">LEGAL</h4>
+            <h4 className="text-xs uppercase font-normal tracking-tight mb-6">LEGAL</h4>
             <ul className="space-y-4 text-xs uppercase">
               <li>
-                <Link to="/terms" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-light">
+                <Link to="/terms" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-normal">
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link to="/privacy" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-light">
+                <Link to="/privacy" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-normal">
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link to="/faq" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-light">
+                <Link to="/faq" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-normal">
                  FAQ
                 </Link>
               </li>
@@ -98,11 +98,11 @@ const Footer = () => {
           </div>
           
           <div>
-            <h4 className="ftext-xs uppercase font-light tracking-tight mb-6">CONTACT</h4>
+            <h4 className="ftext-xs uppercase font-normal tracking-tight mb-6">CONTACT</h4>
             <ul className="space-y-4 uppercase">
-              <li className="text-sm text-gray-600 font-light">Email: info@etage7.com</li>
-              <li className="text-sm text-gray-600 font-light">Phone: +33 (0) 1 XX XX XX XX</li>
-              <li className="text-sm text-gray-600 font-light">Paris, France</li>
+              <li className="text-sm text-gray-600 font-normal">Email: info@etage7.com</li>
+              <li className="text-sm text-gray-600 font-normal">Phone: +33 (0) 1 XX XX XX XX</li>
+              <li className="text-sm text-gray-600 font-normal">Paris, France</li>
             </ul>
           </div>
         </div>
