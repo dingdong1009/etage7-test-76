@@ -21,11 +21,11 @@ const Header = () => {
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 bg-white border-b transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 bg-white transition-all duration-300 ${
         isScrolled ? "shadow-sm" : ""
       }`}
     >
-      <div className="max-w-[1481px] mx-auto px-4 flex justify-between items-center h-16">
+      <div className="max-w-[1481px] border-b mx-auto px-4 flex justify-between items-center h-16">
       <Link to="/" className="text-black text-xl font-bold uppercase">ETAGE7</Link> 
         
         {/* Mobile menu button */}
