@@ -4,13 +4,22 @@ import BuyerHeader from "./BuyerHeader";
 
 const BuyerLayout = () => {
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col bg-white">
       <BuyerHeader />
-      <main className="flex-1 p-4 md:p-6 lg:p-8 pt-24">
-        <Outlet />
+      <main className="flex-1 px-4 md:px-8 lg:px-12 py-8 md:py-12 pt-24">
+        <div className="max-w-7xl mx-auto w-full">
+          <Outlet />
+        </div>
       </main>
-      <footer className="py-4 px-4 md:px-6 text-center text-xs text-gray-500 border-t border-gray-100 bg-white">
-        <p className="font-light">© {new Date().getFullYear()} ETAGE7 Buyer Portal. All rights reserved.</p>
+      <footer className="py-6 px-4 md:px-8 border-t border-gray-100 bg-white">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="font-light text-sm text-gray-500">© {new Date().getFullYear()} ETAGE7 Buyer Portal. All rights reserved.</p>
+          <div className="flex gap-6">
+            <a href="#" className="text-xs text-gray-500 hover:text-black transition-colors">Privacy Policy</a>
+            <a href="#" className="text-xs text-gray-500 hover:text-black transition-colors">Terms of Service</a>
+            <a href="#" className="text-xs text-gray-500 hover:text-black transition-colors">Contact</a>
+          </div>
+        </div>
       </footer>
     </div>
   );
