@@ -210,7 +210,7 @@ const BuyerHeader = () => {
               </ul>
             </nav>
             <div className="pt-10 pb-4 mt-auto border-t border-gray-100">
-              <p className="text-sm text-gray-500 font-light">© {new Date().getFullYear()} ETAGE7 </p>
+              <p className="text-sm text-gray-500 font-light">© {new Date().getFullYear()} ETAGE7</p>
             </div>
           </div>
         </div>
