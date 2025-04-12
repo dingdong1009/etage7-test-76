@@ -52,7 +52,7 @@ const AdminHeader = () => {
           
           {/* Logo */}
           <Link to="/" className="text-black text-5xl font-medium tracking-tighter uppercase">
-            éTAGE7 
+            éTAGE7
           </Link>
         </div>
         
