@@ -42,7 +42,7 @@ const Footer = () => {
     <footer className="bg-white border-t border-gray-100 pt-16 pb-8">
       <div className="container-lg">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-4">
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 pr-4">
             <h3 className="text-2xl font-light tracking-tighter uppercase mb-6">ETAGE7</h3>
             <form onSubmit={handleNewsletterSubmit} className="mb-6">
               <p className="text-sm text-gray-600 font-light mb-4">
