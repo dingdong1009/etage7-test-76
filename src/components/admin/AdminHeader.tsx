@@ -38,46 +38,46 @@ const AdminHeader = () => {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 bg-white shadow-sm">
-      <div className="max-w-[1481px] mx-auto bg-black px-4 flex justify-between items-center h-16">
-        <Link to="/admin" className="flex items-center gap-2 text-white">
-          <span className="text-2xl font-bold uppercase tracking-tighter">ETAGE7</span>
-          <span className="text-gray-300 text-sm">| ADMIN</span>
-        </Link>
+    <header className="sticky top-0 left-0 right-0 z-40 bg-white">
+  <div className="max-w-full px-4 flex justify-between items-center h-16">
+        <div className="flex items-center gap-2">
+          <Link to="/" className="text-black text-2xl font-bold uppercase">ETAGE7</Link> | BRAND
+        </div>
         
         {/* Mobile menu button */}
-        <div className="flex items-center gap-4">
+        <button
+          className="md:hidden text-black p-2"
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
+        >
+          <Menu size={24} />
+        </button>
+        
+        {/* User options on desktop */}
+        <div className="hidden md:flex items-center space-x-4">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
-                <div className="relative cursor-pointer">
-                  <Bell size={20} className="text-gray-300 hover:text-white transition-colors" />
+                <div className="relative">
+                  <Bell size={20} className="text-gray-600 hover:text-black cursor-pointer" />
                   {notificationCount > 0 && (
                     <Badge 
-                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-accent-pink text-black text-xs rounded-full"
+                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-red-500 text-white text-xs rounded-full"
                     >
                       {notificationCount}
                     </Badge>
                   )}
                 </div>
               </TooltipTrigger>
-              <TooltipContent className="bg-white shadow-md">
-                <p>{notificationCount} new service bookings</p>
+              <TooltipContent showArrow={true}>
+                <p>{notificationCount} confirmed service booking</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
           
-          <Link to="/" className="hidden md:block text-gray-300 hover:text-white text-sm transition-colors">
+          <Link to="/" className="text-gray-600 hover:text-black text-sm">
             BACK TO SITE
           </Link>
-          
-          <button
-            className="md:hidden text-white p-2"
-            onClick={toggleMenu}
-            aria-label="Toggle menu"
-          >
-            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
         </div>
       </div>
       
