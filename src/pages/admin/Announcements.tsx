@@ -243,25 +243,31 @@ const AdminAnnouncements = () => {
   };
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <h1 className="text-3xl md:text-5xl uppercase font-thin">Announcements</h1>
+    <div className="space-y-8 animate-fade-in">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+        <h1 className="text-4xl md:text-6xl uppercase font-thin">
+          ANNOUNCEMENTS <span className="font-normal">MANAGER</span>
+        </h1>
         <div className="flex items-center gap-2">
-          <Button variant="outline" className="gap-2" onClick={() => setPreviewMode(!previewMode)}>
+          <Button 
+            variant="outline" 
+            className="admin-button-outline gap-2" 
+            onClick={() => setPreviewMode(!previewMode)}
+          >
             {previewMode ? <PenTool size={16} /> : <Eye size={16} />}
             {previewMode ? "Edit Mode" : "Preview Mode"}
           </Button>
         </div>
       </div>
       
-      <Card className="border border-gray-200 overflow-hidden">
-        <CardHeader className="to-white pb-2">
-          <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">
+      <Card className="border border-gray-200 shadow-none rounded-lg">
+        <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
+          <CardTitle className="text-lg font-medium text-gray-900">
             Create New Announcement
           </CardTitle>
         </CardHeader>
         
-        <CardContent className="pt-6">
+        <CardContent className="p-6">
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
               {/* Announcement Type Selector */}
@@ -380,11 +386,11 @@ const AdminAnnouncements = () => {
                             defaultValue={field.value}
                           >
                             <FormControl>
-                              <SelectTrigger>
+                              <SelectTrigger className="border-gray-200 bg-white">
                                 <SelectValue placeholder="Select audience" />
                               </SelectTrigger>
                             </FormControl>
-                            <SelectContent>
+                            <SelectContent className="bg-white">
                               {audienceOptions.map(option => (
                                 <SelectItem key={option.value} value={option.value}>
                                   <div className="flex items-center gap-2">
@@ -414,11 +420,11 @@ const AdminAnnouncements = () => {
                             defaultValue={field.value}
                           >
                             <FormControl>
-                              <SelectTrigger>
+                              <SelectTrigger className="border-gray-200 bg-white">
                                 <SelectValue placeholder="Select duration" />
                               </SelectTrigger>
                             </FormControl>
-                            <SelectContent>
+                            <SelectContent className="bg-white">
                               {durationOptions.map(option => (
                                 <SelectItem key={option.value} value={option.value}>
                                   <div className="flex items-center gap-2">
@@ -440,7 +446,7 @@ const AdminAnnouncements = () => {
                       control={form.control}
                       name="isUrgent"
                       render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 border-gray-200">
                           <div className="space-y-0.5">
                             <FormLabel>Mark as Urgent</FormLabel>
                             <div className="text-sm text-muted-foreground">
@@ -461,7 +467,7 @@ const AdminAnnouncements = () => {
                       control={form.control}
                       name="isScheduled"
                       render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3">
+                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 border-gray-200">
                           <div className="space-y-0.5">
                             <FormLabel>Schedule for Later</FormLabel>
                             <div className="text-sm text-muted-foreground">
@@ -494,6 +500,7 @@ const AdminAnnouncements = () => {
                               type="datetime-local" 
                               {...field} 
                               min={format(new Date(), "yyyy-MM-dd'T'HH:mm")}
+                              className="border-gray-200"
                             />
                           </FormControl>
                           <FormMessage />
@@ -507,7 +514,7 @@ const AdminAnnouncements = () => {
               <div className="flex justify-end">
                 <Button 
                   type="submit" 
-                  className={`gap-2 ${
+                  className={`gap-2 admin-button-primary ${
                     selectedType === "brand" ? "bg-blue-600" :
                     selectedType === "newsletter" ? "bg-purple-600" : 
                     selectedType === "maintenance" ? "bg-orange-600" :
@@ -524,9 +531,9 @@ const AdminAnnouncements = () => {
         </CardContent>
       </Card>
       
-      <Card className="border border-gray-200 overflow-hidden">
-        <CardHeader className="bg-gradient-to-r from-gray-50 to-white pb-2">
-          <CardTitle className="text-xl flex items-center gap-2">
+      <Card className="border border-gray-200 shadow-none rounded-lg overflow-hidden">
+        <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
+          <CardTitle className="text-lg font-medium text-gray-900 flex items-center gap-2">
             <BookOpen className="h-5 w-5" />
             Announcement History
           </CardTitle>
@@ -537,44 +544,59 @@ const AdminAnnouncements = () => {
         
         <Tabs defaultValue="all" className="w-full">
           <div className="px-6 pt-2 border-b">
-            <TabsList className="grid grid-cols-5">
-              <TabsTrigger value="all" className="flex items-center gap-1">
-                <Megaphone className="h-4 w-4" />
-                <span className="hidden md:inline">All</span>
+            <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-0">
+              <TabsTrigger 
+                value="all" 
+                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
+              >
+                <Megaphone className="h-4 w-4 mr-2" />
+                All
               </TabsTrigger>
-              <TabsTrigger value="brands" className="flex items-center gap-1">
-                <Store className="h-4 w-4" />
-                <span className="hidden md:inline">Brands</span>
+              <TabsTrigger 
+                value="brands" 
+                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
+              >
+                <Store className="h-4 w-4 mr-2" />
+                Brands
               </TabsTrigger>
-              <TabsTrigger value="newsletters" className="flex items-center gap-1">
-                <Mail className="h-4 w-4" />
-                <span className="hidden md:inline">Newsletters</span>
+              <TabsTrigger 
+                value="newsletters" 
+                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
+              >
+                <Mail className="h-4 w-4 mr-2" />
+                Newsletters
               </TabsTrigger>
-              <TabsTrigger value="maintenance" className="flex items-center gap-1">
-                <Wrench className="h-4 w-4" />
-                <span className="hidden md:inline">Maintenance</span>
+              <TabsTrigger 
+                value="maintenance" 
+                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
+              >
+                <Wrench className="h-4 w-4 mr-2" />
+                Maintenance
               </TabsTrigger>
-              <TabsTrigger value="updates" className="flex items-center gap-1">
-                <Bell className="h-4 w-4" />
-                <span className="hidden md:inline">Updates</span>
+              <TabsTrigger 
+                value="updates" 
+                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
+              >
+                <Bell className="h-4 w-4 mr-2" />
+                Updates
               </TabsTrigger>
             </TabsList>
           </div>
           
-          <TabsContent value="all">
+          <TabsContent value="all" className="mt-0">
             <Table>
               <TableHeader>
-                <TableRow className="bg-gray-50">
-                  <TableHead className="w-12"></TableHead>
-                  <TableHead className="font-medium w-1/3">Title / Content</TableHead>
-                  <TableHead className="font-medium">Date</TableHead>
-                  <TableHead className="font-medium">Audience</TableHead>
-                  <TableHead className="font-medium text-right w-24">Actions</TableHead>
+                <TableRow className="bg-gray-50 hover:bg-transparent">
+                  <TableHead className="w-12 font-medium text-gray-600 text-sm"></TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm w-1/3">Title / Content</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm">Date</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm">Audience</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm text-right w-24">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {pastAnnouncements.map((announcement) => (
-                  <TableRow key={announcement.id} className="border-t border-gray-200">
+                  <TableRow key={announcement.id} className="border-t border-gray-100 hover:bg-gray-50/50">
                     <TableCell className="pl-4">
                       {getAnnouncementIcon(announcement.type, "h-5 w-5")}
                     </TableCell>
@@ -596,8 +618,8 @@ const AdminAnnouncements = () => {
                     <TableCell>
                       <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                         announcement.audience === "All Users" 
-                          ? "bg-green-50 text-green-700" 
-                          : "bg-blue-50 text-blue-700"
+                          ? "bg-accent-mint text-gray-800 border-accent-mint" 
+                          : "bg-accent-blue text-gray-800 border-accent-blue"
                       }`}>
                         {announcement.audience}
                       </span>
@@ -606,7 +628,7 @@ const AdminAnnouncements = () => {
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8"
+                        className="h-8 w-8 p-0 hover:bg-gray-100"
                         title="Resend"
                         onClick={() => resendAnnouncement(announcement)}
                       >
@@ -615,7 +637,7 @@ const AdminAnnouncements = () => {
                       <Button 
                         variant="ghost"
                         size="icon"
-                        className="h-8 w-8"
+                        className="h-8 w-8 p-0 hover:bg-gray-100"
                         title="Delete"
                         onClick={() => deleteAnnouncement(announcement)}
                       >
@@ -631,19 +653,19 @@ const AdminAnnouncements = () => {
           <TabsContent value="brands">
             <Table>
               <TableHeader>
-                <TableRow className="bg-gray-50">
-                  <TableHead className="w-12"></TableHead>
-                  <TableHead className="font-medium w-1/3">Title / Content</TableHead>
-                  <TableHead className="font-medium">Date</TableHead>
-                  <TableHead className="font-medium">Audience</TableHead>
-                  <TableHead className="font-medium text-right w-24">Actions</TableHead>
+                <TableRow className="bg-gray-50 hover:bg-transparent">
+                  <TableHead className="w-12 font-medium text-gray-600 text-sm"></TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm w-1/3">Title / Content</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm">Date</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm">Audience</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm text-right w-24">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {pastAnnouncements
                   .filter(a => a.type === "brand")
                   .map((announcement) => (
-                    <TableRow key={announcement.id} className="border-t border-gray-200">
+                    <TableRow key={announcement.id} className="border-t border-gray-100 hover:bg-gray-50/50">
                       <TableCell className="pl-4">
                         {getAnnouncementIcon(announcement.type, "h-5 w-5")}
                       </TableCell>
@@ -660,8 +682,8 @@ const AdminAnnouncements = () => {
                       <TableCell>
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                           announcement.audience === "All Users" 
-                            ? "bg-green-50 text-green-700" 
-                            : "bg-blue-50 text-blue-700"
+                            ? "bg-accent-mint text-gray-800 border-accent-mint" 
+                            : "bg-accent-blue text-gray-800 border-accent-blue"
                         }`}>
                           {announcement.audience}
                         </span>
@@ -670,7 +692,7 @@ const AdminAnnouncements = () => {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8"
+                          className="h-8 w-8 p-0 hover:bg-gray-100"
                           title="Resend"
                           onClick={() => resendAnnouncement(announcement)}
                         >
@@ -679,7 +701,7 @@ const AdminAnnouncements = () => {
                         <Button 
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8"
+                          className="h-8 w-8 p-0 hover:bg-gray-100"
                           title="Delete"
                           onClick={() => deleteAnnouncement(announcement)}
                         >
@@ -695,19 +717,19 @@ const AdminAnnouncements = () => {
           <TabsContent value="newsletters">
             <Table>
               <TableHeader>
-                <TableRow className="bg-gray-50">
-                  <TableHead className="w-12"></TableHead>
-                  <TableHead className="font-medium w-1/3">Title / Content</TableHead>
-                  <TableHead className="font-medium">Date</TableHead>
-                  <TableHead className="font-medium">Audience</TableHead>
-                  <TableHead className="font-medium text-right w-24">Actions</TableHead>
+                <TableRow className="bg-gray-50 hover:bg-transparent">
+                  <TableHead className="w-12 font-medium text-gray-600 text-sm"></TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm w-1/3">Title / Content</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm">Date</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm">Audience</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm text-right w-24">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {pastAnnouncements
                   .filter(a => a.type === "newsletter")
                   .map((announcement) => (
-                    <TableRow key={announcement.id} className="border-t border-gray-200">
+                    <TableRow key={announcement.id} className="border-t border-gray-100 hover:bg-gray-50/50">
                       <TableCell className="pl-4">
                         {getAnnouncementIcon(announcement.type, "h-5 w-5")}
                       </TableCell>
@@ -724,8 +746,8 @@ const AdminAnnouncements = () => {
                       <TableCell>
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                           announcement.audience === "All Users" 
-                            ? "bg-green-50 text-green-700" 
-                            : "bg-blue-50 text-blue-700"
+                            ? "bg-accent-mint text-gray-800 border-accent-mint" 
+                            : "bg-accent-blue text-gray-800 border-accent-blue"
                         }`}>
                           {announcement.audience}
                         </span>
@@ -734,7 +756,7 @@ const AdminAnnouncements = () => {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8"
+                          className="h-8 w-8 p-0 hover:bg-gray-100"
                           title="Resend"
                           onClick={() => resendAnnouncement(announcement)}
                         >
@@ -743,7 +765,7 @@ const AdminAnnouncements = () => {
                         <Button 
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8"
+                          className="h-8 w-8 p-0 hover:bg-gray-100"
                           title="Delete"
                           onClick={() => deleteAnnouncement(announcement)}
                         >
@@ -759,19 +781,19 @@ const AdminAnnouncements = () => {
           <TabsContent value="maintenance">
             <Table>
               <TableHeader>
-                <TableRow className="bg-gray-50">
-                  <TableHead className="w-12"></TableHead>
-                  <TableHead className="font-medium w-1/3">Title / Content</TableHead>
-                  <TableHead className="font-medium">Date</TableHead>
-                  <TableHead className="font-medium">Audience</TableHead>
-                  <TableHead className="font-medium text-right w-24">Actions</TableHead>
+                <TableRow className="bg-gray-50 hover:bg-transparent">
+                  <TableHead className="w-12 font-medium text-gray-600 text-sm"></TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm w-1/3">Title / Content</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm">Date</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm">Audience</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm text-right w-24">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {pastAnnouncements
                   .filter(a => a.type === "maintenance")
                   .map((announcement) => (
-                    <TableRow key={announcement.id} className="border-t border-gray-200">
+                    <TableRow key={announcement.id} className="border-t border-gray-100 hover:bg-gray-50/50">
                       <TableCell className="pl-4">
                         {getAnnouncementIcon(announcement.type, "h-5 w-5")}
                       </TableCell>
@@ -793,8 +815,8 @@ const AdminAnnouncements = () => {
                       <TableCell>
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                           announcement.audience === "All Users" 
-                            ? "bg-green-50 text-green-700" 
-                            : "bg-blue-50 text-blue-700"
+                            ? "bg-accent-mint text-gray-800 border-accent-mint" 
+                            : "bg-accent-blue text-gray-800 border-accent-blue"
                         }`}>
                           {announcement.audience}
                         </span>
@@ -803,7 +825,7 @@ const AdminAnnouncements = () => {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8"
+                          className="h-8 w-8 p-0 hover:bg-gray-100"
                           title="Resend"
                           onClick={() => resendAnnouncement(announcement)}
                         >
@@ -812,7 +834,7 @@ const AdminAnnouncements = () => {
                         <Button 
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8"
+                          className="h-8 w-8 p-0 hover:bg-gray-100"
                           title="Delete"
                           onClick={() => deleteAnnouncement(announcement)}
                         >
@@ -828,19 +850,19 @@ const AdminAnnouncements = () => {
           <TabsContent value="updates">
             <Table>
               <TableHeader>
-                <TableRow className="bg-gray-50">
-                  <TableHead className="w-12"></TableHead>
-                  <TableHead className="font-medium w-1/3">Title / Content</TableHead>
-                  <TableHead className="font-medium">Date</TableHead>
-                  <TableHead className="font-medium">Audience</TableHead>
-                  <TableHead className="font-medium text-right w-24">Actions</TableHead>
+                <TableRow className="bg-gray-50 hover:bg-transparent">
+                  <TableHead className="w-12 font-medium text-gray-600 text-sm"></TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm w-1/3">Title / Content</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm">Date</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm">Audience</TableHead>
+                  <TableHead className="font-medium text-gray-600 text-sm text-right w-24">Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {pastAnnouncements
                   .filter(a => a.type === "update")
                   .map((announcement) => (
-                    <TableRow key={announcement.id} className="border-t border-gray-200">
+                    <TableRow key={announcement.id} className="border-t border-gray-100 hover:bg-gray-50/50">
                       <TableCell className="pl-4">
                         {getAnnouncementIcon(announcement.type, "h-5 w-5")}
                       </TableCell>
@@ -857,8 +879,8 @@ const AdminAnnouncements = () => {
                       <TableCell>
                         <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                           announcement.audience === "All Users" 
-                            ? "bg-green-50 text-green-700" 
-                            : "bg-blue-50 text-blue-700"
+                            ? "bg-accent-mint text-gray-800 border-accent-mint" 
+                            : "bg-accent-blue text-gray-800 border-accent-blue"
                         }`}>
                           {announcement.audience}
                         </span>
@@ -867,7 +889,7 @@ const AdminAnnouncements = () => {
                         <Button
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8"
+                          className="h-8 w-8 p-0 hover:bg-gray-100"
                           title="Resend"
                           onClick={() => resendAnnouncement(announcement)}
                         >
@@ -876,7 +898,7 @@ const AdminAnnouncements = () => {
                         <Button 
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8"
+                          className="h-8 w-8 p-0 hover:bg-gray-100"
                           title="Delete"
                           onClick={() => deleteAnnouncement(announcement)}
                         >
@@ -895,3 +917,4 @@ const AdminAnnouncements = () => {
 };
 
 export default AdminAnnouncements;
+
