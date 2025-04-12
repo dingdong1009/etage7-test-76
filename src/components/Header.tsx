@@ -68,7 +68,7 @@ const Header = () => {
           </button>
           
           {/* Logo */}
-          <Link to="/" className="text-black text-xl font-light tracking-tighter uppercase">
+          <Link to="/" className="text-black text-2xl font-medium tracking-tighter uppercase">
             ETAGE7
           </Link>
         </div>
