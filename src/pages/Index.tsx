@@ -165,8 +165,8 @@ const Index = () => {
       <section className="py-24 md:py-32 bg-gray-50">
         <div className="container-lg">
           <div className="max-w-3xl mx-auto text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-light tracking-tighter mb-6">
-              OUR <span className="font-normal">SERVICES</span>
+            <h2 className="text-3xl md:text-4xl font-normal tracking-tighter mb-6">
+              OUR SERVICES
             </h2>
             <p className="text-gray-700 mb-10">
               Beyond our digital platform, we offer specialized consulting services for both brands and buyers.
