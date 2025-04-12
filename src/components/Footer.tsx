@@ -52,7 +52,7 @@ const Footer = () => {
           
           <div>
             <h4 className="text-xs uppercase font-normal tracking-tight mb-6">QUICK LINKS</h4>
-            <ul className="space-y-4 uppercase">
+            <ul className="space-y-2 uppercase">
               <li>
                 <Link to="/brands" className="text-xs text-gray-600 hover:text-black transition-fast font-normal">
                   For Brands
@@ -78,7 +78,7 @@ const Footer = () => {
           
           <div>
             <h4 className="text-xs uppercase font-normal tracking-tight mb-6">LEGAL</h4>
-            <ul className="space-y-4 text-xs uppercase">
+            <ul className="space-y-2 text-xs uppercase">
               <li>
                 <Link to="/terms" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-normal">
                   Terms of Service
@@ -98,11 +98,11 @@ const Footer = () => {
           </div>
           
           <div>
-            <h4 className="ftext-xs uppercase font-normal tracking-tight mb-6">CONTACT</h4>
-            <ul className="space-y-4 uppercase">
-              <li className="text-sm text-gray-600 font-normal">Email: info@etage7.com</li>
-              <li className="text-sm text-gray-600 font-normal">Phone: +33 (0) 1 XX XX XX XX</li>
-              <li className="text-sm text-gray-600 font-normal">Paris, France</li>
+            <h4 className="text-xs uppercase font-normal tracking-tight mb-6">CONTACT</h4>
+            <ul className="space-y-2 uppercase">
+              <li className="text-xs text-gray-600 font-normal">Email: info@etage7.com</li>
+              <li className="text-xs text-gray-600 font-normal">Phone: +33 (0) 1 XX XX XX XX</li>
+              <li className="text-xs text-gray-600 font-normal">Paris, France</li>
             </ul>
           </div>
         </div>
