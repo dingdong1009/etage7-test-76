@@ -47,8 +47,7 @@ const Header = () => {
 
   const secondaryNavItems = [
 
-    { name: "LOGIN", path: "/login" },
-    { name: "REGISTER", path: "/register" },
+
   ];
 
   return (
@@ -92,24 +91,7 @@ const Header = () => {
         </nav>
 
         {/* Right side actions */}
-        <div className="flex items-center space-x-5">
-          {/* Secondary navigation on desktop */}
-          <nav className="hidden lg:block">
-            <ul className="flex space-x-6">
-              {secondaryNavItems.map((item) => (
-                <li key={item.name}>
-                  <Link 
-                    to={item.path} 
-                    className="text-xs font-light uppercase relative group transition-fast"
-                  >
-                    {item.name}
-                    <span className="absolute left-0 bottom-[-2px] w-0 h-[0.5px] bg-black transition-all duration-300 group-hover:w-full"></span>
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-          
+        <div className="flex items-center space-x-5">      
           {/* Search, User and Cart */}
           <div className="flex items-center space-x-5">
             <button 
