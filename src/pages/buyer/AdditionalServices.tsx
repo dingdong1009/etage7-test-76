@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Calendar, Check } from "lucide-react";
+import { Calendar, Check, ArrowRight } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Form, FormField, FormItem, FormLabel, FormControl } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -109,44 +109,81 @@ const BuyerAdditionalServices = () => {
   };
 
   return (
-    <div className="container px-4 py-8 mx-auto">
-      <div className="mb-10">
-        <h1 className="text-3xl font-medium mb-2">Buyer Services</h1>
-        <p className="text-gray-600">
-          Specialized consulting services to enhance your buying strategy and store curation
-        </p>
-      </div>
+    <div className="w-full">
+      {/* Hero Section */}
+      <section className="bg-black text-white py-24 px-4">
+        <div className="max-w-[1481px] mx-auto">
+          <h1 className="text-3xl md:text-5xl uppercase font-thin mb-6">
+            ADDITIONAL<br/>
+            <span className="font-normal">SERVICES</span>
+          </h1>
+          <p className="max-w-2xl text-lg font-light mb-8">
+            Specialized consulting services to enhance your buying strategy and store curation
+          </p>
+          <Button className="bg-white text-black border-0 hover:bg-gray-100">
+            EXPLORE SERVICES <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      </section>
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {buyerServices.map((service) => (
-          <div key={service.id} className="bg-white p-6 rounded-md shadow-sm border border-gray-100 flex flex-col">
-            <h2 className="text-xl font-medium mb-2">{service.name}</h2>
-            <p className="text-gray-600 mb-4">
-              {service.description}
-            </p>
-            <ul className="space-y-2 mb-6 flex-1">
-              {service.features.map((feature, index) => (
-                <li key={index} className="flex items-start">
-                  <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
-                  <span className="text-sm">{feature}</span>
-                </li>
-              ))}
-            </ul>
-            <div className="mt-auto pt-4 border-t border-gray-100">
-              <div className="flex justify-between items-center mb-4">
-                <span className="font-semibold">{service.price}</span>
-                <span className="text-sm text-gray-500">{service.duration}</span>
-              </div>
-              <Button 
-                className="w-full" 
-                onClick={() => openBookingDialog(service)}
+      {/* Services Section */}
+      <section className="py-16 px-4">
+        <div className="max-w-[1481px] mx-auto">
+          <h2 className="text-2xl md:text-4xl uppercase font-thin mb-12">
+            OUR <span className="font-normal">CONSULTING SERVICES</span>
+          </h2>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {buyerServices.map((service) => (
+              <div 
+                key={service.id} 
+                className="bg-white p-6 md:p-8 border border-gray-200 hover:shadow-md transition-shadow flex flex-col group"
               >
-                Book Consultation <Calendar className="ml-2 h-4 w-4" />
-              </Button>
-            </div>
+                <h3 className="text-xl font-medium mb-3">{service.name}</h3>
+                <p className="text-gray-600 mb-6 font-light">
+                  {service.description}
+                </p>
+                <ul className="space-y-3 mb-8 flex-1">
+                  {service.features.map((feature, index) => (
+                    <li key={index} className="flex items-start">
+                      <Check className="h-5 w-5 text-green-500 mr-2 flex-shrink-0 mt-0.5" />
+                      <span className="text-sm font-light">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-auto pt-4 border-t border-gray-100">
+                  <div className="flex justify-between items-center mb-4">
+                    <span className="font-semibold">{service.price}</span>
+                    <span className="text-sm text-gray-500 font-light">{service.duration}</span>
+                  </div>
+                  <Button 
+                    className="w-full bg-black text-white hover:bg-gray-800 group-hover:translate-x-1 transition-transform" 
+                    onClick={() => openBookingDialog(service)}
+                  >
+                    Book Consultation <Calendar className="ml-2 h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            ))}
           </div>
-        ))}
-      </div>
+        </div>
+      </section>
+      
+      {/* Contact Section */}
+      <section className="py-16 px-4 bg-gray-50">
+        <div className="max-w-[1481px] mx-auto text-center">
+          <h2 className="text-2xl md:text-4xl uppercase font-thin mb-6">
+            NEED <span className="font-normal">ASSISTANCE?</span>
+          </h2>
+          <p className="max-w-2xl mx-auto mb-8 font-light text-gray-600">
+            Our team of fashion industry experts is here to help you find the right services
+            for your specific needs.
+          </p>
+          <Button className="bg-black text-white hover:bg-gray-800">
+            CONTACT US <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      </section>
 
       <Dialog open={isBookingOpen} onOpenChange={setIsBookingOpen}>
         <DialogContent className="sm:max-w-md">
@@ -262,7 +299,7 @@ const BuyerAdditionalServices = () => {
                 >
                   Cancel
                 </Button>
-                <Button type="submit">
+                <Button type="submit" className="bg-black text-white hover:bg-gray-800">
                   Submit Booking Request
                 </Button>
               </DialogFooter>
