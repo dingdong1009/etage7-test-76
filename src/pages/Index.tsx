@@ -60,7 +60,7 @@ const Index = () => {
             </h2>
             <p className="text-gray-700">
               ETAGE7 combines technology, industry expertise, and personalized service to create 
-              a new standard for fashion industry connections.
+              a new standard for fashion industry connections. 
             </p>
           </div>
           
