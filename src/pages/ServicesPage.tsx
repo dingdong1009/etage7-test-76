@@ -119,7 +119,7 @@ const ServicesPage = () => {
 
   return (
     <div className="w-full">
-      {/* Hero Section */}
+      {/* Hero Section - Aligned with the Index page hero section */}
       <section className="relative h-[80vh] bg-black text-white flex items-center">
         <div className="container-lg">
           <div className="max-w-3xl">
@@ -130,8 +130,8 @@ const ServicesPage = () => {
             <p className="text-lg md:text-xl font-light text-gray-300 mb-12 max-w-2xl">
               Expert guidance for brands and buyers navigating the complex fashion industry landscape.
             </p>
-            <Button className="bg-white text-black border-0 hover:bg-gray-100">
-              EXPLORE SERVICES <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+            <Button variant="white" size="xl" className="group">
+              EXPLORE SERVICES <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
             </Button>
           </div>
         </div>
@@ -157,9 +157,9 @@ const ServicesPage = () => {
                 Our consulting services help fashion brands define their market positioning, 
                 optimize their sales strategy, and successfully enter new markets.
               </p>
-              <Button asChild className="bg-black text-white hover:bg-gray-800">
+              <Button variant="black" asChild className="group">
                 <Link to="/brands">
-                  BRAND SERVICES <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+                  BRAND SERVICES <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
                 </Link>
               </Button>
             </div>
@@ -170,9 +170,9 @@ const ServicesPage = () => {
                 Professional buyers benefit from our expertise in trend forecasting, 
                 inventory planning, and curated brand discovery to enhance their product selection.
               </p>
-              <Button asChild className="bg-black text-white hover:bg-gray-800">
+              <Button variant="black" asChild className="group">
                 <Link to="/buyers">
-                  BUYER SERVICES <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+                  BUYER SERVICES <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
                 </Link>
               </Button>
             </div>
@@ -189,16 +189,28 @@ const ServicesPage = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {brandServices.map((service) => (
-              <div key={service.id} className="bg-white p-8 border border-gray-200 flex flex-col">
+              <div key={service.id} className="bg-white p-8 border border-gray-200 flex flex-col hover:shadow-md transition-shadow duration-300">
                 <h3 className="uppercase font-normal text-xl mb-4">{service.name}</h3>
                 <p className="font-light mb-4 text-gray-700">
                   {service.description}
                 </p>
                 <ul className="space-y-2 mb-6 flex-1">
-                  <li className="font-light text-sm text-gray-700">• Market analysis and opportunity assessment</li>
-                  <li className="font-light text-sm text-gray-700">• Competitive landscape mapping</li>
-                  <li className="font-light text-sm text-gray-700">• Distribution channel strategy</li>
-                  <li className="font-light text-sm text-gray-700">• Pricing and positioning recommendations</li>
+                  <li className="font-light text-sm text-gray-700 flex items-start gap-2">
+                    <span className="text-gray-400 mt-0.5">—</span>
+                    <span>Market analysis and opportunity assessment</span>
+                  </li>
+                  <li className="font-light text-sm text-gray-700 flex items-start gap-2">
+                    <span className="text-gray-400 mt-0.5">—</span>
+                    <span>Competitive landscape mapping</span>
+                  </li>
+                  <li className="font-light text-sm text-gray-700 flex items-start gap-2">
+                    <span className="text-gray-400 mt-0.5">—</span>
+                    <span>Distribution channel strategy</span>
+                  </li>
+                  <li className="font-light text-sm text-gray-700 flex items-start gap-2">
+                    <span className="text-gray-400 mt-0.5">—</span>
+                    <span>Pricing and positioning recommendations</span>
+                  </li>
                 </ul>
                 <div className="mt-auto pt-4 border-t border-gray-100">
                   <div className="flex justify-between items-center mb-4">
@@ -206,7 +218,8 @@ const ServicesPage = () => {
                     <span className="text-sm text-gray-500">{service.duration}</span>
                   </div>
                   <Button 
-                    className="w-full bg-black text-white hover:bg-gray-800"
+                    variant="black"
+                    className="w-full group"
                     onClick={() => openBookingDialog(service)}
                   >
                     Book Consultation <Calendar className="ml-2 h-4 w-4" />
@@ -227,16 +240,28 @@ const ServicesPage = () => {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {buyerServices.map((service) => (
-              <div key={service.id} className="bg-white p-8 border border-gray-200 flex flex-col">
+              <div key={service.id} className="bg-white p-8 border border-gray-200 flex flex-col hover:shadow-md transition-shadow duration-300">
                 <h3 className="uppercase font-normal text-xl mb-4">{service.name}</h3>
                 <p className="font-light mb-4 text-gray-700">
                   {service.description}
                 </p>
                 <ul className="space-y-2 mb-6 flex-1">
-                  <li className="font-light text-sm text-gray-700">• Personalized consulting</li>
-                  <li className="font-light text-sm text-gray-700">• Data-driven insights</li>
-                  <li className="font-light text-sm text-gray-700">• Industry expert guidance</li>
-                  <li className="font-light text-sm text-gray-700">• Ongoing support</li>
+                  <li className="font-light text-sm text-gray-700 flex items-start gap-2">
+                    <span className="text-gray-400 mt-0.5">—</span>
+                    <span>Personalized consulting</span>
+                  </li>
+                  <li className="font-light text-sm text-gray-700 flex items-start gap-2">
+                    <span className="text-gray-400 mt-0.5">—</span>
+                    <span>Data-driven insights</span>
+                  </li>
+                  <li className="font-light text-sm text-gray-700 flex items-start gap-2">
+                    <span className="text-gray-400 mt-0.5">—</span>
+                    <span>Industry expert guidance</span>
+                  </li>
+                  <li className="font-light text-sm text-gray-700 flex items-start gap-2">
+                    <span className="text-gray-400 mt-0.5">—</span>
+                    <span>Ongoing support</span>
+                  </li>
                 </ul>
                 <div className="mt-auto pt-4 border-t border-gray-100">
                   <div className="flex justify-between items-center mb-4">
@@ -244,7 +269,8 @@ const ServicesPage = () => {
                     <span className="text-sm text-gray-500">{service.duration}</span>
                   </div>
                   <Button 
-                    className="w-full bg-black text-white hover:bg-gray-800"
+                    variant="black"
+                    className="w-full group"
                     onClick={() => openBookingDialog(service)}
                   >
                     Book Consultation <Calendar className="ml-2 h-4 w-4" />
@@ -256,7 +282,7 @@ const ServicesPage = () => {
         </div>
       </section>
 
-      {/* Team Section */}
+      {/* Team Section - Updated to match index page style */}
       <section className="py-24 md:py-32 bg-gray-50">
         <div className="container-lg">
           <h2 className="text-2xl md:text-4xl uppercase font-light tracking-tighter mb-12 text-center">
@@ -269,7 +295,7 @@ const ServicesPage = () => {
                 <img 
                   src="https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=500&auto=format&fit=crop" 
                   alt="Sophie Martin" 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform hover:scale-105 duration-500"
                 />
               </div>
               <h3 className="uppercase font-normal text-xl mb-2">SOPHIE MARTIN</h3>
@@ -284,7 +310,7 @@ const ServicesPage = () => {
                 <img 
                   src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=500&auto=format&fit=crop" 
                   alt="Alexandre Chen" 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform hover:scale-105 duration-500"
                 />
               </div>
               <h3 className="uppercase font-normal text-xl mb-2">ALEXANDRE CHEN</h3>
@@ -299,7 +325,7 @@ const ServicesPage = () => {
                 <img 
                   src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=500&auto=format&fit=crop" 
                   alt="Elena Dubois" 
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform hover:scale-105 duration-500"
                 />
               </div>
               <h3 className="uppercase font-normal text-xl mb-2">ELENA DUBOIS</h3>
@@ -312,7 +338,7 @@ const ServicesPage = () => {
         </div>
       </section>
 
-      {/* Benefits Section */}
+      {/* Benefits Section - Updated to match index page style */}
       <section className="py-24 md:py-32 bg-black text-white">
         <div className="container-lg">
           <h2 className="text-2xl md:text-4xl uppercase font-light tracking-tighter mb-12 text-center">
@@ -375,7 +401,7 @@ const ServicesPage = () => {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* CTA Section - Updated to match index page style */}
       <section className="py-24 md:py-32">
         <div className="container-lg text-center">
           <h2 className="text-2xl md:text-4xl uppercase font-light tracking-tighter mb-6">
@@ -385,14 +411,14 @@ const ServicesPage = () => {
             Contact our team to discuss how our platform and consulting services can help you achieve your goals.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Button asChild className="bg-black text-white hover:bg-gray-800">
+            <Button variant="black" asChild className="group">
               <Link to="/brands">
-                FOR BRANDS <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+                FOR BRANDS <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
               </Link>
             </Button>
-            <Button asChild className="bg-white text-black border border-black hover:bg-gray-100">
+            <Button variant="white" asChild className="group">
               <Link to="/buyers">
-                FOR BUYERS <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+                FOR BUYERS <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
               </Link>
             </Button>
           </div>
@@ -416,7 +442,7 @@ const ServicesPage = () => {
                     <FormItem>
                       <FormLabel>Full Name</FormLabel>
                       <FormControl>
-                        <Input placeholder="Your name" required {...field} />
+                        <Input placeholder="Your name" required {...field} className="border-0 border-b border-gray-300 rounded-none focus:border-black" />
                       </FormControl>
                     </FormItem>
                   )}
@@ -429,7 +455,7 @@ const ServicesPage = () => {
                     <FormItem>
                       <FormLabel>Email</FormLabel>
                       <FormControl>
-                        <Input type="email" placeholder="Your email" required {...field} />
+                        <Input type="email" placeholder="Your email" required {...field} className="border-0 border-b border-gray-300 rounded-none focus:border-black" />
                       </FormControl>
                     </FormItem>
                   )}
@@ -443,7 +469,7 @@ const ServicesPage = () => {
                   <FormItem>
                     <FormLabel>Company Name</FormLabel>
                     <FormControl>
-                      <Input placeholder="Your company" required {...field} />
+                      <Input placeholder="Your company" required {...field} className="border-0 border-b border-gray-300 rounded-none focus:border-black" />
                     </FormControl>
                   </FormItem>
                 )}
@@ -460,7 +486,7 @@ const ServicesPage = () => {
                       defaultValue={field.value}
                     >
                       <FormControl>
-                        <SelectTrigger>
+                        <SelectTrigger className="border-0 border-b border-gray-300 rounded-none focus:border-black bg-transparent">
                           <SelectValue placeholder="Select service" />
                         </SelectTrigger>
                       </FormControl>
@@ -483,7 +509,7 @@ const ServicesPage = () => {
                   <FormItem>
                     <FormLabel>Preferred Date</FormLabel>
                     <FormControl>
-                      <Input type="date" required {...field} />
+                      <Input type="date" required {...field} className="border-0 border-b border-gray-300 rounded-none focus:border-black" />
                     </FormControl>
                   </FormItem>
                 )}
@@ -498,7 +524,7 @@ const ServicesPage = () => {
                     <FormControl>
                       <Textarea 
                         placeholder="Please share any specific requirements or questions" 
-                        className="min-h-[100px]" 
+                        className="min-h-[100px] border border-gray-300 focus:border-black" 
                         {...field} 
                       />
                     </FormControl>
@@ -514,7 +540,7 @@ const ServicesPage = () => {
                 >
                   Cancel
                 </Button>
-                <Button type="submit">
+                <Button type="submit" variant="black">
                   Submit Booking Request
                 </Button>
               </DialogFooter>

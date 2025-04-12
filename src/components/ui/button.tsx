@@ -1,3 +1,4 @@
+
 import * as React from "react"
 import { Slot } from "@radix-ui/react-slot"
 import { cva, type VariantProps } from "class-variance-authority"
@@ -18,12 +19,18 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        // New monochrome variants that match the index page
+        black: "bg-black text-white hover:bg-gray-800 transition-all duration-300",
+        white: "bg-white text-black border border-gray-200 hover:bg-gray-50 transition-all duration-300",
+        minimal: "bg-transparent text-black hover:underline transition-all duration-300",
       },
       size: {
         default: "h-10 px-4 py-2",
         sm: "h-9 px-3",
-        lg: "h-11-md px-8",
+        lg: "h-11 px-8",
         icon: "h-10 w-10",
+        // Added xl size for prominent CTAs
+        xl: "h-12 px-8 text-base",
       },
     },
     defaultVariants: {
