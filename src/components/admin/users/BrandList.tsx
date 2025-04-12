@@ -32,7 +32,7 @@ const BrandList = ({
     .filter(user => statusFilter === "all" || user.status.toLowerCase() === statusFilter.toLowerCase())
     .filter(user => 
       searchQuery === "" || 
-      user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      user.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
       user.contactPerson.toLowerCase().includes(searchQuery.toLowerCase())
     );
     
@@ -64,7 +64,7 @@ const BrandList = ({
               <SelectItem value="inactive">Inactive</SelectItem>
             </SelectContent>
           </Select>
-          <Button className="bg-black hover:bg-gray-800 text-white text-sm" onClick={handleAddUser}>
+          <Button className="bg-black hover:bg-gray-800 text-white text-sm admin-button-primary" onClick={handleAddUser}>
             <Plus className="mr-1 h-4 w-4" /> Add Brand
           </Button>
         </div>
@@ -80,7 +80,7 @@ const BrandList = ({
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
-                <TableRow className="hover:bg-transparent">
+                <TableRow className="hover:bg-transparent bg-gray-50">
                   <TableHead className="w-[80px] font-medium text-gray-600 text-sm">ID</TableHead>
                   <TableHead className="font-medium text-gray-600 text-sm">Name</TableHead>
                   <TableHead className="font-medium text-gray-600 text-sm">Contact</TableHead>
@@ -107,9 +107,9 @@ const BrandList = ({
                         <Badge 
                           variant="outline"
                           className={`
-                            ${user.status === "active" ? "bg-emerald-50 text-emerald-700 border-emerald-200" :
-                              user.status === "pending" ? "bg-amber-50 text-amber-700 border-amber-200" :
-                              "bg-gray-50 text-gray-700 border-gray-200"}
+                            ${user.status === "active" ? "bg-accent-mint text-gray-800 border-accent-mint" :
+                              user.status === "pending" ? "bg-accent-yellow text-gray-800 border-accent-yellow" :
+                              "bg-gray-100 text-gray-700 border-gray-200"}
                             text-xs font-medium px-2 py-0.5
                           `}
                         >

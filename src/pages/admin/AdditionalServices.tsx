@@ -2,8 +2,9 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PlusCircle } from "lucide-react";
+import { PlusCircle, FileText, ArrowRight } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 // Import components
 import ServiceStats from "@/components/admin/services/ServiceStats";
@@ -151,9 +152,11 @@ const AdminAdditionalServices = () => {
   };
 
   return (
-    <div className="animate-fade-in">
+    <div className="space-y-8 animate-fade-in">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8">
-        <h1 className="admin-title">Additional Services Management</h1>
+        <h1 className="text-4xl md:text-6xl uppercase font-thin">
+          ADDITIONAL <span className="font-normal">SERVICES</span>
+        </h1>
         <div className="flex flex-wrap gap-4 mt-4 lg:mt-0">
           <Button 
             className="admin-button-primary"
@@ -166,6 +169,7 @@ const AdminAdditionalServices = () => {
             variant="outline"
             className="admin-button-outline"
           >
+            <FileText className="w-4 h-4 mr-2" />
             Export Bookings
           </Button>
         </div>
@@ -173,26 +177,75 @@ const AdminAdditionalServices = () => {
       
       <ServiceStats bookings={mockBookings} />
       
-      <Tabs defaultValue="all" className="w-full mt-8" onValueChange={setActiveTab}>
-        <TabsList className="grid grid-cols-3 md:grid-cols-6 gap-2 mb-6">
-          <TabsTrigger value="all">All</TabsTrigger>
-          <TabsTrigger value="pending">Pending</TabsTrigger>
-          <TabsTrigger value="confirmed">Confirmed</TabsTrigger>
-          <TabsTrigger value="in_progress">In Progress</TabsTrigger>
-          <TabsTrigger value="completed">Completed</TabsTrigger>
-          <TabsTrigger value="cancelled">Cancelled</TabsTrigger>
-        </TabsList>
-        
-        {["all", "pending", "confirmed", "in_progress", "completed", "cancelled"].map(tab => (
-          <TabsContent key={tab} value={tab} className="mt-0">
-            <BookingTable 
-              bookings={filteredBookings} 
-              onViewDetails={handleViewDetails} 
-              onAssign={handleAssign} 
-            />
-          </TabsContent>
-        ))}
-      </Tabs>
+      <Card className="border border-gray-200 shadow-none rounded-lg">
+        <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
+          <CardTitle className="text-lg font-medium text-gray-900">
+            Service Bookings
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="p-6">
+          <Tabs defaultValue="all" className="w-full" onValueChange={setActiveTab}>
+            <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6">
+              <TabsTrigger 
+                value="all"
+                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
+              >
+                All
+              </TabsTrigger>
+              <TabsTrigger 
+                value="pending"
+                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
+              >
+                Pending
+              </TabsTrigger>
+              <TabsTrigger 
+                value="confirmed"
+                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
+              >
+                Confirmed
+              </TabsTrigger>
+              <TabsTrigger 
+                value="in_progress"
+                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
+              >
+                In Progress
+              </TabsTrigger>
+              <TabsTrigger 
+                value="completed"
+                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
+              >
+                Completed
+              </TabsTrigger>
+              <TabsTrigger 
+                value="cancelled"
+                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
+              >
+                Cancelled
+              </TabsTrigger>
+            </TabsList>
+            
+            {["all", "pending", "confirmed", "in_progress", "completed", "cancelled"].map(tab => (
+              <TabsContent key={tab} value={tab} className="mt-0">
+                <BookingTable 
+                  bookings={filteredBookings} 
+                  onViewDetails={handleViewDetails} 
+                  onAssign={handleAssign} 
+                />
+              </TabsContent>
+            ))}
+          </Tabs>
+        </CardContent>
+      </Card>
+      
+      <div className="mt-8 text-center">
+        <h3 className="text-xl font-medium mb-4">Need help with additional services?</h3>
+        <p className="mb-6 max-w-2xl mx-auto text-gray-600">
+          Check out our comprehensive guides and documentation to learn more about managing additional services.
+        </p>
+        <Button variant="outline" className="border-black text-black hover:bg-gray-100">
+          View Service Management Guides <ArrowRight className="ml-2 h-4 w-4" />
+        </Button>
+      </div>
       
       {/* Dialogs */}
       <BookingDetailsDialog 
