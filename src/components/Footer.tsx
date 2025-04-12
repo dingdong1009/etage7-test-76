@@ -54,22 +54,22 @@ const Footer = () => {
             <h4 className="text-xs uppercase font-normal tracking-tight mb-6">QUICK LINKS</h4>
             <ul className="space-y-2 uppercase">
               <li>
-                <Link to="/brands" className="text-xs text-gray-600 hover:text-black transition-fast font-normal">
+                <Link to="/brands" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-normal">
                   For Brands
                 </Link>
               </li>
               <li>
-                <Link to="/buyers" className="text-xs text-gray-600 hover:text-black transition-fast font-normal">
+                <Link to="/buyers" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-normal">
                   For Buyers
                 </Link>
               </li>
               <li>
-                <Link to="/services" className="text-xs text-gray-600 hover:text-black transition-fast font-normal">
+                <Link to="/services" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-normal">
                   Services
                 </Link>
               </li>
               <li>
-                <Link to="/events" className="text-xs text-gray-600 hover:text-black transition-fast font-normal">
+                <Link to="/events" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-normal">
                   Events
                 </Link>
               </li>
@@ -78,7 +78,7 @@ const Footer = () => {
           
           <div>
             <h4 className="text-xs uppercase font-normal tracking-tight mb-6">LEGAL</h4>
-            <ul className="space-y-2 text-xs uppercase">
+            <ul className="space-y-2 uppercase">
               <li>
                 <Link to="/terms" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-normal">
                   Terms of Service
@@ -100,9 +100,9 @@ const Footer = () => {
           <div>
             <h4 className="text-xs uppercase font-normal tracking-tight mb-6">CONTACT</h4>
             <ul className="space-y-2 uppercase">
-              <li className="text-xs text-gray-600 font-normal">Email: info@etage7.com</li>
-              <li className="text-xs text-gray-600 font-normal">Phone: +33 (0) 1 XX XX XX XX</li>
-              <li className="text-xs text-gray-600 font-normal">Paris, France</li>
+              <li className="text-xs text-gray-600 font-normal">Email: privet@etage7.ru</li>
+              <li className="text-xs text-gray-600 font-normal">Phone: +7 (925) 130-45-10</li>
+              <li className="text-xs text-gray-600 font-normal">Moscow, Russia</li>
             </ul>
           </div>
         </div>
