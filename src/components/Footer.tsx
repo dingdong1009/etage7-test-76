@@ -98,7 +98,7 @@ const Footer = () => {
           </div>
           
           <div>
-            <h4 className="font-light tracking-tight mb-6">CONTACT</h4>
+            <h4 className="ftext-xs uppercase font-light tracking-tight mb-6">CONTACT</h4>
             <ul className="space-y-4 uppercase">
               <li className="text-sm text-gray-600 font-light">Email: info@etage7.com</li>
               <li className="text-sm text-gray-600 font-light">Phone: +33 (0) 1 XX XX XX XX</li>
