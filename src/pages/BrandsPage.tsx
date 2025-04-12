@@ -26,17 +26,17 @@ const BrandsPage = () => {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] bg-white flex items-center">
+      <section className="relative h-[80vh] bg-black text-white flex items-center">
         <div className="container-lg">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
               EXPAND YOUR BRAND'S<br/>
               <span className="font-normal">GLOBAL REACH</span>
             </h1>
-            <p className="text-lg md:text-xl font-light text-gray-700 mb-12 max-w-2xl">
+            <p className="text-lg md:text-xl font-light text-gray-300 mb-12 max-w-2xl">
               Connect with professional buyers from around the world and grow your fashion brand's presence in key markets.
             </p>
-            <Button className="bg-black text-white border-0 hover:bg-gray-900 text-base py-6 px-8">
+            <Button className="bg-white text-black border-0 hover:bg-gray-900 text-base py-6 px-8">
               JOIN AS A BRAND <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
             </Button>
           </div>
