@@ -1,11 +1,12 @@
+
 import { Link } from "react-router-dom";
-import { Instagram, MessageCircle, Send } from "lucide-react";
+import { Instagram, MessageCircle, Send, FileText, ShieldCheck, HelpCircle } from "lucide-react";
 
 const Footer = () => {
   return (
     <footer className="bg-white border-t border-gray-200 pt-12 pb-8">
       <div className="max-w-[1481px] mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <h3 className="uppercase font-bold text-lg mb-4">ETAGE7</h3>
             <p className="text-sm font-light mb-6">
@@ -36,6 +37,30 @@ const Footer = () => {
           </div>
           
           <div>
+            <h4 className="uppercase font-bold mb-4">LEGAL</h4>
+            <ul className="space-y-2">
+              <li>
+                <Link to="/terms" className="text-sm hover:underline flex items-center gap-2">
+                  <FileText size={16} />
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link to="/privacy" className="text-sm hover:underline flex items-center gap-2">
+                  <ShieldCheck size={16} />
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/faq" className="text-sm hover:underline flex items-center gap-2">
+                  <HelpCircle size={16} />
+                  FAQ
+                </Link>
+              </li>
+            </ul>
+          </div>
+          
+          <div>
             <h4 className="uppercase font-bold mb-4">CONTACT</h4>
             <p className="text-sm mb-2">Email: info@etage7.com</p>
             <p className="text-sm mb-2">Phone: +33 (0) 1 XX XX XX XX</p>
@@ -50,6 +75,7 @@ const Footer = () => {
           <div className="flex space-x-6">
             <Link to="/privacy" className="text-xs text-gray-500 hover:underline">Privacy Policy</Link>
             <Link to="/terms" className="text-xs text-gray-500 hover:underline">Terms of Service</Link>
+            <Link to="/faq" className="text-xs text-gray-500 hover:underline">FAQ</Link>
           </div>
         </div>
       </div>
