@@ -154,8 +154,8 @@ const AdminAdditionalServices = () => {
   return (
     <div className="space-y-8 animate-fade-in">
       <div className="flex flex-col lg:flex-row lg:items-center justify-between mb-8">
-        <h1 className="text-4xl md:text-6xl uppercase font-thin">
-          ADDITIONAL <span className="font-normal">SERVICES</span>
+        <h1 className="text-4xl md:text-5xl lg:text-7xl font-normal tracking-tighter mb-6 uppercase">
+          ADDITIONAL SERVICES
         </h1>
         <div className="flex flex-wrap gap-4 mt-4 lg:mt-0">
           <Button 

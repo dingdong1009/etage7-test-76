@@ -68,7 +68,7 @@ const AdminContracts = () => {
   return (
     <div className="space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-        <h1 className="text-4xl md:text-6xl uppercase font-thin">Contract Management</h1>
+        <h1 className="text-4xl md:text-5xl lg:text-7xl font-normal tracking-tighter mb-6 uppercase">Contract Management</h1>
         
         <div className="relative w-full md:w-64 lg:w-80">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />

@@ -443,7 +443,7 @@ const SalesUsers = () => {
 
   return (
     <div className="space-y-6 animate-fade-in">
-      <h1 className="text-3xl md:text-4xl font-light tracking-tight mb-6">User Management</h1>
+      <h1 className="text-4xl md:text-5xl lg:text-7xl font-normal tracking-tighter mb-6 uppercase">User Management</h1>
       
       <Tabs defaultValue="brand" className="w-full" onValueChange={(value) => setActiveTab(value as UserType)}>
         <div className="border-b border-gray-200 mb-6">

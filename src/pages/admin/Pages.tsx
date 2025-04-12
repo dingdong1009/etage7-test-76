@@ -14,8 +14,8 @@ const AdminPages = () => {
   return (
     <div className="space-y-8 animate-fade-in">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-        <h1 className="text-4xl md:text-6xl uppercase font-thin">
-          PAGE <span className="font-normal">MANAGEMENT</span>
+        <h1 className="text-4xl md:text-5xl lg:text-7xl font-normal tracking-tighter mb-6 uppercase">
+          PAGE MANAGEMENT
         </h1>
         
         <div className="flex flex-wrap gap-4 mt-4 lg:mt-0">

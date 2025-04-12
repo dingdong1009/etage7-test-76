@@ -30,7 +30,7 @@ const AdminSettings = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Settings</h1>
+      <h1 className="text-4xl md:text-5xl lg:text-7xl font-normal tracking-tighter mb-6 uppercase">Settings</h1>
       
       <Tabs defaultValue="general" className="w-full">
         <TabsList className="mb-4">

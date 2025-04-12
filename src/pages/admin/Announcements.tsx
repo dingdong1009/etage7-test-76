@@ -245,8 +245,8 @@ const AdminAnnouncements = () => {
   return (
     <div className="space-y-8 animate-fade-in">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-        <h1 className="text-4xl md:text-6xl uppercase font-thin">
-          ANNOUNCEMENTS <span className="font-normal">MANAGER</span>
+        <h1 className="text-4xl md:text-5xl lg:text-7xl font-normal tracking-tighter mb-6 uppercase">
+          ANNOUNCEMENTS MANAGER 
         </h1>
         <div className="flex items-center gap-2">
           <Button 
