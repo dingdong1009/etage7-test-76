@@ -26,7 +26,7 @@ const Index = () => {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="max-w-[1481px] relative h-screen bg-black text-white flex items-center">
+      <section className="relative h-screen bg-black text-white flex items-center">
         <div className="container-lg">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
