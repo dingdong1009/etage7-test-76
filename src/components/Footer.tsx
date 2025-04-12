@@ -43,26 +43,28 @@ const Footer = () => {
       <div className="container-lg">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-4">
           <div className="lg:col-span-2">
-            <h3 className="text-2xl font-light tracking-tighter uppercase mb-4">ETAGE7</h3>
-            <form onSubmit={handleNewsletterSubmit} className="mb-5">
-              <div className="flex items-center gap-2">
+            <h3 className="text-2xl font-light tracking-tighter uppercase mb-6">ETAGE7</h3>
+            <form onSubmit={handleNewsletterSubmit} className="mb-6">
+              <p className="text-sm text-gray-600 font-light mb-4">
+                Subscribe to receive updates on new brands and events.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-2">
                 <div className="flex-grow">
                   <Input
                     type="email"
-                    placeholder="Subscribe to newsletter"
+                    placeholder="Email address"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     required
-                    className="border-0 border-b border-gray-300 rounded-none focus:border-black h-8 text-sm"
+                    className="border-0 border-b border-gray-300 rounded-none focus:border-black"
                   />
                 </div>
                 <Button 
                   type="submit"
                   disabled={isSubmitting}
-                  className="bg-black text-white hover:bg-black hover:underline transition-all duration-300 h-8 px-3"
-                  size="sm"
+                  className="bg-black text-white hover:bg-black hover:underline transition-all duration-300"
                 >
-                  {isSubmitting ? "..." : "Subscribe"}
+                  {isSubmitting ? "Subscribing..." : "Subscribe"}
                 </Button>
               </div>
             </form>
