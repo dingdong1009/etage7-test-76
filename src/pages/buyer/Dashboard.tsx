@@ -24,11 +24,11 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div className="flex justify-between items-center">
-        <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Products</h1>
+        <h1 className="text-4xl md:text-6xl font-light tracking-tighter mb-6">PRODUCTS</h1>
         <div className="flex gap-4">
-          <select className="border border-gray-200 rounded px-3 py-1.5 text-sm bg-white">
+          <select className="border border-gray-200 rounded px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-black">
             <option>All Categories</option>
             <option>Dresses</option>
             <option>Tops</option>
@@ -36,7 +36,7 @@ const Dashboard = () => {
             <option>Bags</option>
             <option>Shoes</option>
           </select>
-          <select className="border border-gray-200 rounded px-3 py-1.5 text-sm bg-white">
+          <select className="border border-gray-200 rounded px-3 py-1.5 text-sm bg-white focus:outline-none focus:ring-1 focus:ring-black">
             <option>Sort By</option>
             <option>Price: High to Low</option>
             <option>Price: Low to High</option>
@@ -45,22 +45,23 @@ const Dashboard = () => {
         </div>
       </div>
       
-      {/* Product grid with Prada-like styling */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      {/* Product grid with refined monochrome styling */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {products.map((product) => (
-          <Card key={product.id} className="border-0 rounded-none overflow-hidden">
+          <Card key={product.id} className="border-0 rounded-none overflow-hidden group">
             <CardContent className="p-0">
               {/* Product image placeholder */}
-              <div className="aspect-[3/4] bg-gray-100 flex items-center justify-center relative">
+              <div className="aspect-[3/4] bg-gray-50 flex items-center justify-center relative overflow-hidden">
                 <div className="text-gray-400 text-xs">{product.imagePlaceholder}</div>
-                <button className="absolute bottom-2 right-2 bg-white text-black text-xs px-2 py-1 opacity-0 hover:opacity-100 transition-opacity">
+                <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                <button className="absolute bottom-3 right-3 bg-white text-black text-xs px-3 py-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 focus:outline-none hover:bg-gray-100">
                   Quick View
                 </button>
               </div>
-              {/* Product details with minimal styling */}
-              <div className="pt-2 px-0 space-y-1">
-                <p className="text-xs text-gray-500">{product.category}</p>
-                <h3 className="font-medium text-sm">{product.name}</h3>
+              {/* Product details with refined styling */}
+              <div className="pt-4 px-0 space-y-1">
+                <p className="text-xs text-gray-500 uppercase tracking-wide">{product.category}</p>
+                <h3 className="font-light text-sm tracking-tight">{product.name}</h3>
                 <p className="text-sm">{product.price}</p>
               </div>
             </CardContent>
@@ -68,13 +69,13 @@ const Dashboard = () => {
         ))}
       </div>
 
-      {/* Pagination */}
-      <div className="flex justify-center pt-6">
+      {/* Pagination with monochrome styling */}
+      <div className="flex justify-center pt-8">
         <div className="flex gap-2">
           {[1, 2, 3].map((page) => (
             <button 
               key={page} 
-              className={`px-3 py-1 border ${page === 1 ? 'bg-black text-white' : 'bg-white'}`}
+              className={`px-3 py-1 border ${page === 1 ? 'bg-black text-white border-black' : 'bg-white border-gray-200 hover:border-gray-400 transition-colors'}`}
             >
               {page}
             </button>

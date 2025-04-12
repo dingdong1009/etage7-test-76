@@ -47,25 +47,25 @@ const Messages = () => {
   ]);
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Messages</h1>
+    <div className="space-y-8">
+      <h1 className="text-4xl md:text-6xl font-light tracking-tighter mb-6">MESSAGES</h1>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Contacts list - hidden on mobile for simplicity */}
         <div className="hidden md:block">
-          <Card className="h-[600px] overflow-hidden">
-            <div className="p-3 border-b">
+          <Card className="h-[600px] overflow-hidden border border-gray-200 rounded-none">
+            <div className="p-3 border-b border-gray-200">
               <input 
                 type="text" 
                 placeholder="Search conversations" 
-                className="w-full border border-gray-200 rounded px-3 py-1.5 text-sm"
+                className="w-full border border-gray-200 rounded px-3 py-1.5 text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black"
               />
             </div>
             <div className="overflow-auto h-[calc(600px-48px)]">
               {contacts.map((contact) => (
                 <div 
                   key={contact.id} 
-                  className={`p-3 border-b hover:bg-gray-50 cursor-pointer flex justify-between ${
+                  className={`p-3 border-b border-gray-100 hover:bg-gray-50 cursor-pointer flex justify-between transition-colors ${
                     contact.id === "1" ? "bg-gray-50" : ""
                   }`}
                 >
@@ -89,8 +89,8 @@ const Messages = () => {
         
         {/* Chat area */}
         <div className="md:col-span-2">
-          <Card className="h-[600px] flex flex-col">
-            <div className="p-3 border-b">
+          <Card className="h-[600px] flex flex-col border border-gray-200 rounded-none">
+            <div className="p-3 border-b border-gray-200">
               <p className="font-medium">Fashion Brand Inc.</p>
             </div>
             
@@ -103,10 +103,10 @@ const Messages = () => {
                     className={`flex ${message.isOwn ? 'justify-end' : 'justify-start'}`}
                   >
                     <div 
-                      className={`max-w-[80%] rounded-lg p-3 ${
+                      className={`max-w-[80%] p-3 ${
                         message.isOwn 
-                          ? 'bg-black text-white rounded-br-none' 
-                          : 'bg-gray-100 rounded-bl-none'
+                          ? 'bg-black text-white' 
+                          : 'bg-gray-100'
                       }`}
                     >
                       <p className="text-sm">{message.content}</p>
@@ -122,14 +122,14 @@ const Messages = () => {
             </div>
             
             {/* Message input */}
-            <div className="p-3 border-t">
+            <div className="p-3 border-t border-gray-200">
               <div className="flex gap-2">
                 <input 
                   type="text" 
                   placeholder="Type a message..." 
-                  className="flex-grow border border-gray-200 rounded px-3 py-2 text-sm"
+                  className="flex-grow border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-black focus:border-black"
                 />
-                <Button size="icon">
+                <Button size="icon" className="bg-black hover:bg-gray-800 text-white">
                   <Send size={16} />
                 </Button>
               </div>
