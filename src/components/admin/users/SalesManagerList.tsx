@@ -30,9 +30,9 @@ const SalesManagerList = ({
     : salesManagers.filter(user => user.status.toLowerCase() === statusFilter.toLowerCase());
     
   return (
-    <Card className="border border-gray-200 rounded-none">
-      <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between pb-2">
-        <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">
+    <Card className="border border-gray-200 shadow-sm rounded-lg">
+      <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between pb-2 border-b border-gray-100">
+        <CardTitle className="text-xl md:text-2xl font-light mb-6">
           Sales Managers
         </CardTitle>
         <div className="flex items-center space-x-2 mt-2 sm:mt-0">
@@ -40,41 +40,41 @@ const SalesManagerList = ({
             value={statusFilter}
             onValueChange={(value) => setStatusFilter(value)}
           >
-            <SelectTrigger className="w-[150px] rounded-none border-gray-200">
+            <SelectTrigger className="w-[150px] border-gray-200 bg-white text-sm">
               <SelectValue placeholder="Filter by status" />
             </SelectTrigger>
-            <SelectContent className="rounded-none">
+            <SelectContent className="bg-white">
               <SelectItem value="all">All Statuses</SelectItem>
               <SelectItem value="active">Active</SelectItem>
               <SelectItem value="pending">Pending</SelectItem>
               <SelectItem value="inactive">Inactive</SelectItem>
             </SelectContent>
           </Select>
-          <Button className="bg-black text-white border-none rounded-none hover:bg-gray-800" onClick={handleAddUser}>
+          <Button className="bg-black hover:bg-gray-800 text-white text-sm" onClick={handleAddUser}>
             <Plus className="mr-1 h-4 w-4" /> Add User
           </Button>
-          <Button className="bg-white text-black border border-gray-200 rounded-none hover:bg-gray-50">Export</Button>
+          <Button variant="outline" className="border-gray-200 text-gray-700 hover:bg-gray-50 text-sm">Export</Button>
         </div>
       </CardHeader>
-      <CardContent className="pt-0">
+      <CardContent className="pt-4">
         <div className="overflow-x-auto">
           <Table>
             <TableHeader>
-              <TableRow className="bg-gray-50 hover:bg-gray-50">
-                <TableHead className="w-[100px] font-medium text-gray-600">ID</TableHead>
-                <TableHead className="font-medium text-gray-600">Name</TableHead>
-                <TableHead className="font-medium text-gray-600">Start Date</TableHead>
-                <TableHead className="font-medium text-gray-600">Years in Company</TableHead>
-                <TableHead className="font-medium text-gray-600">Salary/Month</TableHead>
-                <TableHead className="font-medium text-gray-600">Commission Rate</TableHead>
-                <TableHead className="font-medium text-gray-600">YTD Commissions</TableHead>
-                <TableHead className="font-medium text-gray-600">Status</TableHead>
-                <TableHead className="text-right font-medium text-gray-600">Actions</TableHead>
+              <TableRow className="bg-gray-50">
+                <TableHead className="w-[100px] font-medium text-gray-600 text-sm">ID</TableHead>
+                <TableHead className="font-medium text-gray-600 text-sm">Name</TableHead>
+                <TableHead className="font-medium text-gray-600 text-sm">Start Date</TableHead>
+                <TableHead className="font-medium text-gray-600 text-sm">Years in Company</TableHead>
+                <TableHead className="font-medium text-gray-600 text-sm">Salary/Month</TableHead>
+                <TableHead className="font-medium text-gray-600 text-sm">Commission Rate</TableHead>
+                <TableHead className="font-medium text-gray-600 text-sm">YTD Commissions</TableHead>
+                <TableHead className="font-medium text-gray-600 text-sm">Status</TableHead>
+                <TableHead className="text-right font-medium text-gray-600 text-sm">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {filteredUsers.map((user) => (
-                <TableRow key={user.id} className="border-t border-gray-200">
+                <TableRow key={user.id} className="border-t border-gray-100 hover:bg-gray-50">
                   <TableCell className="font-medium">{user.id}</TableCell>
                   <TableCell>{user.name}</TableCell>
                   <TableCell>{user.startDate}</TableCell>
@@ -84,11 +84,12 @@ const SalesManagerList = ({
                   <TableCell>{user.ytdCommissions}</TableCell>
                   <TableCell>
                     <Badge 
-                      className={`rounded-none ${
-                        user.status === "active" ? "bg-accent-mint text-gray-800" :
-                        user.status === "pending" ? "bg-accent-yellow text-gray-800" :
-                        "bg-gray-100 text-gray-800"
-                      }`}
+                      className={`
+                        ${user.status === "active" ? "bg-accent-mint text-gray-800" :
+                          user.status === "pending" ? "bg-accent-yellow text-gray-800" :
+                          "bg-gray-100 text-gray-800"}
+                        text-xs font-medium px-2 py-0.5
+                      `}
                     >
                       {user.status}
                     </Badge>
