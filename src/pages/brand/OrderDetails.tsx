@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useReactToPrint } from "react-to-print";
@@ -16,7 +17,7 @@ const BrandOrderDetails = () => {
   const [loading, setLoading] = useState(true);
   const printRef = useRef<HTMLDivElement>(null);
 
-  // Function to handle printing - using contentRef which is the correct property name
+  // Function to handle printing
   const handlePrint = useReactToPrint({
     documentTitle: `Order-${orderId}`,
     onAfterPrint: () => console.log('Print completed'),
@@ -99,7 +100,7 @@ const BrandOrderDetails = () => {
     return (
       <div className="flex flex-col items-center justify-center h-96 space-y-4">
         <div className="text-xl">Order not found</div>
-        <Button asChild>
+        <Button asChild variant="outline" className="rounded-none border-black">
           <Link to="/brand/orders">Back to Orders</Link>
         </Button>
       </div>

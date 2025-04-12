@@ -43,7 +43,7 @@ const BrandHeader = () => {
     <header className="sticky top-0 left-0 right-0 z-40 bg-white">
       <div className="max-w-full px-4 flex justify-between items-center h-16">
         <div className="flex items-center gap-2">
-          <Link to="/" className="text-black text-2xl font-bold uppercase">ETAGE7</Link> | BRAND
+          <Link to="/" className="text-black text-2xl font-normal uppercase tracking-tighter">ETAGE7</Link> | <span className="font-light text-sm">BRAND</span>
         </div>
         
         {/* Mobile menu button */}
@@ -77,7 +77,7 @@ const BrandHeader = () => {
             </Tooltip>
           </TooltipProvider>
           
-          <Link to="/" className="text-gray-600 hover:text-black text-sm">
+          <Link to="/" className="text-gray-600 hover:text-black text-sm font-light">
             BACK TO SITE
           </Link>
         </div>
