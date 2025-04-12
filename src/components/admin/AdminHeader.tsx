@@ -41,7 +41,7 @@ const AdminHeader = () => {
     <header className="sticky top-0 left-0 right-0 z-40 bg-white border-b border-gray-100">
       <div className="max-w-full px-4 flex justify-between items-center h-16">
         <div className="flex items-center gap-2">
-          <Link to="/" className="text-black text-2xl font-light uppercase tracking-tighter">ETAGE7</Link>
+          <Link to="/" className="text-black text-5xl font-medium tracking-tighter uppercase">ETAGE7</Link>
         </div>
         
         {/* Mobile menu button */}
@@ -92,13 +92,13 @@ const AdminHeader = () => {
                     <TooltipTrigger asChild>
                       <Link
                         to={item.path}
-                        className={`text-xs font-light transition-all uppercase whitespace-nowrap relative group ${
+                        className={`text-xs font-light uppercase relative group transition-fast ${
                           isActive(item.path) ? "text-black" : "text-gray-600 hover:text-black"
                         }`}
                       >
                         {item.name}
                         <span
-                          className={`absolute left-0 bottom-[-3px] w-0 h-[0.5px] bg-black transition-all duration-300 group-hover:w-full ${
+                          className={`absolute left-0 bottom-[-2px] w-0 h-[0.5px] bg-black transition-all duration-300 group-hover:w-full ${
                             isActive(item.path) ? "w-full" : ""
                           }`}
                         ></span>
