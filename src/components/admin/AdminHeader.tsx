@@ -142,7 +142,7 @@ const AdminHeader = () => {
       
       {/* Desktop Navigation - Below the header bar */}
       <nav className="hidden lg:block">
-          <ul className="flex space-x-8"> 
+          <ul className="flex space-x-8">
             {mainNavItems.map((item) => (
               <li key={item.name}>
                 {item.isSection ? (
