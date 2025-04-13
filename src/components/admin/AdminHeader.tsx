@@ -113,7 +113,7 @@ const AdminHeader = () => {
             Back to Site
           </Link>
         </div>
-      </div> 
+      </div>
       
       {/* Desktop Navigation - Below the header bar */}
         <nav className="hidden lg:block">
