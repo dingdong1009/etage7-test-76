@@ -20,7 +20,7 @@ const Header = () => {
       }
 
       // Check which section is currently in view
-      const sections = ['brand', 'buyer', 'services'];
+      const sections = ['hero', 'brand', 'buyer', 'services'];
       
       for (const section of sections) {
         const element = document.getElementById(section);
@@ -89,7 +89,7 @@ const Header = () => {
   };
 
   const mainNavItems = [
-    { name: "HOME", path: "/", isSection: false },
+    { name: "HOME", path: "hero", isSection: true },
     { name: "BRANDS", path: "brand", isSection: true },
     { name: "BUYERS", path: "buyer", isSection: true },
     { name: "SERVICES", path: "services", isSection: true },
@@ -119,10 +119,13 @@ const Header = () => {
             {isMenuOpen ? <X size={18} strokeWidth={1} /> : <Menu size={18} strokeWidth={1} />}
           </button>
           
-          {/* Logo */}
-          <Link to="/" className="text-black text-5xl font-medium tracking-tighter uppercase">
+          {/* Logo - Update to navigate to hero section */}
+          <button 
+            onClick={() => navigateToSection('hero')} 
+            className="text-black text-5xl font-medium tracking-tighter uppercase"
+          >
             éTAGE7 
-          </Link>
+          </button>
         </div> 
         
         {/* Desktop Navigation */}
