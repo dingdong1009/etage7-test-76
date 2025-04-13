@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Search, Mail, Phone, Edit, Trash2 } from "lucide-react";
+import { Plus, Search, Mail, Phone, Edit, Trash2, Filter, Download, UploadCloud } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -47,120 +47,185 @@ const BrandTeam = () => {
   ];
 
   const [activeTab, setActiveTab] = useState("members");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterValue, setFilterValue] = useState("all");
+
+  const filteredMembers = teamMembers.filter(member => {
+    const matchesSearch = member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          member.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                          member.role.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesFilter = filterValue === "all" || 
+                          (filterValue === "active" && member.status === "active") ||
+                          (filterValue === "inactive" && member.status === "inactive");
+    return matchesSearch && matchesFilter;
+  });
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Team</h1>
-        <Button 
-          onClick={() => setActiveTab("invite")} 
-          className="bg-black hover:bg-gray-800 text-white"
-        >
-          <Plus size={16} className="mr-2" />
-          Add Team Member
-        </Button>
-      </div>
+      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Team</h1>
       
-      <Tabs defaultValue={activeTab} value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="mb-4">
-          <TabsTrigger value="members">Team Members</TabsTrigger>
-          <TabsTrigger value="invite">Invite New Member</TabsTrigger>
+      <div className="border-t border-gray-200 mb-6"></div>
+      
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
+          <TabsTrigger 
+            value="members" 
+            className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
+          >
+            Team Members
+          </TabsTrigger>
+          <TabsTrigger 
+            value="invite" 
+            className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
+          >
+            Invite New Member
+          </TabsTrigger>
+          <TabsTrigger 
+            value="permissions" 
+            className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
+          >
+            Role Permissions
+          </TabsTrigger>
         </TabsList>
         
+        {/* Team Members Tab */}
         <TabsContent value="members">
-          <Card className="border border-gray-200">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Team Members</CardTitle>
-              <div className="relative w-full max-w-sm">
-                <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
-                <Input
-                  type="search" 
-                  placeholder="Search team members..." 
-                  className="w-full rounded-md border border-gray-200 pl-8 py-2 text-sm outline-none focus:border-blue-500"
-                />
+          <Card className="border border-gray-200 shadow-none rounded-none">
+            <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <CardTitle className="text-base font-light text-gray-900">
+                  Team Members
+                </CardTitle>
+                <div className="flex flex-wrap gap-3">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
+                    <Input
+                      placeholder="Search team members..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="pl-10 h-9 text-xs rounded-none border-gray-200 w-[200px]"
+                    />
+                  </div>
+                  <Select value={filterValue} onValueChange={setFilterValue}>
+                    <SelectTrigger className="h-9 text-xs rounded-none border-gray-200 w-[150px]">
+                      <div className="flex items-center">
+                        <Filter className="h-3.5 w-3.5 mr-2 text-gray-500" strokeWidth={1} />
+                        <SelectValue placeholder="Filter status" />
+                      </div>
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="all">All Status</SelectItem>
+                      <SelectItem value="active">Active</SelectItem>
+                      <SelectItem value="inactive">Inactive</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Button onClick={() => setActiveTab("invite")} className="h-9 rounded-none text-xs font-light">
+                    <Plus size={16} className="mr-1" />
+                    Add Team Member
+                  </Button>
+                </div>
               </div>
             </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>Name</TableHead>
-                      <TableHead>Role</TableHead>
-                      <TableHead>Contact</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead className="text-right">Actions</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {teamMembers.map((member) => (
-                      <TableRow key={member.id}>
-                        <TableCell className="font-medium">{member.name}</TableCell>
-                        <TableCell>{member.role}</TableCell>
-                        <TableCell>
-                          <div className="flex flex-col">
-                            <span className="flex items-center gap-1 text-sm">
-                              <Mail size={14} /> {member.email}
-                            </span>
-                            <span className="flex items-center gap-1 text-sm text-gray-500">
-                              <Phone size={14} /> {member.phone}
-                            </span>
-                          </div>
-                        </TableCell>
-                        <TableCell>
-                          <Badge 
-                            className={`${
-                              member.status === "active" ? "bg-green-100 text-green-800" : 
-                              "bg-gray-100 text-gray-800"
-                            }`}
+            <CardContent className="p-0">
+              <Table>
+                <TableHeader>
+                  <TableRow className="hover:bg-transparent">
+                    <TableHead className="w-[40px]">#</TableHead>
+                    <TableHead>Name</TableHead>
+                    <TableHead>Role</TableHead>
+                    <TableHead>Contact</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {filteredMembers.map((member, index) => (
+                    <TableRow key={member.id} className="hover:bg-gray-50/50">
+                      <TableCell className="font-light text-gray-500">{index + 1}</TableCell>
+                      <TableCell className="font-medium">{member.name}</TableCell>
+                      <TableCell>{member.role}</TableCell>
+                      <TableCell>
+                        <div className="flex flex-col">
+                          <span className="flex items-center gap-1 text-sm">
+                            <Mail size={14} /> {member.email}
+                          </span>
+                          <span className="flex items-center gap-1 text-sm text-gray-500">
+                            <Phone size={14} /> {member.phone}
+                          </span>
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <Badge 
+                          className={`${
+                            member.status === "active" ? "bg-accent-mint text-gray-800" : 
+                            "bg-soft-orange text-gray-800"
+                          }`}
+                        >
+                          {member.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
+                          <Button 
+                            variant="outline"
+                            size="sm" 
+                            className="h-8 w-8 p-0 rounded-none"
                           >
-                            {member.status}
-                          </Badge>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex justify-end gap-1">
-                            <Button 
-                              variant="ghost" 
-                              size="icon" 
-                              className="h-8 w-8" 
-                              title="Edit team member"
-                            >
-                              <Edit className="h-4 w-4" />
-                            </Button>
-                            <Button 
-                              variant="ghost" 
-                              size="icon" 
-                              className="h-8 w-8" 
-                              title="Delete team member"
-                            >
-                              <Trash2 className="h-4 w-4 text-red-500" />
-                            </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
+                            <Edit size={14} />
+                          </Button>
+                          <Button 
+                            variant="outline"
+                            size="sm" 
+                            className="h-8 w-8 p-0 rounded-none text-red-500 hover:text-red-600"
+                          >
+                            <Trash2 size={14} />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                  {filteredMembers.length === 0 && (
+                    <TableRow>
+                      <TableCell colSpan={6} className="h-32 text-center">
+                        No team members found matching your search
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </TableBody>
+              </Table>
             </CardContent>
           </Card>
+          
+          <div className="mt-6 flex justify-end gap-3">
+            <Button variant="outline" size="sm" className="rounded-none text-xs font-light gap-2">
+              <Download size={14} />
+              Export Team List
+            </Button>
+            <Button variant="outline" size="sm" className="rounded-none text-xs font-light gap-2">
+              <UploadCloud size={14} />
+              Import Team Members
+            </Button>
+          </div>
         </TabsContent>
         
+        {/* Invite New Member Tab */}
         <TabsContent value="invite">
-          <Card className="border border-gray-200">
-            <CardHeader>
-              <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Invite New Member</CardTitle>
+          <Card className="border border-gray-200 shadow-none rounded-none">
+            <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
+              <CardTitle className="text-base font-light text-gray-900">
+                Invite New Team Member
+              </CardTitle>
             </CardHeader>
-            <CardContent>
-              <form className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <CardContent className="p-6">
+              <form className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
                       Name
                     </label>
                     <Input 
                       type="text" 
-                      className="w-full p-2 border border-gray-200 rounded"
+                      className="rounded-none border-gray-200 focus:border-black focus:ring-0"
                       placeholder="Enter full name"
                     />
                   </div>
@@ -171,8 +236,19 @@ const BrandTeam = () => {
                     </label>
                     <Input 
                       type="email" 
-                      className="w-full p-2 border border-gray-200 rounded"
+                      className="rounded-none border-gray-200 focus:border-black focus:ring-0"
                       placeholder="Enter email address"
+                    />
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
+                      Phone
+                    </label>
+                    <Input 
+                      type="tel" 
+                      className="rounded-none border-gray-200 focus:border-black focus:ring-0"
+                      placeholder="Enter phone number"
                     />
                   </div>
                   
@@ -181,7 +257,7 @@ const BrandTeam = () => {
                       Role
                     </label>
                     <Select>
-                      <SelectTrigger>
+                      <SelectTrigger className="rounded-none border-gray-200 focus:ring-0 focus:border-black">
                         <SelectValue placeholder="Select role" />
                       </SelectTrigger>
                       <SelectContent>
@@ -194,12 +270,90 @@ const BrandTeam = () => {
                   </div>
                 </div>
                 
+                <div className="border-t border-gray-200 pt-6">
+                  <h3 className="text-sm font-medium mb-3">Permissions</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="flex items-center gap-2">
+                      <input type="checkbox" id="products" className="rounded border-gray-300" />
+                      <label htmlFor="products" className="text-sm">Products Management</label>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <input type="checkbox" id="orders" className="rounded border-gray-300" />
+                      <label htmlFor="orders" className="text-sm">Orders Management</label>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <input type="checkbox" id="lookbook" className="rounded border-gray-300" />
+                      <label htmlFor="lookbook" className="text-sm">Lookbook Management</label>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <input type="checkbox" id="messages" className="rounded border-gray-300" />
+                      <label htmlFor="messages" className="text-sm">Messages Access</label>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <input type="checkbox" id="settings" className="rounded border-gray-300" />
+                      <label htmlFor="settings" className="text-sm">Settings Access</label>
+                    </div>
+                  </div>
+                </div>
+                
                 <div className="flex justify-end">
-                  <Button type="submit" className="bg-black hover:bg-gray-800 text-white">
+                  <Button type="submit" className="rounded-none">
                     Send Invitation
                   </Button>
                 </div>
               </form>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        {/* Role Permissions Tab */}
+        <TabsContent value="permissions">
+          <Card className="border border-gray-200 shadow-none rounded-none">
+            <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
+              <CardTitle className="text-base font-light text-gray-900">
+                Role Permissions
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="overflow-x-auto">
+                <Table>
+                  <TableHeader>
+                    <TableRow className="hover:bg-transparent">
+                      <TableHead>Permission</TableHead>
+                      <TableHead>Brand Manager</TableHead>
+                      <TableHead>Product Designer</TableHead>
+                      <TableHead>Marketing Specialist</TableHead>
+                      <TableHead>Content Creator</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {[
+                      { permission: "View Dashboard", manager: true, designer: true, marketing: true, creator: true },
+                      { permission: "Manage Products", manager: true, designer: true, marketing: false, creator: false },
+                      { permission: "Manage Orders", manager: true, designer: false, marketing: false, creator: false },
+                      { permission: "Manage Lookbook", manager: true, designer: true, marketing: true, creator: true },
+                      { permission: "Access Messages", manager: true, designer: true, marketing: true, creator: true },
+                      { permission: "Access Settings", manager: true, designer: false, marketing: false, creator: false },
+                      { permission: "Invite Team Members", manager: true, designer: false, marketing: false, creator: false },
+                      { permission: "Manage Team", manager: true, designer: false, marketing: false, creator: false }
+                    ].map((item, index) => (
+                      <TableRow key={index}>
+                        <TableCell>{item.permission}</TableCell>
+                        <TableCell>{item.manager ? "✓" : "✗"}</TableCell>
+                        <TableCell>{item.designer ? "✓" : "✗"}</TableCell>
+                        <TableCell>{item.marketing ? "✓" : "✗"}</TableCell>
+                        <TableCell>{item.creator ? "✓" : "✗"}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </div>
+              
+              <div className="mt-6">
+                <p className="text-sm text-gray-500 font-light">
+                  Note: These are default role permissions. Custom permissions can be assigned to individual team members.
+                </p>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
