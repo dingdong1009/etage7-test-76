@@ -47,7 +47,7 @@ const Index = () => {
           }`}
           aria-label="Scroll to learn more"
         >
-          <span className="text-sm mb-2 text-grey animate-bounce">Learn more as a Brand</span> 
+          <span className="text-sm mb-2 text-grey animate-bounce">Learn More As A Brand</span> 
           <ChevronDown size={24} className="animate-bounce" />
         </button>
       </section>
@@ -55,6 +55,20 @@ const Index = () => {
 
       {/* Brands Section */}
       <section id="brand" className="relative h-screen bg-white text-black flex items-center">
+
+              
+        {/* Scroll back up indicator */}
+        <button 
+          onClick={() => scrollToSection('hero')}
+          className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${
+            scrolled ? 'opacity-100' : 'opacity-0'
+          }`}
+          aria-label="Scroll to learn more"
+        >
+          <span className="text-sm mb-2 text-black animate-bounce">Navigate Back Up</span>
+          <ChevronUp size={24} className="text-black animate-bounce" />
+        </button> 
+
         <div className="container-lg">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
@@ -75,13 +89,26 @@ const Index = () => {
           }`}
           aria-label="Scroll to learn more"
         >
-          <span className="text-sm mb-2 text-black animate-bounce">Learn more as a Buyer</span>
+          <span className="text-sm mb-2 text-black animate-bounce">Learn More As A Buyer</span>
           <ChevronDown size={24} className="text-black animate-bounce" />
         </button> 
       </section>
 
       {/* Buyer Section */}
-      <section id="buyer" className="relative h-screen bg-white text-black flex items-center">
+      <section id="brand" className="relative h-screen bg-white text-black flex items-center">
+              
+        {/* Scroll back up indicator */}
+        <button 
+          onClick={() => scrollToSection('buyer')}
+          className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${
+            scrolled ? 'opacity-100' : 'opacity-0'
+          }`}
+          aria-label="Scroll to learn more"
+        >
+          <span className="text-sm mb-2 text-black animate-bounce">Navigate Back Up</span>
+          <ChevronUp size={24} className="text-black animate-bounce" />
+        </button> 
+
         <div className="container-lg">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
@@ -102,7 +129,7 @@ const Index = () => {
           }`}
           aria-label="Scroll to learn more"
         >
-          <span className="text-sm mb-2 text-black animate-bounce">Learn more as a Buyer</span>
+          <span className="text-sm mb-2 text-black animate-bounce">Learn More About The Platform</span>
           <ChevronDown size={24} className="text-black animate-bounce" />
         </button> 
       </section>
@@ -110,6 +137,19 @@ const Index = () => {
 
             {/* Platform Section */}
             <section id="platform" className="relative h-screen bg-white text-black flex items-center">
+
+        {/* Scroll back up indicator */}
+        <button 
+          onClick={() => scrollToSection('buyer')}
+          className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${
+            scrolled ? 'opacity-100' : 'opacity-0'
+          }`}
+          aria-label="Scroll to learn more"
+        >
+          <span className="text-sm mb-2 text-black animate-bounce">Navigate Back Up</span>
+          <ChevronUp size={24} className="text-black animate-bounce" />
+        </button> 
+
         <div className="container-lg">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
@@ -130,7 +170,7 @@ const Index = () => {
           }`}
           aria-label="Scroll to learn more"
         >
-          <span className="text-sm mb-2 text-black animate-bounce">Learn more as a Buyer</span>
+          <span className="text-sm mb-2 text-black animate-bounce">Consulting Services</span>
           <ChevronDown size={24} className="text-black animate-bounce" />
         </button> 
       </section>
@@ -150,7 +190,7 @@ const Index = () => {
           </div>
         </div> 
         
-        {/* Scroll indicator */}
+        {/* Scroll back up indicator */}
         <button 
           onClick={() => scrollToSection('hero')}
           className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${
@@ -158,7 +198,7 @@ const Index = () => {
           }`}
           aria-label="Scroll to learn more"
         >
-          <span className="text-sm mb-2 text-black animate-bounce">Learn more as a Buyer</span>
+          <span className="text-sm mb-2 text-black animate-bounce">Navigate Back Up</span>
           <ChevronUp size={24} className="text-black animate-bounce" />
         </button> 
       </section>
