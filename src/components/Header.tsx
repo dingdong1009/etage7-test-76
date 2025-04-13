@@ -125,7 +125,7 @@ const Header = () => {
  
       {/* Search overlay */}
       {isSearchOpen && (
-        <div className="absolute top-16 left-0 right-0 bg-white border-t border-gray-100 p-4">
+        <div className="absolute top-16 left-0 right-0 bg-white border-t border-b border-gray-100 p-4">
           <div className="container-lg">
             <form className="flex items-center">
               <Search size={16} strokeWidth={1} className="text-gray-500 mr-2" />
