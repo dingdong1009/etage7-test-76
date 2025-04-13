@@ -76,7 +76,7 @@ const Header = () => {
           <Link to="/" className="text-black text-5xl font-medium tracking-tighter uppercase">
             éTAGE7 
           </Link>
-        </div>
+        </div> 
         
         {/* Desktop Navigation */}
         <nav className="hidden lg:block">
