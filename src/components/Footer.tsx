@@ -1,5 +1,5 @@
+import React, { useState } from 'react';
 import { Link } from "react-router-dom";
-import { useState } from "react";
 import { 
   Instagram, 
   MessageCircle, 
@@ -146,6 +146,32 @@ const Footer = () => {
               <li className="text-xs text-gray-600 font-normal">Email: privet@etage7.ru</li>
               <li className="text-xs text-gray-600 font-normal">Phone: +7 (925) 130-45-10</li>
               <li className="text-xs text-gray-600 font-normal">Moscow, Russia</li>
+            </ul>
+          </div>
+          
+          <div>
+            <h4 className="text-xs uppercase font-normal tracking-tight mb-6">ÉTAGE7</h4>
+            <ul className="space-y-2 uppercase">
+              <li>
+                <Link to="/about" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-normal">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/careers" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-normal">
+                  Work with Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/press" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-normal">
+                  Press
+                </Link>
+              </li>
+              <li>
+                <Link to="/faq" className="text-xs text-gray-600 hover:text-black flex items-center gap-2 transition-fast font-normal">
+                  FAQ
+                </Link>
+              </li>
             </ul>
           </div>
         </div>
