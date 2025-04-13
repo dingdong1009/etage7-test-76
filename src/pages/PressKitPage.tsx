@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import { Download } from 'lucide-react';
 import { toast } from "sonner";
@@ -46,9 +46,62 @@ const PressKitPage = () => {
     { name: "PDF", id: "pdf" },
   ];
 
+  const logoRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
+
   const handleDownload = (logoId: string, format: string) => {
-    // In a real app, this would trigger an actual file download
-    toast.success(`Downloading ${logoId} in ${format} format`);
+    const logoElement = logoRefs.current[logoId];
+    
+    if (logoElement) {
+      const logoText = logoElement.innerText;
+      let fileContent = '';
+      let fileName = `etage7-${logoId}.${format.toLowerCase()}`;
+      let mimeType = '';
+      
+      // Generate different file formats
+      if (format === 'svg') {
+        const backgroundColor = logoId.includes('transparent') ? 'transparent' : 
+                               logoId.includes('white') ? 'black' : 'white';
+        const textColor = logoId.includes('white') ? 'white' : 'black';
+        
+        // Create SVG content
+        fileContent = `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100">
+          <rect width="100%" height="100%" fill="${backgroundColor}" />
+          <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" 
+            font-family="Arial" font-weight="500" fill="${textColor}" 
+            style="text-transform: uppercase; letter-spacing: -0.05em;">
+            éTAGE7
+          </text>
+        </svg>`;
+        mimeType = 'image/svg+xml';
+      } 
+      else if (format === 'png') {
+        // For simplicity, we'll create a simple text file with PNG content description
+        // In a real app, you would use canvas to generate an actual PNG
+        fileContent = `PNG representation of the ${logoId} logo would be generated here.
+Logo text: ${logoText}`;
+        mimeType = 'text/plain';
+      }
+      else if (format === 'pdf') {
+        // For simplicity, we'll create a simple text file with PDF content description
+        // In a real app, you would use a library like jsPDF to generate a PDF
+        fileContent = `PDF representation of the ${logoId} logo would be generated here.
+Logo text: ${logoText}`;
+        mimeType = 'text/plain';
+      }
+      
+      // Create and trigger download
+      const blob = new Blob([fileContent], { type: mimeType });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      toast.success(`Downloading ${logoId} in ${format} format`);
+    } else {
+      toast.error(`Could not generate ${format} file for ${logoId}`);
+    }
   };
 
   return (
@@ -66,7 +119,10 @@ const PressKitPage = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {variant.sizes.map((size, sizeIndex) => (
               <div key={sizeIndex} className="flex flex-col space-y-4">
-                <div className={`${variant.background} p-8 h-48 flex items-center justify-center`}>
+                <div 
+                  className={`${variant.background} p-8 h-48 flex items-center justify-center`}
+                  ref={el => logoRefs.current[size.id] = el}
+                >
                   <div className={`${variant.textColor} ${size.size} font-medium tracking-tighter uppercase`}>
                     éTAGE7
                   </div>
