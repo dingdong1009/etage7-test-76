@@ -102,7 +102,7 @@ const BrandHeader = () => {
                 </div>
               </TooltipTrigger>
               <TooltipContent>
-                <p>{notificationCount} unread notifications</p>
+                <p>{notificationCount} unread notifications</p> 
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
