@@ -123,7 +123,7 @@ const Index = () => {
               </p>}
             
             <Button onClick={toggleBuyerInfo} className="bg-white text-black border-0 hover:bg-gray-100 text-base py-6 px-8">
-              JOIN AS A BUYER <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+              JOIN AS A BUYER <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
             </Button>
           </div>
         </div> 
@@ -259,7 +259,7 @@ Start the conversation with our team of experts.</p>
               </ul>
               <Button asChild className="btn btn-outline">
                 <Link to="/brands">
-                  DISCOVER MORE <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+                  DISCOVER MORE <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
                 </Link>
               </Button>
             </div>
@@ -290,7 +290,7 @@ Start the conversation with our team of experts.</p>
               </ul>
               <Button asChild className="btn btn-outline">
                 <Link to="/buyers">
-                  DISCOVER MORE <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+                  DISCOVER MORE <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
                 </Link>
               </Button>
             </div>
@@ -311,12 +311,12 @@ Start the conversation with our team of experts.</p>
           <div className="flex flex-col sm:flex-row justify-center gap-6">
             <Button asChild className="bg-white text-black hover:bg-gray-100 btn">
               <Link to="/brands">
-                FOR BRANDS <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+                FOR BRANDS <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
               </Link>
             </Button>
             <Button asChild className="bg-transparent text-white border border-white hover:bg-white/10 btn">
               <Link to="/buyers">
-                FOR BUYERS <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+                FOR BUYERS <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
               </Link>
             </Button>
           </div>

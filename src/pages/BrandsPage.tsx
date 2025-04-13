@@ -37,7 +37,7 @@ const BrandsPage = () => {
               Connect with professional buyers from around the world and grow your fashion brand's presence in key markets.
             </p>
             <Button className="bg-white text-black border-0 hover:bg-gray-900 text-base py-6 px-8">
-              JOIN AS A BRAND <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+              JOIN AS A BRAND <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
             </Button>
           </div>
         </div>
@@ -214,7 +214,7 @@ const BrandsPage = () => {
             Join ETAGE7 today and connect with professional buyers looking for brands like yours.
           </p>
           <Button className="bg-white text-black hover:bg-gray-100 py-6 px-10 text-base">
-            JOIN AS A BRAND <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+            JOIN AS A BRAND <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
           </Button>
         </div>
       </section>

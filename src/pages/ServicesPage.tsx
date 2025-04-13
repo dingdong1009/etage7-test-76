@@ -131,7 +131,7 @@ const ServicesPage = () => {
               Expert guidance for brands and buyers navigating the complex fashion industry landscape.
             </p>
             <Button variant="white" size="xl" className="group">
-              EXPLORE SERVICES <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
+              EXPLORE SERVICES <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" strokeWidth={1} />
             </Button>
           </div>
         </div>
@@ -159,7 +159,7 @@ const ServicesPage = () => {
               </p>
               <Button variant="black" asChild className="group">
                 <Link to="/brands">
-                  BRAND SERVICES <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
+                  BRAND SERVICES <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" strokeWidth={1} />
                 </Link>
               </Button>
             </div>
@@ -172,7 +172,7 @@ const ServicesPage = () => {
               </p>
               <Button variant="black" asChild className="group">
                 <Link to="/buyers">
-                  BUYER SERVICES <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
+                  BUYER SERVICES <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" strokeWidth={1} />
                 </Link>
               </Button>
             </div>
@@ -413,12 +413,12 @@ const ServicesPage = () => {
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button variant="black" asChild className="group">
               <Link to="/brands">
-                FOR BRANDS <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
+                FOR BRANDS <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" strokeWidth={1} />
               </Link>
             </Button>
             <Button variant="white" asChild className="group">
               <Link to="/buyers">
-                FOR BUYERS <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" strokeWidth={1.5} />
+                FOR BUYERS <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" strokeWidth={1} />
               </Link>
             </Button>
           </div>

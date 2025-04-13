@@ -30,7 +30,7 @@ export const PricingTable = ({ plan }: PricingTableProps) => {
           {plan.features.map((feature, index) => (
             <li key={index} className="flex items-start">
               <div className="mr-3 mt-1">
-                <Check size={16} strokeWidth={1.5} className={plan.highlight ? "text-white" : "text-black"} />
+                <Check size={16} strokeWidth={1} className={plan.highlight ? "text-white" : "text-black"} />
               </div>
               <span className="font-light text-sm">{feature}</span>
             </li>

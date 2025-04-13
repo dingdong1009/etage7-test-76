@@ -197,25 +197,25 @@ const AdminPages = () => {
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center">
-                            <MapPin className="h-3.5 w-3.5 text-gray-500 mr-1" strokeWidth={1.5} />
+                            <MapPin className="h-3.5 w-3.5 text-gray-500 mr-1" strokeWidth={1} />
                             {event.location}
                           </div>
                         </TableCell>
                         <TableCell>
                           <div className="flex items-center">
-                            <Calendar className="h-3.5 w-3.5 text-gray-500 mr-1" strokeWidth={1.5} />
+                            <Calendar className="h-3.5 w-3.5 text-gray-500 mr-1" strokeWidth={1} />
                             {event.date}
                           </div>
                         </TableCell>
                         <TableCell className="flex justify-end space-x-2">
                           <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-100" onClick={() => handleViewItem("event", event.id)} title="View">
-                            <Eye className="h-4 w-4" strokeWidth={1.5} />
+                            <Eye className="h-4 w-4" strokeWidth={1} />
                           </Button>
                           <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-100" onClick={() => handleEditItem("event", event.id)} title="Edit">
-                            <Edit className="h-4 w-4" strokeWidth={1.5} />
+                            <Edit className="h-4 w-4" strokeWidth={1} />
                           </Button>
                           <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-100" onClick={() => handleDeleteItem("event", event.id)} title="Delete">
-                            <Trash2 className="h-4 w-4" strokeWidth={1.5} />
+                            <Trash2 className="h-4 w-4" strokeWidth={1} />
                           </Button>
                         </TableCell>
                       </TableRow>)}
@@ -266,13 +266,13 @@ const AdminPages = () => {
                         <TableCell>{story.createdAt}</TableCell>
                         <TableCell className="flex justify-end space-x-2">
                           <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-100" onClick={() => handleViewItem("story", story.id)} title="View">
-                            <Eye className="h-4 w-4" strokeWidth={1.5} />
+                            <Eye className="h-4 w-4" strokeWidth={1} />
                           </Button>
                           <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-100" onClick={() => handleEditItem("story", story.id)} title="Edit">
-                            <Edit className="h-4 w-4" strokeWidth={1.5} />
+                            <Edit className="h-4 w-4" strokeWidth={1} />
                           </Button>
                           <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-100" onClick={() => handleDeleteItem("story", story.id)} title="Delete">
-                            <Trash2 className="h-4 w-4" strokeWidth={1.5} />
+                            <Trash2 className="h-4 w-4" strokeWidth={1} />
                           </Button>
                         </TableCell>
                       </TableRow>)}
@@ -295,15 +295,15 @@ const AdminPages = () => {
                 <div className="mb-6">
                   <div className="flex space-x-4 mb-6">
                     <Button onClick={() => setContentType("event")} variant={contentType === "event" ? "black" : "outline"} className={contentType === "event" ? "" : "border-gray-200"}>
-                      <Calendar className="mr-2 h-4 w-4" strokeWidth={1.5} />
+                      <Calendar className="mr-2 h-4 w-4" strokeWidth={1} />
                       Event
                     </Button>
                     <Button onClick={() => setContentType("story")} variant={contentType === "story" ? "black" : "outline"} className={contentType === "story" ? "" : "border-gray-200"}>
-                      <FileText className="mr-2 h-4 w-4" strokeWidth={1.5} />
+                      <FileText className="mr-2 h-4 w-4" strokeWidth={1} />
                       Curated Story
                     </Button>
                     <Button onClick={() => setContentType("page")} variant={contentType === "page" ? "black" : "outline"} className={contentType === "page" ? "" : "border-gray-200"}>
-                      <PlusCircle className="mr-2 h-4 w-4" strokeWidth={1.5} />
+                      <PlusCircle className="mr-2 h-4 w-4" strokeWidth={1} />
                       Custom Page
                     </Button>
                   </div>

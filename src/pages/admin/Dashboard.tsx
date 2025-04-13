@@ -134,7 +134,7 @@ const AdminDashboard = () => {
                   type="monotone" 
                   dataKey="users" 
                   stroke="#000" 
-                  strokeWidth={1.5} 
+                  strokeWidth={1} 
                   dot={{ stroke: '#000', strokeWidth: 1, fill: '#fff', r: 3 }} 
                   activeDot={{ r: 5 }} 
                 />
@@ -160,7 +160,7 @@ const AdminDashboard = () => {
                   type="monotone" 
                   dataKey="subscriptions" 
                   stroke="#000" 
-                  strokeWidth={1.5} 
+                  strokeWidth={1} 
                   dot={{ stroke: '#000', strokeWidth: 1, fill: '#fff', r: 3 }} 
                   activeDot={{ r: 5 }} 
                 />
@@ -228,7 +228,7 @@ const AdminDashboard = () => {
                   type="monotone" 
                   dataKey="sales" 
                   stroke="#000" 
-                  strokeWidth={1.5} 
+                  strokeWidth={1} 
                   dot={{ stroke: '#000', strokeWidth: 1, fill: '#fff', r: 3 }} 
                   activeDot={{ r: 5 }} 
                 />

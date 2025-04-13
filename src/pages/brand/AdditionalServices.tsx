@@ -181,7 +181,7 @@ const BrandAdditionalServices = () => {
                 <ul className="space-y-2 mb-6 flex-1">
                   {service.features.map((feature, index) => (
                     <li key={index} className="flex items-start">
-                      <Check className="h-4 w-4 text-gray-500 mr-2 flex-shrink-0 mt-0.5" strokeWidth={1.5} />
+                      <Check className="h-4 w-4 text-gray-500 mr-2 flex-shrink-0 mt-0.5" strokeWidth={1} />
                       <span className="text-sm">{feature}</span>
                     </li>
                   ))}
@@ -195,7 +195,7 @@ const BrandAdditionalServices = () => {
                     className="w-full bg-black text-white hover:bg-gray-800 rounded-none text-xs font-light" 
                     onClick={() => openBookingDialog(service)}
                   >
-                    Book Consultation <Calendar className="ml-2 h-4 w-4" strokeWidth={1.5} />
+                    Book Consultation <Calendar className="ml-2 h-4 w-4" strokeWidth={1} />
                   </Button>
                 </div>
               </div>

@@ -227,7 +227,7 @@ const AdminAdditionalServices = () => {
                   <Select value={bookingFilter} onValueChange={setBookingFilter}>
                     <SelectTrigger className="h-9 text-xs rounded-none border-gray-200 w-[150px]">
                       <div className="flex items-center">
-                        <Filter className="h-3.5 w-3.5 mr-2 text-gray-500" strokeWidth={1.5} />
+                        <Filter className="h-3.5 w-3.5 mr-2 text-gray-500" strokeWidth={1} />
                         <SelectValue placeholder="Filter status" />
                       </div>
                     </SelectTrigger>
@@ -244,7 +244,7 @@ const AdminAdditionalServices = () => {
                     variant="outline"
                     className="h-9 border-gray-200 hover:bg-gray-100 text-xs font-light rounded-none"
                   >
-                    <FileText className="w-3.5 h-3.5 mr-2" strokeWidth={1.5} />
+                    <FileText className="w-3.5 h-3.5 mr-2" strokeWidth={1} />
                     Export
                   </Button>
                 </div>
@@ -278,7 +278,7 @@ const AdminAdditionalServices = () => {
                   <Select defaultValue="all">
                     <SelectTrigger className="h-9 text-xs rounded-none border-gray-200 w-[150px]">
                       <div className="flex items-center">
-                        <Filter className="h-3.5 w-3.5 mr-2 text-gray-500" strokeWidth={1.5} />
+                        <Filter className="h-3.5 w-3.5 mr-2 text-gray-500" strokeWidth={1} />
                         <SelectValue placeholder="Filter category" />
                       </div>
                     </SelectTrigger>

@@ -17,7 +17,7 @@ const CuratedPage = () => {
               Discover brands hand-picked by our AI to match your specific requirements.
             </p>
             <Button className="text-base bg-white text-black border-0 hover:bg-gray-100 py-6 px-8">
-              COMING SOON <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+              COMING SOON <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
             </Button>
           </div>
         </div>
@@ -43,7 +43,7 @@ const CuratedPage = () => {
                   who are specifically looking for your unique style and offerings.
                 </p>
                 <Button className="bg-black text-white hover:bg-gray-900">
-                  LEARN MORE <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+                  LEARN MORE <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
                 </Button>
               </div>
               
@@ -54,7 +54,7 @@ const CuratedPage = () => {
                   Save time and focus on what matters most.
                 </p>
                 <Button className="bg-black text-white hover:bg-gray-900">
-                  LEARN MORE <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+                  LEARN MORE <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
                 </Button>
               </div>
             </div>

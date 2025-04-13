@@ -34,7 +34,7 @@ const ScrollToTop = () => {
       }`}
       aria-label="Scroll to top"
     >
-      <ChevronUp size={20} strokeWidth={1.5} className="text-white" />
+      <ChevronUp size={20} strokeWidth={1} className="text-white" />
     </button>
   );
 };

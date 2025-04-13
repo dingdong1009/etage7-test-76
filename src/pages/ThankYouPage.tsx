@@ -17,7 +17,7 @@ const ThankYouPage = () => {
         
         <Button asChild className="bg-black text-white hover:bg-gray-900 py-6 px-8 text-base">
           <Link to="/">
-            RETURN TO HOMEPAGE <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+            RETURN TO HOMEPAGE <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
           </Link>
         </Button>
       </div>

@@ -38,7 +38,7 @@ const BuyersPage = () => {
             </p>
             <Button asChild className="btn btn-primary text-base bg-white text-black hover:bg-gray-100 border-0">
               <Link to="/register?type=buyer">
-                JOIN AS A BUYER <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+                JOIN AS A BUYER <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
               </Link>
             </Button>
           </div>
@@ -169,7 +169,7 @@ const BuyersPage = () => {
               </p>
               <Button asChild className="bg-black text-white hover:bg-gray-800">
                 <Link to="/register?type=buyer">
-                  APPLY NOW <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+                  APPLY NOW <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
                 </Link>
               </Button>
             </div>
@@ -208,7 +208,7 @@ const BuyersPage = () => {
           </p>
           <Button asChild className="bg-white text-black hover:bg-gray-100 btn">
             <Link to="/register?type=buyer">
-              JOIN AS A BUYER <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+              JOIN AS A BUYER <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
             </Link>
           </Button>
         </div>
