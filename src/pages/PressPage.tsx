@@ -47,7 +47,13 @@ const PressPage = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">Press</h1>
+      <div className="flex flex-col items-start mb-8">
+        <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-3">Press</h1>
+        {/* Logo with different size */}
+        <div className="text-black text-2xl md:text-3xl font-medium tracking-tighter uppercase mt-2 mb-2">
+          éTAGE7
+        </div>
+      </div>
       
       <div className="space-y-12">
         <section className="mb-12">
