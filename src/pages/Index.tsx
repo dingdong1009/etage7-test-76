@@ -74,7 +74,7 @@ const Index = () => {
           }`}
           aria-label="Scroll to learn more"
         >
-          <span className="text-sm mb-2 animate-bounce">Learn more as a Buyer </span>          
+          <span className="text-sm mb-2 animate-bounce">Learn more as a Buyer</span>          
           <ChevronDown size={24} className="animate-bounce" />
         </button>
       </section>
