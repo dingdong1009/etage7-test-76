@@ -140,7 +140,7 @@ const Header = () => {
                 onClick={toggleSearch}
                 className="text-gray-500 hover:text-black"
               >
-                <X size={16} strokeWidth={1} />
+                <X size={16} strokeWidth={1} /> 
               </button>
             </form>
           </div>
