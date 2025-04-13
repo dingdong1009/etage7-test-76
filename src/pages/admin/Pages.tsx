@@ -134,15 +134,30 @@ const AdminPages = () => {
   };
   
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">
           PAGE MANAGEMENT
         </h1>
-
+        
+        <div className="flex flex-wrap gap-4 mt-4 lg:mt-0">
+          <Button 
+            className="bg-black text-white border-none hover:bg-gray-800 text-xs font-light"
+            onClick={handleAddNewPage}
+          >
+            <PlusCircle className="w-4 h-4 mr-2" strokeWidth={1} />
+            Add New Page
+          </Button>
+          <Button variant="outline" className="border-gray-200 hover:bg-gray-100 text-xs font-light">
+            <FileText className="w-4 h-4 mr-2" strokeWidth={1} />
+            View All Pages
+          </Button>
+        </div>
+      </div>
+      
       <Tabs defaultValue="events" className="w-full" value={activeTab} onValueChange={setActiveTab}>
-      <div className="border-t border-gray-200 mb-6">
-      <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
-        <TabsTrigger 
+        <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
+          <TabsTrigger 
             value="events" 
             className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
           >
@@ -161,25 +176,7 @@ const AdminPages = () => {
             Create Content
           </TabsTrigger>
         </TabsList>
-      </div>
-    
-
-      <TabsContent value="list" className="mt-0">
-        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-6">
-          <div className="flex flex-wrap items-center gap-3">
-          <Button 
-            className="bg-black text-white border-none hover:bg-gray-800 text-xs font-light"
-            onClick={handleAddNewPage}
-          >
-            <PlusCircle className="w-4 h-4 mr-2" strokeWidth={1} />
-            Add New Page 
-          </Button>
-            </div>
-          </div>
-        </TabsContent>
-
-
-
+        
         {/* Events Tab */}
         <TabsContent value="events" className="mt-0">
           <Card className="border border-gray-200 shadow-none rounded-none">
