@@ -53,7 +53,7 @@ const Index = () => {
       </section>
 
       {/* Brands Section */}
-      <section id="brand" className="relative h-screen bg-black-500 text-black flex items-center">
+      <section id="brand" className="relative h-screen bg-black text-black flex items-center">
         <div className="container-lg">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
