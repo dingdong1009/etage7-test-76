@@ -92,7 +92,7 @@ const Header = () => {
     { name: "HOME", path: "hero", isSection: true },
     { name: "BRANDS", path: "brand", isSection: true },
     { name: "BUYERS", path: "buyer", isSection: true },
-    { name: "PLATFORM", path: "paltform", isSection: true },
+    { name: "PLATFORM", path: "platform", isSection: true },
     { name: "CONSULTING", path: "services", isSection: true },
     { name: "EVENTS", path: "/events", isSection: false },
     { name: "CURATED", path: "/curated", isSection: false },
