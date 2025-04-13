@@ -3,28 +3,33 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Download, ArrowRight } from 'lucide-react';
+import { toast } from "sonner";
 
 const PressKitPage = () => {
   const brandAssets = [
     {
       name: 'Logo (High-Res)',
       format: 'PNG, SVG',
-      description: 'Official ETAGE7 logo in high resolution formats suitable for print and digital media.'
+      description: 'Official ETAGE7 logo in high resolution formats suitable for print and digital media.',
+      id: 'logo-high-res'
     },
     {
       name: 'Logo (Vector)',
       format: 'AI, EPS',
-      description: 'Vector formats of our logo for unlimited scaling.'
+      description: 'Vector formats of our logo for unlimited scaling.',
+      id: 'logo-vector'
     },
     {
       name: 'Brand Guidelines',
       format: 'PDF',
-      description: 'Comprehensive guide for proper logo usage, color palette, typography, and visual identity standards.'
+      description: 'Comprehensive guide for proper logo usage, color palette, typography, and visual identity standards.',
+      id: 'brand-guidelines'
     },
     {
       name: 'Product Images',
       format: 'JPG, PNG',
-      description: 'High-resolution images of our platform and services.'
+      description: 'High-resolution images of our platform and services.',
+      id: 'product-images'
     }
   ];
 
@@ -51,6 +56,20 @@ const PressKitPage = () => {
     }
   ];
 
+  const handleDownload = (assetId: string) => {
+    // In a real application, this would trigger the download of the actual file
+    // For now, we'll show a toast notification to indicate the functionality
+    toast.success(`Downloading ${assetId} asset`);
+  };
+
+  const handleDownloadFullKit = () => {
+    toast.success("Downloading full press kit");
+  };
+
+  const handleDownloadMediaKit = () => {
+    toast.success("Downloading full media kit");
+  };
+
   return (
     <div className="max-w-5xl mx-auto">
       <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-10">Press Kit</h1>
@@ -69,6 +88,7 @@ const PressKitPage = () => {
               <Button 
                 variant="outline" 
                 className="w-full sm:w-auto flex items-center justify-center border-black text-black hover:bg-black hover:text-white transition-colors"
+                onClick={handleDownloadFullKit}
               >
                 <Download className="mr-2 h-4 w-4" />
                 Download Full Press Kit
@@ -117,6 +137,7 @@ const PressKitPage = () => {
                   variant="outline"
                   size="sm"
                   className="flex items-center border-black text-black hover:bg-black hover:text-white transition-colors"
+                  onClick={() => handleDownload(asset.id)}
                 >
                   <Download className="mr-2 h-4 w-4" />
                   Download
@@ -137,6 +158,7 @@ const PressKitPage = () => {
               <Button 
                 variant="outline"
                 className="flex items-center border-black text-black hover:bg-black hover:text-white transition-colors"
+                onClick={handleDownloadMediaKit}
               >
                 <Download className="mr-2 h-4 w-4" />
                 Full Media Kit

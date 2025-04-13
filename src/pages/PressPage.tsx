@@ -2,6 +2,7 @@ import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Download, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { toast } from "sonner";
 
 const PressPage = () => {
   const pressReleases = [
@@ -45,6 +46,10 @@ const PressPage = () => {
     }
   ];
 
+  const handleDownload = (assetType: string) => {
+    toast.success(`Downloading ${assetType}`);
+  };
+
   return (
     <div className="space-y-6">
       <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">Press</h1>
@@ -70,6 +75,7 @@ const PressPage = () => {
                 <Button 
                   variant="outline" 
                   className="w-full sm:w-auto flex items-center justify-center border-black text-black hover:bg-black hover:text-white transition-colors"
+                  onClick={() => handleDownload("Brand Assets")}
                 >
                   <Download className="mr-2 h-4 w-4" />
                   Brand Assets
