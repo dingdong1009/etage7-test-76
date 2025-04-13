@@ -66,7 +66,7 @@ const Index = () => {
             Your designs are more than collections—they are chapters of a story waiting to be shared. At ETAGE7, we celebrate your creativity by providing you essential tools that empowers your products finding their places in the heart of those who value your craftmanship.
             </p>
             <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
-            <ChevronRight className="ml-2 h-4 w-4"  >Discover Pricing </ChevronRight> 
+            <ChevronRight className="ml-2 h-4 w-4"  >Discover Pricing</ChevronRight> 
             </p>
             <Button className="bg-white text-black border-0 hover:bg-gray-100 text-base py-6 px-8">
               JOIN AS A BRAND <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} /> 
