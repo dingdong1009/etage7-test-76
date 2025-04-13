@@ -172,7 +172,7 @@ const AdminPages = () => {
             onClick={handleAddNewPage}
           >
             <PlusCircle className="w-4 h-4 mr-2" strokeWidth={1} />
-            Add New Page
+            Add New Page 
           </Button>
             </div>
           </div>
