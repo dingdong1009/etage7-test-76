@@ -67,7 +67,7 @@ const AdminHeader = () => {
   return (
     <header className={`fixed top-0 left-0 right-0 z-50 transition-medium ${
       isScrolled ? "bg-white border-b border-gray-100" : "bg-white"
-    }`}>
+    }`}> 
       <div className="container-lg h-16 border-b flex items-center justify-between">
         <div className="flex items-center space-x-6">
           {/* Mobile menu button */}
