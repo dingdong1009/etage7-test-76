@@ -160,8 +160,8 @@ const BrandProducts = () => {
             Export
           </Button>
           </div>
-        </div>
-        </TabsContent> 
+        </div> 
+        </TabsContent>
 
         <TabsContent value="list" className="space-y-6">
           <ProductList 
