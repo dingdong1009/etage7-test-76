@@ -26,7 +26,9 @@ import {
   Building,
   BookOpen,
   CalendarDays,
-  CheckCircle
+  CheckCircle,
+  Plus,
+  Search
 } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -60,6 +62,9 @@ const AdminAnnouncements = () => {
   const [selectedType, setSelectedType] = useState<AnnouncementType>("general");
   const [showSchedule, setShowSchedule] = useState(false);
   const [previewMode, setPreviewMode] = useState(false);
+  const [activeTab, setActiveTab] = useState("history");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filterType, setFilterType] = useState<AnnouncementType | "all">("all");
   
   const form = useForm<AnnouncementFormData>({
     defaultValues: {
@@ -111,6 +116,14 @@ const AdminAnnouncements = () => {
       urgent: false
     },
   ];
+
+  const filteredAnnouncements = pastAnnouncements
+    .filter(announcement => 
+      (filterType === "all" || announcement.type === filterType) &&
+      (searchQuery === "" || 
+        announcement.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        announcement.content.toLowerCase().includes(searchQuery.toLowerCase()))
+    );
 
   const audienceOptions = [
     { label: "All Users", value: "all" },
@@ -228,6 +241,7 @@ const AdminAnnouncements = () => {
     });
     setPreviewMode(false);
     setShowSchedule(false);
+    setActiveTab("history");
   };
 
   const resendAnnouncement = (announcement: Announcement) => {
@@ -244,555 +258,119 @@ const AdminAnnouncements = () => {
 
   return (
     <div className="space-y-8 animate-fade-in">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
-        <h1 className="text-4xl md:text-5xl lg:text-7xl font-normal tracking-tighter mb-6 uppercase">
-          ANNOUNCEMENTS MANAGER 
+      {/* Header Section */}
+      <div className="flex flex-col space-y-2">
+        <h1 className="text-4xl md:text-5xl lg:text-7xl font-normal tracking-tighter uppercase">
+          ANNOUNCEMENTS MANAGER
         </h1>
-        <div className="flex items-center gap-2">
-          <Button 
-            variant="outline" 
-            className="admin-button-outline gap-2" 
-            onClick={() => setPreviewMode(!previewMode)}
-          >
-            {previewMode ? <PenTool size={16} /> : <Eye size={16} />}
-            {previewMode ? "Edit Mode" : "Preview Mode"}
-          </Button>
-        </div>
+        <p className="text-lg text-gray-500">
+          Create, manage, and monitor platform announcements
+        </p>
       </div>
       
-      <Card className="border border-gray-200 shadow-none rounded-lg">
-        <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
-          <CardTitle className="text-lg font-medium text-gray-900">
-            Create New Announcement
-          </CardTitle>
-        </CardHeader>
+      {/* Main Content Tabs */}
+      <Tabs 
+        defaultValue="history" 
+        className="w-full" 
+        value={activeTab} 
+        onValueChange={setActiveTab}
+      >
+        <div className="flex justify-between items-center border-b border-gray-200">
+          <TabsList className="h-auto p-0">
+            <TabsTrigger 
+              value="history" 
+              className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-3"
+            >
+              <BookOpen className="h-4 w-4 mr-2" />
+              Announcement History
+            </TabsTrigger>
+            <TabsTrigger 
+              value="create" 
+              className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-3"
+            >
+              <Megaphone className="h-4 w-4 mr-2" />
+              Create Announcement
+            </TabsTrigger>
+          </TabsList>
+          
+          <div className="flex gap-2">
+            {activeTab === "create" && (
+              <Button 
+                variant="outline" 
+                className="admin-button-outline gap-2" 
+                onClick={() => setPreviewMode(!previewMode)}
+              >
+                {previewMode ? <PenTool size={16} /> : <Eye size={16} />}
+                {previewMode ? "Edit Mode" : "Preview Mode"}
+              </Button>
+            )}
+            {activeTab === "history" && (
+              <Button 
+                className="gap-2 bg-gray-900 text-white hover:bg-gray-800"
+                onClick={() => setActiveTab("create")}
+              >
+                <Plus size={16} />
+                New Announcement
+              </Button>
+            )}
+          </div>
+        </div>
         
-        <CardContent className="p-6">
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              {/* Announcement Type Selector */}
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-                  <Button
-                    type="button"
-                    variant={selectedType === "general" ? "default" : "outline"}
-                    className={`gap-2 ${selectedType === "general" ? "bg-gray-900 text-white" : ""}`}
-                    onClick={() => handleTypeChange("general")}
-                  >
-                    <Megaphone className="h-4 w-4" />
-                    <span>General</span>
-                  </Button>
-                  <Button
-                    type="button"
-                    variant={selectedType === "brand" ? "default" : "outline"}
-                    className={`gap-2 ${selectedType === "brand" ? "bg-blue-600 text-white" : ""}`}
-                    onClick={() => handleTypeChange("brand")}
-                  >
-                    <Store className="h-4 w-4" />
-                    <span>Brand</span>
-                  </Button>
-                  <Button
-                    type="button"
-                    variant={selectedType === "newsletter" ? "default" : "outline"}
-                    className={`gap-2 ${selectedType === "newsletter" ? "bg-purple-600 text-white" : ""}`}
-                    onClick={() => handleTypeChange("newsletter")}
-                  >
-                    <Mail className="h-4 w-4" />
-                    <span>Newsletter</span>
-                  </Button>
-                  <Button
-                    type="button"
-                    variant={selectedType === "maintenance" ? "default" : "outline"}
-                    className={`gap-2 ${selectedType === "maintenance" ? "bg-orange-600 text-white" : ""}`}
-                    onClick={() => handleTypeChange("maintenance")}
-                  >
-                    <Wrench className="h-4 w-4" />
-                    <span>Maintenance</span>
-                  </Button>
-                  <Button
-                    type="button"
-                    variant={selectedType === "update" ? "default" : "outline"}
-                    className={`gap-2 ${selectedType === "update" ? "bg-green-600 text-white" : ""}`}
-                    onClick={() => handleTypeChange("update")}
-                  >
-                    <Bell className="h-4 w-4" />
-                    <span>Update</span>
-                  </Button>
-                </div>
-              </div>
-
-              {previewMode ? (
-                <div className="p-6 border rounded-md">
-                  <div className="flex items-center justify-between mb-3">
-                    <div className="flex items-center gap-2">
-                      {getAnnouncementIcon(selectedType)}
-                      <h3 className="font-semibold">{form.watch("title")}</h3>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs text-gray-500">{format(new Date(), 'PPP')}</span>
-                      {form.watch("isUrgent") && (
-                        <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">Urgent</span>
-                      )}
-                    </div>
-                  </div>
-                  <div className="announcement-content" dangerouslySetInnerHTML={{ __html: form.watch("content") }}></div>
-                  <div className="mt-4 text-xs text-gray-500">
-                    Visible to: {audienceOptions.find(o => o.value === form.watch("audience"))?.label || "All Users"}
-                  </div>
-                </div>
-              ) : (
-                <>
-                  <FormField
-                    control={form.control}
-                    name="title"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Title</FormLabel>
-                        <FormControl>
-                          <Input placeholder="Enter announcement title" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <FormField
-                    control={form.control}
-                    name="content"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>Content</FormLabel>
-                        <FormControl>
-                          <RichTextEditor
-                            value={field.value}
-                            onChange={field.onChange}
-                            onImageUpload={handleImageUpload}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <FormField
-                      control={form.control}
-                      name="audience"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Audience</FormLabel>
-                          <Select 
-                            onValueChange={field.onChange} 
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger className="border-gray-200 bg-white">
-                                <SelectValue placeholder="Select audience" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent className="bg-white">
-                              {audienceOptions.map(option => (
-                                <SelectItem key={option.value} value={option.value}>
-                                  <div className="flex items-center gap-2">
-                                    {option.value === "all" ? <Users size={14} /> : 
-                                     option.value === "brands" ? <Building size={14} /> :
-                                     option.value === "buyers" ? <User size={14} /> :
-                                     <User size={14} />}
-                                    {option.label}
-                                  </div>
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="duration"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Duration</FormLabel>
-                          <Select 
-                            onValueChange={field.onChange} 
-                            defaultValue={field.value}
-                          >
-                            <FormControl>
-                              <SelectTrigger className="border-gray-200 bg-white">
-                                <SelectValue placeholder="Select duration" />
-                              </SelectTrigger>
-                            </FormControl>
-                            <SelectContent className="bg-white">
-                              {durationOptions.map(option => (
-                                <SelectItem key={option.value} value={option.value}>
-                                  <div className="flex items-center gap-2">
-                                    {option.value === "permanent" ? <CheckCircle size={14} /> : <CalendarDays size={14} />}
-                                    {option.label}
-                                  </div>
-                                </SelectItem>
-                              ))}
-                            </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <FormField
-                      control={form.control}
-                      name="isUrgent"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 border-gray-200">
-                          <div className="space-y-0.5">
-                            <FormLabel>Mark as Urgent</FormLabel>
-                            <div className="text-sm text-muted-foreground">
-                              Will be highlighted for users
-                            </div>
-                          </div>
-                          <FormControl>
-                            <Switch
-                              checked={field.value}
-                              onCheckedChange={field.onChange}
-                            />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                    
-                    <FormField
-                      control={form.control}
-                      name="isScheduled"
-                      render={({ field }) => (
-                        <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 border-gray-200">
-                          <div className="space-y-0.5">
-                            <FormLabel>Schedule for Later</FormLabel>
-                            <div className="text-sm text-muted-foreground">
-                              Select date and time
-                            </div>
-                          </div>
-                          <FormControl>
-                            <Switch
-                              checked={field.value}
-                              onCheckedChange={(value) => {
-                                field.onChange(value);
-                                setShowSchedule(value);
-                              }}
-                            />
-                          </FormControl>
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-                  
-                  {showSchedule && (
-                    <FormField
-                      control={form.control}
-                      name="scheduledDate"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Schedule Date & Time</FormLabel>
-                          <FormControl>
-                            <Input 
-                              type="datetime-local" 
-                              {...field} 
-                              min={format(new Date(), "yyyy-MM-dd'T'HH:mm")}
-                              className="border-gray-200"
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  )}
-                </>
-              )}
-
-              <div className="flex justify-end">
-                <Button 
-                  type="submit" 
-                  className={`gap-2 admin-button-primary ${
-                    selectedType === "brand" ? "bg-blue-600" :
-                    selectedType === "newsletter" ? "bg-purple-600" : 
-                    selectedType === "maintenance" ? "bg-orange-600" :
-                    selectedType === "update" ? "bg-green-600" : 
-                    "bg-gray-900"
-                  }`}
-                >
-                  <Send className="h-4 w-4" />
-                  {form.watch("isScheduled") ? "Schedule" : "Send Now"}
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </CardContent>
-      </Card>
-      
-      <Card className="border border-gray-200 shadow-none rounded-lg overflow-hidden">
-        <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
-          <CardTitle className="text-lg font-medium text-gray-900 flex items-center gap-2">
-            <BookOpen className="h-5 w-5" />
-            Announcement History
-          </CardTitle>
-          <CardDescription>
-            Past announcements sent to your platform users
-          </CardDescription>
-        </CardHeader>
-        
-        <Tabs defaultValue="all" className="w-full">
-          <div className="px-6 pt-2 border-b">
-            <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-0">
-              <TabsTrigger 
-                value="all" 
-                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
+        {/* Announcement History Tab */}
+        <TabsContent value="history" className="pt-6">
+          <div className="flex flex-col md:flex-row justify-between gap-4 mb-6">
+            <div className="relative md:w-1/3">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
+              <Input 
+                placeholder="Search announcements..." 
+                className="pl-10 pr-4 py-2 border-gray-200"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <div className="flex gap-2">
+              <Select 
+                value={filterType} 
+                onValueChange={(value) => setFilterType(value as AnnouncementType | "all")}
               >
-                <Megaphone className="h-4 w-4 mr-2" />
-                All
-              </TabsTrigger>
-              <TabsTrigger 
-                value="brands" 
-                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
-              >
-                <Store className="h-4 w-4 mr-2" />
-                Brands
-              </TabsTrigger>
-              <TabsTrigger 
-                value="newsletters" 
-                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
-              >
-                <Mail className="h-4 w-4 mr-2" />
-                Newsletters
-              </TabsTrigger>
-              <TabsTrigger 
-                value="maintenance" 
-                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
-              >
-                <Wrench className="h-4 w-4 mr-2" />
-                Maintenance
-              </TabsTrigger>
-              <TabsTrigger 
-                value="updates" 
-                className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2"
-              >
-                <Bell className="h-4 w-4 mr-2" />
-                Updates
-              </TabsTrigger>
-            </TabsList>
+                <SelectTrigger className="w-[180px] border-gray-200 bg-white">
+                  <SelectValue placeholder="Filter by type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Types</SelectItem>
+                  <SelectItem value="general">General</SelectItem>
+                  <SelectItem value="brand">Brand</SelectItem>
+                  <SelectItem value="newsletter">Newsletter</SelectItem>
+                  <SelectItem value="maintenance">Maintenance</SelectItem>
+                  <SelectItem value="update">Update</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
           
-          <TabsContent value="all" className="mt-0">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-gray-50 hover:bg-transparent">
-                  <TableHead className="w-12 font-medium text-gray-600 text-sm"></TableHead>
-                  <TableHead className="font-medium text-gray-600 text-sm w-1/3">Title / Content</TableHead>
-                  <TableHead className="font-medium text-gray-600 text-sm">Date</TableHead>
-                  <TableHead className="font-medium text-gray-600 text-sm">Audience</TableHead>
-                  <TableHead className="font-medium text-gray-600 text-sm text-right w-24">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {pastAnnouncements.map((announcement) => (
-                  <TableRow key={announcement.id} className="border-t border-gray-100 hover:bg-gray-50/50">
-                    <TableCell className="pl-4">
-                      {getAnnouncementIcon(announcement.type, "h-5 w-5")}
-                    </TableCell>
-                    <TableCell className="max-w-md">
-                      <div className="font-medium">{announcement.title}</div>
-                      <div className="text-sm text-gray-500 truncate">{announcement.content}</div>
-                      {announcement.urgent && (
-                        <span className="inline-block mt-1 text-xs bg-red-100 text-red-800 px-2 py-0.5 rounded-full">
-                          Urgent
-                        </span>
-                      )}
-                    </TableCell>
-                    <TableCell className="whitespace-nowrap">
-                      <div className="flex items-center gap-1.5">
-                        <Calendar className="h-3.5 w-3.5 text-gray-500" />
-                        {announcement.date}
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                        announcement.audience === "All Users" 
-                          ? "bg-accent-mint text-gray-800 border-accent-mint" 
-                          : "bg-accent-blue text-gray-800 border-accent-blue"
-                      }`}>
-                        {announcement.audience}
-                      </span>
-                    </TableCell>
-                    <TableCell className="text-right space-x-1">
-                      <Button
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 p-0 hover:bg-gray-100"
-                        title="Resend"
-                        onClick={() => resendAnnouncement(announcement)}
-                      >
-                        <RefreshCw className="h-4 w-4" />
-                      </Button>
-                      <Button 
-                        variant="ghost"
-                        size="icon"
-                        className="h-8 w-8 p-0 hover:bg-gray-100"
-                        title="Delete"
-                        onClick={() => deleteAnnouncement(announcement)}
-                      >
-                        <Trash2 className="h-4 w-4 text-red-500" />
-                      </Button>
-                    </TableCell>
+          <Card className="border border-gray-200 shadow-none rounded-lg overflow-hidden">
+            <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
+              <CardTitle className="text-lg font-medium text-gray-900">
+                Announcement History
+              </CardTitle>
+              <CardDescription>
+                Past announcements sent to your platform users
+              </CardDescription>
+            </CardHeader>
+            
+            <CardContent className="p-0">
+              <Table>
+                <TableHeader>
+                  <TableRow className="bg-gray-50 hover:bg-transparent">
+                    <TableHead className="w-12 font-medium text-gray-600 text-sm"></TableHead>
+                    <TableHead className="font-medium text-gray-600 text-sm w-1/3">Title / Content</TableHead>
+                    <TableHead className="font-medium text-gray-600 text-sm">Date</TableHead>
+                    <TableHead className="font-medium text-gray-600 text-sm">Audience</TableHead>
+                    <TableHead className="font-medium text-gray-600 text-sm text-right w-24">Actions</TableHead>
                   </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TabsContent>
-          
-          <TabsContent value="brands">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-gray-50 hover:bg-transparent">
-                  <TableHead className="w-12 font-medium text-gray-600 text-sm"></TableHead>
-                  <TableHead className="font-medium text-gray-600 text-sm w-1/3">Title / Content</TableHead>
-                  <TableHead className="font-medium text-gray-600 text-sm">Date</TableHead>
-                  <TableHead className="font-medium text-gray-600 text-sm">Audience</TableHead>
-                  <TableHead className="font-medium text-gray-600 text-sm text-right w-24">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {pastAnnouncements
-                  .filter(a => a.type === "brand")
-                  .map((announcement) => (
-                    <TableRow key={announcement.id} className="border-t border-gray-100 hover:bg-gray-50/50">
-                      <TableCell className="pl-4">
-                        {getAnnouncementIcon(announcement.type, "h-5 w-5")}
-                      </TableCell>
-                      <TableCell className="max-w-md">
-                        <div className="font-medium">{announcement.title}</div>
-                        <div className="text-sm text-gray-500 truncate">{announcement.content}</div>
-                      </TableCell>
-                      <TableCell className="whitespace-nowrap">
-                        <div className="flex items-center gap-1.5">
-                          <Calendar className="h-3.5 w-3.5 text-gray-500" />
-                          {announcement.date}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          announcement.audience === "All Users" 
-                            ? "bg-accent-mint text-gray-800 border-accent-mint" 
-                            : "bg-accent-blue text-gray-800 border-accent-blue"
-                        }`}>
-                          {announcement.audience}
-                        </span>
-                      </TableCell>
-                      <TableCell className="text-right space-x-1">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 p-0 hover:bg-gray-100"
-                          title="Resend"
-                          onClick={() => resendAnnouncement(announcement)}
-                        >
-                          <RefreshCw className="h-4 w-4" />
-                        </Button>
-                        <Button 
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 p-0 hover:bg-gray-100"
-                          title="Delete"
-                          onClick={() => deleteAnnouncement(announcement)}
-                        >
-                          <Trash2 className="h-4 w-4 text-red-500" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TabsContent>
-          
-          <TabsContent value="newsletters">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-gray-50 hover:bg-transparent">
-                  <TableHead className="w-12 font-medium text-gray-600 text-sm"></TableHead>
-                  <TableHead className="font-medium text-gray-600 text-sm w-1/3">Title / Content</TableHead>
-                  <TableHead className="font-medium text-gray-600 text-sm">Date</TableHead>
-                  <TableHead className="font-medium text-gray-600 text-sm">Audience</TableHead>
-                  <TableHead className="font-medium text-gray-600 text-sm text-right w-24">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {pastAnnouncements
-                  .filter(a => a.type === "newsletter")
-                  .map((announcement) => (
-                    <TableRow key={announcement.id} className="border-t border-gray-100 hover:bg-gray-50/50">
-                      <TableCell className="pl-4">
-                        {getAnnouncementIcon(announcement.type, "h-5 w-5")}
-                      </TableCell>
-                      <TableCell className="max-w-md">
-                        <div className="font-medium">{announcement.title}</div>
-                        <div className="text-sm text-gray-500 truncate">{announcement.content}</div>
-                      </TableCell>
-                      <TableCell className="whitespace-nowrap">
-                        <div className="flex items-center gap-1.5">
-                          <Calendar className="h-3.5 w-3.5 text-gray-500" />
-                          {announcement.date}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          announcement.audience === "All Users" 
-                            ? "bg-accent-mint text-gray-800 border-accent-mint" 
-                            : "bg-accent-blue text-gray-800 border-accent-blue"
-                        }`}>
-                          {announcement.audience}
-                        </span>
-                      </TableCell>
-                      <TableCell className="text-right space-x-1">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 p-0 hover:bg-gray-100"
-                          title="Resend"
-                          onClick={() => resendAnnouncement(announcement)}
-                        >
-                          <RefreshCw className="h-4 w-4" />
-                        </Button>
-                        <Button 
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 p-0 hover:bg-gray-100"
-                          title="Delete"
-                          onClick={() => deleteAnnouncement(announcement)}
-                        >
-                          <Trash2 className="h-4 w-4 text-red-500" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TabsContent>
-          
-          <TabsContent value="maintenance">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-gray-50 hover:bg-transparent">
-                  <TableHead className="w-12 font-medium text-gray-600 text-sm"></TableHead>
-                  <TableHead className="font-medium text-gray-600 text-sm w-1/3">Title / Content</TableHead>
-                  <TableHead className="font-medium text-gray-600 text-sm">Date</TableHead>
-                  <TableHead className="font-medium text-gray-600 text-sm">Audience</TableHead>
-                  <TableHead className="font-medium text-gray-600 text-sm text-right w-24">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {pastAnnouncements
-                  .filter(a => a.type === "maintenance")
-                  .map((announcement) => (
+                </TableHeader>
+                <TableBody>
+                  {filteredAnnouncements.map((announcement) => (
                     <TableRow key={announcement.id} className="border-t border-gray-100 hover:bg-gray-50/50">
                       <TableCell className="pl-4">
                         {getAnnouncementIcon(announcement.type, "h-5 w-5")}
@@ -843,78 +421,292 @@ const AdminAnnouncements = () => {
                       </TableCell>
                     </TableRow>
                   ))}
-              </TableBody>
-            </Table>
-          </TabsContent>
-          
-          <TabsContent value="updates">
-            <Table>
-              <TableHeader>
-                <TableRow className="bg-gray-50 hover:bg-transparent">
-                  <TableHead className="w-12 font-medium text-gray-600 text-sm"></TableHead>
-                  <TableHead className="font-medium text-gray-600 text-sm w-1/3">Title / Content</TableHead>
-                  <TableHead className="font-medium text-gray-600 text-sm">Date</TableHead>
-                  <TableHead className="font-medium text-gray-600 text-sm">Audience</TableHead>
-                  <TableHead className="font-medium text-gray-600 text-sm text-right w-24">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {pastAnnouncements
-                  .filter(a => a.type === "update")
-                  .map((announcement) => (
-                    <TableRow key={announcement.id} className="border-t border-gray-100 hover:bg-gray-50/50">
-                      <TableCell className="pl-4">
-                        {getAnnouncementIcon(announcement.type, "h-5 w-5")}
-                      </TableCell>
-                      <TableCell className="max-w-md">
-                        <div className="font-medium">{announcement.title}</div>
-                        <div className="text-sm text-gray-500 truncate">{announcement.content}</div>
-                      </TableCell>
-                      <TableCell className="whitespace-nowrap">
-                        <div className="flex items-center gap-1.5">
-                          <Calendar className="h-3.5 w-3.5 text-gray-500" />
-                          {announcement.date}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+        
+        {/* Create Announcement Tab */}
+        <TabsContent value="create" className="pt-6">
+          <Card className="border border-gray-200 shadow-none rounded-lg">
+            <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
+              <CardTitle className="text-lg font-medium text-gray-900">
+                Create New Announcement
+              </CardTitle>
+              <CardDescription>
+                Send updates, notifications, and important information to platform users
+              </CardDescription>
+            </CardHeader>
+            
+            <CardContent className="p-6">
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                  {/* Announcement Type Selector */}
+                  <div className="space-y-4">
+                    <FormLabel>Announcement Type</FormLabel>
+                    <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+                      <Button
+                        type="button"
+                        variant={selectedType === "general" ? "default" : "outline"}
+                        className={`gap-2 ${selectedType === "general" ? "bg-gray-900 text-white" : ""}`}
+                        onClick={() => handleTypeChange("general")}
+                      >
+                        <Megaphone className="h-4 w-4" />
+                        <span>General</span>
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={selectedType === "brand" ? "default" : "outline"}
+                        className={`gap-2 ${selectedType === "brand" ? "bg-blue-600 text-white" : ""}`}
+                        onClick={() => handleTypeChange("brand")}
+                      >
+                        <Store className="h-4 w-4" />
+                        <span>Brand</span>
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={selectedType === "newsletter" ? "default" : "outline"}
+                        className={`gap-2 ${selectedType === "newsletter" ? "bg-purple-600 text-white" : ""}`}
+                        onClick={() => handleTypeChange("newsletter")}
+                      >
+                        <Mail className="h-4 w-4" />
+                        <span>Newsletter</span>
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={selectedType === "maintenance" ? "default" : "outline"}
+                        className={`gap-2 ${selectedType === "maintenance" ? "bg-orange-600 text-white" : ""}`}
+                        onClick={() => handleTypeChange("maintenance")}
+                      >
+                        <Wrench className="h-4 w-4" />
+                        <span>Maintenance</span>
+                      </Button>
+                      <Button
+                        type="button"
+                        variant={selectedType === "update" ? "default" : "outline"}
+                        className={`gap-2 ${selectedType === "update" ? "bg-green-600 text-white" : ""}`}
+                        onClick={() => handleTypeChange("update")}
+                      >
+                        <Bell className="h-4 w-4" />
+                        <span>Update</span>
+                      </Button>
+                    </div>
+                  </div>
+
+                  {previewMode ? (
+                    <div className="p-6 border rounded-md">
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          {getAnnouncementIcon(selectedType)}
+                          <h3 className="font-semibold">{form.watch("title")}</h3>
                         </div>
-                      </TableCell>
-                      <TableCell>
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          announcement.audience === "All Users" 
-                            ? "bg-accent-mint text-gray-800 border-accent-mint" 
-                            : "bg-accent-blue text-gray-800 border-accent-blue"
-                        }`}>
-                          {announcement.audience}
-                        </span>
-                      </TableCell>
-                      <TableCell className="text-right space-x-1">
-                        <Button
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 p-0 hover:bg-gray-100"
-                          title="Resend"
-                          onClick={() => resendAnnouncement(announcement)}
-                        >
-                          <RefreshCw className="h-4 w-4" />
-                        </Button>
-                        <Button 
-                          variant="ghost"
-                          size="icon"
-                          className="h-8 w-8 p-0 hover:bg-gray-100"
-                          title="Delete"
-                          onClick={() => deleteAnnouncement(announcement)}
-                        >
-                          <Trash2 className="h-4 w-4 text-red-500" />
-                        </Button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-              </TableBody>
-            </Table>
-          </TabsContent>
-        </Tabs>
-      </Card>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs text-gray-500">{format(new Date(), 'PPP')}</span>
+                          {form.watch("isUrgent") && (
+                            <span className="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">Urgent</span>
+                          )}
+                        </div>
+                      </div>
+                      <div className="announcement-content" dangerouslySetInnerHTML={{ __html: form.watch("content") }}></div>
+                      <div className="mt-4 text-xs text-gray-500">
+                        Visible to: {audienceOptions.find(o => o.value === form.watch("audience"))?.label || "All Users"}
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      <FormField
+                        control={form.control}
+                        name="title"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Title</FormLabel>
+                            <FormControl>
+                              <Input placeholder="Enter announcement title" {...field} />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <FormField
+                        control={form.control}
+                        name="content"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Content</FormLabel>
+                            <FormControl>
+                              <RichTextEditor
+                                value={field.value}
+                                onChange={field.onChange}
+                                onImageUpload={handleImageUpload}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <FormField
+                          control={form.control}
+                          name="audience"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Audience</FormLabel>
+                              <Select 
+                                onValueChange={field.onChange} 
+                                defaultValue={field.value}
+                              >
+                                <FormControl>
+                                  <SelectTrigger className="border-gray-200 bg-white">
+                                    <SelectValue placeholder="Select audience" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent className="bg-white">
+                                  {audienceOptions.map(option => (
+                                    <SelectItem key={option.value} value={option.value}>
+                                      <div className="flex items-center gap-2">
+                                        {option.value === "all" ? <Users size={14} /> : 
+                                         option.value === "brands" ? <Building size={14} /> :
+                                         option.value === "buyers" ? <User size={14} /> :
+                                         <User size={14} />}
+                                        {option.label}
+                                      </div>
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <FormField
+                          control={form.control}
+                          name="duration"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Duration</FormLabel>
+                              <Select 
+                                onValueChange={field.onChange} 
+                                defaultValue={field.value}
+                              >
+                                <FormControl>
+                                  <SelectTrigger className="border-gray-200 bg-white">
+                                    <SelectValue placeholder="Select duration" />
+                                  </SelectTrigger>
+                                </FormControl>
+                                <SelectContent className="bg-white">
+                                  {durationOptions.map(option => (
+                                    <SelectItem key={option.value} value={option.value}>
+                                      <div className="flex items-center gap-2">
+                                        {option.value === "permanent" ? <CheckCircle size={14} /> : <CalendarDays size={14} />}
+                                        {option.label}
+                                      </div>
+                                    </SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <FormField
+                          control={form.control}
+                          name="isUrgent"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 border-gray-200">
+                              <div className="space-y-0.5">
+                                <FormLabel>Mark as Urgent</FormLabel>
+                                <div className="text-sm text-muted-foreground">
+                                  Will be highlighted for users
+                                </div>
+                              </div>
+                              <FormControl>
+                                <Switch
+                                  checked={field.value}
+                                  onCheckedChange={field.onChange}
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                        
+                        <FormField
+                          control={form.control}
+                          name="isScheduled"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-row items-center justify-between rounded-lg border p-3 border-gray-200">
+                              <div className="space-y-0.5">
+                                <FormLabel>Schedule for Later</FormLabel>
+                                <div className="text-sm text-muted-foreground">
+                                  Select date and time
+                                </div>
+                              </div>
+                              <FormControl>
+                                <Switch
+                                  checked={field.value}
+                                  onCheckedChange={(value) => {
+                                    field.onChange(value);
+                                    setShowSchedule(value);
+                                  }}
+                                />
+                              </FormControl>
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+                      
+                      {showSchedule && (
+                        <FormField
+                          control={form.control}
+                          name="scheduledDate"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Schedule Date & Time</FormLabel>
+                              <FormControl>
+                                <Input 
+                                  type="datetime-local" 
+                                  {...field} 
+                                  min={format(new Date(), "yyyy-MM-dd'T'HH:mm")}
+                                  className="border-gray-200"
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      )}
+                    </>
+                  )}
+
+                  <div className="flex justify-end">
+                    <Button 
+                      type="submit" 
+                      className={`gap-2 admin-button-primary ${
+                        selectedType === "brand" ? "bg-blue-600" :
+                        selectedType === "newsletter" ? "bg-purple-600" : 
+                        selectedType === "maintenance" ? "bg-orange-600" :
+                        selectedType === "update" ? "bg-green-600" : 
+                        "bg-gray-900"
+                      }`}
+                    >
+                      <Send className="h-4 w-4" />
+                      {form.watch("isScheduled") ? "Schedule" : "Send Now"}
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
 
 export default AdminAnnouncements;
-
