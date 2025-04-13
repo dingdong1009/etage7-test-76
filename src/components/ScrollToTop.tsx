@@ -29,12 +29,12 @@ const ScrollToTop = () => {
   return (
     <button
       onClick={scrollToTop}
-      className={`fixed bottom-6 right-6 p-3 z-50 bg-white shadow-md rounded-full hover:bg-gray-100 transition-all duration-300 text-gray-600 ${
+      className={`fixed bottom-6 right-6 p-3 z-50 bg-black shadow-md rounded-full hover:bg-gray-100 transition-all duration-300 text-gray-600 ${
         isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
       }`}
       aria-label="Scroll to top"
     >
-      <ChevronUp size={20} strokeWidth={1.5} />
+      <ChevronUp size={20} strokeWidth={1.5} className="text-white" />
     </button>
   );
 };
