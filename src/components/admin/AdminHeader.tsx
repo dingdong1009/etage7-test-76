@@ -115,7 +115,7 @@ const AdminHeader = () => {
         <div className="max-w-[1481px] mx-auto w-full px-8 py-2">
           <ul className="flex space-x-8">
             {menuItems.map((item) => (
-              <li key={item.name}>
+              <li key={item.name}> 
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
