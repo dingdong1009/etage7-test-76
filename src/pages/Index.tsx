@@ -47,7 +47,7 @@ const Index = () => {
           }`}
           aria-label="Scroll to learn more"
         >
-          <span className="text-sm mb-2">Learn more as a brand</span>
+          <span className="text-sm mb-2">Learn more as a Brand</span>
           <ChevronDown size={24} className="animate-bounce" />
         </button>
       </section>
@@ -74,6 +74,7 @@ const Index = () => {
           }`}
           aria-label="Scroll to learn more"
         >
+          <span className="text-sm mb-2">Learn more as a Buyer</span>          
           <ChevronDown size={24} className="animate-bounce bg-black" />
         </button>
       </section>
