@@ -52,7 +52,6 @@ const Index = () => {
         </button>
       </section>
 
-
       {/* Brands Section */}
       <section id="brand" className="relative h-screen bg-white text-black flex items-center">
 
