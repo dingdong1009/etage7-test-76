@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import React, { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -124,7 +123,6 @@ const AdminPages = () => {
   const [currentEditorView, setCurrentEditorView] = useState("design");
   const [pagePreview, setPagePreview] = useState(false);
   
-  // New page data state
   const [newPageData, setNewPageData] = useState({
     title: "",
     slug: "",
@@ -190,12 +188,10 @@ const AdminPages = () => {
     console.log("Creating new page with data:", data);
     setNewPageDialogOpen(false);
     
-    // Simulate page creation
     toast.success("New page created successfully", {
       description: `Page "${data.title}" has been created as a ${data.status}.`
     });
     
-    // Open the page editor with the new page data
     setNewPageData(data);
     launchPageEditor();
   };
@@ -209,7 +205,6 @@ const AdminPages = () => {
   };
   
   const handleSavePage = (saveType) => {
-    // Simulate saving page
     if (saveType === 'draft') {
       toast.success("Page saved as draft", {
         description: "Your changes have been saved as a draft."
@@ -233,6 +228,16 @@ const AdminPages = () => {
     toast.info(pagePreview ? "Exited preview mode" : "Preview mode activated");
   };
   
+  const handleAddEvent = () => {
+    setActiveTab("create-content");
+    form.setValue("template", "event");
+  };
+
+  const handleAddStory = () => {
+    setActiveTab("create-content");
+    form.setValue("template", "story");
+  };
+
   return (
     <div className="space-y-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
@@ -315,7 +320,7 @@ const AdminPages = () => {
                 </Select>
                 <Button 
                   className="bg-black hover:bg-gray-800 text-white text-sm"
-                  onClick={() => setActiveTab("create-content")}
+                  onClick={handleAddEvent}
                 >
                   <PlusCircle className="mr-1 h-4 w-4" /> Add Event
                 </Button>
@@ -452,7 +457,7 @@ const AdminPages = () => {
                 </Select>
                 <Button 
                   className="bg-black hover:bg-gray-800 text-white text-sm"
-                  onClick={() => setActiveTab("create-content")}
+                  onClick={handleAddStory}
                 >
                   <PlusCircle className="mr-1 h-4 w-4" /> Add Story
                 </Button>
@@ -603,7 +608,6 @@ const AdminPages = () => {
         </TabsContent>
       </Tabs>
       
-      {/* New Page Dialog */}
       <Dialog open={newPageDialogOpen} onOpenChange={setNewPageDialogOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
@@ -640,7 +644,6 @@ const AdminPages = () => {
                         required 
                         {...field} 
                         onChange={(e) => {
-                          // Auto-generate slug from title - convert spaces to dashes and lowercase
                           const value = e.target.value || "";
                           field.onChange(value.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, ""));
                         }}
@@ -736,7 +739,6 @@ const AdminPages = () => {
         </DialogContent>
       </Dialog>
       
-      {/* Page Editor Dialog */}
       <Dialog open={pageEditorOpen} onOpenChange={setPageEditorOpen}>
         <DialogContent className="max-w-5xl w-[90vw]">
           <DialogHeader>
@@ -795,7 +797,6 @@ const AdminPages = () => {
           </div>
           
           <div className="grid grid-cols-5 gap-4 h-[60vh]">
-            {/* Left sidebar - elements */}
             <div className="col-span-1 border-r border-gray-200 pr-4 overflow-y-auto">
               <h3 className="font-medium text-sm mb-3">Elements</h3>
               <div className="space-y-2">
@@ -887,7 +888,6 @@ const AdminPages = () => {
               </div>
             </div>
             
-            {/* Main editor area */}
             <div className="col-span-3 border rounded-md bg-white overflow-y-auto">
               {pagePreview ? (
                 <div className="p-6">
@@ -927,7 +927,6 @@ const AdminPages = () => {
               )}
             </div>
             
-            {/* Right sidebar - properties */}
             <div className="col-span-1 border-l border-gray-200 pl-4 overflow-y-auto">
               <h3 className="font-medium text-sm mb-3">Properties</h3>
               
