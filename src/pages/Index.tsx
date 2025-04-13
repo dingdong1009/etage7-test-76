@@ -149,7 +149,7 @@ const Index = () => {
       <section id="services" className="relative h-screen bg-white text-black flex items-center">
         <div className="container-lg">
           <div className="max-w-3xl">
-          <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl uppercase">Additional Services</p>
+          <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl uppercase">Consulting Services</p>
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
               CONNECTING<br/>
               <span className="font-normal">FASHION BRANDS & BUYERS</span>
