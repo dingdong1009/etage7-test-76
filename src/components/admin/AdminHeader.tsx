@@ -70,7 +70,7 @@ const AdminHeader = () => {
         <div className="flex items-center gap-2">
           <Link to="/" className="text-black text-5xl font-medium uppercase">éTAGE7</Link>
 
-        </div> 
+        </div>
         
         {/* Mobile menu button */}
         <button
