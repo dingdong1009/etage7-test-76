@@ -66,7 +66,7 @@ const AdminHeader = () => {
 
   return (
     <header className="sticky top-0 left-0 right-0 z-50 bg-black">
-      <div className="max-w-[1481px] mx-auto w-full px-4 flex justify-between items-center h-16">
+      <div className="max-w-[1481px] mx-auto w-full px-6 flex justify-between items-center h-16">
        <div className="flex items-center gap-2">
           <Link to="/" className="text-white text-5xl font-medium uppercase">éTAGE7</Link>
         </div>
