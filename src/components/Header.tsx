@@ -48,6 +48,7 @@ const Header = () => {
     { name: "EVENTS", path: "/events" },
     { name: "CURATED", path: "/curated" },
     { name: "RESOURCES", path: "/resources" },
+    
   ];
 
   const secondaryNavItems = [
