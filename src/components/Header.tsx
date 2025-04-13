@@ -97,7 +97,7 @@ const Header = () => {
 
         {/* Right side actions */}
         <div className="flex items-center space-x-5">      
-          {/* Search, User and Cart */}
+          {/* Language, Search, User */}
           <div className="flex items-center space-x-5">
             {/* Language selector */}
             <button 
@@ -107,7 +107,7 @@ const Header = () => {
             >
               {language}
             </button>
-            
+            {/* Search button */}
             <button 
               onClick={toggleSearch}
               aria-label={isSearchOpen ? "Close search" : "Open search"}
@@ -115,6 +115,7 @@ const Header = () => {
             >
               <Search size={18} strokeWidth={1} />
             </button>
+            {/* Login icon */}
             <Link to="/login" className="hover:text-gray-600 transition-fast hidden sm:block">
               <User size={18} strokeWidth={1} />
             </Link>
@@ -163,16 +164,10 @@ const Header = () => {
                     </Link>
                   </li>
                 ))}
-                
-                {/* Language toggle in mobile menu */}
-                <li className="py-2">
-                  <button
-                    onClick={toggleLanguage}
-                    className="text-xl uppercase font-light tracking-tighter"
-                  >
-                    {language === "EN" ? "ENGLISH" : "РУССКИЙ"}
-                  </button>
-                </li>
+             {/* Login icon */}
+            <Link to="/login" className="hover:text-gray-600 transition-fast hidden sm:block">
+              <User size={18} strokeWidth={1} />
+            </Link>
               </ul>
             </nav>
             <div className="pt-10 pb-4 mt-auto border-t border-gray-100">
