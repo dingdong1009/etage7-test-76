@@ -139,7 +139,11 @@ const BrandProducts = () => {
           <TabsTrigger value="add">Add Product</TabsTrigger>
         </TabsList>
       </div>
-      <div className="flex gap-2">
+      <TabsContent value="list" className="mt-0">
+        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-6">
+          <div className="relative w-full max-w-sm">
+          </div>
+          <div className="flex flex-wrap items-center gap-3">
           <Button 
             onClick={() => setActiveTab("add")} 
             className="h-9 text-xs bg-black hover:bg-black-600 text-white"
@@ -151,7 +155,9 @@ const BrandProducts = () => {
             <FileText size={16} className="mr-1" />
             Export
           </Button>
+          </div>
         </div>
+        </TabsContent>
         <TabsContent value="list" className="space-y-6">
           <ProductList 
             products={filteredProducts}
