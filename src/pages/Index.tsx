@@ -70,7 +70,7 @@ const Index = () => {
             </p>
             <Button className="bg-white text-black border-0 hover:bg-gray-100 text-base py-6 px-8">
               JOIN AS A BRAND <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} /> 
-            </Button>
+            </Button> 
           </div>
         </div>
         
