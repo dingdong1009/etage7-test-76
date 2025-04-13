@@ -120,7 +120,7 @@ const AdminHeader = () => {
       
       {/* Desktop Navigation - Below the header bar */}
       <nav className="hidden md:block bg-white">
-        <div className="max-w-[1481px] mx-auto px-4 py-2">
+        <div className="max-w-[1481px] mx-auto px-4 py-2"> 
         <ul className="flex space-x-8">
             {mainNavItems.map((item) => (
               <li key={item.name}>
