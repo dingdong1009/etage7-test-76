@@ -31,7 +31,7 @@ const Index = () => {
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
             Nurturing<br/>
-              <span className="font-normal">design’s most meaningful alliances</span>
+              <span className="font-normal">designs most meaningful alliances</span>
             </h1>
             <p className="text-lg md:text-xl font-light text-gray-300 mb-12 max-w-2xl">
             ETAGE7 was born from a passion for the stories and dreams woven into every design, where creativity meets opportunity. We celebrate artistry and craftmanship, and every collaboration could become your next masterpiece.
