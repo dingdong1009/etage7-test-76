@@ -70,60 +70,48 @@ const BrandHeader = () => {
   };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-medium ${
-      isScrolled ? "bg-white border-b border-gray-100" : "bg-white"
-    }`}>
-      <div className="container-lg h-16 border-b flex items-center justify-between">
-        <div className="flex items-center space-x-6">
-          {/* Mobile menu button */}
-          <button 
-            className="lg:hidden text-black focus:outline-none"
-            onClick={toggleMenu}
-            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          >
-            {isMenuOpen ? <X size={18} strokeWidth={1} /> : <Menu size={18} strokeWidth={1} />}
-          </button>
-          
-          {/* Logo */}
-          <Link to="/" className="text-black text-5xl font-medium tracking-tighter uppercase">
-            éTAGE7
-          </Link>
+    <header className="sticky top-0 left-0 right-0 z-50 bg-black">
+      <div className="max-w-[1481px] mx-auto w-full px-8 flex justify-between items-center h-16">
+       <div className="flex items-center gap-2">
+          <Link to="/" className="text-white text-5xl font-medium uppercase">éTAGE7</Link>
         </div>
-          
-        {/* User options on desktop */}
-        <div className="hidden md:flex items-center space-x-6">
-          {/* Language selector */}
-          <button 
-            onClick={toggleLanguage}
-            className="text-xs font-light uppercase hover:text-gray-600 transition-fast"
-            aria-label="Toggle language"
-          >
-            {language}
-          </button>
         
+        {/* Mobile menu button */}
+        <button
+          className="md:hidden text-black p-2"
+          onClick={toggleMenu}
+          aria-label="Toggle menu"
+        >
+          <Menu size={24} />
+        </button> 
+        
+        {/* User options on desktop */}
+        <div className="hidden md:flex items-center space-x-4">
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
                 <div className="relative">
-                  <Bell size={20} strokeWidth={1} className="text-gray-600 hover:text-black cursor-pointer transition-colors" />
+                  <Bell size={20} className="text-gray-600 hover:text-black cursor-pointer" />
                   {notificationCount > 0 && (
                     <Badge 
-                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-accent-pink text-black text-xs rounded-full font-light"
+                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-white text-black text-xs rounded-full"
                     >
                       {notificationCount}
                     </Badge>
                   )}
                 </div>
               </TooltipTrigger>
-              <TooltipContent className="bg-white shadow-md" showArrow={true}>
-                <p className="text-xs font-light">{notificationCount} unread notifications</p>
+              <TooltipContent>
+                <p>{notificationCount} unread notifications</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
           
-          <Link to="/" className="text-gray-600 hover:text-black text-xs uppercase font-light tracking-wide transition-colors">
-            Back to Site
+          <Link to="/" className="text-gray-600 hover:text-white text-xs font-normal">
+            BACK TO SITE
           </Link>
+          <span className="text-gray-400 font-light">|</span>
+          <span className="text-gray-600 text-xs text-white font-light">ADMIN</span>
         </div>
       </div>
       
