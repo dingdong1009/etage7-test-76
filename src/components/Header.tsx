@@ -138,25 +138,25 @@ const Header = () => {
                   <button 
                     onClick={() => navigateToSection(item.path)}
                     className={`text-xs font-light uppercase relative group transition-fast ${
-                      activeSection === item.path ? 'after:absolute after:left-0 after:bottom-[-2px] after:w-full after:h-[0.5px] after:bg-black' : ''
+                      activeSection === item.path ? 'text-black' : 'text-gray-600 hover:text-black'
                     }`}
                   >
                     {item.name}
-                    <span className={`absolute left-0 bottom-[-2px] w-0 h-[0.5px] bg-black transition-all duration-300 ${
-                      activeSection === item.path ? 'w-full' : 'group-hover:w-full'
-                    }`}></span>
+                    <span className={`absolute left-0 bottom-[-4px] w-0 h-[2px] bg-black transition-all duration-300 ${
+                      activeSection === item.path ? 'w-full' : ''
+                    } group-hover:w-full origin-left`}></span>
                   </button>
                 ) : (
                   <Link 
                     to={item.path} 
                     className={`text-xs font-light uppercase relative group transition-fast ${
-                      location.pathname === item.path ? 'after:absolute after:left-0 after:bottom-[-2px] after:w-full after:h-[0.5px] after:bg-black' : ''
+                      location.pathname === item.path ? 'text-black' : 'text-gray-600 hover:text-black'
                     }`}
                   >
                     {item.name}
-                    <span className={`absolute left-0 bottom-[-2px] w-0 h-[0.5px] bg-black transition-all duration-300 ${
-                      location.pathname === item.path ? 'w-full' : 'group-hover:w-full'
-                    }`}></span>
+                    <span className={`absolute left-0 bottom-[-4px] w-0 h-[2px] bg-black transition-all duration-300 ${
+                      location.pathname === item.path ? 'w-full' : ''
+                    } group-hover:w-full origin-left`}></span>
                   </Link>
                 )}
               </li>
