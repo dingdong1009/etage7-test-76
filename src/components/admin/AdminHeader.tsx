@@ -130,7 +130,7 @@ const AdminHeader = () => {
                           className={`absolute left-0 bottom-[-3px] w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full ${
                             isActive(item.path) ? "w-full" : ""
                           }`}
-                        ></span>
+                        ></span> 
                       </Link>
                     </TooltipTrigger>
                     <TooltipContent>
