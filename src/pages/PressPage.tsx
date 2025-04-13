@@ -1,7 +1,7 @@
-
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Download, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const PressPage = () => {
   const pressReleases = [
@@ -58,13 +58,15 @@ const PressPage = () => {
                 Welcome to the ETAGE7 press room. Find the latest news, press releases, media resources, and contact information for press inquiries.
               </p>
               <div className="space-y-4">
-                <Button 
-                  variant="outline" 
-                  className="w-full sm:w-auto flex items-center justify-center border-black text-black hover:bg-black hover:text-white transition-colors"
-                >
-                  <Download className="mr-2 h-4 w-4" />
-                  Press Kit
-                </Button>
+                <Link to="/press-kit">
+                  <Button 
+                    variant="outline" 
+                    className="w-full sm:w-auto flex items-center justify-center border-black text-black hover:bg-black hover:text-white transition-colors"
+                  >
+                    <Download className="mr-2 h-4 w-4" />
+                    Press Kit
+                  </Button>
+                </Link>
                 <Button 
                   variant="outline" 
                   className="w-full sm:w-auto flex items-center justify-center border-black text-black hover:bg-black hover:text-white transition-colors"

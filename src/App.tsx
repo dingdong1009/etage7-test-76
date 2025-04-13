@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -19,6 +20,7 @@ import ResetPasswordPage from "./pages/ResetPasswordPage";
 import AboutPage from "./pages/AboutPage";
 import CareersPage from "./pages/CareersPage";
 import PressPage from "./pages/PressPage";
+import PressKitPage from "./pages/PressKitPage";
 import FaqPage from "./pages/FaqPage";
 
 // Admin components
@@ -90,6 +92,7 @@ const App = () => {
               <Route path="about" element={<AboutPage />} />
               <Route path="careers" element={<CareersPage />} />
               <Route path="press" element={<PressPage />} />
+              <Route path="press-kit" element={<PressKitPage />} />
               <Route path="faq" element={<FaqPage />} />
               <Route path="*" element={<NotFound />} />
             </Route>
