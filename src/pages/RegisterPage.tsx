@@ -61,9 +61,9 @@ const RegisterPage = () => {
 
   return (
     <div className="pt-16 pb-16 px-4">
-      <div className="max-w-[600px] mx-auto">
-        <h1 className="text-3xl uppercase font-thin mb-8 text-center">
-          Create an Account
+      <div className="max-w-[500px] mx-auto">
+        <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6 uppercase">
+          Create An Account
         </h1>
         
         <Form {...form}>
