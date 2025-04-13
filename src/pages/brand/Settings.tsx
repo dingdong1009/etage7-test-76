@@ -8,6 +8,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { AlertTriangle, Download } from "lucide-react";
 
 const BrandSettings = () => {
   const [passwordForm, setPasswordForm] = useState({
@@ -37,6 +38,12 @@ const BrandSettings = () => {
 
   const [dateFormat, setDateFormat] = useState("MM/DD/YYYY");
   const [currency, setCurrency] = useState("USD ($)");
+
+  const errorLogs = [
+    { id: 1, level: "Error", message: "Failed to upload product images", source: "Product Management", timestamp: "2023-12-15 13:27:45" },
+    { id: 2, level: "Warning", message: "Low inventory for SKU-1234", source: "Inventory System", timestamp: "2023-12-14 09:32:18" },
+    { id: 3, level: "Error", message: "Order processing failed", source: "Order Management", timestamp: "2023-12-13 16:44:51" },
+  ];
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordForm({
@@ -81,6 +88,7 @@ const BrandSettings = () => {
           <TabsTrigger value="security">Security</TabsTrigger>
           <TabsTrigger value="notifications">Notifications</TabsTrigger>
           <TabsTrigger value="advanced">Advanced</TabsTrigger>
+          <TabsTrigger value="errorLogs">Error Logs</TabsTrigger>
         </TabsList>
         
         <TabsContent value="profile">
@@ -453,6 +461,55 @@ const BrandSettings = () => {
                     Delete Brand Account
                   </button>
                 </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="errorLogs">
+          <Card className="border border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-lg font-medium">Error Logs</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b border-gray-200">
+                      <th className="text-left py-3 px-4 font-medium text-sm">Level</th>
+                      <th className="text-left py-3 px-4 font-medium text-sm">Message</th>
+                      <th className="text-left py-3 px-4 font-medium text-sm">Source</th>
+                      <th className="text-left py-3 px-4 font-medium text-sm">Timestamp</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {errorLogs.map((log) => (
+                      <tr key={log.id} className="border-b border-gray-200 hover:bg-gray-50">
+                        <td className="py-3 px-4">
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                            log.level === 'Error' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
+                          }`}>
+                            {log.level === 'Error' && <AlertTriangle className="mr-1 h-3 w-3" />}
+                            {log.level}
+                          </span>
+                        </td>
+                        <td className="py-3 px-4 font-light">{log.message}</td>
+                        <td className="py-3 px-4 font-light text-sm">{log.source}</td>
+                        <td className="py-3 px-4 font-light text-sm">{log.timestamp}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              
+              <div className="mt-6 flex justify-end">
+                <button 
+                  type="button" 
+                  className="inline-flex items-center gap-2 bg-white border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                >
+                  <Download className="h-4 w-4" />
+                  Export Error Logs
+                </button>
               </div>
             </CardContent>
           </Card>

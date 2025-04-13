@@ -10,6 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { AlertTriangle } from "lucide-react";
 
 const Settings = () => {
   const [passwordForm, setPasswordForm] = useState({
@@ -40,6 +41,11 @@ const Settings = () => {
   const [dateFormat, setDateFormat] = useState("DD/MM/YYYY");
   const [currency, setCurrency] = useState("EUR (€)");
   const [timeZone, setTimeZone] = useState("Central European Time (CET)");
+
+  const errorLogs = [
+    { id: 1, level: "Error", message: "Failed to load product images", source: "Product Gallery", timestamp: "2023-12-15 10:22:45" },
+    { id: 2, level: "Warning", message: "Order confirmation email delayed", source: "Email Service", timestamp: "2023-12-14 16:14:22" },
+  ];
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordForm({
@@ -91,6 +97,12 @@ const Settings = () => {
             className="data-[state=active]:bg-white data-[state=active]:shadow-none transition-all"
           >
             Advanced
+          </TabsTrigger>
+          <TabsTrigger 
+            value="errorLogs"
+            className="data-[state=active]:bg-white data-[state=active]:shadow-none transition-all"
+          >
+            Error Logs
           </TabsTrigger>
         </TabsList>
         
@@ -371,6 +383,45 @@ const Settings = () => {
                   </Button>
                 </div>
               </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="errorLogs">
+          <Card className="border border-gray-200 rounded-none">
+            <CardHeader>
+              <CardTitle className="text-lg font-medium">Error Logs</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {errorLogs.length > 0 ? (
+                <div className="space-y-4">
+                  {errorLogs.map((log) => (
+                    <div key={log.id} className="p-4 border border-gray-200 rounded-md">
+                      <div className="flex items-center justify-between mb-2">
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          log.level === 'Error' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
+                        }`}>
+                          {log.level === 'Error' && <AlertTriangle className="mr-1 h-3 w-3" />}
+                          {log.level}
+                        </span>
+                        <span className="text-sm text-gray-500">{log.timestamp}</span>
+                      </div>
+                      <p className="font-medium mb-1">{log.message}</p>
+                      <p className="text-sm text-gray-600">Source: {log.source}</p>
+                    </div>
+                  ))}
+                  
+                  <div className="flex justify-end mt-4">
+                    <Button variant="outline" className="text-sm">
+                      Export Logs
+                    </Button>
+                  </div>
+                </div>
+              ) : (
+                <div className="p-8 text-center">
+                  <p className="text-gray-500">No error logs found</p>
+                </div>
+              )}
             </CardContent>
           </Card>
         </TabsContent>

@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -9,7 +8,7 @@ import { Switch } from "@/components/ui/switch";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { ChevronRight, Bell, User, Lock, Mail, Eye, EyeOff, Camera } from "lucide-react";
+import { ChevronRight, Bell, User, Lock, Mail, Eye, EyeOff, Camera, AlertTriangle, Download } from "lucide-react";
 
 const SalesSettings = () => {
   const [activeTab, setActiveTab] = useState("profile");
@@ -31,6 +30,13 @@ const SalesSettings = () => {
       marketing: false
     }
   });
+
+  // Mock error logs for demonstration
+  const errorLogs = [
+    { id: 1, level: "Error", message: "Failed to sync client data", source: "CRM Integration", timestamp: "2023-12-15 11:32:21" },
+    { id: 2, level: "Warning", message: "Report generation timeout", source: "Sales Analytics", timestamp: "2023-12-14 14:27:39" },
+    { id: 3, level: "Error", message: "Calendar sync failed", source: "Meeting Scheduler", timestamp: "2023-12-13 09:15:47" },
+  ];
   
   const handleSaveProfile = (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,6 +101,16 @@ const SalesSettings = () => {
                   <div className="flex items-center gap-2">
                     <Bell className="h-4 w-4" />
                     <span>Notifications</span>
+                  </div>
+                  <ChevronRight className="h-4 w-4 hidden md:block" />
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="errorLogs" 
+                  className="flex items-center justify-between w-full p-4 border-b border-gray-100 data-[state=active]:bg-gray-50 rounded-none"
+                >
+                  <div className="flex items-center gap-2">
+                    <AlertTriangle className="h-4 w-4" />
+                    <span>Error Logs</span>
                   </div>
                   <ChevronRight className="h-4 w-4 hidden md:block" />
                 </TabsTrigger>
@@ -401,6 +417,70 @@ const SalesSettings = () => {
                     <Button variant="black">
                       Save Preferences
                     </Button>
+                  </div>
+                </div>
+              </TabsContent>
+              
+              <TabsContent value="errorLogs" className="m-0 p-6">
+                <div className="space-y-6">
+                  <div>
+                    <h2 className="text-xl font-light tracking-tighter">Error Logs</h2>
+                    <p className="text-sm text-gray-500">View and manage system error logs</p>
+                  </div>
+                  
+                  <div className="space-y-6">
+                    {errorLogs.map((log) => (
+                      <div key={log.id} className="p-4 border border-gray-200 rounded-lg">
+                        <div className="flex items-center justify-between mb-3">
+                          <div className="flex items-center gap-2">
+                            <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
+                              log.level === 'Error' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
+                            }`}>
+                              {log.level === 'Error' && <AlertTriangle className="mr-1 h-3 w-3" />}
+                              {log.level}
+                            </span>
+                            <span className="text-sm font-medium">{log.source}</span>
+                          </div>
+                          <span className="text-xs text-gray-500">{log.timestamp}</span>
+                        </div>
+                        
+                        <div className="bg-gray-50 p-3 rounded">
+                          <p className="font-mono text-sm">{log.message}</p>
+                        </div>
+                        
+                        <div className="mt-3 flex justify-end gap-2">
+                          <Button variant="ghost" size="sm" className="text-xs">
+                            View Details
+                          </Button>
+                          <Button variant="outline" size="sm" className="text-xs text-red-600 border-red-200 hover:bg-red-50">
+                            Resolve
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                    
+                    {errorLogs.length > 0 && (
+                      <div className="flex justify-between items-center pt-4">
+                        <Button variant="outline" className="text-xs" size="sm">
+                          View All Logs
+                        </Button>
+                        
+                        <Button 
+                          variant="outline" 
+                          size="sm"
+                          className="text-xs flex items-center gap-1"
+                        >
+                          <Download className="h-3 w-3" />
+                          Export Logs
+                        </Button>
+                      </div>
+                    )}
+                    
+                    {errorLogs.length === 0 && (
+                      <div className="p-8 text-center border border-dashed border-gray-200 rounded-lg">
+                        <p className="text-gray-500">No error logs found</p>
+                      </div>
+                    )}
                   </div>
                 </div>
               </TabsContent>

@@ -1,4 +1,3 @@
-
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,7 +5,7 @@ import { Card } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Plus, Settings2, Trash2, Eye, Download, X } from "lucide-react";
+import { Plus, Settings2, Trash2, Eye, Download, X, AlertTriangle } from "lucide-react";
 
 const AdminSettings = () => {
   const integrations = [
@@ -26,6 +25,14 @@ const AdminSettings = () => {
     { id: 1, action: "User Login", user: "admin@example.com", timestamp: "2023-12-15 14:32:45" },
     { id: 2, action: "Settings Changed", user: "admin@example.com", timestamp: "2023-12-14 10:15:22" },
     { id: 3, action: "User Created", user: "admin@example.com", timestamp: "2023-12-10 09:45:11" },
+  ];
+
+  const errorLogs = [
+    { id: 1, level: "Error", message: "Payment processing failed", source: "Stripe API", timestamp: "2023-12-15 09:32:18" },
+    { id: 2, level: "Warning", message: "Email delivery delayed", source: "SendGrid", timestamp: "2023-12-14 15:27:33" },
+    { id: 3, level: "Error", message: "Database connection timeout", source: "PostgreSQL", timestamp: "2023-12-13 23:14:05" },
+    { id: 4, level: "Critical", message: "Storage limit exceeded", source: "File System", timestamp: "2023-12-13 08:45:21" },
+    { id: 5, level: "Warning", message: "High API usage detected", source: "Rate Limiter", timestamp: "2023-12-12 17:22:46" },
   ];
 
   return (
@@ -57,6 +64,12 @@ const AdminSettings = () => {
             className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
           >
             System Logs
+          </TabsTrigger>
+          <TabsTrigger 
+            value="errorLogs" 
+            className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
+          >
+            Error Logs
           </TabsTrigger>
         </TabsList>
         
@@ -284,6 +297,61 @@ const AdminSettings = () => {
               <Button variant="outline" className="rounded-none border-gray-200 text-red-600 hover:text-red-700 text-xs font-light flex items-center gap-2">
                 <X className="h-4 w-4" strokeWidth={1} />
                 Clear Logs
+              </Button>
+            </div>
+          </Card>
+        </TabsContent>
+        
+        <TabsContent value="errorLogs" className="space-y-4">
+          <Card className="p-6 border border-gray-200 shadow-none rounded-none">
+            <h2 className="text-xl md:text-2xl uppercase font-light mb-6 tracking-tighter">Error Logs</h2>
+            <div className="overflow-x-auto">
+              <Table className="w-full">
+                <TableHeader>
+                  <TableRow className="border-b border-gray-200">
+                    <TableHead className="font-light text-xs uppercase text-gray-500 py-3">Level</TableHead>
+                    <TableHead className="font-light text-xs uppercase text-gray-500 py-3">Message</TableHead>
+                    <TableHead className="font-light text-xs uppercase text-gray-500 py-3">Source</TableHead>
+                    <TableHead className="font-light text-xs uppercase text-gray-500 py-3">Timestamp</TableHead>
+                    <TableHead className="font-light text-xs uppercase text-gray-500 py-3 text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {errorLogs.map((log) => (
+                    <TableRow key={log.id} className="border-t border-gray-200">
+                      <TableCell>
+                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                          log.level === 'Error' ? 'bg-red-100 text-red-800' : 
+                          log.level === 'Warning' ? 'bg-yellow-100 text-yellow-800' : 
+                          log.level === 'Critical' ? 'bg-purple-100 text-purple-800' : 
+                          'bg-blue-100 text-blue-800'
+                        }`}>
+                          {log.level === 'Error' || log.level === 'Critical' ? <AlertTriangle className="mr-1 h-3 w-3" /> : null}
+                          {log.level}
+                        </span>
+                      </TableCell>
+                      <TableCell className="font-light text-sm">{log.message}</TableCell>
+                      <TableCell className="font-light text-sm">{log.source}</TableCell>
+                      <TableCell className="font-light text-sm">{log.timestamp}</TableCell>
+                      <TableCell className="text-right">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 rounded-none hover:bg-gray-100">
+                          <Eye className="h-4 w-4" strokeWidth={1} />
+                          <span className="sr-only">View Details</span>
+                        </Button>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+            <div className="p-4 flex justify-between mt-4">
+              <Button variant="outline" className="rounded-none border-gray-200 text-xs font-light flex items-center gap-2">
+                <Download className="h-4 w-4" strokeWidth={1} />
+                Export Error Logs
+              </Button>
+              <Button variant="outline" className="rounded-none border-gray-200 text-red-600 hover:text-red-700 text-xs font-light flex items-center gap-2">
+                <X className="h-4 w-4" strokeWidth={1} />
+                Clear Error Logs
               </Button>
             </div>
           </Card>
