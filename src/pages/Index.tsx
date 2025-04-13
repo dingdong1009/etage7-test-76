@@ -47,7 +47,7 @@ const Index = () => {
           }`}
           aria-label="Scroll to learn more"
         >
-          <span className="text-sm mb-2 animate-bounce">Learn more as a Brand</span>
+          <span className="text-sm mb-2 text-grey animate-bounce">Learn more as a Brand</span>
           <ChevronDown size={24} className="animate-bounce" />
         </button>
       </section>
@@ -68,13 +68,13 @@ const Index = () => {
         
         {/* Scroll indicator */}
         <button 
-          onClick={() => scrollToSection('brand')}
+          onClick={() => scrollToSection('buyer')}
           className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${
             scrolled ? 'opacity-0' : 'opacity-100'
           }`}
           aria-label="Scroll to learn more"
         >
-          <span className="text-sm mb-2 text-black animate-bounce">Learn more as a Brand</span>
+          <span className="text-sm mb-2 text-black animate-bounce">Learn more as a Buyer</span>
           <ChevronDown size={24} className="text-black animate-bounce" />
         </button>
       </section>
