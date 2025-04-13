@@ -1,8 +1,9 @@
+
 import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Eye, Edit, Trash2, Search, PlusCircle, Calendar, MapPin, Clock, FileText, Layout, Layers, PenSquare } from "lucide-react";
+import { Eye, Edit, Trash2, Search, PlusCircle, Calendar, MapPin, Clock, FileText, Layout, Layers, PenSquare, Save, Image, Type, FileInput } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -11,6 +12,10 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import EventsManagement from "./components/EventsManagement";
 import CuratedStoriesManagement from "./components/CuratedStoriesManagement";
 import { toast } from "sonner";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Form, FormControl, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { useForm } from "react-hook-form";
 
 const events = [
   {
@@ -114,8 +119,39 @@ const AdminPages = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState("list");
   const [pageEditorOpen, setPageEditorOpen] = useState(false);
+  const [newPageDialogOpen, setNewPageDialogOpen] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState("blank");
+  const [currentEditorView, setCurrentEditorView] = useState("design");
+  const [pagePreview, setPagePreview] = useState(false);
+  
+  // New page data state
+  const [newPageData, setNewPageData] = useState({
+    title: "",
+    slug: "",
+    description: "",
+    template: "blank",
+    status: "draft"
+  });
+  
+  const form = useForm({
+    defaultValues: {
+      title: "",
+      slug: "",
+      description: "",
+      template: "blank",
+      status: "draft"
+    }
+  });
   
   const availableBrands = ["Brand One", "Brand Two", "Brand Three", "Brand Four", "Brand Five"];
+  
+  const pageTemplates = [
+    { id: "blank", name: "Blank Page", description: "Start with a clean slate" },
+    { id: "landing", name: "Landing Page", description: "Perfect for product launches" },
+    { id: "about", name: "About Page", description: "Share your story and mission" },
+    { id: "contact", name: "Contact Page", description: "Help visitors get in touch" },
+    { id: "gallery", name: "Gallery Page", description: "Showcase your portfolio or products" }
+  ];
   
   const filteredEvents = events
     .filter(event => statusFilter === "all" || event.status === statusFilter)
@@ -143,10 +179,25 @@ const AdminPages = () => {
 
   const handleDeleteItem = (type, id) => {
     console.log(`Delete ${type} with ID: ${id}`);
+    toast.success(`${type} has been deleted`);
   };
 
   const handleAddNewPage = () => {
-    console.log("Add new page");
+    setNewPageDialogOpen(true);
+  };
+  
+  const createNewPage = (data) => {
+    console.log("Creating new page with data:", data);
+    setNewPageDialogOpen(false);
+    
+    // Simulate page creation
+    toast.success("New page created successfully", {
+      description: `Page "${data.title}" has been created as a ${data.status}.`
+    });
+    
+    // Open the page editor with the new page data
+    setNewPageData(data);
+    launchPageEditor();
   };
   
   const launchPageEditor = () => {
@@ -155,6 +206,31 @@ const AdminPages = () => {
     toast.success("Page editor launched successfully", {
       description: "You can now edit your page content and design."
     });
+  };
+  
+  const handleSavePage = (saveType) => {
+    // Simulate saving page
+    if (saveType === 'draft') {
+      toast.success("Page saved as draft", {
+        description: "Your changes have been saved as a draft."
+      });
+    } else {
+      toast.success("Page published successfully", {
+        description: "Your page is now live and visible to users."
+      });
+    }
+    setPageEditorOpen(false);
+  };
+  
+  const handleAddElement = (elementType) => {
+    toast.success(`${elementType} added to page`, {
+      description: `A new ${elementType.toLowerCase()} has been added to your page.`
+    });
+  };
+  
+  const handlePreviewToggle = () => {
+    setPagePreview(!pagePreview);
+    toast.info(pagePreview ? "Exited preview mode" : "Preview mode activated");
   };
   
   return (
@@ -527,31 +603,385 @@ const AdminPages = () => {
         </TabsContent>
       </Tabs>
       
+      {/* New Page Dialog */}
+      <Dialog open={newPageDialogOpen} onOpenChange={setNewPageDialogOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-light">Create New Page</DialogTitle>
+            <DialogDescription>
+              Fill in the details below to create a new page for your website.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(createNewPage)} className="space-y-6">
+              <FormField
+                control={form.control}
+                name="title"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Page Title</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter page title" required {...field} />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="slug"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>URL Slug</FormLabel>
+                    <FormControl>
+                      <Input 
+                        placeholder="page-url-slug" 
+                        required 
+                        {...field} 
+                        onChange={(e) => {
+                          // Auto-generate slug from title - convert spaces to dashes and lowercase
+                          const value = e.target.value || "";
+                          field.onChange(value.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, ""));
+                        }}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="description"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Page Description</FormLabel>
+                    <FormControl>
+                      <Textarea 
+                        placeholder="Enter a brief description of this page" 
+                        className="min-h-[100px]"
+                        {...field}
+                      />
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="template"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Page Template</FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a template" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {pageTemplates.map((template) => (
+                            <SelectItem key={template.id} value={template.id}>
+                              {template.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="status"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Initial Status</FormLabel>
+                    <FormControl>
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select status" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="draft">Draft</SelectItem>
+                          <SelectItem value="published">Published</SelectItem>
+                          <SelectItem value="scheduled">Scheduled</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                  </FormItem>
+                )}
+              />
+              
+              <DialogFooter>
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => setNewPageDialogOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit" className="bg-black hover:bg-gray-800 text-white">
+                  Create Page & Open Editor
+                </Button>
+              </DialogFooter>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
+      
+      {/* Page Editor Dialog */}
       <Dialog open={pageEditorOpen} onOpenChange={setPageEditorOpen}>
         <DialogContent className="max-w-5xl w-[90vw]">
           <DialogHeader>
-            <DialogTitle className="text-xl font-light">Advanced Page Editor</DialogTitle>
+            <DialogTitle className="text-xl font-light">
+              {newPageData.title || "Advanced Page Editor"}
+            </DialogTitle>
             <DialogDescription>
-              Design and customize your page using our powerful editor.
+              {newPageData.description || "Design and customize your page using our powerful editor."}
             </DialogDescription>
           </DialogHeader>
-          <div className="border rounded-md min-h-[60vh] flex flex-col items-center justify-center bg-gray-50/80">
-            <div className="bg-white p-8 rounded-md shadow-sm">
-              <Layers className="h-12 w-12 text-gray-500 mx-auto mb-4" strokeWidth={1} />
-              <h3 className="text-lg font-medium text-center mb-2">Page Editor</h3>
-              <p className="text-gray-500 text-center mb-6">The page editor is loading or being developed. This is a placeholder for the actual editor interface.</p>
-              <div className="flex justify-center gap-4">
-                <Button variant="outline" className="border-gray-200">Add Section</Button>
-                <Button variant="outline" className="border-gray-200">Add Element</Button>
+          
+          <div className="flex items-center justify-between border-b border-gray-200 pb-4 mb-4">
+            <div className="flex space-x-3">
+              <Button 
+                variant={currentEditorView === "design" ? "black" : "outline"} 
+                size="sm"
+                onClick={() => setCurrentEditorView("design")}
+              >
+                <Layout className="w-4 h-4 mr-1" strokeWidth={1.5} />
+                Design
+              </Button>
+              <Button 
+                variant={currentEditorView === "content" ? "black" : "outline"} 
+                size="sm"
+                onClick={() => setCurrentEditorView("content")}
+              >
+                <Type className="w-4 h-4 mr-1" strokeWidth={1.5} />
+                Content
+              </Button>
+              <Button 
+                variant={currentEditorView === "media" ? "black" : "outline"} 
+                size="sm"
+                onClick={() => setCurrentEditorView("media")}
+              >
+                <Image className="w-4 h-4 mr-1" strokeWidth={1.5} />
+                Media
+              </Button>
+              <Button 
+                variant={currentEditorView === "settings" ? "black" : "outline"} 
+                size="sm"
+                onClick={() => setCurrentEditorView("settings")}
+              >
+                <FileInput className="w-4 h-4 mr-1" strokeWidth={1.5} />
+                Settings
+              </Button>
+            </div>
+            
+            <Button 
+              variant={pagePreview ? "black" : "outline"} 
+              size="sm"
+              onClick={handlePreviewToggle}
+            >
+              <Eye className="w-4 h-4 mr-1" strokeWidth={1.5} />
+              {pagePreview ? "Exit Preview" : "Preview"}
+            </Button>
+          </div>
+          
+          <div className="grid grid-cols-5 gap-4 h-[60vh]">
+            {/* Left sidebar - elements */}
+            <div className="col-span-1 border-r border-gray-200 pr-4 overflow-y-auto">
+              <h3 className="font-medium text-sm mb-3">Elements</h3>
+              <div className="space-y-2">
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start" 
+                  size="sm"
+                  onClick={() => handleAddElement("Heading")}
+                >
+                  <Type className="w-4 h-4 mr-2" strokeWidth={1.5} />
+                  Heading
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start" 
+                  size="sm"
+                  onClick={() => handleAddElement("Paragraph")}
+                >
+                  <Type className="w-4 h-4 mr-2" strokeWidth={1.5} />
+                  Paragraph
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start" 
+                  size="sm"
+                  onClick={() => handleAddElement("Image")}
+                >
+                  <Image className="w-4 h-4 mr-2" strokeWidth={1.5} />
+                  Image
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start" 
+                  size="sm"
+                  onClick={() => handleAddElement("Button")}
+                >
+                  <Layout className="w-4 h-4 mr-2" strokeWidth={1.5} />
+                  Button
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start" 
+                  size="sm"
+                  onClick={() => handleAddElement("Gallery")}
+                >
+                  <Image className="w-4 h-4 mr-2" strokeWidth={1.5} />
+                  Gallery
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start" 
+                  size="sm"
+                  onClick={() => handleAddElement("Form")}
+                >
+                  <FileInput className="w-4 h-4 mr-2" strokeWidth={1.5} />
+                  Form
+                </Button>
+              </div>
+              
+              <h3 className="font-medium text-sm mb-3 mt-6">Sections</h3>
+              <div className="space-y-2">
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start" 
+                  size="sm"
+                  onClick={() => handleAddElement("Hero Section")}
+                >
+                  <Layout className="w-4 h-4 mr-2" strokeWidth={1.5} />
+                  Hero Section
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start" 
+                  size="sm"
+                  onClick={() => handleAddElement("Feature Section")}
+                >
+                  <Layout className="w-4 h-4 mr-2" strokeWidth={1.5} />
+                  Feature Section
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="w-full justify-start" 
+                  size="sm"
+                  onClick={() => handleAddElement("Text Column Section")}
+                >
+                  <Layout className="w-4 h-4 mr-2" strokeWidth={1.5} />
+                  Text Columns
+                </Button>
+              </div>
+            </div>
+            
+            {/* Main editor area */}
+            <div className="col-span-3 border rounded-md bg-white overflow-y-auto">
+              {pagePreview ? (
+                <div className="p-6">
+                  <h1 className="text-3xl font-bold mb-4">{newPageData.title || "Page Title"}</h1>
+                  <p className="mb-6">This is a preview of your page. The content will appear here.</p>
+                  
+                  <div className="border border-dashed border-gray-300 p-8 mb-6 rounded-md text-center text-gray-500">
+                    Hero Section Placeholder
+                  </div>
+                  
+                  <h2 className="text-2xl font-semibold mb-3">Section Heading</h2>
+                  <p className="mb-6">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in dui mauris. Vivamus hendrerit arcu sed erat molestie vehicula.</p>
+                  
+                  <div className="grid grid-cols-2 gap-4 mb-6">
+                    <div className="border border-dashed border-gray-300 p-8 rounded-md text-center text-gray-500">
+                      Image Placeholder
+                    </div>
+                    <div>
+                      <h3 className="text-xl font-medium mb-2">Feature Heading</h3>
+                      <p>Sed posuere consectetur est at lobortis. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.</p>
+                      <Button className="mt-4">Learn More</Button>
+                    </div>
+                  </div>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center h-full text-center p-6">
+                  <Layers className="h-12 w-12 text-gray-400 mb-4" strokeWidth={1} />
+                  <h3 className="text-lg font-medium mb-2">Page Editor Canvas</h3>
+                  <p className="text-gray-500 mb-6 max-w-md">Drag elements from the sidebar and drop them here to build your page. Click on any element to edit its properties.</p>
+                  <Button 
+                    variant="outline"
+                    onClick={() => handleAddElement("Hero Section")}
+                  >
+                    Add Hero Section
+                  </Button>
+                </div>
+              )}
+            </div>
+            
+            {/* Right sidebar - properties */}
+            <div className="col-span-1 border-l border-gray-200 pl-4 overflow-y-auto">
+              <h3 className="font-medium text-sm mb-3">Properties</h3>
+              
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="elementTitle" className="text-xs">Element Title</Label>
+                  <Input id="elementTitle" placeholder="Title" className="text-sm" />
+                </div>
+                
+                <div>
+                  <Label htmlFor="elementText" className="text-xs">Text Content</Label>
+                  <Textarea id="elementText" placeholder="Enter content..." className="text-sm min-h-[100px]" />
+                </div>
+                
+                <div>
+                  <Label className="text-xs">Alignment</Label>
+                  <div className="flex space-x-2 mt-1">
+                    <Button variant="outline" size="sm" className="w-10">L</Button>
+                    <Button variant="outline" size="sm" className="w-10">C</Button>
+                    <Button variant="outline" size="sm" className="w-10">R</Button>
+                  </div>
+                </div>
+                
+                <div>
+                  <Label htmlFor="spacing" className="text-xs">Spacing</Label>
+                  <Input id="spacing" type="number" defaultValue="16" className="text-sm" />
+                </div>
+                
+                <div>
+                  <Label className="text-xs">Background</Label>
+                  <div className="grid grid-cols-4 gap-2 mt-1">
+                    <div className="h-6 w-full bg-white border border-gray-200 rounded cursor-pointer"></div>
+                    <div className="h-6 w-full bg-gray-100 border border-gray-200 rounded cursor-pointer"></div>
+                    <div className="h-6 w-full bg-gray-200 border border-gray-200 rounded cursor-pointer"></div>
+                    <div className="h-6 w-full bg-black border border-gray-200 rounded cursor-pointer"></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
+          
           <DialogFooter className="flex justify-between items-center">
             <div>
-              <Button variant="outline" className="mr-2">Preview</Button>
-              <Button variant="outline" className="border-gray-300">Save Draft</Button>
+              <Button variant="outline" className="mr-2" onClick={handlePreviewToggle}>
+                Preview
+              </Button>
+              <Button variant="outline" className="border-gray-300" onClick={() => handleSavePage('draft')}>
+                <Save className="w-4 h-4 mr-1" strokeWidth={1.5} />
+                Save Draft
+              </Button>
             </div>
-            <Button className="bg-black hover:bg-gray-800 text-white">Publish Page</Button>
+            <Button className="bg-black hover:bg-gray-800 text-white" onClick={() => handleSavePage('publish')}>
+              Publish Page
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
