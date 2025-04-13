@@ -79,7 +79,7 @@ const AdminHeader = () => {
           aria-label="Toggle menu"
         >
           <Menu size={24} />
-        </button>
+        </button> 
         
         {/* User options on desktop */}
         <div className="hidden md:flex items-center space-x-4">
