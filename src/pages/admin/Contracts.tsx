@@ -10,7 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Wand, Pencil, Trash, Eye, Download, Search, Plus, Globe, FileText } from "lucide-react";
+import { Wand, Edit, Trash2, Eye, Download, Search, Plus, Globe, FileText } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 // Define template interface
@@ -362,7 +362,7 @@ ${templateLanguage === "russian" ? "arbitration at the International Commercial 
                               onClick={() => handleEdit(template)}
                               title="Edit"
                             >
-                              <Pencil className="h-4 w-4" />
+                              <Edit className="h-4 w-4" />
                             </Button>
                             <Button 
                               variant="ghost"
@@ -371,7 +371,7 @@ ${templateLanguage === "russian" ? "arbitration at the International Commercial 
                               onClick={() => handleDelete(template)}
                               title="Delete"
                             >
-                              <Trash className="h-4 w-4" />
+                              <Trash2 className="h-4 w-4" />
                             </Button>
                           </TableCell>
                         </TableRow>

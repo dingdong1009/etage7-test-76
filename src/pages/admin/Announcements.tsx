@@ -16,7 +16,7 @@ import {
   Users, 
   Wrench,
   RefreshCw, 
-  Trash,
+  Trash2,
   Mail,
   PenTool,
   Eye,
@@ -641,7 +641,7 @@ const AdminAnnouncements = () => {
                         title="Delete"
                         onClick={() => deleteAnnouncement(announcement)}
                       >
-                        <Trash className="h-4 w-4 text-red-500" />
+                        <Trash2 className="h-4 w-4 text-red-500" />
                       </Button>
                     </TableCell>
                   </TableRow>
@@ -705,7 +705,7 @@ const AdminAnnouncements = () => {
                           title="Delete"
                           onClick={() => deleteAnnouncement(announcement)}
                         >
-                          <Trash className="h-4 w-4 text-red-500" />
+                          <Trash2 className="h-4 w-4 text-red-500" />
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -769,7 +769,7 @@ const AdminAnnouncements = () => {
                           title="Delete"
                           onClick={() => deleteAnnouncement(announcement)}
                         >
-                          <Trash className="h-4 w-4 text-red-500" />
+                          <Trash2 className="h-4 w-4 text-red-500" />
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -838,7 +838,7 @@ const AdminAnnouncements = () => {
                           title="Delete"
                           onClick={() => deleteAnnouncement(announcement)}
                         >
-                          <Trash className="h-4 w-4 text-red-500" />
+                          <Trash2 className="h-4 w-4 text-red-500" />
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -902,7 +902,7 @@ const AdminAnnouncements = () => {
                           title="Delete"
                           onClick={() => deleteAnnouncement(announcement)}
                         >
-                          <Trash className="h-4 w-4 text-red-500" />
+                          <Trash2 className="h-4 w-4 text-red-500" />
                         </Button>
                       </TableCell>
                     </TableRow>

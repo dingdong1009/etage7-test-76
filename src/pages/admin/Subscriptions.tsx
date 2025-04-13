@@ -7,7 +7,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { PencilIcon, Trash2Icon, PlusCircleIcon, CalendarIcon } from "lucide-react";
+import { EditIcon, Trash2Icon, PlusCircleIcon, CalendarIcon } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { toast } from "@/hooks/use-toast";
 import { Switch } from "@/components/ui/switch";
@@ -229,7 +229,7 @@ const AdminSubscriptions = () => {
                     className="border-gray-200 h-8 w-8 rounded-none hover:bg-gray-100"
                     onClick={() => handleEdit(plan)}
                   >
-                    <PencilIcon className="h-4 w-4" strokeWidth={1} />
+                    <EditIcon className="h-4 w-4" strokeWidth={1} />
                   </Button>
                   <Button 
                     variant="outline" 
@@ -289,7 +289,7 @@ const AdminSubscriptions = () => {
                         className="border-gray-200 h-8 w-8 rounded-none hover:bg-gray-100"
                         onClick={() => handleEdit(service)}
                       >
-                        <PencilIcon className="h-4 w-4" strokeWidth={1} />
+                        <EditIcon className="h-4 w-4" strokeWidth={1} />
                       </Button>
                       <Button 
                         variant="outline" 

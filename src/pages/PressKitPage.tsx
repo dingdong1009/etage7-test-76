@@ -197,7 +197,7 @@ Logo text: ${displayText}`;
   };
 
   return (
-    <div className="max-w-5xl mx-auto px-4">
+    <div className="space-y-6">
       <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">Logo Downloads</h1>
       
       <p className="text-gray-600 mb-10">

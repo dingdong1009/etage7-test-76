@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, Youtube, Book, Download, ExternalLink, Play, Search, Plus, Pencil, Eye, ToggleLeft, ToggleRight } from "lucide-react";
+import { FileText, Youtube, Book, Download, ExternalLink, Play, Search, Plus, Edit, Eye, ToggleLeft, ToggleRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
@@ -199,7 +199,7 @@ const AdminResources = () => {
                       </div>
                       <div className="flex items-center gap-2">
                         <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); openResourceEditor(resource, 'pdf')}} title="Edit Resource">
-                          <Pencil size={16} />
+                          <Edit size={16} />
                         </Button>
                         <Button 
                           variant="ghost" 
@@ -251,7 +251,7 @@ const AdminResources = () => {
                         <h3 className="font-medium">{resource.title}</h3>
                         <div className="flex gap-2">
                           <Button variant="ghost" size="sm" onClick={() => openResourceEditor(resource, 'video')} title="Edit Resource">
-                            <Pencil size={16} />
+                            <Edit size={16} />
                           </Button>
                           <Button 
                             variant="ghost" 
@@ -323,7 +323,7 @@ const AdminResources = () => {
                               onClick={(e) => { e.stopPropagation(); openResourceEditor(resource, 'external')}}
                               title="Edit Resource"
                             >
-                              <Pencil size={16} />
+                              <Edit size={16} />
                             </Button>
                             <Button 
                               variant="ghost" 
@@ -369,7 +369,7 @@ const AdminResources = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       <Button variant="ghost" size="sm" onClick={(e) => { e.stopPropagation(); openResourceEditor(resource, 'pdf')}} title="Edit Resource">
-                        <Pencil size={16} />
+                        <Edit size={16} />
                       </Button>
                       <Button 
                         variant="ghost" 
@@ -423,7 +423,7 @@ const AdminResources = () => {
                         <h3 className="font-medium">{resource.title}</h3>
                         <div className="flex gap-2">
                           <Button variant="ghost" size="sm" onClick={() => openResourceEditor(resource, 'video')} title="Edit Resource">
-                            <Pencil size={16} />
+                            <Edit size={16} />
                           </Button>
                           <Button 
                             variant="ghost" 
@@ -497,7 +497,7 @@ const AdminResources = () => {
                             onClick={(e) => { e.stopPropagation(); openResourceEditor(resource, 'external')}}
                             title="Edit Resource"
                           >
-                            <Pencil size={16} />
+                            <Edit size={16} />
                           </Button>
                           <Button 
                             variant="ghost" 
