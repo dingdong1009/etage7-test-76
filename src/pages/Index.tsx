@@ -34,7 +34,7 @@ const Index = () => {
               <span className="font-normal">craftmanship's most meaningful alliances</span>
             </h1>
             <p className="text-lg md:text-xl font-light text-gray-300 mb-12 max-w-2xl">
-            ETAGE7 was born from a passion for the stories and dreams woven into every design, where creativity meets opportunity. We have built a house to celebrate artistry and craftmanship. And we believe every collaboration could become your next masterpiece.
+            éTAGE7 was born from passion for the stories and the dreams woven into every design, where creativity meets opportunity. We have built a house to celebrate artistry and craftmanship. And we believe every collaboration could become your next masterpiece.
             </p>
           </div> 
         </div>
