@@ -57,13 +57,16 @@ const Index = () => {
       <section id="brand" className="relative h-screen bg-white text-black flex items-center">
         <div className="container-lg">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
-              CONNECTING<br/>
-              <span className="font-normal">FASHION BRANDS & BUYERS</span>
+            <h1 className="text-4xl md:text-5xl uppercase lg:text-7xl font-light tracking-tighter mb-6">
+              Celebrate<br/>
+              <span className="font-normal uppercase">uniqueness & opportunities</span>
             </h1>
             <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
             ETAGE7 – это премиальный цифровой маркетплейс, который объединяет премиум бренды с профессиональными байерами и владельцами мультибрендов, меняя традиционные подходы к оптовым закупкам.
             </p>
+            <Button className="bg-white text-black border-0 hover:bg-gray-100 text-base py-6 px-8">
+              JOIN AS A BRAND <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+            </Button>
           </div>
         </div>
         
@@ -91,6 +94,9 @@ const Index = () => {
             <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
             ETAGE7 – это премиальный цифровой маркетплейс, который объединяет премиум бренды с профессиональными байерами и владельцами мультибрендов, меняя традиционные подходы к оптовым закупкам.
             </p>
+            <Button className="bg-white text-black border-0 hover:bg-gray-100 text-base py-6 px-8">
+              JOIN AS A BUYER <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
+            </Button>
           </div>
         </div> 
         
