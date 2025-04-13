@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Search, User, ShoppingBag } from "lucide-react";
 
 const Header = () => {
@@ -8,6 +8,8 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [language, setLanguage] = useState("EN");
+  const [activeSection, setActiveSection] = useState<string | null>(null);
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,11 +18,41 @@ const Header = () => {
       } else {
         setIsScrolled(false);
       }
+
+      // Check which section is currently in view
+      const sections = ['brand', 'buyer', 'services'];
+      
+      for (const section of sections) {
+        const element = document.getElementById(section);
+        if (element) {
+          const rect = element.getBoundingClientRect();
+          // If the section is in the viewport (with some buffer)
+          if (rect.top <= 100 && rect.bottom >= 100) {
+            setActiveSection(section);
+            break;
+          }
+        }
+      }
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // Set active section based on current path when component mounts
+  useEffect(() => {
+    // Reset active section when not on homepage
+    if (location.pathname !== '/') {
+      setActiveSection(null);
+      return;
+    }
+    
+    // Check URL hash to see if it points to a section
+    if (location.hash) {
+      const section = location.hash.substring(1); // Remove the # character
+      setActiveSection(section);
+    }
+  }, [location]);
 
   const toggleMenu = () => {
     setIsMenuOpen(!isMenuOpen);
@@ -40,15 +72,30 @@ const Header = () => {
     setLanguage(language === "EN" ? "RU" : "EN");
   };
 
-  const mainNavItems = [
-    { name: "HOME", path: "/" },
-    { name: "BRANDS", path: "brand" },
-    { name: "BUYERS", path: "buyer" },
-    { name: "SERVICES", path: "services" },
-    { name: "EVENTS", path: "/events" },
-    { name: "CURATED", path: "/curated" },
-    { name: "RESOURCES", path: "/resources" },
+  // Handle navigation to section
+  const navigateToSection = (id: string) => {
+    if (location.pathname !== '/') {
+      // If not on the home page, navigate to the home page with the hash
+      window.location.href = `/#${id}`;
+      return;
+    }
     
+    // If already on the home page, scroll to the section
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+      setActiveSection(id);
+    }
+  };
+
+  const mainNavItems = [
+    { name: "HOME", path: "/", isSection: false },
+    { name: "BRANDS", path: "brand", isSection: true },
+    { name: "BUYERS", path: "buyer", isSection: true },
+    { name: "SERVICES", path: "services", isSection: true },
+    { name: "EVENTS", path: "/events", isSection: false },
+    { name: "CURATED", path: "/curated", isSection: false },
+    { name: "RESOURCES", path: "/resources", isSection: false },
   ];
 
   const secondaryNavItems = [
@@ -84,13 +131,31 @@ const Header = () => {
           <ul className="flex space-x-8">
             {mainNavItems.map((item) => (
               <li key={item.name}>
-                <Link 
-                  to={item.path} 
-                  className="text-xs font-light uppercase relative group transition-fast"
-                >
-                  {item.name}
-                  <span className="absolute left-0 bottom-[-2px] w-0 h-[0.5px] bg-black transition-all duration-300 group-hover:w-full"></span>
-                </Link>
+                {item.isSection ? (
+                  <button 
+                    onClick={() => navigateToSection(item.path)}
+                    className={`text-xs font-light uppercase relative group transition-fast ${
+                      activeSection === item.path ? 'after:absolute after:left-0 after:bottom-[-2px] after:w-full after:h-[0.5px] after:bg-black' : ''
+                    }`}
+                  >
+                    {item.name}
+                    <span className={`absolute left-0 bottom-[-2px] w-0 h-[0.5px] bg-black transition-all duration-300 ${
+                      activeSection === item.path ? 'w-full' : 'group-hover:w-full'
+                    }`}></span>
+                  </button>
+                ) : (
+                  <Link 
+                    to={item.path} 
+                    className={`text-xs font-light uppercase relative group transition-fast ${
+                      location.pathname === item.path ? 'after:absolute after:left-0 after:bottom-[-2px] after:w-full after:h-[0.5px] after:bg-black' : ''
+                    }`}
+                  >
+                    {item.name}
+                    <span className={`absolute left-0 bottom-[-2px] w-0 h-[0.5px] bg-black transition-all duration-300 ${
+                      location.pathname === item.path ? 'w-full' : 'group-hover:w-full'
+                    }`}></span>
+                  </Link>
+                )}
               </li>
             ))}
           </ul>
@@ -153,7 +218,30 @@ const Header = () => {
           <div className="container-lg p-6 flex flex-col h-full">
             <nav className="flex-grow">
               <ul className="space-y-8 pt-4">
-                {[...mainNavItems, ...secondaryNavItems].map((item) => (
+                {mainNavItems.map((item) => (
+                  <li key={item.name} className="py-2">
+                    {item.isSection ? (
+                      <button 
+                        onClick={() => {
+                          navigateToSection(item.path);
+                          setIsMenuOpen(false);
+                        }}
+                        className="text-xl uppercase font-light tracking-tighter"
+                      >
+                        {item.name}
+                      </button>
+                    ) : (
+                      <Link 
+                        to={item.path} 
+                        className="text-xl uppercase font-light tracking-tighter"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+                {secondaryNavItems.map((item) => (
                   <li key={item.name} className="py-2">
                     <Link 
                       to={item.path} 
@@ -164,7 +252,6 @@ const Header = () => {
                     </Link>
                   </li>
                 ))}
-
               </ul>
             </nav>
             <div className="pt-10 pb-4 mt-auto border-t border-gray-100">
