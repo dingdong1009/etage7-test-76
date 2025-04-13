@@ -166,9 +166,8 @@ const Index = () => {
               CONNECTING<br />
               <span className="font-normal">FASHION BRANDS & BUYERS</span> 
             </h1>
-            <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
-            ETAGE7 – это премиальный цифровой маркетплейс, который объединяет премиум бренды с профессиональными байерами и владельцами мультибрендов, меняя традиционные подходы к оптовым закупкам.
-            </p>
+            <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">ETAGE7 offers tailored consulting services (excluded from the subscriptions plan) for both brands and buyers to help them navigate the dynamic fashion industry on topics such as: Brand Identity Development, Collection Development Consulting, Marketing &amp; Campaign Strategy, Trend-Based Buying Guidance, etc.
+Start the conversation with our team of experts.</p>
           </div>
         </div> 
         
