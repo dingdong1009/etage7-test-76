@@ -69,8 +69,7 @@ const AdminHeader = () => {
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
         <div className="flex items-center gap-2">
           <Link to="/" className="text-black text-2xl font-light uppercase tracking-wider">ETAGE7</Link>
-          <span className="text-gray-400 font-light">|</span>
-          <span className="text-gray-600 text-sm font-light">SALES</span>
+
         </div> 
         
         {/* Mobile menu button */}
@@ -107,11 +106,13 @@ const AdminHeader = () => {
           <Link to="/" className="text-gray-600 hover:text-black text-sm font-light">
             BACK TO SITE
           </Link>
+          <span className="text-gray-400 font-light">|</span>
+          <span className="text-gray-600 text-sm font-light">ADMIN</span>
         </div>
       </div>
       
       {/* Desktop Navigation - Below the header bar */}
-      <nav className="hidden md:block border-b border-t border-gray-100">
+      <nav className="hidden md:block border-b border-t bg-black text-white border-gray-100">
         <div className="max-w-7xl mx-auto px-4 py-2">
           <ul className="flex space-x-8">
             {menuItems.map((item) => (
