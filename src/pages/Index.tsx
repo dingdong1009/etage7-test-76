@@ -53,7 +53,7 @@ const Index = () => {
       </section>
 
       {/* Brands Section */}
-      <section id="brand" className="relative h-screen bg-black text-black flex items-center">
+      <section id="brand" className="relative h-screen bg-white text-black flex items-center">
         <div className="container-lg">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
@@ -81,7 +81,7 @@ const Index = () => {
 
 
       {/* Platform Overview */}
-      <section id="platform" className="py-24 md:py-32 bg-white">
+      <section id="buyer" className="py-24 md:py-32 bg-white">
         <div className="container-lg">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-light tracking-tighter mb-6">
