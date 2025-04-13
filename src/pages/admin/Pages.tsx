@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -12,167 +11,117 @@ import EventsManagement from "./components/EventsManagement";
 import CuratedStoriesManagement from "./components/CuratedStoriesManagement";
 
 // Sample data for events
-const events = [
-  {
-    id: 1,
-    title: "Spring Fashion Show 2025",
-    status: "active",
-    location: "New York",
-    date: "2025-05-15",
-    createdAt: "2025-01-10",
-  },
-  {
-    id: 2,
-    title: "Summer Collection Launch",
-    status: "active",
-    location: "Paris",
-    date: "2025-06-20",
-    createdAt: "2025-02-05",
-  },
-  {
-    id: 3,
-    title: "Designer Meetup",
-    status: "inactive",
-    location: "Milan",
-    date: "2025-07-10",
-    createdAt: "2025-03-15",
-  },
-  {
-    id: 4,
-    title: "Fashion Week Preview",
-    status: "pending",
-    location: "London",
-    date: "2025-08-05",
-    createdAt: "2025-04-01",
-  }
-];
+const events = [{
+  id: 1,
+  title: "Spring Fashion Show 2025",
+  status: "active",
+  location: "New York",
+  date: "2025-05-15",
+  createdAt: "2025-01-10"
+}, {
+  id: 2,
+  title: "Summer Collection Launch",
+  status: "active",
+  location: "Paris",
+  date: "2025-06-20",
+  createdAt: "2025-02-05"
+}, {
+  id: 3,
+  title: "Designer Meetup",
+  status: "inactive",
+  location: "Milan",
+  date: "2025-07-10",
+  createdAt: "2025-03-15"
+}, {
+  id: 4,
+  title: "Fashion Week Preview",
+  status: "pending",
+  location: "London",
+  date: "2025-08-05",
+  createdAt: "2025-04-01"
+}];
 
 // Sample data for curated stories
-const curatedStories = [
-  {
-    id: 1,
-    title: "The Evolution of Sustainable Fashion",
-    status: "active",
-    author: "Emma Johnson",
-    createdAt: "2025-02-12",
-    featured: true
-  },
-  {
-    id: 2,
-    title: "Designer Spotlight: The Next Generation",
-    status: "active",
-    author: "Michael Smith",
-    createdAt: "2025-03-05",
-    featured: false
-  },
-  {
-    id: 3,
-    title: "Trends to Watch in 2026",
-    status: "pending",
-    author: "Sophia Chen",
-    createdAt: "2025-03-20",
-    featured: true
-  },
-  {
-    id: 4,
-    title: "Fashion Tech: Innovations Changing the Industry",
-    status: "inactive",
-    author: "David Wilson",
-    createdAt: "2025-04-02",
-    featured: false
-  }
-];
-
+const curatedStories = [{
+  id: 1,
+  title: "The Evolution of Sustainable Fashion",
+  status: "active",
+  author: "Emma Johnson",
+  createdAt: "2025-02-12",
+  featured: true
+}, {
+  id: 2,
+  title: "Designer Spotlight: The Next Generation",
+  status: "active",
+  author: "Michael Smith",
+  createdAt: "2025-03-05",
+  featured: false
+}, {
+  id: 3,
+  title: "Trends to Watch in 2026",
+  status: "pending",
+  author: "Sophia Chen",
+  createdAt: "2025-03-20",
+  featured: true
+}, {
+  id: 4,
+  title: "Fashion Tech: Innovations Changing the Industry",
+  status: "inactive",
+  author: "David Wilson",
+  createdAt: "2025-04-02",
+  featured: false
+}];
 const AdminPages = () => {
   // State management
   const [activeTab, setActiveTab] = useState("events");
   const [statusFilter, setStatusFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [contentType, setContentType] = useState("event"); // For create tab: "event" or "story"
-  
+
   // Filter functions
-  const filteredEvents = events.filter(event => 
-    (statusFilter === "all" || event.status === statusFilter) &&
-    (searchQuery === "" || 
-     event.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-     event.location.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
-  
-  const filteredStories = curatedStories.filter(story => 
-    (statusFilter === "all" || story.status === statusFilter) &&
-    (searchQuery === "" || 
-     story.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-     story.author.toLowerCase().includes(searchQuery.toLowerCase()))
-  );
-  
+  const filteredEvents = events.filter(event => (statusFilter === "all" || event.status === statusFilter) && (searchQuery === "" || event.title.toLowerCase().includes(searchQuery.toLowerCase()) || event.location.toLowerCase().includes(searchQuery.toLowerCase())));
+  const filteredStories = curatedStories.filter(story => (statusFilter === "all" || story.status === statusFilter) && (searchQuery === "" || story.title.toLowerCase().includes(searchQuery.toLowerCase()) || story.author.toLowerCase().includes(searchQuery.toLowerCase())));
+
   // Event handlers
   const handleViewItem = (type, id) => {
     console.log(`View ${type} with id: ${id}`);
   };
-
   const handleEditItem = (type, id) => {
     console.log(`Edit ${type} with id: ${id}`);
   };
-
   const handleDeleteItem = (type, id) => {
     console.log(`Delete ${type} with id: ${id}`);
   };
-
   const handleAddNewPage = () => {
     console.log("Add new page");
     setActiveTab("create");
   };
-  
   const handleAddNewEvent = () => {
     setActiveTab("create");
     setContentType("event");
   };
-  
   const handleAddNewStory = () => {
     setActiveTab("create");
     setContentType("story");
   };
-  
-  return (
-    <div className="space-y-8">
+  return <div className="space-y-8">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">
           PAGE MANAGEMENT
         </h1>
         
-        <div className="flex flex-wrap gap-4 mt-4 lg:mt-0">
-          <Button 
-            className="bg-black text-white border-none hover:bg-gray-800 text-xs font-light"
-            onClick={handleAddNewPage}
-          >
-            <PlusCircle className="w-4 h-4 mr-2" strokeWidth={1} />
-            Add New Page
-          </Button>
-          <Button variant="outline" className="border-gray-200 hover:bg-gray-100 text-xs font-light">
-            <FileText className="w-4 h-4 mr-2" strokeWidth={1} />
-            View All Pages
-          </Button>
-        </div>
+        
       </div>
       
       <Tabs defaultValue="events" className="w-full" value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
-          <TabsTrigger 
-            value="events" 
-            className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
-          >
+          <TabsTrigger value="events" className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none">
             Events
           </TabsTrigger>
-          <TabsTrigger 
-            value="curated" 
-            className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
-          >
+          <TabsTrigger value="curated" className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none">
             Curated Stories
           </TabsTrigger>
-          <TabsTrigger 
-            value="create" 
-            className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
-          >
+          <TabsTrigger value="create" className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none">
             Create Content
           </TabsTrigger>
         </TabsList>
@@ -189,20 +138,11 @@ const AdminPages = () => {
               <div className="space-y-4">
                 <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-6">
                   <div className="relative w-full max-w-sm">
-                    <Input
-                      type="search"
-                      placeholder="Search events..."
-                      className="pl-9 bg-white border-gray-200"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
+                    <Input type="search" placeholder="Search events..." className="pl-9 bg-white border-gray-200" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
                     <FileText className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
                   </div>
                   <div className="flex items-center space-x-3">
-                    <Select
-                      value={statusFilter}
-                      onValueChange={(value) => setStatusFilter(value)}
-                    >
+                    <Select value={statusFilter} onValueChange={value => setStatusFilter(value)}>
                       <SelectTrigger className="w-[150px] border-gray-200 bg-white text-sm">
                         <SelectValue placeholder="Filter by status" />
                       </SelectTrigger>
@@ -213,10 +153,7 @@ const AdminPages = () => {
                         <SelectItem value="inactive">Inactive</SelectItem>
                       </SelectContent>
                     </Select>
-                    <Button 
-                      className="bg-black hover:bg-gray-800 text-white text-sm" 
-                      onClick={handleAddNewEvent}
-                    >
+                    <Button className="bg-black hover:bg-gray-800 text-white text-sm" onClick={handleAddNewEvent}>
                       <PlusCircle className="mr-1 h-4 w-4" strokeWidth={1} /> Add Event
                     </Button>
                   </div>
@@ -235,27 +172,18 @@ const AdminPages = () => {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {filteredEvents.length === 0 ? (
-                        <TableRow>
+                      {filteredEvents.length === 0 ? <TableRow>
                           <TableCell colSpan={6} className="text-center py-10 text-gray-500">
                             No events found with the current filters
                           </TableCell>
-                        </TableRow>
-                      ) : (
-                        filteredEvents.map((event) => (
-                          <TableRow key={event.id} className="border-t border-gray-100 hover:bg-gray-50/50">
+                        </TableRow> : filteredEvents.map(event => <TableRow key={event.id} className="border-t border-gray-100 hover:bg-gray-50/50">
                             <TableCell className="font-medium">{event.id}</TableCell>
                             <TableCell>{event.title}</TableCell>
                             <TableCell>
-                              <Badge 
-                                variant="outline"
-                                className={`
-                                  ${event.status === "active" ? "bg-accent-mint text-gray-800 border-accent-mint" :
-                                    event.status === "pending" ? "bg-accent-yellow text-gray-800 border-accent-yellow" :
-                                    "bg-gray-100 text-gray-700 border-gray-200"}
+                              <Badge variant="outline" className={`
+                                  ${event.status === "active" ? "bg-accent-mint text-gray-800 border-accent-mint" : event.status === "pending" ? "bg-accent-yellow text-gray-800 border-accent-yellow" : "bg-gray-100 text-gray-700 border-gray-200"}
                                   text-xs font-medium px-2 py-0.5
-                                `}
-                              >
+                                `}>
                                 {event.status}
                               </Badge>
                             </TableCell>
@@ -272,37 +200,17 @@ const AdminPages = () => {
                               </div>
                             </TableCell>
                             <TableCell className="flex justify-end space-x-2">
-                              <Button 
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8 p-0 hover:bg-gray-100"
-                                onClick={() => handleViewItem("event", event.id)}
-                                title="View"
-                              >
+                              <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-100" onClick={() => handleViewItem("event", event.id)} title="View">
                                 <Eye className="h-4 w-4" strokeWidth={1.5} />
                               </Button>
-                              <Button 
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8 p-0 hover:bg-gray-100"
-                                onClick={() => handleEditItem("event", event.id)}
-                                title="Edit"
-                              >
+                              <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-100" onClick={() => handleEditItem("event", event.id)} title="Edit">
                                 <Edit className="h-4 w-4" strokeWidth={1.5} />
                               </Button>
-                              <Button 
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8 p-0 hover:bg-gray-100"
-                                onClick={() => handleDeleteItem("event", event.id)}
-                                title="Delete"
-                              >
+                              <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-100" onClick={() => handleDeleteItem("event", event.id)} title="Delete">
                                 <Trash2 className="h-4 w-4" strokeWidth={1.5} />
                               </Button>
                             </TableCell>
-                          </TableRow>
-                        ))
-                      )}
+                          </TableRow>)}
                     </TableBody>
                   </Table>
                 </div>
@@ -323,20 +231,11 @@ const AdminPages = () => {
               <div className="space-y-4">
                 <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-6">
                   <div className="relative w-full max-w-sm">
-                    <Input
-                      type="search"
-                      placeholder="Search stories..."
-                      className="pl-9 bg-white border-gray-200"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
+                    <Input type="search" placeholder="Search stories..." className="pl-9 bg-white border-gray-200" value={searchQuery} onChange={e => setSearchQuery(e.target.value)} />
                     <FileText className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
                   </div>
                   <div className="flex items-center space-x-3">
-                    <Select
-                      value={statusFilter}
-                      onValueChange={(value) => setStatusFilter(value)}
-                    >
+                    <Select value={statusFilter} onValueChange={value => setStatusFilter(value)}>
                       <SelectTrigger className="w-[150px] border-gray-200 bg-white text-sm">
                         <SelectValue placeholder="Filter by status" />
                       </SelectTrigger>
@@ -347,10 +246,7 @@ const AdminPages = () => {
                         <SelectItem value="inactive">Inactive</SelectItem>
                       </SelectContent>
                     </Select>
-                    <Button 
-                      className="bg-black hover:bg-gray-800 text-white text-sm" 
-                      onClick={handleAddNewStory}
-                    >
+                    <Button className="bg-black hover:bg-gray-800 text-white text-sm" onClick={handleAddNewStory}>
                       <PlusCircle className="mr-1 h-4 w-4" strokeWidth={1} /> Add Story
                     </Button>
                   </div>
@@ -369,64 +265,35 @@ const AdminPages = () => {
                       </TableRow>
                     </TableHeader>
                     <TableBody>
-                      {filteredStories.length === 0 ? (
-                        <TableRow>
+                      {filteredStories.length === 0 ? <TableRow>
                           <TableCell colSpan={6} className="text-center py-10 text-gray-500">
                             No stories found with the current filters
                           </TableCell>
-                        </TableRow>
-                      ) : (
-                        filteredStories.map((story) => (
-                          <TableRow key={story.id} className="border-t border-gray-100 hover:bg-gray-50/50">
+                        </TableRow> : filteredStories.map(story => <TableRow key={story.id} className="border-t border-gray-100 hover:bg-gray-50/50">
                             <TableCell className="font-medium">{story.id}</TableCell>
                             <TableCell>{story.title}</TableCell>
                             <TableCell>
-                              <Badge 
-                                variant="outline"
-                                className={`
-                                  ${story.status === "active" ? "bg-accent-mint text-gray-800 border-accent-mint" :
-                                    story.status === "pending" ? "bg-accent-yellow text-gray-800 border-accent-yellow" :
-                                    "bg-gray-100 text-gray-700 border-gray-200"}
+                              <Badge variant="outline" className={`
+                                  ${story.status === "active" ? "bg-accent-mint text-gray-800 border-accent-mint" : story.status === "pending" ? "bg-accent-yellow text-gray-800 border-accent-yellow" : "bg-gray-100 text-gray-700 border-gray-200"}
                                   text-xs font-medium px-2 py-0.5
-                                `}
-                              >
+                                `}>
                                 {story.status}
                               </Badge>
                             </TableCell>
                             <TableCell>{story.author}</TableCell>
                             <TableCell>{story.createdAt}</TableCell>
                             <TableCell className="flex justify-end space-x-2">
-                              <Button 
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8 p-0 hover:bg-gray-100"
-                                onClick={() => handleViewItem("story", story.id)}
-                                title="View"
-                              >
+                              <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-100" onClick={() => handleViewItem("story", story.id)} title="View">
                                 <Eye className="h-4 w-4" strokeWidth={1.5} />
                               </Button>
-                              <Button 
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8 p-0 hover:bg-gray-100"
-                                onClick={() => handleEditItem("story", story.id)}
-                                title="Edit"
-                              >
+                              <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-100" onClick={() => handleEditItem("story", story.id)} title="Edit">
                                 <Edit className="h-4 w-4" strokeWidth={1.5} />
                               </Button>
-                              <Button 
-                                variant="ghost"
-                                size="icon"
-                                className="h-8 w-8 p-0 hover:bg-gray-100"
-                                onClick={() => handleDeleteItem("story", story.id)}
-                                title="Delete"
-                              >
+                              <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-100" onClick={() => handleDeleteItem("story", story.id)} title="Delete">
                                 <Trash2 className="h-4 w-4" strokeWidth={1.5} />
                               </Button>
                             </TableCell>
-                          </TableRow>
-                        ))
-                      )}
+                          </TableRow>)}
                     </TableBody>
                   </Table>
                 </div>
@@ -448,35 +315,22 @@ const AdminPages = () => {
                 {/* Tab selector for content type */}
                 <div className="mb-6">
                   <div className="flex space-x-4 mb-6">
-                    <Button 
-                      onClick={() => setContentType("event")} 
-                      variant={contentType === "event" ? "black" : "outline"}
-                      className={contentType === "event" ? "" : "border-gray-200"}
-                    >
+                    <Button onClick={() => setContentType("event")} variant={contentType === "event" ? "black" : "outline"} className={contentType === "event" ? "" : "border-gray-200"}>
                       <Calendar className="mr-2 h-4 w-4" strokeWidth={1.5} />
                       Event
                     </Button>
-                    <Button 
-                      onClick={() => setContentType("story")} 
-                      variant={contentType === "story" ? "black" : "outline"}
-                      className={contentType === "story" ? "" : "border-gray-200"}
-                    >
+                    <Button onClick={() => setContentType("story")} variant={contentType === "story" ? "black" : "outline"} className={contentType === "story" ? "" : "border-gray-200"}>
                       <FileText className="mr-2 h-4 w-4" strokeWidth={1.5} />
                       Curated Story
                     </Button>
-                    <Button 
-                      onClick={() => setContentType("page")} 
-                      variant={contentType === "page" ? "black" : "outline"}
-                      className={contentType === "page" ? "" : "border-gray-200"}
-                    >
+                    <Button onClick={() => setContentType("page")} variant={contentType === "page" ? "black" : "outline"} className={contentType === "page" ? "" : "border-gray-200"}>
                       <PlusCircle className="mr-2 h-4 w-4" strokeWidth={1.5} />
                       Custom Page
                     </Button>
                   </div>
                   
                   {/* Content creation form */}
-                  {contentType === "event" && (
-                    <div className="space-y-6">
+                  {contentType === "event" && <div className="space-y-6">
                       <h3 className="text-xl font-light">Create New Event</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Simplified form for demo */}
@@ -514,10 +368,7 @@ const AdminPages = () => {
                         <div className="space-y-4">
                           <div className="space-y-2">
                             <label className="text-sm font-light text-gray-700">Description</label>
-                            <textarea 
-                              className="w-full h-40 border border-gray-200 rounded-md p-2 text-sm" 
-                              placeholder="Enter event description"
-                            ></textarea>
+                            <textarea className="w-full h-40 border border-gray-200 rounded-md p-2 text-sm" placeholder="Enter event description"></textarea>
                           </div>
                           
                           <div className="space-y-2">
@@ -535,11 +386,9 @@ const AdminPages = () => {
                           Create Event
                         </Button>
                       </div>
-                    </div>
-                  )}
+                    </div>}
                   
-                  {contentType === "story" && (
-                    <div className="space-y-6">
+                  {contentType === "story" && <div className="space-y-6">
                       <h3 className="text-xl font-light">Create New Curated Story</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Simplified form for demo */}
@@ -577,10 +426,7 @@ const AdminPages = () => {
                         <div className="space-y-4">
                           <div className="space-y-2">
                             <label className="text-sm font-light text-gray-700">Content</label>
-                            <textarea 
-                              className="w-full h-40 border border-gray-200 rounded-md p-2 text-sm" 
-                              placeholder="Write your story content here..."
-                            ></textarea>
+                            <textarea className="w-full h-40 border border-gray-200 rounded-md p-2 text-sm" placeholder="Write your story content here..."></textarea>
                           </div>
                           
                           <div className="space-y-2">
@@ -598,11 +444,9 @@ const AdminPages = () => {
                           Create Story
                         </Button>
                       </div>
-                    </div>
-                  )}
+                    </div>}
                   
-                  {contentType === "page" && (
-                    <div className="space-y-6">
+                  {contentType === "page" && <div className="space-y-6">
                       <h3 className="text-xl font-light">Create Custom Page</h3>
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         <div className="space-y-4">
@@ -652,8 +496,7 @@ const AdminPages = () => {
                           Create Page
                         </Button>
                       </div>
-                    </div>
-                  )}
+                    </div>}
                 </div>
               </div>
             </CardContent>
@@ -670,8 +513,6 @@ const AdminPages = () => {
           View Page Management Guides <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
         </Button>
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default AdminPages;
