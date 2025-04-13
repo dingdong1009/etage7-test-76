@@ -46,8 +46,8 @@ const PressPage = () => {
   ];
 
   return (
-    <div className="max-w-5xl mx-auto">
-      <h1 className="text-4xl md:text-5xl font-light tracking-tighter mt-12 mb-10">Press</h1>
+    <div className="space-y-6">
+      <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">Press</h1>
       
       <div className="space-y-12">
         <section className="mb-12">
