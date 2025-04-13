@@ -122,7 +122,7 @@ const AdminHeader = () => {
                       <Link
                         to={item.path}
                         className={`text-xs font-light transition-all relative group ${
-                          isActive(item.path) ? "text-black" : "text-gray-500 hover:text-black"
+                          isActive(item.path) ? 
                         }`}
                       >
                         {item.name.toUpperCase()}
