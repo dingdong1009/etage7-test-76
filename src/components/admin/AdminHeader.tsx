@@ -65,10 +65,12 @@ const AdminHeader = () => {
   };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-medium ${
-      isScrolled ? "bg-white border-b border-gray-100" : "bg-white"
-    }`}>
-      <div className="container-lg h-16 border-b flex items-center justify-between">
+    <header 
+      className={`fixed top-0 left-0 right-0 z-50 transition-medium ${
+        isScrolled ? "bg-white border-b border-gray-100" : "bg-white"
+      }`}
+    >
+      <div className="container-lg h-16 flex items-center justify-between">
         <div className="flex items-center space-x-6">
           {/* Mobile menu button */}
           <button 
@@ -79,23 +81,17 @@ const AdminHeader = () => {
             {isMenuOpen ? <X size={18} strokeWidth={1} /> : <Menu size={18} strokeWidth={1} />}
           </button>
           
-          {/* Logo */}
-          <Link to="/" className="text-black text-5xl font-medium tracking-tighter uppercase">
-            éTAGE7
-          </Link>
-        </div>
+          {/* Logo - Update to navigate to hero section */}
+          <button 
+            onClick={() => navigateToSection('hero')} 
+            className="text-black text-5xl font-medium tracking-tighter uppercase"
+          >
+            éTAGE7 
+          </button>
+        </div> 
         
         {/* User options on desktop */}
         <div className="hidden md:flex items-center space-x-6">
-          {/* Language selector */}
-          <button 
-            onClick={toggleLanguage}
-            className="text-xs font-light uppercase hover:text-gray-600 transition-fast"
-            aria-label="Toggle language"
-          >
-            {language}
-          </button>
-          
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -122,105 +118,88 @@ const AdminHeader = () => {
         </div>
       </div>
       
-      {/* Search overlay */}
-      {isSearchOpen && (
-        <div className="absolute top-16 left-0 right-0 bg-white border-t border-gray-100 p-4">
-          <div className="container-lg">
-            <form className="flex items-center">
-              <Search size={16} strokeWidth={1} className="text-gray-500 mr-2" />
-              <input
-                type="text"
-                placeholder="Search..."
-                className="w-full p-2 focus:outline-none text-lg bg-transparent font-light"
-                autoFocus
-              />
-              <button 
-                type="button" 
-                onClick={toggleSearch}
-                className="text-gray-500 hover:text-black"
-              >
-                <X size={16} strokeWidth={1} />
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
-      
       {/* Desktop Navigation - Below the header bar */}
       <nav className="hidden md:block bg-white">
         <div className="max-w-[1481px] mx-auto px-4 py-2">
-          <ul className="flex space-x-8 overflow-x-auto">
-            {menuItems.map((item) => (
+        <ul className="flex space-x-8">
+            {mainNavItems.map((item) => (
               <li key={item.name}>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Link
-                        to={item.path}
-                        className={`text-xs font-light transition-all uppercase whitespace-nowrap relative group ${
-                          isActive(item.path) ? "text-black" : "text-gray-600 hover:text-black"
-                        }`}
-                      >
-                        {item.name}
-                        <span
-                          className={`absolute left-0 bottom-[-3px] w-0 h-[0.5px] bg-black transition-all duration-300 group-hover:w-full ${
-                            isActive(item.path) ? "w-full" : ""
-                          }`}
-                        ></span>
-                      </Link>
-                    </TooltipTrigger>
-                    <TooltipContent className="bg-white shadow-md">
-                      <p className="text-xs font-light">{item.tooltip}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                {item.isSection ? (
+                  <button 
+                    onClick={() => navigateToSection(item.path)}
+                    className={`text-xs font-light uppercase relative group transition-fast ${
+                      activeSection === item.path ? 'after:absolute after:left-0 after:bottom-[-2px] after:w-full after:h-[0.5px] after:bg-black' : ''
+                    }`}
+                  >
+                    {item.name}
+                    <span className={`absolute left-0 bottom-[-2px] w-0 h-[0.5px] bg-black transition-all duration-300 ${
+                      activeSection === item.path ? 'w-full' : 'group-hover:w-full'
+                    }`}></span>
+                  </button>
+                ) : (
+                  <Link 
+                    to={item.path} 
+                    className={`text-xs font-light uppercase relative group transition-fast ${
+                      location.pathname === item.path ? 'after:absolute after:left-0 after:bottom-[-2px] after:w-full after:h-[0.5px] after:bg-black' : ''
+                    }`}
+                  >
+                    {item.name}
+                    <span className={`absolute left-0 bottom-[-2px] w-0 h-[0.5px] bg-black transition-all duration-300 ${
+                      location.pathname === item.path ? 'w-full' : 'group-hover:w-full'
+                    }`}></span>
+                  </Link>
+                )}
               </li>
             ))}
           </ul>
         </div>
       </nav>
       
-      {/* Mobile Menu - Full overlay */}
+      {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-16 bg-white z-50 overflow-y-auto animate-fade-in">
-          <div className="p-6 flex flex-col h-full">
-            <ul className="flex flex-col space-y-1 pt-6">
-              {menuItems.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    to={item.path}
-                    className={`block py-3 px-4 transition-colors text-sm uppercase font-light tracking-wide ${
-                      isActive(item.path) 
-                        ? "text-black" 
-                        : "text-gray-600 hover:text-black"
-                    }`}
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-              
-              {/* Language toggle in mobile menu */}
-              <li className="py-2">
-                <button
-                  onClick={toggleLanguage}
-                  className="block py-3 px-4 text-sm uppercase font-light tracking-wide text-gray-600 hover:text-black"
-                >
-                  {language === "EN" ? "ENGLISH" : "РУССКИЙ"}
-                </button>
-              </li>
-              
-              <li className="border-t border-gray-100 mt-4 pt-4">
-                <Link
-                  to="/"
-                  className="block py-3 px-4 text-gray-600 hover:text-black transition-colors text-sm uppercase font-light tracking-wide"
-                  onClick={() => setIsMenuOpen(false)}
-                >
-                  BACK TO SITE
-                </Link>
-              </li>
-            </ul>
+        <div className="lg:hidden fixed inset-0 top-16 bg-white z-40 overflow-y-auto">
+          <div className="container-lg p-6 flex flex-col h-full">
+            <nav className="flex-grow">
+              <ul className="space-y-8 pt-4">
+                {mainNavItems.map((item) => (
+                  <li key={item.name} className="py-2">
+                    {item.isSection ? (
+                      <button 
+                        onClick={() => {
+                          navigateToSection(item.path);
+                          setIsMenuOpen(false);
+                        }}
+                        className="text-xl uppercase font-light tracking-tighter"
+                      >
+                        {item.name}
+                      </button>
+                    ) : (
+                      <Link 
+                        to={item.path} 
+                        className="text-xl uppercase font-light tracking-tighter"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+                {secondaryNavItems.map((item) => (
+                  <li key={item.name} className="py-2">
+                    <Link 
+                      to={item.path} 
+                      className="text-xl uppercase font-light tracking-tighter"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <div className="pt-10 pb-4 mt-auto border-t border-gray-100">
+              <p className="text-sm text-gray-500 font-light">© {new Date().getFullYear()} ETAGE7</p>
+            </div>
           </div>
         </div>
       )}
