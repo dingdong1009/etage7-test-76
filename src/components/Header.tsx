@@ -61,7 +61,7 @@ const Header = () => {
         isScrolled ? "bg-white border-b border-gray-100" : "bg-white"
       }`}
     >
-      <div className="container-lg h-16 border-b flex items-center justify-between">
+      <div className="container-lg h-16 flex items-center justify-between">
         <div className="flex items-center space-x-6">
           {/* Mobile menu button */}
           <button 
