@@ -98,7 +98,7 @@ const Header = () => {
         {/* Right side actions */}
         <div className="flex items-center">
           {/* Language, Search, User */}
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-4">
             {/* Language selector */}
             <button 
               onClick={toggleLanguage}
