@@ -89,7 +89,7 @@ const AdminHeader = () => {
                   <Bell size={20} className="text-gray-600 hover:text-black cursor-pointer" />
                   {notificationCount > 0 && (
                     <Badge 
-                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-black text-white text-xs rounded-full"
+                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-white text-black text-xs rounded-full"
                     >
                       {notificationCount}
                     </Badge>
@@ -102,11 +102,11 @@ const AdminHeader = () => {
             </Tooltip>
           </TooltipProvider>
           
-          <Link to="/" className="text-gray-600 hover:text-black text-sm font-light">
+          <Link to="/" className="text-gray-600 hover:text-white text-xs font-normal">
             BACK TO SITE
           </Link>
           <span className="text-gray-400 font-light">|</span>
-          <span className="text-gray-600 text-sm font-light">ADMIN</span>
+          <span className="text-gray-600 text-xs text-white font-light">ADMIN</span>
         </div>
       </div>
       
@@ -122,7 +122,7 @@ const AdminHeader = () => {
                       <Link
                         to={item.path}
                         className={`text-xs font-light transition-all relative group ${
-                          isActive(item.path) ? "text-white" : "text-gray-500 hover:text-white"
+                          isActive(item.path) ? "text-black" : "text-gray-500 hover:text-black"
                         }`}
                       >
                         {item.name.toUpperCase()}
