@@ -96,7 +96,7 @@ const Header = () => {
         </nav>
 
         {/* Right side actions */}
-        <div className="flex items-center space-x-5">      
+        <div className="flex items-center">
           {/* Language, Search, User */}
           <div className="flex items-center space-x-5">
             {/* Language selector */}
@@ -164,10 +164,7 @@ const Header = () => {
                     </Link>
                   </li>
                 ))}
-             {/* Login icon */}
-            <Link to="/login" className="hover:text-gray-600 transition-fast hidden sm:block">
-              <User size={18} strokeWidth={1} />
-            </Link>
+
               </ul>
             </nav>
             <div className="pt-10 pb-4 mt-auto border-t border-gray-100">
