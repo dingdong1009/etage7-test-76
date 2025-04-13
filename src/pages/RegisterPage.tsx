@@ -63,7 +63,7 @@ const RegisterPage = () => {
     <div className="pt-16 pb-16 px-4">
       <div className="max-w-[500px] mx-auto">
         <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6 uppercase">
-          Create An Account
+          Register
         </h1>
         
         <Form {...form}>
