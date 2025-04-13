@@ -60,7 +60,7 @@ const Index = () => {
               CONNECTING<br/>
               <span className="font-normal">FASHION BRANDS & BUYERS</span>
             </h1>
-            <p className="text-lg md:text-xl font-light text-gray-300 mb-12 max-w-2xl">
+            <p className="text-lg md:text-xl font-light text-gray-50 mb-12 max-w-2xl">
             ETAGE7 – это премиальный цифровой маркетплейс, который объединяет премиум бренды с профессиональными байерами и владельцами мультибрендов, меняя традиционные подходы к оптовым закупкам.
             </p>
           </div>
@@ -69,12 +69,12 @@ const Index = () => {
         {/* Scroll indicator */}
         <button 
           onClick={() => scrollToSection('buyer')}
-          className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity bg-black duration-500 ${
+          className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity text-black duration-500 ${
             scrolled ? 'opacity-0' : 'opacity-100'
           }`}
           aria-label="Scroll to learn more"
         >
-          <span className="text-sm mb-2 animate-bounce text-black">Learn more as a Buyer </span>          
+          <span className="text-sm mb-2 animate-bounce">Learn more as a Buyer </span>          
           <ChevronDown size={24} className="animate-bounce" />
         </button>
       </section>
