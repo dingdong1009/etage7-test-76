@@ -116,7 +116,7 @@ const AdminHeader = () => {
           <ul className="flex space-x-8">
             {menuItems.map((item) => (
               <li key={item.name}> 
-                <TooltipProvider> 
+                <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Link
