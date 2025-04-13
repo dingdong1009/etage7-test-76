@@ -121,7 +121,7 @@ const Header = () => {
             </Link>
           </div>
         </div>
-      </div>
+      </div> 
 
       {/* Search overlay */}
       {isSearchOpen && (
