@@ -155,7 +155,7 @@ const Index = () => {
           <p className="text-lg md:text-xl font-light bg-black text-white-100 mb-12 max-w-2xl uppercase">Consulting Services</p>
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
               CONNECTING<br/>
-              <span className="font-normal">FASHION BRANDS & BUYERS</span>
+              <span className="font-normal">FASHION BRANDS & BUYERS</span> 
             </h1>
             <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
             ETAGE7 – это премиальный цифровой маркетплейс, который объединяет премиум бренды с профессиональными байерами и владельцами мультибрендов, меняя традиционные подходы к оптовым закупкам.
