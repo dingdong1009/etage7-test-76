@@ -1,5 +1,5 @@
 
-@import url('https://fonts.googleapis.com/css2?family=Neue+Montreal:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -7,309 +7,132 @@
  
 @layer base {
   :root {
-    /* Base colors - monochrome palette */
-    --color-black: 0 0% 0%;
-    --color-white: 0 0% 100%;
-    --color-gray-50: 0 0% 98%;
-    --color-gray-100: 0 0% 96%;
-    --color-gray-200: 0 0% 90%;
-    --color-gray-300: 0 0% 83%;
-    --color-gray-400: 0 0% 64%;
-    --color-gray-500: 0 0% 45%;
-    --color-gray-600: 0 0% 32%;
-    --color-gray-700: 0 0% 25%;
-    --color-gray-800: 0 0% 15%;
-    --color-gray-900: 0 0% 9%;
-    --color-gray-950: 0 0% 5%;
+    --background: 0 0% 100%;
+    --foreground: 222.2 84% 4.9%;
+ 
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+ 
+    --popover: 0 0% 100%;
+    --popover-foreground: 222.2 84% 4.9%;
+ 
+    --card: 0 0% 100%;
+    --card-foreground: 222.2 84% 4.9%;
+ 
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+ 
+    --primary: 222.2 47.4% 11.2%;
+    --primary-foreground: 210 40% 98%;
+ 
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+ 
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
     
-    /* Accent colors - pastel palette */
-    --color-accent-mint: 152 45% 93%;
-    --color-accent-blue: 210 100% 95%;
-    --color-accent-pink: 340 100% 95%;
-    --color-accent-yellow: 48 100% 93%;
-    
-    /* Semantic colors */
-    --color-success: 142 71% 45%;
-    --color-warning: 38 92% 50%;
-    --color-danger: 0 84% 60%;
-    
-    /* UI Component colors */
-    --background: var(--color-white);
-    --foreground: var(--color-gray-950);
-    
-    --card: var(--color-white);
-    --card-foreground: var(--color-gray-950);
-
-    --popover: var(--color-white);
-    --popover-foreground: var(--color-gray-950);
-
-    --primary: var(--color-gray-950);
-    --primary-foreground: var(--color-white);
-
-    --secondary: var(--color-gray-100);
-    --secondary-foreground: var(--color-gray-950);
-
-    --muted: var(--color-gray-100);
-    --muted-foreground: var(--color-gray-500);
-
-    --accent: var(--color-gray-100);
-    --accent-foreground: var(--color-gray-950);
-
+    --accent-mint: 151 60% 90%;
+    --accent-yellow: 48 96% 89%;
+    --accent-pink: 346 100% 93%;
+ 
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: var(--color-white);
-
-    --border: var(--color-gray-200);
-    --input: var(--color-gray-200);
-    --ring: var(--color-gray-950);
-
-    --radius: 0;
+    --destructive-foreground: 210 40% 98%;
+ 
+    --ring: 215 20.2% 65.1%;
+ 
+    --radius: 0.5rem;
   }
-  
+ 
+  .dark {
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+ 
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+ 
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+ 
+    --card: 222.2 84% 4.9%;
+    --card-foreground: 210 40% 98%;
+ 
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+ 
+    --primary: 210 40% 98%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+ 
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+ 
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+ 
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
+ 
+    --ring: 217.2 32.6% 17.5%;
+  }
+}
+ 
+@layer base {
   * {
     @apply border-border;
   }
-  
   body {
     @apply bg-background text-foreground;
-    font-family: 'Neue Montreal', 'Helvetica Neue', sans-serif;
-    letter-spacing: -0.01em;
-    font-feature-settings: "tnum" on, "lnum" on, "ss01" on;
-  }
-  
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-light tracking-tighter leading-tight;
-  }
-  
-  h1 {
-    @apply text-3xl md:text-4xl lg:text-5xl;
-  }
-  
-  h2 {
-    @apply text-2xl md:text-3xl;
-  }
-  
-  h3 {
-    @apply text-xl md:text-2xl;
-  }
-  
-  /* Component styles */
-  .section {
-    @apply py-16 md:py-24;
+    font-family: 'Montserrat', sans-serif;
   }
   
   .container-lg {
-    @apply max-w-[1481px] mx-auto px-4 md:px-6;
-  }
-}
-
-/* Animation utilities */
-@layer utilities {
-  .transition-slow {
-    @apply transition-all duration-700 ease-in-out;
-  }
-  
-  .transition-medium {
-    @apply transition-all duration-500 ease-in-out;
+    @apply max-w-[1481px] mx-auto w-full px-4 md:px-8 lg:px-12;
   }
   
   .transition-fast {
-    @apply transition-all duration-300 ease-in-out;
-  }
-  
-  .hover-lift {
-    @apply transition-transform duration-300 hover:-translate-y-1;
-  }
-  
-  .text-balance {
-    text-wrap: balance;
+    @apply transition-all duration-200;
   }
 }
 
-/* Button styles */
-@layer components {
-  .btn {
-    @apply inline-flex items-center justify-center text-sm font-normal py-3 px-5 transition-colors;
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-  
-  .btn-primary {
-    @apply bg-black text-white hover:bg-gray-800;
-  }
-  
-  .btn-secondary {
-    @apply bg-white border border-black text-black hover:bg-gray-50;
-  }
-  
-  .btn-outline {
-    @apply border border-gray-200 hover:border-gray-400;
-  }
-  
-  .link-underline {
-    @apply relative after:absolute after:bottom-0 after:left-0 after:h-[1px] after:w-0 after:bg-current after:transition-all after:duration-300 hover:after:w-full;
-  }
-
-  /* Admin-specific component styles */
-  .admin-card {
-    @apply bg-white border border-gray-200 rounded-none shadow-sm transition-all duration-300 hover:shadow-md;
-  }
-  
-  .admin-stat-card {
-    @apply bg-gradient-to-br from-white to-gray-50 p-6 border border-gray-200 shadow-sm transition-all duration-300 hover:shadow-md;
-  }
-  
-  .admin-accent-mint {
-    @apply bg-accent-mint text-gray-800;
-  }
-  
-  .admin-accent-blue {
-    @apply bg-accent-blue text-gray-800;
-  }
-  
-  .admin-accent-pink {
-    @apply bg-accent-pink text-gray-800;
-  }
-  
-  .admin-accent-yellow {
-    @apply bg-accent-yellow text-gray-800;
-  }
-  
-  .admin-title {
-    @apply text-4xl md:text-6xl uppercase font-thin mb-6;
-  }
-  
-  .admin-subtitle {
-    @apply text-2xl md:text-3xl font-light tracking-tighter;
-  }
-  
-  .admin-card-header {
-    @apply flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-gray-100;
-  }
-  
-  .admin-button-primary {
-    @apply bg-black hover:bg-gray-800 text-white text-sm transition-colors;
-  }
-  
-  .admin-button-outline {
-    @apply border border-gray-200 text-gray-700 hover:bg-gray-50 text-sm transition-colors;
-  }
-  
-  .admin-table-header {
-    @apply bg-gray-50;
-  }
-  
-  .admin-table-cell {
-    @apply border-t border-gray-100;
-  }
-  
-  /* Page transitions */
-  .page-enter {
-    @apply opacity-0;
-  }
-  
-  .page-enter-active {
-    @apply opacity-100 transition-opacity duration-300;
-  }
-  
-  .page-exit {
-    @apply opacity-100;
-  }
-  
-  .page-exit-active {
-    @apply opacity-0 transition-opacity duration-300;
+  to {
+    opacity: 1;
   }
 }
 
-/* Rich Text Editor Styles */
-.announcement-content {
-  @apply text-sm whitespace-pre-wrap;
+.animate-fade-in {
+  animation: fadeIn 0.5s ease-in-out;
 }
 
-.announcement-content img {
-  @apply max-w-full h-auto my-2 rounded-none;
+/* Helper classes */
+.link-underline {
+  position: relative;
+  display: inline-block;
 }
 
-.announcement-content p {
-  @apply mb-2;
+.link-underline::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background-color: currentColor;
+  transition: width 0.3s ease;
 }
 
-.announcement-content ul, .announcement-content ol {
-  @apply pl-5 mb-2;
+.link-underline:hover::after {
+  width: 100%;
 }
 
-.announcement-content ul {
-  @apply list-disc;
+/* For Admin Portal */
+.admin-button-primary {
+  @apply bg-black hover:bg-gray-800 text-white border-0;
 }
 
-.announcement-content ol {
-  @apply list-decimal;
-}
-
-.announcement-content h1, .announcement-content h2, .announcement-content h3,
-.announcement-content h4, .announcement-content h5, .announcement-content h6 {
-  @apply font-light mb-2;
-}
-
-.announcement-content h1 {
-  @apply text-2xl;
-}
-
-.announcement-content h2 {
-  @apply text-xl;
-}
-
-.announcement-content h3 {
-  @apply text-lg;
-}
-
-/* Adjust QuillJS Editor */
-.quill .ql-toolbar {
-  @apply border-gray-200 rounded-none bg-gray-50;
-}
-
-.quill .ql-container {
-  @apply border-gray-200 rounded-none min-h-[150px];
-}
-
-/* Admin interface specific styling */
-.admin-table {
-  @apply w-full border-collapse;
-}
-
-.admin-table th {
-  @apply text-xs uppercase tracking-wider font-medium text-gray-500 bg-gray-50 px-4 py-3 text-left;
-}
-
-.admin-table td {
-  @apply px-4 py-3 border-t border-gray-200 text-sm;
-}
-
-.admin-card-highlight {
-  @apply border-l-4 border-accent-mint pl-4;
-}
-
-.admin-badge-active {
-  @apply bg-accent-mint text-gray-800 px-2 py-0.5 rounded-sm text-xs font-medium;
-}
-
-.admin-badge-pending {
-  @apply bg-accent-yellow text-gray-800 px-2 py-0.5 rounded-sm text-xs font-medium;
-}
-
-.admin-badge-inactive {
-  @apply bg-gray-200 text-gray-800 px-2 py-0.5 rounded-sm text-xs font-medium;
-}
-
-.admin-nav-link {
-  @apply text-gray-600 hover:text-black transition-colors;
-}
-
-.admin-nav-link-active {
-  @apply text-black font-medium;
-}
-
-.admin-button-action {
-  @apply bg-black text-white hover:bg-gray-800 px-4 py-2 text-sm transition-colors;
-}
-
-.admin-button-outline {
-  @apply border border-gray-300 hover:border-gray-400 px-4 py-2 text-sm transition-colors;
+.admin-button-secondary {
+  @apply bg-white hover:bg-gray-100 text-black border border-gray-200;
 }

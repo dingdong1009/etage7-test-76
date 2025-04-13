@@ -1,69 +1,67 @@
 
-export type UserType = "brand" | "buyer" | "salesManager";
-export type ViewMode = "list" | "view" | "edit" | "add";
-
+// Brand user type
 export interface Brand {
   id: number;
   name: string;
-  status: "active" | "pending" | "inactive";
-  plan: string;
-  lastActivity: string;
   contactPerson: string;
   email: string;
   phone: string;
-  website: string;
-  description: string;
-  marketSegment: string;
+  status: "active" | "pending" | "inactive";
+  plan: string;
   productsCount: number;
+  lastActivity: string;
   activeSince: string;
+  website: string;
+  marketSegment: string;
+  description: string;
   avgOrderValue: string;
   totalSales: string;
 }
 
+// Buyer user type
 export interface Buyer {
   id: number;
   name: string;
-  status: "active" | "pending" | "inactive";
-  plan: string;
-  lastActivity: string;
   contactPerson: string;
   email: string;
   phone: string;
-  website: string;
-  description: string;
-  marketSegment: string;
+  status: "active" | "pending" | "inactive";
+  plan: string;
   storeCount: number;
-  activeSince: string;
-  avgOrderValue: string;
+  lastActivity: string;
   annualPurchases: string;
+  website: string;
+  marketSegment: string;
+  description: string;
 }
 
+// Sales Manager user type
 export interface SalesManager {
   id: number;
   name: string;
-  status: "active" | "pending" | "inactive";
   email: string;
   phone: string;
+  status: "active" | "pending" | "inactive";
+  seniorityLevel: string;
+  region: string;
+  managedAccounts: number;
+  monthlyTarget: string;
+  quarterlyPerformance: string;
   startDate: string;
   yearsInCompany: number;
   salaryPerMonth: string;
-  totalCommissions: string;
-  ytdCommissions: string;
   commissionRate: string;
-  commissionHistory?: CommissionChange[];
-  description?: string;
-  seniorityLevel?: string;
-  region?: string;
-  managedAccounts?: number;
-  activeSince?: string;
-  monthlyTarget?: string;
-  quarterlyPerformance?: string;
-  lastActivity?: string;
 }
 
-export interface CommissionChange {
+// Contract template type
+export interface ContractTemplate {
   id: number;
-  rate: string;
-  effectiveDate: string;
-  notes?: string;
+  name: string;
+  status: "active" | "inactive";
+  visibleTo: "brand" | "buyer" | "both";
+  language: string;
+  createdAt: string;
+  lastUpdated: string;
+  content?: string;
+  type?: "sales" | "partnership" | "brand" | "buyer";
 }
