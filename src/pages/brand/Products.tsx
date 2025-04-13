@@ -181,7 +181,6 @@ const BrandProducts = () => {
         </TabsContent>
       </Tabs>
       </div>
-
   );
 };
 
