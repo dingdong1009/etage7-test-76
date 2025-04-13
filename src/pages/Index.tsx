@@ -50,7 +50,7 @@ const Index = () => {
           <span className="text-sm mb-2 text-grey animate-bounce">Learn More As A Brand</span> 
           <ChevronDown size={24} className="animate-bounce" />
         </button>
-      </section>
+      </section> 
 
       {/* Brands Section */}
       <section id="brand" className="relative h-screen bg-white text-black flex items-center">
