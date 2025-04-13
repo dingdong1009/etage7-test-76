@@ -11,6 +11,7 @@ import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, 
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Wand, Pencil, Trash, Eye, Download, Search, Plus, Globe, FileText } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 // Define template interface
 interface ContractTemplate {
@@ -34,6 +35,13 @@ const AdminContracts = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [visibilityFilter, setVisibilityFilter] = useState("all");
   const [languageFilter, setLanguageFilter] = useState("all");
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [templateName, setTemplateName] = useState("");
+  const [templateType, setTemplateType] = useState("");
+  const [templateLanguage, setTemplateLanguage] = useState("");
+  const [templateVisibility, setTemplateVisibility] = useState("");
+  const [templateContent, setTemplateContent] = useState("");
+  const { toast } = useToast();
 
   // Sample data for contract templates
   const contractTemplates: ContractTemplate[] = [
@@ -127,9 +135,68 @@ const AdminContracts = () => {
 
   const filteredTemplates = filterTemplates();
 
-  const handleAiGenerate = () => {
-    console.log("AI generation requested");
-    // Implement AI generation functionality here
+  const handleAiGenerate = async () => {
+    // Validation checks
+    if (!templateType || !templateLanguage) {
+      toast({
+        title: "Missing information",
+        description: "Please select a contract type and language before generating",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsGenerating(true);
+
+    try {
+      console.log("AI generation requested");
+      // In a real implementation, this would call an API endpoint
+      await new Promise(resolve => setTimeout(resolve, 2000)); // Simulate API delay
+
+      const legalFramework = templateLanguage === "russian" ? "Russian Commercial Law" : "International Trade Law";
+      const generatedContent = `
+# ${templateType} - ${templateLanguage.toUpperCase()}
+
+## LEGAL FRAMEWORK: ${legalFramework}
+
+### PREAMBLE
+This agreement ("Agreement") is entered into as of the Effective Date by and between the parties.
+
+### DEFINITIONS
+1. "Effective Date" means the date on which this Agreement is signed by all parties.
+2. "Goods" means the products described in the applicable purchase order.
+3. "Services" means the services described in the applicable statement of work.
+
+### TERMS AND CONDITIONS
+1. The Seller agrees to provide the Goods and/or Services in accordance with this Agreement.
+2. Payment shall be made within thirty (30) days of receipt of a valid invoice.
+3. All deliveries shall be made in accordance with the delivery schedule agreed upon by the parties.
+
+### GOVERNING LAW
+This Agreement shall be governed by and construed in accordance with the laws of 
+${templateLanguage === "russian" ? "the Russian Federation" : "the jurisdiction specified in the applicable purchase order"}.
+
+### DISPUTE RESOLUTION
+Any dispute arising out of or in connection with this Agreement shall be resolved through 
+${templateLanguage === "russian" ? "arbitration at the International Commercial Arbitration Court at the Chamber of Commerce and Industry of the Russian Federation" : "arbitration in accordance with the rules of the International Chamber of Commerce"}.
+      `;
+
+      setTemplateContent(generatedContent);
+      
+      toast({
+        title: "Contract generated",
+        description: "AI has created a contract template based on your selections",
+      });
+    } catch (error) {
+      toast({
+        title: "Generation failed",
+        description: "There was an error generating the contract",
+        variant: "destructive",
+      });
+      console.error("Error generating contract:", error);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   return (
@@ -333,6 +400,8 @@ const AdminContracts = () => {
                       id="templateName"
                       placeholder="Enter template name"
                       className="w-full border-gray-200"
+                      value={templateName}
+                      onChange={(e) => setTemplateName(e.target.value)}
                     />
                   </div>
                   
@@ -340,7 +409,7 @@ const AdminContracts = () => {
                     <label htmlFor="templateType" className="block text-sm font-medium mb-1">
                       Contract Type
                     </label>
-                    <Select>
+                    <Select value={templateType} onValueChange={setTemplateType}>
                       <SelectTrigger className="w-full border-gray-200">
                         <SelectValue placeholder="Select contract type" />
                       </SelectTrigger>
@@ -359,7 +428,7 @@ const AdminContracts = () => {
                     <label htmlFor="language" className="block text-sm font-medium mb-1">
                       Language
                     </label>
-                    <Select>
+                    <Select value={templateLanguage} onValueChange={setTemplateLanguage}>
                       <SelectTrigger className="w-full border-gray-200">
                         <SelectValue placeholder="Select language" />
                       </SelectTrigger>
@@ -374,7 +443,7 @@ const AdminContracts = () => {
                     <label htmlFor="visibleTo" className="block text-sm font-medium mb-1">
                       Visible To
                     </label>
-                    <Select>
+                    <Select value={templateVisibility} onValueChange={setTemplateVisibility}>
                       <SelectTrigger className="w-full border-gray-200">
                         <SelectValue placeholder="Select visibility" />
                       </SelectTrigger>
@@ -395,6 +464,8 @@ const AdminContracts = () => {
                     id="content"
                     placeholder="Enter contract template content or click 'Generate with AI' to create content automatically"
                     className="h-64 border-gray-200"
+                    value={templateContent}
+                    onChange={(e) => setTemplateContent(e.target.value)}
                   />
                 </div>
                 
@@ -405,10 +476,14 @@ const AdminContracts = () => {
                   <Button 
                     variant="outline" 
                     className="border-gray-200 hover:bg-gray-50"
-                    onClick={handleAiGenerate}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      handleAiGenerate();
+                    }}
+                    disabled={isGenerating}
                   >
                     <Wand className="mr-2 h-4 w-4" />
-                    Generate with AI
+                    {isGenerating ? "Generating..." : "Generate with AI"}
                   </Button>
                 </div>
 
