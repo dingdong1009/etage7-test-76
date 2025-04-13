@@ -3,74 +3,52 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { PricingTable, PricingPlan } from "@/components/PricingTable";
-
 const Index = () => {
   const [scrolled, setScrolled] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
   const [showBuyerInfo, setShowBuyerInfo] = useState(false);
-
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({
+        behavior: 'smooth'
+      });
     }
   };
-
-  const pricingPlans: PricingPlan[] = [
-    {
-      name: "6-MONTH",
-      price: "₽ 170'000",
-      features: [
-        "6 months unlimited access",
-        "Unlimited product listing",
-        "Lookbook & Order features",
-        "Store-front",
-        "And many other features"
-      ],
-      buttonText: "Purchase Standard",
-      highlight: false
-    },
-    {
-      name: "12-MONTH",
-      price: "₽ 280'000",
-      features: [
-        "12 months unlimited access",
-        "Unlimited product listing",
-        "Lookbook & Order features",
-        "Store-front",
-        "And many other features"
-      ],
-      buttonText: "Purchase Premium", 
-      highlight: true
-    }
-  ];
-
+  const pricingPlans: PricingPlan[] = [{
+    name: "6-MONTH",
+    price: "₽ 170'000",
+    features: ["6 months unlimited access", "Unlimited product listing", "Lookbook & Order features", "Store-front", "And many other features"],
+    buttonText: "Purchase Standard",
+    highlight: false
+  }, {
+    name: "12-MONTH",
+    price: "₽ 280'000",
+    features: ["12 months unlimited access", "Unlimited product listing", "Lookbook & Order features", "Store-front", "And many other features"],
+    buttonText: "Purchase Premium",
+    highlight: true
+  }];
   const togglePricing = () => {
     setShowPricing(!showPricing);
   };
-
   const toggleBuyerInfo = () => {
     setShowBuyerInfo(!showBuyerInfo);
   };
-
-  return (
-    <div className="w-full">
+  return <div className="w-full">
       {/* Hero Section */}
       <section id="hero" className="relative h-screen bg-black text-white flex items-center">
         <div className="container-lg">
           <div className="max-w-3xl">
           <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase">For Brands</p>
             <h1 className="text-4xl uppercase md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
-            Celebrate<br/>
+            Celebrate<br />
               <span className="font-normal">craftmanship's most meaningful alliances</span>
             </h1>
             <p className="text-lg md:text-xl font-light text-gray-300 mb-12 max-w-2xl">
@@ -80,13 +58,7 @@ const Index = () => {
         </div>
         
         {/* Scroll indicator */}
-        <button 
-          onClick={() => scrollToSection('brand')}
-          className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${
-            scrolled ? 'opacity-0' : 'opacity-100'
-          }`}
-          aria-label="Scroll to learn more"
-        >
+        <button onClick={() => scrollToSection('brand')} className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${scrolled ? 'opacity-0' : 'opacity-100'}`} aria-label="Scroll to learn more">
           <span className="text-sm mb-2 text-grey animate-bounce">For Brands</span> 
           <ChevronDown size={24} className="animate-bounce" />
         </button>
@@ -98,36 +70,27 @@ const Index = () => {
         <div className="container-lg">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl uppercase lg:text-7xl font-light tracking-tighter mb-6">
-             Brands: Celebrate<br/>
+             Brands: Celebrate<br />
               <span className="font-normal uppercase">your uniqueness & opportunities</span>
             </h1>
             
             {/* Brand description text - visible only when pricing is not shown */}
-            {!showPricing && (
-              <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">
+            {!showPricing && <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">
                 Your designs are more than collections—they are chapters of a story waiting to be shared. At ETAGE7, we celebrate your creativity by providing you essential tools that empowers your products finding their places in the heart of those who value your craftmanship.
-              </p>
-            )}
+              </p>}
             
             {/* Pricing section */}
             <div className="mb-12">
-              <button 
-                onClick={togglePricing} 
-                className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none"
-              >
+              <button onClick={togglePricing} className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none">
                 Discover Pricing {showPricing ? '-' : '+'} 
                 <ChevronRight className={`ml-2 h-5 w-5 transform transition-transform duration-300 ${showPricing ? 'rotate-90' : ''}`} />
               </button>
               
-              {showPricing && (
-                <div className="mt-8 animate-fade-in">
+              {showPricing && <div className="mt-8 animate-fade-in">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl">
-                    {pricingPlans.map((plan, index) => (
-                      <PricingTable key={index} plan={plan} />
-                    ))}
+                    {pricingPlans.map((plan, index) => <PricingTable key={index} plan={plan} />)}
                   </div>
-                </div>
-              )}
+                </div>}
             </div>
             
             {/* Removed the "JOIN AS A BRAND" button */}
@@ -135,13 +98,7 @@ const Index = () => {
         </div>
         
         {/* Scroll indicator */}
-        <button 
-          onClick={() => scrollToSection('buyer')}
-          className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${
-            scrolled ? 'opacity-100' : 'opacity-0'
-          }`}
-          aria-label="Scroll to learn more"
-        >
+        <button onClick={() => scrollToSection('buyer')} className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${scrolled ? 'opacity-100' : 'opacity-0'}`} aria-label="Scroll to learn more">
           <span className="text-sm mb-2 text-black animate-bounce">For Buyers</span>
           <ChevronDown size={24} className="text-black animate-bounce" />
         </button> 
@@ -153,41 +110,26 @@ const Index = () => {
           <div className="max-w-3xl">
           <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase">For Buyers</p>
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
-              CONNECTING<br/>
+              CONNECTING<br />
               <span className="font-normal">FASHION BRANDS & BUYERS</span>
             </h1>
             
             {/* Buyer description text - visible only when buyer info is not shown */}
-            {!showBuyerInfo && (
-              <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">
-                ETAGE7 – это премиальный цифровой маркетплейс, который объединяет премиум бренды с профессиональными байерами и владельцами мультибрендов, меняя традиционные подходы к оптовым закупкам.
-              </p>
-            )}
+            {!showBuyerInfo && <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">As a tastemaker, you seek the exceptional—designs that captivate and inspire. ETAGE7 is your gateway to a curated world of fashion’s finest, where every brand is chosen for its story and soul. Explore collections with intuitive tools, connect effortlessly with creators, and build partnerships that redefine your offerings. From exclusive events to personalized recommendations, we empower you to discover the next iconic name in fashion with elegance and ease.</p>}
             
             {/* New buyer info - visible only when button is clicked */}
-            {showBuyerInfo && (
-              <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">
+            {showBuyerInfo && <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">
                 blablalblablal bal balbal bal b balbal balba lbal ba b
-              </p>
-            )}
+              </p>}
             
-            <Button 
-              onClick={toggleBuyerInfo} 
-              className="bg-white text-black border-0 hover:bg-gray-100 text-base py-6 px-8"
-            >
+            <Button onClick={toggleBuyerInfo} className="bg-white text-black border-0 hover:bg-gray-100 text-base py-6 px-8">
               JOIN AS A BUYER <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
             </Button>
           </div>
         </div> 
         
         {/* Scroll indicator */}
-        <button 
-          onClick={() => scrollToSection('platform')}
-          className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${
-            scrolled ? 'opacity-100' : 'opacity-0'
-          }`}
-          aria-label="Scroll to learn more"
-        >
+        <button onClick={() => scrollToSection('platform')} className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${scrolled ? 'opacity-100' : 'opacity-0'}`} aria-label="Scroll to learn more">
           <span className="text-sm mb-2 text-black animate-bounce">The Platform</span>
           <ChevronDown size={24} className="text-black animate-bounce" />
         </button> 
@@ -200,7 +142,7 @@ const Index = () => {
           <div className="max-w-3xl">
           <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase">The Platform</p>
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
-              CONNECTING<br/>
+              CONNECTING<br />
               <span className="font-normal">FASHION BRANDS & BUYERS</span>
             </h1>
             <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
@@ -210,13 +152,7 @@ const Index = () => {
         </div> 
         
         {/* Scroll indicator */}
-        <button 
-          onClick={() => scrollToSection('services')}
-          className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${
-            scrolled ? 'opacity-100' : 'opacity-0'
-          }`}
-          aria-label="Scroll to learn more"
-        >
+        <button onClick={() => scrollToSection('services')} className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${scrolled ? 'opacity-100' : 'opacity-0'}`} aria-label="Scroll to learn more">
           <span className="text-sm mb-2 text-black animate-bounce">Consulting Services</span>
           <ChevronDown size={24} className="text-black animate-bounce" /> 
         </button> 
@@ -229,7 +165,7 @@ const Index = () => {
           <div className="max-w-3xl">
           <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase">Consulting Services</p>
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
-              CONNECTING<br/>
+              CONNECTING<br />
               <span className="font-normal">FASHION BRANDS & BUYERS</span> 
             </h1>
             <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
@@ -239,13 +175,7 @@ const Index = () => {
         </div> 
         
         {/* Scroll indicator */}
-        <button 
-          onClick={() => scrollToSection('hero')}
-          className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${
-            scrolled ? 'opacity-100' : 'opacity-0'
-          }`}
-          aria-label="Scroll to learn more"
-        >
+        <button onClick={() => scrollToSection('hero')} className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${scrolled ? 'opacity-100' : 'opacity-0'}`} aria-label="Scroll to learn more">
           <span className="text-sm mb-2 text-black animate-bounce">Navigate Back Up</span>
           <ChevronUp size={24} className="text-black animate-bounce" />
         </button> 
@@ -395,8 +325,6 @@ const Index = () => {
           </div>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
