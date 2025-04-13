@@ -122,8 +122,8 @@ const AdminHeader = () => {
                     <TooltipTrigger asChild>
                       <Link
                         to={item.path}
-                        className={`text-sm font-light transition-all relative group ${
-                          isActive(item.path) ? "text-black" : "text-gray-500 hover:text-black"
+                        className={`text-xs font-light transition-all relative group ${
+                          isActive(item.path) ? "text-white" : "text-gray-500 hover:text-white"
                         }`}
                       >
                         {item.name.toUpperCase()}
