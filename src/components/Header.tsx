@@ -42,12 +42,12 @@ const Header = () => {
 
   const mainNavItems = [
     { name: "HOME", path: "/" },
-    { name: "BRANDS", path: "/brands" },
-    { name: "BUYERS", path: "/buyers" },
-    { name: "SERVICES", path: "/services" },
+    { name: "BRANDS", path: "brand" },
+    { name: "BUYERS", path: "buyer" },
+    { name: "SERVICES", path: "services" },
     { name: "EVENTS", path: "/events" },
-    { name: "RESOURCES", path: "/resources" },
     { name: "CURATED", path: "/curated" },
+    { name: "RESOURCES", path: "/resources" },
   ];
 
   const secondaryNavItems = [
