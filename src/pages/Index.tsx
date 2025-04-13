@@ -26,27 +26,27 @@ const Index = () => {
 
   const pricingPlans: PricingPlan[] = [
     {
-      name: "Standard",
-      price: "€299",
+      name: "6-MONTH",
+      price: "₽ 170'000",
       features: [
-        "Brand profile page",
-        "Up to 100 product listings",
-        "Basic analytics dashboard",
-        "Email support",
-        "Standard visibility in search"
+        "6 months unlimited access",
+        "Unlimited product listing",
+        "Lookbook & Order features",
+        "Store-front",
+        "And many other features"
       ],
       buttonText: "Purchase Standard",
       highlight: false
     },
     {
-      name: "Premium",
-      price: "€499",
+      name: "12-MONTH",
+      price: "₽ 280'000",
       features: [
-        "Enhanced brand profile with media gallery",
-        "Unlimited product listings",
-        "Advanced analytics and market insights",
-        "Priority customer support",
-        "Featured placement in buyer recommendations"
+        "12 months unlimited access",
+        "Unlimited product listing",
+        "Lookbook & Order features",
+        "Store-front",
+        "And many other features"
       ],
       buttonText: "Purchase Premium",
       highlight: true
