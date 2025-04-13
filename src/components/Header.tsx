@@ -122,7 +122,7 @@ const Header = () => {
           </div>
         </div>
       </div> 
-
+ 
       {/* Search overlay */}
       {isSearchOpen && (
         <div className="absolute top-16 left-0 right-0 bg-white border-t border-gray-100 p-4">
