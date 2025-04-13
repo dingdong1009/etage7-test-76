@@ -111,7 +111,7 @@ const AdminHeader = () => {
       </div>
       
       {/* Desktop Navigation - Below the header bar */}
-      <nav className="hidden  md:block border-b border-t text-black border-gray-100">
+      <nav className="hidden  md:block border-b border-t bg-white text-black border-gray-100">
         <div className="max-w-[1481px] mx-auto w-full px-8 py-2">
           <ul className="flex space-x-8">
             {menuItems.map((item) => (
