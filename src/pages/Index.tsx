@@ -36,7 +36,7 @@ const Index = () => {
             <p className="text-lg md:text-xl font-light text-gray-300 mb-12 max-w-2xl">
             ETAGE7 was born from a passion for the stories and dreams woven into every design, where creativity meets opportunity. We celebrate artistry and craftmanship, and every collaboration could become your next masterpiece.
             </p> 
-          </div>
+          </div> 
         </div>
         
         {/* Scroll indicator */}
