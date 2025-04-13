@@ -65,11 +65,13 @@ const AdminHeader = () => {
   };
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-medium ${
-      isScrolled ? "bg-white border-b border-gray-100" : "bg-white"
-    }`}>
-      <div className="container-lg h-16 border-b flex items-center justify-between">
-        <div className="flex items-center space-x-6">
+    <header 
+      className={`fixed top-0 left-0 right-0 z-50 transition-medium ${
+        isScrolled ? "bg-white border-b border-gray-100" : "bg-white"
+      }`}
+    >
+      <div className="container-lg h-16 flex items-center justify-between">
+       <div className="flex items-center space-x-6">
           {/* Mobile menu button */}
           <button 
             className="lg:hidden text-black focus:outline-none"
@@ -112,30 +114,6 @@ const AdminHeader = () => {
           </Link>
         </div>
       </div>
-      
-      {/* Search overlay */}
-      {isSearchOpen && (
-        <div className="absolute top-16 left-0 right-0 bg-white border-t border-gray-100 p-4">
-          <div className="container-lg">
-            <form className="flex items-center">
-              <Search size={16} strokeWidth={1} className="text-gray-500 mr-2" />
-              <input
-                type="text"
-                placeholder="Search..."
-                className="w-full p-2 focus:outline-none text-lg bg-transparent font-light"
-                autoFocus
-              />
-              <button 
-                type="button" 
-                onClick={toggleSearch}
-                className="text-gray-500 hover:text-black"
-              >
-                <X size={16} strokeWidth={1} />
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
       
       {/* Desktop Navigation - Below the header bar */}
       <nav className="hidden md:block bg-white">
