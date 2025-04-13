@@ -47,7 +47,7 @@ const Index = () => {
           }`}
           aria-label="Scroll to learn more"
         >
-          <span className="text-sm mb-2 text-grey animate-bounce">Learn More As A Brand</span> 
+          <span className="text-sm mb-2 text-grey animate-bounce">For Brands</span> 
           <ChevronDown size={24} className="animate-bounce" />
         </button>
       </section>
@@ -75,7 +75,7 @@ const Index = () => {
           }`}
           aria-label="Scroll to learn more"
         >
-          <span className="text-sm mb-2 text-black animate-bounce">Learn More As A Buyer</span>
+          <span className="text-sm mb-2 text-black animate-bounce">For Buyers</span>
           <ChevronDown size={24} className="text-black animate-bounce" />
         </button> 
       </section>
@@ -102,7 +102,7 @@ const Index = () => {
           }`}
           aria-label="Scroll to learn more"
         >
-          <span className="text-sm mb-2 text-black animate-bounce">Learn More About The Platform</span>
+          <span className="text-sm mb-2 text-black animate-bounce">The Platform</span>
           <ChevronDown size={24} className="text-black animate-bounce" />
         </button> 
       </section>
