@@ -157,7 +157,7 @@ const BrandProducts = () => {
           </Button>
           </div>
         </div>
-        </TabsContent>
+        </TabsContent> 
         <TabsContent value="list" className="space-y-6">
           <ProductList 
             products={filteredProducts}
