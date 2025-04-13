@@ -108,7 +108,7 @@ const BrandHeader = () => {
           </TooltipProvider>
           
           <Link to="/" className="text-gray-600 hover:text-white text-xs font-normal">
-            BACK TO SITE
+            BACK TO SITE 
           </Link>
           <span className="text-gray-400 font-light">|</span>
           <span className="text-gray-600 text-xs text-white font-light">BRAND</span>
