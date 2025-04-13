@@ -53,7 +53,7 @@ const Index = () => {
       </section>
 
       {/* Brands Section */}
-      <section id="brand" className="relative h-screen bg-white text-black flex items-center">
+      <section id="brand" className="relative h-screen bg-grey text-black flex items-center">
         <div className="container-lg">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
@@ -69,12 +69,12 @@ const Index = () => {
         {/* Scroll indicator */}
         <button 
           onClick={() => scrollToSection('buyer')}
-          className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity text-black duration-500 ${
+          className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 ${
             scrolled ? 'opacity-0' : 'opacity-100'
           }`}
           aria-label="Scroll to learn more"
         >
-          <span className="text-sm mb-2 animate-bounce">Learn more as a Buyer</span>          
+          <span className="text-sm mb-2 text-black animate-bounce">Learn more as a Buyer</span>          
           <ChevronDown size={24} className="animate-bounce" />
         </button>
       </section>
