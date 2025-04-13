@@ -26,29 +26,29 @@ const Index = () => {
 
   const pricingPlans: PricingPlan[] = [
     {
-      name: "6-MONTH",
-      price: "₽ 170'000",
+      name: "Standard",
+      price: "€299",
       features: [
-        "6 months unlimited access",
-        "Unlimited product listing",
-        "Lookbook & Order features",
-        "Store-front",
-        "And many other features"
+        "Brand profile page",
+        "Up to 100 product listings",
+        "Basic analytics dashboard",
+        "Email support",
+        "Standard visibility in search"
       ],
       buttonText: "Purchase Standard",
       highlight: false
     },
     {
-      name: "12-MONTH",
-      price: "₽ 280'000",
+      name: "Premium",
+      price: "€499",
       features: [
-        "12 months unlimited access",
-        "Unlimited product listing",
-        "Lookbook & Order features",
-        "Store-front",
-        "And many other features"
+        "Enhanced brand profile with media gallery",
+        "Unlimited product listings",
+        "Advanced analytics and market insights",
+        "Priority customer support",
+        "Featured placement in buyer recommendations"
       ],
-      buttonText: "Purchase Premium", 
+      buttonText: "Purchase Premium",
       highlight: true
     }
   ];
@@ -91,17 +91,14 @@ const Index = () => {
       <section id="brand" className="relative h-screen bg-white text-black flex items-center">
         <div className="container-lg">
           <div className="max-w-3xl">
+            <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase">For Brands</p>
             <h1 className="text-4xl md:text-5xl uppercase lg:text-7xl font-light tracking-tighter mb-6">
-             Brands: Celebrate<br/>
-              <span className="font-normal uppercase">your uniqueness & opportunities</span>
+              Celebrate<br/>
+              <span className="font-normal uppercase">uniqueness & opportunities</span>
             </h1>
-            
-            {/* Brand description text - visible only when pricing is not shown */}
-            {!showPricing && (
-              <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">
-                Your designs are more than collections—they are chapters of a story waiting to be shared. At ETAGE7, we celebrate your creativity by providing you essential tools that empowers your products finding their places in the heart of those who value your craftmanship.
-              </p>
-            )}
+            <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
+            Your designs are more than collections—they are chapters of a story waiting to be shared. At ETAGE7, we celebrate your creativity by providing you essential tools that empowers your products finding their places in the heart of those who value your craftmanship.
+            </p>
             
             {/* Pricing section */}
             <div className="mb-12">
@@ -109,7 +106,7 @@ const Index = () => {
                 onClick={togglePricing} 
                 className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none"
               >
-                Discover Pricing {showPricing ? '-' : '+'} 
+                Discover Pricing + 
                 <ChevronRight className={`ml-2 h-5 w-5 transform transition-transform duration-300 ${showPricing ? 'rotate-90' : ''}`} />
               </button>
               
@@ -124,7 +121,9 @@ const Index = () => {
               )}
             </div>
             
-            {/* Removed the "JOIN AS A BRAND" button */}
+            <Button className="bg-white text-black border-0 hover:bg-gray-100 text-base py-6 px-8">
+              JOIN AS A BRAND <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} /> 
+            </Button> 
           </div>
         </div>
         
