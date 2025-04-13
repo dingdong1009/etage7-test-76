@@ -105,7 +105,7 @@ const Index = () => {
             </h1>
               <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">
                 Your designs are more than collections—they are chapters of a story waiting to be shared. At ETAGE7, we celebrate your creativity by providing you essential tools that empowers your products finding their places in the heart of those who value your craftmanship.
-              </p>
+              </p> 
             )}
             
             {/* Pricing section */}
