@@ -449,22 +449,22 @@ const SalesUsers = () => {
       
       <Tabs defaultValue="brand" className="w-full" onValueChange={(value) => setActiveTab(value as UserType)}>
         <div className="border-b border-gray-200 mb-6">
-          <TabsList className="flex h-11 mb-0 space-x-2 w-full max-w-md bg-transparent">
+          <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
             <TabsTrigger 
               value="brand" 
-              className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none rounded-none border-b-2 border-transparent px-6 font-light h-11 text-xs uppercase transition-fast"
+              className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
             >
               Managed Brands
             </TabsTrigger>
             <TabsTrigger 
               value="buyer" 
-              className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none rounded-none border-b-2 border-transparent px-6 font-light h-11 text-xs uppercase transition-fast"
+              className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
             >
               Managed Buyers
             </TabsTrigger>
             <TabsTrigger 
               value="salesManager" 
-              className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none rounded-none border-b-2 border-transparent px-6 font-light h-11 text-xs uppercase transition-fast"
+              className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
             >
               Sales Managers
             </TabsTrigger>
