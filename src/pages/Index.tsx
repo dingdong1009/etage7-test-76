@@ -41,7 +41,7 @@ const Index = () => {
         
         {/* Scroll indicator */}
         <button 
-          onClick={() => scrollToSection('platform')}
+          onClick={() => scrollToSection('brand')}
           className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 ${
             scrolled ? 'opacity-0' : 'opacity-100'
           }`}
@@ -50,6 +50,34 @@ const Index = () => {
           <ChevronDown size={24} className="animate-bounce" />
         </button>
       </section>
+
+
+      {/* Brands Section */}
+      <section id="brand" className="relative h-screen bg-white text-black flex items-center">
+        <div className="container-lg">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
+              CONNECTING<br/>
+              <span className="font-normal">FASHION BRANDS & BUYERS</span>
+            </h1>
+            <p className="text-lg md:text-xl font-light text-gray-300 mb-12 max-w-2xl">
+            ETAGE7 – это премиальный цифровой маркетплейс, который объединяет премиум бренды с профессиональными байерами и владельцами мультибрендов, меняя традиционные подходы к оптовым закупкам.
+            </p>
+          </div>
+        </div>
+        
+        {/* Scroll indicator */}
+        <button 
+          onClick={() => scrollToSection('buyer')}
+          className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 ${
+            scrolled ? 'opacity-0' : 'opacity-100'
+          }`}
+          aria-label="Scroll to learn more"
+        >
+          <ChevronDown size={24} className="animate-bounce" />
+        </button>
+      </section>
+
 
       {/* Platform Overview */}
       <section id="platform" className="py-24 md:py-32 bg-white">
