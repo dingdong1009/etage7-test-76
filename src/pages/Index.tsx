@@ -91,10 +91,9 @@ const Index = () => {
       <section id="brand" className="relative h-screen bg-white text-black flex items-center">
         <div className="container-lg">
           <div className="max-w-3xl">
-            <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase">For Brands</p>
             <h1 className="text-4xl md:text-5xl uppercase lg:text-7xl font-light tracking-tighter mb-6">
-              Celebrate<br/>
-              <span className="font-normal uppercase">uniqueness & opportunities</span>
+             Brands: Celebrate<br/>
+              <span className="font-normal uppercase">your uniqueness & opportunities</span>
             </h1>
             
             {/* Brand description text - visible only when pricing is not shown */}
