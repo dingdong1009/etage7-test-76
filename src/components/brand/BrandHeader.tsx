@@ -111,7 +111,7 @@ const BrandHeader = () => {
             BACK TO SITE
           </Link>
           <span className="text-gray-400 font-light">|</span>
-          <span className="text-gray-600 text-xs text-white font-light">ADMIN</span>
+          <span className="text-gray-600 text-xs text-white font-light">BRAND</span>
         </div>
       </div>
       
@@ -172,7 +172,7 @@ const BrandHeader = () => {
                 className="block py-3 px-4 text-gray-600 font-light"
                 onClick={() => setIsMenuOpen(false)}
               >
-                BACK TO SITE
+                BACK TO SITE 
               </Link>
             </li>
           </ul>
