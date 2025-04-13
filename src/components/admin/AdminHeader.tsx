@@ -173,7 +173,7 @@ const AdminHeader = () => {
               </li>
             ))}
           </ul>
-        </nav>
+        </nav> 
       
       {/* Mobile Menu - Full overlay */}
       {isMenuOpen && (
