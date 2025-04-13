@@ -1,20 +1,14 @@
-
-import { useState } from "react";
+import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { 
-  FileText, Youtube, Book, Download, ExternalLink, Play, Search, 
-  Plus, Edit, Eye, ToggleLeft, ToggleRight, Filter, ArrowUpDown 
-} from "lucide-react";
+import { FileText, Youtube, Book, Download, ExternalLink, Play, Search, Filter } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Table, TableBody, TableCell, TableHead, TableHeader, TableRow 
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
 
-const AdminResources = () => {
+const Resources = () => {
   // State for dialogs and filtering
   const [isViewDialogOpen, setIsViewDialogOpen] = useState(false);
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false);
@@ -142,86 +136,12 @@ const AdminResources = () => {
     <div className="space-y-6">
       {/* Page header */}
       <div>
-        <h1 className="text-2xl font-medium mb-2">Resources Management</h1>
+        <h1 className="text-2xl font-medium mb-2">Resources</h1>
         <p className="text-muted-foreground text-sm">
-          Manage the resources that are available to brands and buyers.
+          Manage and organize brand resources, guides, and educational materials.
         </p>
       </div>
 
-      {/* Search and actions bar */}
-      <div className="flex flex-col sm:flex-row justify-between gap-4 items-start sm:items-center pb-4 border-b border-gray-200">
-        <div className="flex items-center gap-2 w-full sm:w-auto">
-          <div className="relative w-full sm:w-[300px]">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-            <Input 
-              type="text"
-              placeholder="Search resources..."
-              className="pl-10 border-gray-200 w-full"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-          <Button 
-            variant="outline" 
-            size="icon" 
-            className="border-gray-200"
-            onClick={() => setFilterVisible(!filterVisible)}
-          >
-            <Filter className="h-4 w-4" />
-          </Button>
-        </div>
-
-        <div className="flex items-center gap-2 w-full sm:w-auto justify-end">
-          <Button 
-            className="bg-black text-white hover:bg-gray-800"
-            onClick={() => setIsAddDialogOpen(true)}
-          >
-            <Plus className="mr-2 h-4 w-4" /> Add New Resource
-          </Button>
-        </div>
-      </div>
-      
-      {/* Filters panel - conditionally rendered */}
-      {filterVisible && (
-        <Card className="border-gray-200 mb-6">
-          <CardContent className="p-4">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div>
-                <label className="text-sm font-medium mb-1 block">Resource Type</label>
-                <select className="w-full p-2 border rounded-md border-gray-200">
-                  <option value="all">All Types</option>
-                  <option value="pdf">Documents</option>
-                  <option value="video">Videos</option>
-                  <option value="external">External</option>
-                </select>
-              </div>
-              <div>
-                <label className="text-sm font-medium mb-1 block">Category</label>
-                <select className="w-full p-2 border rounded-md border-gray-200">
-                  <option value="all">All Categories</option>
-                  <option value="guide">Guides</option>
-                  <option value="tutorial">Tutorials</option>
-                  <option value="toolkit">Toolkits</option>
-                </select>
-              </div>
-              <div>
-                <label className="text-sm font-medium mb-1 block">Status</label>
-                <select className="w-full p-2 border rounded-md border-gray-200">
-                  <option value="all">All Status</option>
-                  <option value="active">Active</option>
-                  <option value="inactive">Inactive</option>
-                </select>
-              </div>
-            </div>
-            <div className="flex justify-end mt-4">
-              <Button variant="outline" className="border-gray-200 mr-2">Clear</Button>
-              <Button className="bg-black text-white hover:bg-gray-800">Apply Filters</Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-      
-      {/* Main content */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="bg-transparent border-b border-gray-200 rounded-none w-full flex justify-start overflow-x-auto pb-0">
           <TabsTrigger 
@@ -255,9 +175,70 @@ const AdminResources = () => {
             Resource Requests
           </TabsTrigger>
         </TabsList>
+
+        <div className="flex flex-col sm:flex-row justify-between gap-4 items-start sm:items-center pb-4 border-b border-gray-200 mt-4">
+          <div className="flex items-center gap-2 w-full sm:w-auto">
+            <div className="relative w-full sm:w-[300px]">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input 
+                type="text"
+                placeholder="Search resources..."
+                className="pl-10 border-gray-200 w-full"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <Button 
+              variant="outline" 
+              size="icon" 
+              className="border-gray-200"
+              onClick={() => setFilterVisible(!filterVisible)}
+            >
+              <Filter className="h-4 w-4" />
+            </Button>
+          </div>
+        </div>
+        
+        {filterVisible && (
+          <Card className="border-gray-200 mb-6">
+            <CardContent className="p-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="text-sm font-medium mb-1 block">Resource Type</label>
+                  <select className="w-full p-2 border rounded-md border-gray-200">
+                    <option value="all">All Types</option>
+                    <option value="pdf">Documents</option>
+                    <option value="video">Videos</option>
+                    <option value="external">External</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-sm font-medium mb-1 block">Category</label>
+                  <select className="w-full p-2 border rounded-md border-gray-200">
+                    <option value="all">All Categories</option>
+                    <option value="guide">Guides</option>
+                    <option value="tutorial">Tutorials</option>
+                    <option value="toolkit">Toolkits</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-sm font-medium mb-1 block">Status</label>
+                  <select className="w-full p-2 border rounded-md border-gray-200">
+                    <option value="all">All Status</option>
+                    <option value="active">Active</option>
+                    <option value="inactive">Inactive</option>
+                  </select>
+                </div>
+              </div>
+              <div className="flex justify-end mt-4">
+                <Button variant="outline" className="border-gray-200 mr-2">Clear</Button>
+                <Button className="bg-black text-white hover:bg-gray-800">Apply Filters</Button>
+              </div>
+            </CardContent>
+          </Card>
+        )}
         
         <TabsContent value="all" className="mt-6 space-y-6">
-          {/* Documents Section */}
           <Card className="border-gray-200">
             <CardHeader className="border-b border-gray-100 pb-3">
               <CardTitle className="text-lg font-medium flex items-center gap-2">
@@ -326,7 +307,6 @@ const AdminResources = () => {
             </CardContent>
           </Card>
           
-          {/* Videos Section */}
           <Card className="border-gray-200">
             <CardHeader className="border-b border-gray-100 pb-3">
               <CardTitle className="text-lg font-medium flex items-center gap-2">
@@ -394,7 +374,6 @@ const AdminResources = () => {
             </CardContent>
           </Card>
           
-          {/* External Resources Section */}
           <Card className="border-gray-200">
             <CardHeader className="border-b border-gray-100 pb-3">
               <CardTitle className="text-lg font-medium flex items-center gap-2">
@@ -746,7 +725,6 @@ const AdminResources = () => {
         </TabsContent>
       </Tabs>
       
-      {/* Add Resource Dialog */}
       <Dialog open={isAddDialogOpen} onOpenChange={setIsAddDialogOpen}>
         <DialogContent className="sm:max-w-[625px]">
           <DialogHeader>
@@ -836,7 +814,6 @@ const AdminResources = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Edit Resource Dialog */}
       <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
         <DialogContent className="sm:max-w-[625px]">
           <DialogHeader>
@@ -949,7 +926,6 @@ const AdminResources = () => {
         </DialogContent>
       </Dialog>
 
-      {/* View Resource Dialog */}
       <Dialog open={isViewDialogOpen} onOpenChange={setIsViewDialogOpen}>
         <DialogContent className="sm:max-w-[725px] max-h-[80vh]">
           <DialogHeader>
@@ -1117,4 +1093,4 @@ const AdminResources = () => {
   );
 };
 
-export default AdminResources;
+export default Resources;
