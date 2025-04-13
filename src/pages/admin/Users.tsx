@@ -448,7 +448,7 @@ const SalesUsers = () => {
       <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">USER MANAGEMENT</h1>
       
       <Tabs defaultValue="brand" className="w-full" onValueChange={(value) => setActiveTab(value as UserType)}>
-        <div className="border-b border-gray-200 mb-6">
+        <div className="border-t border-gray-200 mb-6">
           <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
             <TabsTrigger 
               value="brand" 
