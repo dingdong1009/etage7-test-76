@@ -90,19 +90,14 @@ const Index = () => {
       {/* Brands Section */}
       <section id="brand" className="relative h-screen bg-white text-black flex items-center">
         <div className="container-lg">
-      
-      
-      {/* Brand description text - visible only when pricing is not shown */}
-
-        
           <div className="max-w-3xl">
-          <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase">For Brands</p>
-          {!showPricing && 
-        (
             <h1 className="text-4xl md:text-5xl uppercase lg:text-7xl font-light tracking-tighter mb-6">
-             Celebrate<br/>
+             Brands: Celebrate<br/>
               <span className="font-normal uppercase">your uniqueness & opportunities</span>
             </h1>
+            
+            {/* Brand description text - visible only when pricing is not shown */}
+            {!showPricing && (
               <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">
                 Your designs are more than collections—they are chapters of a story waiting to be shared. At ETAGE7, we celebrate your creativity by providing you essential tools that empowers your products finding their places in the heart of those who value your craftmanship.
               </p>
@@ -114,7 +109,7 @@ const Index = () => {
                 onClick={togglePricing} 
                 className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none"
               >
-                Discover Pricing
+                Discover Pricing {showPricing ? '-' : '+'} 
                 <ChevronRight className={`ml-2 h-5 w-5 transform transition-transform duration-300 ${showPricing ? 'rotate-90' : ''}`} />
               </button>
               
@@ -128,6 +123,8 @@ const Index = () => {
                 </div>
               )}
             </div>
+            
+            {/* Removed the "JOIN AS A BRAND" button */}
           </div>
         </div>
         
