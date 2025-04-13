@@ -1,6 +1,7 @@
+
 import React, { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { FileText, Youtube, Book, Download, ExternalLink, Play, Search, Filter } from "lucide-react";
+import { FileText, Youtube, Book, Download, ExternalLink, Play, Search, Filter, ArrowUpDown, Eye, Edit, ToggleRight, ToggleLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
