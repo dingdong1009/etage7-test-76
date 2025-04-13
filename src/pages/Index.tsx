@@ -76,7 +76,7 @@ const Index = () => {
         >
           <span className="text-sm mb-2 text-black animate-bounce">Learn more as a Buyer</span>
           <ChevronDown size={24} className="text-black animate-bounce" />
-        </button>
+        </button> 
       </section>
 
 
