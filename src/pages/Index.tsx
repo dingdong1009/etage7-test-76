@@ -26,15 +26,15 @@ const Index = () => {
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative h-screen bg-black text-white flex items-center">
+      <section id="hero" className="relative h-screen bg-black text-white flex items-center">
         <div className="container-lg">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
-              CONNECTING<br/>
-              <span className="font-normal">FASHION BRANDS & BUYERS</span>
+            Nurturing<br/>
+              <span className="font-normal">design’s most meaningful alliances</span>
             </h1>
             <p className="text-lg md:text-xl font-light text-gray-300 mb-12 max-w-2xl">
-            ETAGE7 – это премиальный цифровой маркетплейс, который объединяет премиум бренды с профессиональными байерами и владельцами мультибрендов, меняя традиционные подходы к оптовым закупкам.
+            ETAGE7 was born from a passion for the stories and dreams woven into every design, where creativity meets opportunity. We celebrate artistry and craftmanship, and every collaboration could become your next masterpiece.
             </p>
           </div>
         </div>
@@ -51,6 +51,7 @@ const Index = () => {
           <ChevronDown size={24} className="animate-bounce" />
         </button>
       </section>
+
 
       {/* Brands Section */}
       <section id="brand" className="relative h-screen bg-white text-black flex items-center">
@@ -79,9 +80,102 @@ const Index = () => {
         </button> 
       </section>
 
+      {/* Buyer Section */}
+      <section id="buyer" className="relative h-screen bg-white text-black flex items-center">
+        <div className="container-lg">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
+              CONNECTING<br/>
+              <span className="font-normal">FASHION BRANDS & BUYERS</span>
+            </h1>
+            <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
+            ETAGE7 – это премиальный цифровой маркетплейс, который объединяет премиум бренды с профессиональными байерами и владельцами мультибрендов, меняя традиционные подходы к оптовым закупкам.
+            </p>
+          </div>
+        </div> 
+        
+        {/* Scroll indicator */}
+        <button 
+          onClick={() => scrollToSection('platform')}
+          className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${
+            scrolled ? 'opacity-100' : 'opacity-0'
+          }`}
+          aria-label="Scroll to learn more"
+        >
+          <span className="text-sm mb-2 text-black animate-bounce">Learn more as a Buyer</span>
+          <ChevronDown size={24} className="text-black animate-bounce" />
+        </button> 
+      </section>
+
+
+            {/* Platform Section */}
+            <section id="platform" className="relative h-screen bg-white text-black flex items-center">
+        <div className="container-lg">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
+              CONNECTING<br/>
+              <span className="font-normal">FASHION BRANDS & BUYERS</span>
+            </h1>
+            <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
+            ETAGE7 – это премиальный цифровой маркетплейс, который объединяет премиум бренды с профессиональными байерами и владельцами мультибрендов, меняя традиционные подходы к оптовым закупкам.
+            </p>
+          </div>
+        </div> 
+        
+        {/* Scroll indicator */}
+        <button 
+          onClick={() => scrollToSection('services')}
+          className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${
+            scrolled ? 'opacity-100' : 'opacity-0'
+          }`}
+          aria-label="Scroll to learn more"
+        >
+          <span className="text-sm mb-2 text-black animate-bounce">Learn more as a Buyer</span>
+          <ChevronDown size={24} className="text-black animate-bounce" />
+        </button> 
+      </section>
+
+
+      {/* Additional services Section */}
+      <section id="services" className="relative h-screen bg-white text-black flex items-center">
+        <div className="container-lg">
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
+              CONNECTING<br/>
+              <span className="font-normal">FASHION BRANDS & BUYERS</span>
+            </h1>
+            <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
+            ETAGE7 – это премиальный цифровой маркетплейс, который объединяет премиум бренды с профессиональными байерами и владельцами мультибрендов, меняя традиционные подходы к оптовым закупкам.
+            </p>
+          </div>
+        </div> 
+        
+        {/* Scroll indicator */}
+        <button 
+          onClick={() => scrollToSection('hero')}
+          className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${
+            scrolled ? 'opacity-100' : 'opacity-0'
+          }`}
+          aria-label="Scroll to learn more"
+        >
+          <span className="text-sm mb-2 text-black animate-bounce">Learn more as a Buyer</span>
+          <ChevronUp size={24} className="text-black animate-bounce" />
+        </button> 
+      </section>
+
+
+
+
+
+
+
+
+
+
+
 
       {/* Platform Overview */}
-      <section id="buyer" className="py-24 md:py-32 bg-white">
+      <section id="kjsdhkjs" className="py-24 md:py-32 bg-white">
         <div className="container-lg">
           <div className="max-w-3xl mx-auto text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-light tracking-tighter mb-6">
