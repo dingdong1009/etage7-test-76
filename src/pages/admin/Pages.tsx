@@ -1,17 +1,17 @@
-
 import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Eye, Edit, Trash2, Search, PlusCircle, Calendar, MapPin, Clock, FileText } from "lucide-react";
+import { Eye, Edit, Trash2, Search, PlusCircle, Calendar, MapPin, Clock, FileText, Layout, Layers, PenSquare } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog";
 import EventsManagement from "./components/EventsManagement";
 import CuratedStoriesManagement from "./components/CuratedStoriesManagement";
+import { toast } from "sonner";
 
-// Mock data for demonstration purposes
 const events = [
   {
     id: 1,
@@ -113,11 +113,10 @@ const AdminPages = () => {
   const [statusFilter, setStatusFilter] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState("list");
+  const [pageEditorOpen, setPageEditorOpen] = useState(false);
   
-  // Available brands (in a real app, this would come from the database)
   const availableBrands = ["Brand One", "Brand Two", "Brand Three", "Brand Four", "Brand Five"];
   
-  // Filter events based on search query and status
   const filteredEvents = events
     .filter(event => statusFilter === "all" || event.status === statusFilter)
     .filter(event => 
@@ -126,7 +125,6 @@ const AdminPages = () => {
       event.location.toLowerCase().includes(searchQuery.toLowerCase())
     );
   
-  // Filter curated stories based on search query and status
   const filteredStories = curatedStories
     .filter(story => statusFilter === "all" || story.status === statusFilter)
     .filter(story => 
@@ -137,22 +135,26 @@ const AdminPages = () => {
   
   const handleViewItem = (type, id) => {
     console.log(`View ${type} with ID: ${id}`);
-    // Implementation for viewing items would go here
   };
 
   const handleEditItem = (type, id) => {
     console.log(`Edit ${type} with ID: ${id}`);
-    // Implementation for editing items would go here
   };
 
   const handleDeleteItem = (type, id) => {
     console.log(`Delete ${type} with ID: ${id}`);
-    // Implementation for deleting items would go here
   };
 
   const handleAddNewPage = () => {
     console.log("Add new page");
-    // Implementation for adding a new page would go here
+  };
+  
+  const launchPageEditor = () => {
+    console.log("Launching page editor");
+    setPageEditorOpen(true);
+    toast.success("Page editor launched successfully", {
+      description: "You can now edit your page content and design."
+    });
   };
   
   return (
@@ -508,9 +510,15 @@ const AdminPages = () => {
             </CardHeader>
             <CardContent className="p-6">
               <div className="text-center py-10">
+                <div className="flex justify-center mb-6">
+                  <div className="bg-gray-50 p-4 rounded-full">
+                    <PenSquare className="h-12 w-12 text-gray-700" strokeWidth={1.5} />
+                  </div>
+                </div>
                 <h3 className="text-xl font-light mb-4">Advanced Page Editor</h3>
-                <p className="text-gray-500 mb-6">Create and design new pages with a rich set of tools and customization options</p>
-                <Button className="bg-black hover:bg-gray-800 text-white">
+                <p className="text-gray-500 mb-6 max-w-lg mx-auto">Create and design new pages with a rich set of tools and customization options. Use our drag-and-drop builder to create visually stunning pages.</p>
+                <Button className="bg-black hover:bg-gray-800 text-white" onClick={launchPageEditor}>
+                  <Layout className="h-4 w-4 mr-2" strokeWidth={1.5} />
                   Launch Page Editor
                 </Button>
               </div>
@@ -518,6 +526,35 @@ const AdminPages = () => {
           </Card>
         </TabsContent>
       </Tabs>
+      
+      <Dialog open={pageEditorOpen} onOpenChange={setPageEditorOpen}>
+        <DialogContent className="max-w-5xl w-[90vw]">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-light">Advanced Page Editor</DialogTitle>
+            <DialogDescription>
+              Design and customize your page using our powerful editor.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="border rounded-md min-h-[60vh] flex flex-col items-center justify-center bg-gray-50/80">
+            <div className="bg-white p-8 rounded-md shadow-sm">
+              <Layers className="h-12 w-12 text-gray-500 mx-auto mb-4" strokeWidth={1} />
+              <h3 className="text-lg font-medium text-center mb-2">Page Editor</h3>
+              <p className="text-gray-500 text-center mb-6">The page editor is loading or being developed. This is a placeholder for the actual editor interface.</p>
+              <div className="flex justify-center gap-4">
+                <Button variant="outline" className="border-gray-200">Add Section</Button>
+                <Button variant="outline" className="border-gray-200">Add Element</Button>
+              </div>
+            </div>
+          </div>
+          <DialogFooter className="flex justify-between items-center">
+            <div>
+              <Button variant="outline" className="mr-2">Preview</Button>
+              <Button variant="outline" className="border-gray-300">Save Draft</Button>
+            </div>
+            <Button className="bg-black hover:bg-gray-800 text-white">Publish Page</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       
       <div className="mt-8 text-center">
         <h3 className="text-xl font-light mb-4">Need help managing your pages?</h3>
