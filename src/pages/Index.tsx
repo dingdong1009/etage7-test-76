@@ -173,7 +173,6 @@ const Index = () => {
 
 
 
-
       {/* Platform Overview */}
       <section id="kjsdhkjs" className="py-24 md:py-32 bg-white">
         <div className="container-lg">
