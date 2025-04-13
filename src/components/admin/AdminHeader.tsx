@@ -131,7 +131,7 @@ const AdminHeader = () => {
                             isActive(item.path) ? "w-full" : ""
                           }`}
                         ></span> 
-                      </Link>
+                      </Link> 
                     </TooltipTrigger>
                     <TooltipContent>
                       <p>{item.tooltip}</p>
