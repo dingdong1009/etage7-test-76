@@ -71,7 +71,7 @@ const AdminHeader = () => {
           <Link to="/" className="text-black text-2xl font-light uppercase tracking-wider">ETAGE7</Link>
           <span className="text-gray-400 font-light">|</span>
           <span className="text-gray-600 text-sm font-light">SALES</span>
-        </div>
+        </div> 
         
         {/* Mobile menu button */}
         <button
