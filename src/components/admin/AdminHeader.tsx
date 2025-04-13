@@ -69,7 +69,7 @@ const AdminHeader = () => {
       <div className="max-w-[1481px] mx-auto w-full px-6 flex justify-between items-center h-16">
        <div className="flex items-center gap-2">
           <Link to="/" className="text-white text-5xl font-medium uppercase">éTAGE7</Link>
-        </div>
+        </div> 
         
         {/* Mobile menu button */}
         <button
