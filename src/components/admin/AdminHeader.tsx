@@ -87,15 +87,6 @@ const AdminHeader = () => {
         
         {/* User options on desktop */}
         <div className="hidden md:flex items-center space-x-6">
-          {/* Language selector */}
-          <button 
-            onClick={toggleLanguage}
-            className="text-xs font-light uppercase hover:text-gray-600 transition-fast"
-            aria-label="Toggle language"
-          >
-            {language}
-          </button>
-          
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
