@@ -68,8 +68,8 @@ const AdminHeader = () => {
     <header className={`fixed top-0 left-0 right-0 z-50 transition-medium ${
       isScrolled ? "bg-white border-b border-gray-100" : "bg-white"
     }`}>
-      <div className="container-lg h-16 border-b flex items-center justify-between">
-        <div className="flex items-center space-x-6">
+      <div className="container-lg h-16 flex items-center justify-between">
+      <div className="flex items-center space-x-6">
           {/* Mobile menu button */}
           <button 
             className="lg:hidden text-black focus:outline-none"
@@ -87,15 +87,6 @@ const AdminHeader = () => {
         
         {/* User options on desktop */}
         <div className="hidden md:flex items-center space-x-6">
-          {/* Language selector */}
-          <button 
-            onClick={toggleLanguage}
-            className="text-xs font-light uppercase hover:text-gray-600 transition-fast"
-            aria-label="Toggle language"
-          >
-            {language}
-          </button>
-          
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>
@@ -115,7 +106,10 @@ const AdminHeader = () => {
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
-          
+           {/* Login icon */}
+           <Link to="/login" className="hover:text-gray-600 transition-fast hidden sm:block">
+              <User size={18} strokeWidth={1} />
+            </Link>
           <Link to="/" className="text-gray-600 hover:text-black text-xs uppercase font-light tracking-wide transition-colors">
             Back to Site
           </Link>
@@ -147,38 +141,39 @@ const AdminHeader = () => {
       )}
       
       {/* Desktop Navigation - Below the header bar */}
-      <nav className="hidden md:block bg-white">
-        <div className="max-w-[1481px] mx-auto px-4 py-2">
-          <ul className="flex space-x-8 overflow-x-auto">
-            {menuItems.map((item) => (
+      <nav className="hidden lg:block">
+          <ul className="flex space-x-8">
+            {mainNavItems.map((item) => (
               <li key={item.name}>
-                <TooltipProvider>
-                  <Tooltip>
-                    <TooltipTrigger asChild>
-                      <Link
-                        to={item.path}
-                        className={`text-xs font-light transition-all uppercase whitespace-nowrap relative group ${
-                          isActive(item.path) ? "text-black" : "text-gray-600 hover:text-black"
-                        }`}
-                      >
-                        {item.name}
-                        <span
-                          className={`absolute left-0 bottom-[-3px] w-0 h-[0.5px] bg-black transition-all duration-300 group-hover:w-full ${
-                            isActive(item.path) ? "w-full" : ""
-                          }`}
-                        ></span>
-                      </Link>
-                    </TooltipTrigger>
-                    <TooltipContent className="bg-white shadow-md">
-                      <p className="text-xs font-light">{item.tooltip}</p>
-                    </TooltipContent>
-                  </Tooltip>
-                </TooltipProvider>
+                {item.isSection ? (
+                  <button 
+                    onClick={() => navigateToSection(item.path)}
+                    className={`text-xs font-light uppercase relative group transition-fast ${
+                      activeSection === item.path ? 'after:absolute after:left-0 after:bottom-[-2px] after:w-full after:h-[0.5px] after:bg-black' : ''
+                    }`}
+                  >
+                    {item.name}
+                    <span className={`absolute left-0 bottom-[-2px] w-0 h-[0.5px] bg-black transition-all duration-300 ${
+                      activeSection === item.path ? 'w-full' : 'group-hover:w-full'
+                    }`}></span>
+                  </button>
+                ) : (
+                  <Link 
+                    to={item.path} 
+                    className={`text-xs font-light uppercase relative group transition-fast ${
+                      location.pathname === item.path ? 'after:absolute after:left-0 after:bottom-[-2px] after:w-full after:h-[0.5px] after:bg-black' : ''
+                    }`}
+                  >
+                    {item.name}
+                    <span className={`absolute left-0 bottom-[-2px] w-0 h-[0.5px] bg-black transition-all duration-300 ${
+                      location.pathname === item.path ? 'w-full' : 'group-hover:w-full'
+                    }`}></span>
+                  </Link>
+                )}
               </li>
             ))}
           </ul>
-        </div>
-      </nav>
+        </nav>
       
       {/* Mobile Menu - Full overlay */}
       {isMenuOpen && (
