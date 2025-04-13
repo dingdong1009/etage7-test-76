@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Search, User, ShoppingBag } from "lucide-react";
 
 const Header = () => {
@@ -8,6 +8,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [language, setLanguage] = useState("EN");
+  const location = useLocation();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -40,15 +41,32 @@ const Header = () => {
     setLanguage(language === "EN" ? "RU" : "EN");
   };
 
-  const mainNavItems = [
-    { name: "HOME", path: "/" },
-    { name: "BRANDS", path: "#brand" },
-    { name: "BUYERS", path: "#buyer" },
-    { name: "SERVICES", path: "#services" },
-    { name: "EVENTS", path: "/events" },
-    { name: "CURATED", path: "/curated" },
-    { name: "RESOURCES", path: "/resources" },
+  const scrollToSection = (id: string) => {
+    // Close mobile menu if it's open
+    if (isMenuOpen) {
+      setIsMenuOpen(false);
+    }
+    
+    // If we're already on the index page
+    if (location.pathname === '/') {
+      const element = document.getElementById(id);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      // If we're on a different page, navigate to index page with hash
+      window.location.href = `/#${id}`;
+    }
+  };
 
+  const mainNavItems = [
+    { name: "HOME", path: "/", action: null },
+    { name: "BRANDS", path: "#brand", action: () => scrollToSection("brand") },
+    { name: "BUYERS", path: "#buyer", action: () => scrollToSection("buyer") },
+    { name: "SERVICES", path: "#services", action: () => scrollToSection("services") },
+    { name: "EVENTS", path: "/events", action: null },
+    { name: "CURATED", path: "/curated", action: null },
+    { name: "RESOURCES", path: "/resources", action: null },
   ];
 
   const secondaryNavItems = [
@@ -83,13 +101,23 @@ const Header = () => {
           <ul className="flex space-x-8">
             {mainNavItems.map((item) => (
               <li key={item.name}>
-                <Link 
-                  to={item.path} 
-                  className="text-xs font-light uppercase relative group transition-fast"
-                >
-                  {item.name}
-                  <span className="absolute left-0 bottom-[-2px] w-0 h-[0.5px] bg-black transition-all duration-300 group-hover:w-full"></span>
-                </Link>
+                {item.action ? (
+                  <button
+                    onClick={item.action}
+                    className="text-xs font-light uppercase relative group transition-fast"
+                  >
+                    {item.name}
+                    <span className="absolute left-0 bottom-[-2px] w-0 h-[0.5px] bg-black transition-all duration-300 group-hover:w-full"></span>
+                  </button>
+                ) : (
+                  <Link 
+                    to={item.path} 
+                    className="text-xs font-light uppercase relative group transition-fast"
+                  >
+                    {item.name}
+                    <span className="absolute left-0 bottom-[-2px] w-0 h-[0.5px] bg-black transition-all duration-300 group-hover:w-full"></span>
+                  </Link>
+                )}
               </li>
             ))}
           </ul>
@@ -152,7 +180,27 @@ const Header = () => {
           <div className="container-lg p-6 flex flex-col h-full">
             <nav className="flex-grow">
               <ul className="space-y-8 pt-4">
-                {[...mainNavItems, ...secondaryNavItems].map((item) => (
+                {mainNavItems.map((item) => (
+                  <li key={item.name} className="py-2">
+                    {item.action ? (
+                      <button
+                        onClick={item.action}
+                        className="text-xl uppercase font-light tracking-tighter"
+                      >
+                        {item.name}
+                      </button>
+                    ) : (
+                      <Link 
+                        to={item.path} 
+                        className="text-xl uppercase font-light tracking-tighter"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        {item.name}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+                {secondaryNavItems.map((item) => (
                   <li key={item.name} className="py-2">
                     <Link 
                       to={item.path} 
@@ -163,7 +211,6 @@ const Header = () => {
                     </Link>
                   </li>
                 ))}
-
               </ul>
             </nav>
             <div className="pt-10 pb-4 mt-auto border-t border-gray-100">
