@@ -103,8 +103,7 @@ const Header = () => {
             <button 
               onClick={toggleLanguage}
               className="text-xs font-light uppercase hover:text-gray-600 transition-fast"
-              aria-label="Toggle language"
-            >
+              aria-label="Toggle language">
               {language}
             </button>
             {/* Search button */}
