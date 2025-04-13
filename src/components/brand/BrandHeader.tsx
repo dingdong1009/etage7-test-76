@@ -115,55 +115,31 @@ const BrandHeader = () => {
         </div>
       </div>
       
-      {/* Search overlay */}
-      {isSearchOpen && (
-        <div className="absolute top-16 left-0 right-0 bg-white border-t border-gray-100 p-4">
-          <div className="max-w-[1481px] mx-auto">
-            <form className="flex items-center">
-              <Search size={16} strokeWidth={1} className="text-gray-500 mr-2" />
-              <input
-                type="text"
-                placeholder="Search..."
-                className="w-full p-2 focus:outline-none text-lg bg-transparent font-light"
-                autoFocus
-              />
-              <button 
-                type="button" 
-                onClick={toggleSearch}
-                className="text-gray-500 hover:text-black"
-              >
-                <X size={16} strokeWidth={1} />
-              </button>
-            </form>
-          </div>
-        </div>
-      )}
-      
       {/* Desktop Navigation - Below the header bar */}
-      <nav className="hidden md:block bg-white">
-        <div className="max-w-[1481px] mx-auto px-4 py-2">
-          <ul className="flex space-x-8 overflow-x-auto">
+      <nav className="hidden  md:block border-b border-t bg-white text-black border-gray-100">
+        <div className="max-w-[1481px] mx-auto w-full px-8 py-2">
+          <ul className="flex space-x-8">
             {menuItems.map((item) => (
-              <li key={item.name}>
+              <li key={item.name}> 
                 <TooltipProvider>
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Link
                         to={item.path}
-                        className={`text-xs font-light transition-all uppercase whitespace-nowrap relative group ${
-                          isActive(item.path) ? "text-black" : "text-gray-600 hover:text-black"
+                        className={`text-xs font-light transition-all relative group ${
+                          isActive(item.path) ? "text-black" : "text-black hover:text-black"
                         }`}
                       >
-                        {item.name}
+                        {item.name.toUpperCase()}
                         <span
-                          className={`absolute left-0 bottom-[-3px] w-0 h-[0.5px] bg-black transition-all duration-300 group-hover:w-full ${
+                          className={`absolute left-0 bottom-[-3px] w-0 h-[1px] bg-black transition-all duration-300 group-hover:w-full ${
                             isActive(item.path) ? "w-full" : ""
                           }`}
-                        ></span>
-                      </Link>
+                        ></span> 
+                      </Link> 
                     </TooltipTrigger>
-                    <TooltipContent className="bg-white shadow-md">
-                      <p className="text-xs font-light">{item.tooltip}</p>
+                    <TooltipContent>
+                      <p>{item.tooltip}</p>
                     </TooltipContent>
                   </Tooltip>
                 </TooltipProvider>
@@ -175,39 +151,31 @@ const BrandHeader = () => {
       
       {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-16 bg-white z-40 overflow-y-auto animate-fade-in">
-          <div className="container-lg p-6 flex flex-col h-full">
-            <nav className="flex-grow">
-              <ul className="space-y-8 pt-4">
-                {menuItems.map((item) => (
-                  <li key={item.name} className="py-2">
-                    <Link 
-                      to={item.path} 
-                      className={`text-xl uppercase font-light tracking-tighter ${
-                        isActive(item.path) ? "text-black" : "text-gray-600"
-                      }`}
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      {item.name}
-                    </Link>
-                  </li>
-                ))}
-                
-                {/* Language toggle in mobile menu */}
-                <li className="py-2">
-                  <button
-                    onClick={toggleLanguage}
-                    className="text-xl uppercase font-light tracking-tighter"
-                  >
-                    {language === "EN" ? "ENGLISH" : "РУССКИЙ"}
-                  </button>
-                </li>
-              </ul>
-            </nav>
-            <div className="pt-10 pb-4 mt-auto border-t border-gray-100">
-              <p className="text-sm text-gray-500 font-light">© {new Date().getFullYear()} ETAGE7</p>
-            </div>
-          </div>
+        <div className="md:hidden bg-white shadow-md w-full">
+          <ul className="flex flex-col">
+            {menuItems.map((item) => (
+              <li key={item.name} className="border-b border-gray-100 last:border-0">
+                <Link
+                  to={item.path}
+                  className={`block py-3 px-4 transition-colors font-light ${
+                    isActive(item.path) ? "bg-gray-50 text-black" : "text-gray-600"
+                  }`}
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  {item.name.toUpperCase()}
+                </Link>
+              </li>
+            ))}
+            <li className="border-t border-gray-100">
+              <Link
+                to="/"
+                className="block py-3 px-4 text-gray-600 font-light"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                BACK TO SITE
+              </Link>
+            </li>
+          </ul>
         </div>
       )}
     </header>
