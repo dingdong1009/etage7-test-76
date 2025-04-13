@@ -453,7 +453,7 @@ const SalesUsers = () => {
               value="brand" 
               className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
             >
-              Managed Brands 
+              Managed Brands
             </TabsTrigger>
             <TabsTrigger 
               value="buyer" 
