@@ -130,9 +130,16 @@ const BrandProducts = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Products</h1>
-        <div className="flex gap-2">
+
+      <Tabs defaultValue="list" value={activeTab} onValueChange={setActiveTab} className="w-full">
+      <div className="border-t border-gray-200 mb-6">
+        <TabsList className="mb-4">
+          <TabsTrigger value="list">Product List</TabsTrigger>
+          <TabsTrigger value="add">Add Product</TabsTrigger>
+        </TabsList>
+      </div>
+      <div className="flex gap-2">
           <Button 
             onClick={() => setActiveTab("add")} 
             className="h-9 text-xs bg-black hover:bg-black-600 text-white"
@@ -145,13 +152,6 @@ const BrandProducts = () => {
             Export
           </Button>
         </div>
-      </div>
-      
-      <Tabs defaultValue="list" value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="mb-4">
-          <TabsTrigger value="list">Product List</TabsTrigger>
-          <TabsTrigger value="add">Add Product</TabsTrigger>
-        </TabsList>
         <TabsContent value="list" className="space-y-6">
           <ProductList 
             products={filteredProducts}
@@ -180,7 +180,8 @@ const BrandProducts = () => {
           />
         </TabsContent>
       </Tabs>
-    </div>
+      </div>
+
   );
 };
 
