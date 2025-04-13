@@ -134,15 +134,19 @@ const BrandProducts = () => {
 
       <Tabs defaultValue="list" value={activeTab} onValueChange={setActiveTab} className="w-full">
       <div className="border-t border-gray-200 mb-6">
-        <TabsList className="mb-4">
-          <TabsTrigger value="list">Product List</TabsTrigger>
-          <TabsTrigger value="add">Add Product</TabsTrigger>
+        <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
+          <TabsTrigger value="list" className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
+          >Product List</TabsTrigger>
+          <TabsTrigger value="add" className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none">Add Product</TabsTrigger>
         </TabsList>
       </div>
+
+  
       <TabsContent value="list" className="mt-0">
         <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-6">
-          <div className="relative w-full max-w-sm">
-          </div>
+        <div className="relative w-full max-w-sm">
+            </div>
+
           <div className="flex flex-wrap items-center gap-3">
           <Button 
             onClick={() => setActiveTab("add")} 
@@ -158,6 +162,7 @@ const BrandProducts = () => {
           </div>
         </div>
         </TabsContent> 
+
         <TabsContent value="list" className="space-y-6">
           <ProductList 
             products={filteredProducts}
