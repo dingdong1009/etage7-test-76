@@ -40,6 +40,7 @@ const Index = () => {
         </div>
         
         {/* Scroll indicator */}
+        <p>Discover More</p>
         <button 
           onClick={() => scrollToSection('platform')}
           className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 ${
@@ -47,7 +48,7 @@ const Index = () => {
           }`}
           aria-label="Scroll to learn more"
         >
-          <ChevronDown size={24} className="animate-bounce" /> Discover More 
+          <ChevronDown size={24} className="animate-bounce" />
         </button>
       </section>
 
