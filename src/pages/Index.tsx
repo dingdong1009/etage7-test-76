@@ -7,6 +7,7 @@ import { PricingTable, PricingPlan } from "@/components/PricingTable";
 const Index = () => {
   const [scrolled, setScrolled] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
+  const [showBuyerInfo, setShowBuyerInfo] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -55,6 +56,10 @@ const Index = () => {
 
   const togglePricing = () => {
     setShowPricing(!showPricing);
+  };
+
+  const toggleBuyerInfo = () => {
+    setShowBuyerInfo(!showBuyerInfo);
   };
 
   return (
@@ -151,10 +156,25 @@ const Index = () => {
               CONNECTING<br/>
               <span className="font-normal">FASHION BRANDS & BUYERS</span>
             </h1>
-            <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
-            ETAGE7 – это премиальный цифровой маркетплейс, который объединяет премиум бренды с профессиональными байерами и владельцами мультибрендов, меняя традиционные подходы к оптовым закупкам.
-            </p>
-            <Button className="bg-white text-black border-0 hover:bg-gray-100 text-base py-6 px-8">
+            
+            {/* Buyer description text - visible only when buyer info is not shown */}
+            {!showBuyerInfo && (
+              <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">
+                ETAGE7 – это премиальный цифровой маркетплейс, который объединяет премиум бренды с профессиональными байерами и владельцами мультибрендов, меняя традиционные подходы к оптовым закупкам.
+              </p>
+            )}
+            
+            {/* New buyer info - visible only when button is clicked */}
+            {showBuyerInfo && (
+              <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">
+                blablalblablal bal balbal bal b balbal balba lbal ba b
+              </p>
+            )}
+            
+            <Button 
+              onClick={toggleBuyerInfo} 
+              className="bg-white text-black border-0 hover:bg-gray-100 text-base py-6 px-8"
+            >
               JOIN AS A BUYER <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} />
             </Button>
           </div>
