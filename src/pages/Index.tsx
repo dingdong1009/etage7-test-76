@@ -48,7 +48,7 @@ const Index = () => {
         "Store-front",
         "And many other features"
       ],
-      buttonText: "Purchase Premium",
+      buttonText: "Purchase Premium", 
       highlight: true
     }
   ];
