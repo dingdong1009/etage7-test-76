@@ -96,9 +96,13 @@ const Index = () => {
               Celebrate<br/>
               <span className="font-normal uppercase">uniqueness & opportunities</span>
             </h1>
-            <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
-            Your designs are more than collections—they are chapters of a story waiting to be shared. At ETAGE7, we celebrate your creativity by providing you essential tools that empowers your products finding their places in the heart of those who value your craftmanship.
-            </p>
+            
+            {/* Brand description text - visible only when pricing is not shown */}
+            {!showPricing && (
+              <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">
+                Your designs are more than collections—they are chapters of a story waiting to be shared. At ETAGE7, we celebrate your creativity by providing you essential tools that empowers your products finding their places in the heart of those who value your craftmanship.
+              </p>
+            )}
             
             {/* Pricing section */}
             <div className="mb-12">
@@ -106,7 +110,7 @@ const Index = () => {
                 onClick={togglePricing} 
                 className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none"
               >
-                Discover Pricing + 
+                Discover Pricing {showPricing ? '-' : '+'} 
                 <ChevronRight className={`ml-2 h-5 w-5 transform transition-transform duration-300 ${showPricing ? 'rotate-90' : ''}`} />
               </button>
               
@@ -121,9 +125,7 @@ const Index = () => {
               )}
             </div>
             
-            <Button className="bg-white text-black border-0 hover:bg-gray-100 text-base py-6 px-8">
-              JOIN AS A BRAND <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} /> 
-            </Button> 
+            {/* Removed the "JOIN AS A BRAND" button */}
           </div>
         </div>
         
