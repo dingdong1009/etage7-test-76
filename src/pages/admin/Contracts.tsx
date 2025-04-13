@@ -616,7 +616,7 @@ const AdminContracts = () => {
                 </div>
               </div>
             )}
-          </div>
+          </div> 
           <DialogFooter>
             <Button variant="outline" className="border-gray-300" onClick={() => setViewDialogOpen(false)}>Close</Button>
             <Button className="bg-black text-white" onClick={() => {
