@@ -1,12 +1,11 @@
-import { ArrowRight, ChevronDown, ChevronUp, ChevronRight, Check } from "lucide-react";
+
+import { ArrowRight, ChevronDown, ChevronUp, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
-import { PricingTable, PricingPlan } from "@/components/PricingTable";
 
 const Index = () => {
   const [scrolled, setScrolled] = useState(false);
-  const [showPricing, setShowPricing] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,39 +21,6 @@ const Index = () => {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
-  };
-
-  const pricingPlans: PricingPlan[] = [
-    {
-      name: "Standard",
-      price: "€299",
-      features: [
-        "Brand profile page",
-        "Up to 100 product listings",
-        "Basic analytics dashboard",
-        "Email support",
-        "Standard visibility in search"
-      ],
-      buttonText: "Purchase Standard",
-      highlight: false
-    },
-    {
-      name: "Premium",
-      price: "€499",
-      features: [
-        "Enhanced brand profile with media gallery",
-        "Unlimited product listings",
-        "Advanced analytics and market insights",
-        "Priority customer support",
-        "Featured placement in buyer recommendations"
-      ],
-      buttonText: "Purchase Premium",
-      highlight: true
-    }
-  ];
-
-  const togglePricing = () => {
-    setShowPricing(!showPricing);
   };
 
   return (
@@ -99,28 +65,9 @@ const Index = () => {
             <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
             Your designs are more than collections—they are chapters of a story waiting to be shared. At ETAGE7, we celebrate your creativity by providing you essential tools that empowers your products finding their places in the heart of those who value your craftmanship.
             </p>
-            
-            {/* Pricing section */}
-            <div className="mb-12">
-              <button 
-                onClick={togglePricing} 
-                className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none"
-              >
-                Discover Pricing + 
-                <ChevronRight className={`ml-2 h-5 w-5 transform transition-transform duration-300 ${showPricing ? 'rotate-90' : ''}`} />
-              </button>
-              
-              {showPricing && (
-                <div className="mt-8 animate-fade-in">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl">
-                    {pricingPlans.map((plan, index) => (
-                      <PricingTable key={index} plan={plan} />
-                    ))}
-                  </div>
-                </div>
-              )}
-            </div>
-            
+            <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
+            Discover Pricing + 
+            </p>
             <Button className="bg-white text-black border-0 hover:bg-gray-100 text-base py-6 px-8">
               JOIN AS A BRAND <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1.5} /> 
             </Button> 
