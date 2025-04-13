@@ -87,7 +87,7 @@ const Header = () => {
       setActiveSection(id);
     }
   };
-
+ 
   const mainNavItems = [
     { name: "HOME", path: "hero", isSection: true },
     { name: "BRANDS", path: "brand", isSection: true },
