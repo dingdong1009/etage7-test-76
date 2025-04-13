@@ -46,6 +46,7 @@ const Index = () => {
       <section id="hero" className="relative h-screen bg-black text-white flex items-center">
         <div className="container-lg">
           <div className="max-w-3xl">
+          <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase">For Brands</p>
             <h1 className="text-4xl uppercase md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
             Celebrate<br />
               <span className="font-normal">craftmanship's most meaningful alliances</span>
@@ -107,9 +108,10 @@ const Index = () => {
       <section id="buyer" className="relative h-screen bg-white text-black flex items-center">
         <div className="container-lg">
           <div className="max-w-3xl">
+          <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase">For Buyers</p>
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
-              Buyers: Curated<br />
-              <span className="font-normal">contents & AI powered matching your needs</span>
+              CONNECTING<br />
+              <span className="font-normal">FASHION BRANDS & BUYERS</span>
             </h1>
             
             {/* Buyer description text - visible only when buyer info is not shown */}
