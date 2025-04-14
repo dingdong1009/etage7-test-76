@@ -126,7 +126,7 @@ const Index = () => {
           <div className="max-w-3xl" ref={brandContentRef}>
             {!showPricing ? (
               <>
-                <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase">For Brands</p>
+                <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase pl-4">For Brands</p>
                 <h1 className="text-4xl md:text-5xl uppercase lg:text-7xl font-light tracking-tighter mb-6">
                   Celebrate<br />
                   <span className="font-normal uppercase">your uniqueness & opportunities</span>
@@ -150,7 +150,7 @@ const Index = () => {
             ) : (
               <div>
                 <div className="mb-12">
-                <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase">Pricing</p>
+                <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase pl-4">Pricing</p>
 
                   <button 
                     onClick={togglePricing} 
