@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, Heart, Button, Search, SlidersHorizontal } from "lucide-react";
+import { ChevronRight, Heart, Search, SlidersHorizontal, ArrowRight } from "lucide-react";
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
