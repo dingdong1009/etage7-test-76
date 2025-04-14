@@ -5,7 +5,7 @@ import BuyerHeader from "./BuyerHeader";
 const BuyerLayout = () => {
   return (
     <div className="min-h-screen flex flex-col bg-white">
-      <BrandHeader />
+      <BuyerHeader />
       <main className="flex-1 p-4 md:p-6 lg:p-8 pt-24 max-w-[1481px] mx-auto w-full animate-fade-in">
         <Outlet />
       </main>
