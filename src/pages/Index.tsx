@@ -1,7 +1,7 @@
+import React, { useState, useRef, useEffect } from 'react';
 import { ArrowRight, ChevronDown, ChevronUp, ChevronRight, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState, useRef } from "react";
 import { PricingTable, PricingPlan } from "@/components/PricingTable";
 
 const Index = () => {
@@ -124,47 +124,48 @@ const Index = () => {
       <section id="brand" className="relative h-screen bg-white text-black flex items-center overflow-hidden">
         <div className="container-lg">
           <div className="max-w-3xl" ref={brandContentRef}>
-          {!showPricing ? (
-            <>
-              <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase">For Brands</p>
-              <h1 className="text-4xl md:text-5xl uppercase lg:text-7xl font-light tracking-tighter mb-6">
-                Celebrate<br />
-                <span className="font-normal uppercase">your uniqueness & opportunities</span>
-              </h1>
-              
-              <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
-                Your designs are more than collections—they are chapters of a story waiting to be shared. At ETAGE7, we celebrate your creativity by providing you essential tools that empowers your products finding their places in the heart of those who value your craftmanship.
-              </p>
-              
-              <div className="mb-12">
-                <button 
-                  onClick={togglePricing} 
-                  disabled={isAnimating}
-                  className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none"
-                >
-                  Discover Pricing {showPricing ? '-' : '+'} 
-                  <ChevronRight className={`ml-2 h-5 w-5 transform transition-transform duration-300 ${showPricing ? 'rotate-90' : ''}`} />
-                </button>
-              </div>
-            </>
-          ) : (
-            <div>
-              <div className="mb-12">
-                <button 
-                  onClick={togglePricing} 
-                  disabled={isAnimating}
-                  className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none mb-8"
-                >
-                  Back {showPricing ? '-' : '+'} 
-                  <ChevronRight className={`ml-2 h-5 w-5 transform rotate-180 transition-transform duration-300`} />
-                </button>
+            {!showPricing ? (
+              <>
+                <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase">For Brands</p>
+                <h1 className="text-4xl md:text-5xl uppercase lg:text-7xl font-light tracking-tighter mb-6">
+                  Celebrate<br />
+                  <span className="font-normal uppercase">your uniqueness & opportunities</span>
+                </h1>
                 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl">
-                  {pricingPlans.map((plan, index) => <PricingTable key={index} plan={plan} />)}
+                <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
+                  Your designs are more than collections—they are chapters of a story waiting to be shared. At ETAGE7, we celebrate your creativity by providing you essential tools that empowers your products finding their places in the heart of those who value your craftmanship.
+                </p>
+                
+                <div className="mb-12">
+                  <button 
+                    onClick={togglePricing} 
+                    disabled={isAnimating}
+                    className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none"
+                  >
+                    Discover Pricing {showPricing ? '-' : '+'} 
+                    <ChevronRight className={`ml-2 h-5 w-5 transform transition-transform duration-300 ${showPricing ? 'rotate-90' : ''}`} />
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div>
+                <div className="mb-12">
+                  <button 
+                    onClick={togglePricing} 
+                    disabled={isAnimating}
+                    className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none mb-8"
+                  >
+                    Back {showPricing ? '-' : '+'} 
+                    <ChevronRight className={`ml-2 h-5 w-5 transform rotate-180 transition-transform duration-300`} />
+                  </button>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl">
+                    {pricingPlans.map((plan, index) => <PricingTable key={index} plan={plan} />)}
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </section>
 
