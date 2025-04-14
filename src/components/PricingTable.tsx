@@ -46,7 +46,7 @@ export const PricingTable = ({ plan }: PricingTableProps) => {
           size="lg"
         >
           {plan.buttonText}
-        </Button>
+        </Button> 
       </div>
     </div>
   );
