@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   FileText, 
   Image, 
@@ -12,7 +12,10 @@ import {
   Trash2,
   Check,
   Calendar,
-  Handshake
+  Handshake,
+  Video,
+  Globe,
+  Save
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -37,6 +40,8 @@ import {
   TabsTrigger,
   TabsContent
 } from "@/components/ui/tabs";
+import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "sonner";
 import { ColorOption } from "../../../types/product";
 
 interface ProductFormTabsProps {
@@ -80,6 +85,38 @@ const subcategoriesByCategory: Record<string, string[]> = {
   ]
 };
 
+// Function to generate SKU based on category and random number
+const generateSku = (category: string = ""): string => {
+  const prefix = category ? category.substring(0, 2).toUpperCase() : "PR";
+  const randomNum = Math.floor(10000 + Math.random() * 90000);
+  const year = new Date().getFullYear();
+  return `${prefix}-${year}-${randomNum}`;
+};
+
+// Function to determine the current or upcoming fashion season
+const getCurrentFashionSeason = (): string => {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = date.getMonth(); // 0-11
+  
+  // Fashion industry seasons are typically:
+  // Spring/Summer (SS): Starts in January for the upcoming summer
+  // Fall/Winter (FW): Starts in July for the upcoming winter
+  // Pre-Fall: May-June
+  // Resort/Cruise: November-December
+  
+  // For simplicity, we'll use these approximate divisions:
+  if (month >= 0 && month <= 4) { // Jan-May
+    return `Spring/Summer ${year}`;
+  } else if (month >= 5 && month <= 6) { // Jun-Jul
+    return `Pre-Fall ${year}`;
+  } else if (month >= 7 && month <= 9) { // Aug-Oct
+    return `Fall/Winter ${year}`;
+  } else { // Nov-Dec
+    return `Resort ${year + 1}`;
+  }
+};
+
 export const ProductFormTabs = ({
   selectedColor,
   setSelectedColor,
@@ -91,6 +128,51 @@ export const ProductFormTabs = ({
   const [availabilityType, setAvailabilityType] = useState("in-stock");
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedSubcategory, setSelectedSubcategory] = useState("");
+  const [productName, setProductName] = useState("");
+  const [sku, setSku] = useState("");
+  const [isFeatured, setIsFeatured] = useState(false);
+  const [videoUrl, setVideoUrl] = useState("");
+  const [websiteUrl, setWebsiteUrl] = useState("");
+  const [currentSeason, setCurrentSeason] = useState(getCurrentFashionSeason());
+  const [formChanged, setFormChanged] = useState(false);
+  
+  // Auto-save functionality
+  useEffect(() => {
+    let autoSaveTimer: NodeJS.Timeout;
+    
+    if (formChanged) {
+      autoSaveTimer = setTimeout(() => {
+        handleAutoSave();
+      }, 3000); // Autosave after 3 seconds of inactivity
+    }
+    
+    return () => {
+      clearTimeout(autoSaveTimer);
+    };
+  }, [formChanged]);
+  
+  // Mark form as changed when relevant fields are updated
+  useEffect(() => {
+    setFormChanged(true);
+  }, [
+    productName, 
+    sku, 
+    availabilityType, 
+    selectedCategory,
+    selectedSubcategory,
+    isFeatured,
+    videoUrl,
+    websiteUrl,
+    selectedColor,
+    bulkTiers
+  ]);
+
+  // Generate SKU if empty when category changes
+  useEffect(() => {
+    if (!sku && selectedCategory) {
+      setSku(generateSku(selectedCategory));
+    }
+  }, [selectedCategory, sku]);
 
   const addBulkTier = () => {
     const newId = String(bulkTiers.length + 1);
@@ -112,6 +194,31 @@ export const ProductFormTabs = ({
   const handleCategoryChange = (category: string) => {
     setSelectedCategory(category);
     setSelectedSubcategory(""); // Reset subcategory when category changes
+    
+    // If SKU is empty, generate one based on the new category
+    if (!sku) {
+      setSku(generateSku(category));
+    }
+  };
+  
+  const handleAutoSave = () => {
+    // Here we would normally save to a database
+    // For now we'll just show a toast notification
+    toast.success("Product draft saved automatically", {
+      position: "bottom-right",
+      duration: 3000,
+    });
+    setFormChanged(false);
+  };
+  
+  const analyzeImageColors = () => {
+    // This would normally call an AI service to analyze an image
+    // For this demo, we'll simulate by setting a random color
+    const randomIndex = Math.floor(Math.random() * colorOptions.length);
+    setSelectedColor(colorOptions[randomIndex].name);
+    toast.success("Image analyzed and colors extracted", {
+      position: "bottom-right",
+    });
   };
 
   return (
@@ -119,35 +226,57 @@ export const ProductFormTabs = ({
       <TabsList className="w-full mb-6 grid grid-cols-2 md:grid-cols-5 bg-gray-100 p-1">
         <TabsTrigger 
           value="basic" 
-          className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm"
+          className="data-[state=active]:bg-white data-[state=active]:text-gray-800 data-[state=active]:shadow-sm"
         >
           <Tag className="mr-2 h-4 w-4" /> Basic Info
         </TabsTrigger>
         <TabsTrigger 
           value="materials" 
-          className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm"
+          className="data-[state=active]:bg-white data-[state=active]:text-gray-800 data-[state=active]:shadow-sm"
         >
           <Image className="mr-2 h-4 w-4" /> Materials
         </TabsTrigger>
         <TabsTrigger 
           value="pricing" 
-          className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm"
+          className="data-[state=active]:bg-white data-[state=active]:text-gray-800 data-[state=active]:shadow-sm"
         >
           <RussianRuble className="mr-2 h-4 w-4" /> Pricing
         </TabsTrigger>
         <TabsTrigger 
           value="shipping" 
-          className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm"
+          className="data-[state=active]:bg-white data-[state=active]:text-gray-800 data-[state=active]:shadow-sm"
         >
           <Truck className="mr-2 h-4 w-4" /> Shipping
         </TabsTrigger>
         <TabsTrigger 
           value="details" 
-          className="data-[state=active]:bg-white data-[state=active]:text-blue-600 data-[state=active]:shadow-sm"
+          className="data-[state=active]:bg-white data-[state=active]:text-gray-800 data-[state=active]:shadow-sm"
         >
           <Package className="mr-2 h-4 w-4" /> Details
         </TabsTrigger>
       </TabsList>
+      
+      <div className="flex justify-between items-center mb-4">
+        <div className="flex items-center gap-2">
+          <Checkbox 
+            id="isFeatured" 
+            checked={isFeatured}
+            onCheckedChange={(checked) => setIsFeatured(checked as boolean)}
+            className="border-gray-500 data-[state=checked]:bg-gray-800 data-[state=checked]:text-white"
+          />
+          <Label htmlFor="isFeatured" className="text-sm font-medium">Featured Product</Label>
+        </div>
+        <Button 
+          variant="ghost" 
+          size="sm" 
+          onClick={handleAutoSave} 
+          className="flex items-center gap-1 text-gray-600"
+          disabled={!formChanged}
+        >
+          <Save className="h-4 w-4" />
+          {formChanged ? "Save Draft" : "Saved"}
+        </Button>
+      </div>
 
       <TabsContent value="basic" className="space-y-6 mt-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -158,6 +287,8 @@ export const ProductFormTabs = ({
             <Input
               id="productName"
               placeholder="e.g., Silk Blend Tailored Blazer"
+              value={productName}
+              onChange={(e) => setProductName(e.target.value)}
             />
             <p className="text-xs text-gray-500 mt-1">
               Include key attributes in name (material, style)
@@ -168,10 +299,23 @@ export const ProductFormTabs = ({
             <Label htmlFor="sku" className="text-sm font-medium">
               SKU/Style Code*
             </Label>
-            <Input
-              id="sku"
-              placeholder="e.g., BL-2025-SLK"
-            />
+            <div className="flex gap-2">
+              <Input
+                id="sku"
+                placeholder="e.g., BL-2025-SLK"
+                value={sku}
+                onChange={(e) => setSku(e.target.value)}
+              />
+              <Button 
+                type="button" 
+                variant="outline" 
+                size="sm" 
+                onClick={() => setSku(generateSku(selectedCategory))}
+                className="whitespace-nowrap"
+              >
+                Generate
+              </Button>
+            </div>
             <p className="text-xs text-gray-500 mt-1">
               Unique identifier for inventory tracking
             </p>
@@ -186,25 +330,25 @@ export const ProductFormTabs = ({
               onValueChange={setAvailabilityType}
               className="grid grid-cols-1 md:grid-cols-3 gap-3"
             >
-              <div className={`flex items-center space-x-2 border p-3 cursor-pointer transition-colors ${availabilityType === "in-stock" ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:bg-gray-50"}`}>
+              <div className={`flex items-center space-x-2 border p-3 cursor-pointer transition-colors ${availabilityType === "in-stock" ? "border-gray-500 bg-gray-50" : "border-gray-200 hover:bg-gray-50"}`}>
                 <RadioGroupItem value="in-stock" id="in-stock" className="hidden" />
-                <div className={`flex h-7 w-7 items-center justify-center rounded-full ${availabilityType === "in-stock" ? "bg-blue-500" : "bg-gray-100"}`}>
+                <div className={`flex h-7 w-7 items-center justify-center rounded-full ${availabilityType === "in-stock" ? "bg-gray-500" : "bg-gray-100"}`}>
                   <Check className={`h-4 w-4 ${availabilityType === "in-stock" ? "text-white" : "text-gray-400"}`} />
                 </div>
                 <Label htmlFor="in-stock" className="cursor-pointer font-medium">In Stock</Label>
               </div>
               
-              <div className={`flex items-center space-x-2 border p-3 cursor-pointer transition-colors ${availabilityType === "pre-order" ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:bg-gray-50"}`}>
+              <div className={`flex items-center space-x-2 border p-3 cursor-pointer transition-colors ${availabilityType === "pre-order" ? "border-gray-500 bg-gray-50" : "border-gray-200 hover:bg-gray-50"}`}>
                 <RadioGroupItem value="pre-order" id="pre-order" className="hidden" />
-                <div className={`flex h-7 w-7 items-center justify-center rounded-full ${availabilityType === "pre-order" ? "bg-blue-500" : "bg-gray-100"}`}>
+                <div className={`flex h-7 w-7 items-center justify-center rounded-full ${availabilityType === "pre-order" ? "bg-gray-500" : "bg-gray-100"}`}>
                   <Calendar className={`h-4 w-4 ${availabilityType === "pre-order" ? "text-white" : "text-gray-400"}`} />
                 </div>
                 <Label htmlFor="pre-order" className="cursor-pointer font-medium">Pre-Order</Label>
               </div>
               
-              <div className={`flex items-center space-x-2 border p-3 cursor-pointer transition-colors ${availabilityType === "commission" ? "border-blue-500 bg-blue-50" : "border-gray-200 hover:bg-gray-50"}`}>
+              <div className={`flex items-center space-x-2 border p-3 cursor-pointer transition-colors ${availabilityType === "commission" ? "border-gray-500 bg-gray-50" : "border-gray-200 hover:bg-gray-50"}`}>
                 <RadioGroupItem value="commission" id="commission" className="hidden" />
-                <div className={`flex h-7 w-7 items-center justify-center rounded-full ${availabilityType === "commission" ? "bg-blue-500" : "bg-gray-100"}`}>
+                <div className={`flex h-7 w-7 items-center justify-center rounded-full ${availabilityType === "commission" ? "bg-gray-500" : "bg-gray-100"}`}>
                   <Handshake className={`h-4 w-4 ${availabilityType === "commission" ? "text-white" : "text-gray-400"}`} />
                 </div>
                 <Label htmlFor="commission" className="cursor-pointer font-medium">Commission</Label>
@@ -260,6 +404,52 @@ export const ProductFormTabs = ({
             )}
           </div>
 
+          <div className="col-span-1 md:col-span-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="videoUrl" className="text-sm font-medium">
+                  Video URL
+                </Label>
+                <div className="flex items-center gap-2">
+                  <div className="text-gray-400 absolute ml-3">
+                    <Video className="h-4 w-4" />
+                  </div>
+                  <Input
+                    id="videoUrl"
+                    placeholder="https://vimeo.com/yourproduct"
+                    className="pl-10"
+                    value={videoUrl}
+                    onChange={(e) => setVideoUrl(e.target.value)}
+                  />
+                </div>
+                <p className="text-xs text-gray-500 mt-1">
+                  YouTube, Vimeo or other video platform link
+                </p>
+              </div>
+              
+              <div>
+                <Label htmlFor="websiteUrl" className="text-sm font-medium">
+                  External Website
+                </Label>
+                <div className="flex items-center gap-2">
+                  <div className="text-gray-400 absolute ml-3">
+                    <Globe className="h-4 w-4" />
+                  </div>
+                  <Input
+                    id="websiteUrl"
+                    placeholder="https://yourwebsite.com/product"
+                    className="pl-10"
+                    value={websiteUrl}
+                    onChange={(e) => setWebsiteUrl(e.target.value)}
+                  />
+                </div>
+                <p className="text-xs text-gray-500 mt-1">
+                  Link to external product page
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div>
             <Label htmlFor="designer" className="text-sm font-medium">
               Designer/Collection
@@ -276,62 +466,74 @@ export const ProductFormTabs = ({
                 <Label htmlFor="season" className="text-sm font-medium">
                   Season/Year*
                 </Label>
-                <Select>
+                <Select defaultValue={currentSeason}>
                   <SelectTrigger className="w-full">
                     <SelectValue placeholder="Select season" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="ss25">Spring/Summer 2025</SelectItem>
-                    <SelectItem value="fw24">Fall/Winter 2024</SelectItem>
-                    <SelectItem value="resort25">Resort 2025</SelectItem>
-                    <SelectItem value="pre-fall24">Pre-Fall 2024</SelectItem>
+                    <SelectItem value="Spring/Summer 2025">Spring/Summer 2025</SelectItem>
+                    <SelectItem value="Pre-Fall 2024">Pre-Fall 2024</SelectItem>
+                    <SelectItem value="Fall/Winter 2024">Fall/Winter 2024</SelectItem>
+                    <SelectItem value="Resort 2025">Resort 2025</SelectItem>
                     <SelectItem value="timeless">Timeless/Non-seasonal</SelectItem>
                   </SelectContent>
                 </Select>
+                <p className="text-xs text-gray-500 mt-1">
+                  Current season: {currentSeason}
+                </p>
               </div>
               
               <div>
                 <Label htmlFor="color" className="text-sm font-medium">
                   Colors
                 </Label>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="w-full flex justify-between">
-                      <div className="flex items-center gap-2">
-                        <Palette className="h-4 w-4" />
-                        {selectedColor ? (
-                          <>
-                            <div 
-                              className="h-4 w-4 rounded-full mr-1" 
-                              style={{ backgroundColor: colorOptions.find(c => c.name === selectedColor)?.hex || '#FFFFFF' }} 
-                            />
-                            {selectedColor}
-                          </>
-                        ) : (
-                          "Select color"
-                        )}
-                      </div>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56 max-h-[300px] overflow-y-auto">
-                    {colorOptions.map((color) => (
-                      <DropdownMenuItem 
-                        key={color.name}
-                        onClick={() => setSelectedColor(color.name)}
-                        className="flex items-center gap-2"
-                      >
-                        <div 
-                          className="h-4 w-4 " 
-                          style={{ backgroundColor: color.hex }} 
-                        />
-                        <span>{color.name}</span>
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                <p className="text-xs text-gray-500 mt-1">
-                  Select primary product color
-                </p>
+                <div className="space-y-2">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" className="w-full flex justify-between">
+                        <div className="flex items-center gap-2">
+                          <Palette className="h-4 w-4" />
+                          {selectedColor ? (
+                            <>
+                              <div 
+                                className="h-4 w-4 rounded-full mr-1" 
+                                style={{ backgroundColor: colorOptions.find(c => c.name === selectedColor)?.hex || '#FFFFFF' }} 
+                              />
+                              {selectedColor}
+                            </>
+                          ) : (
+                            "Select color"
+                          )}
+                        </div>
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent className="w-56 max-h-[300px] overflow-y-auto">
+                      {colorOptions.map((color) => (
+                        <DropdownMenuItem 
+                          key={color.name}
+                          onClick={() => setSelectedColor(color.name)}
+                          className="flex items-center gap-2"
+                        >
+                          <div 
+                            className="h-4 w-4 " 
+                            style={{ backgroundColor: color.hex }} 
+                          />
+                          <span>{color.name}</span>
+                        </DropdownMenuItem>
+                      ))}
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  
+                  <Button 
+                    type="button" 
+                    variant="outline" 
+                    size="sm" 
+                    className="w-full"
+                    onClick={analyzeImageColors}
+                  >
+                    <Image className="h-4 w-4 mr-2" /> Analyze Image for Colors
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
@@ -627,7 +829,8 @@ export const ProductFormTabs = ({
       </TabsContent>
 
       <div className="flex justify-end pt-4 mt-6 border-t">
-        <Button variant="outline" className="mr-2">
+        <Button variant="outline" className="mr-2" onClick={handleAutoSave}>
+          <Save size={14} className="mr-1" />
           Save Draft
         </Button>
         <Button className="bg-black hover:bg-black-600">
