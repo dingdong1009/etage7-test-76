@@ -39,7 +39,7 @@ const Index = () => {
     {
       name: "12-MONTH",
       price: "₽ 270'000",
-      features: ["All of 6-Month package"],
+      features: ["All of 6-Month package", "Save 20%"],
       buttonText: "Subscribe 12-Month",
       highlight: true
     }
