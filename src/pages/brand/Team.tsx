@@ -1,16 +1,15 @@
-
+import React, { useState } from 'react';
+import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Search, Mail, Phone, Edit, Trash2, Filter, Download, UploadCloud } from "lucide-react";
+import { Plus, Search, Mail, Phone, Edit, Trash2, Filter } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useState } from "react";
 
 const BrandTeam = () => {
-  // Sample team data
   const teamMembers = [
     { 
       id: 1, 
@@ -82,7 +81,6 @@ const BrandTeam = () => {
           </TabsTrigger>
         </TabsList>
         
-        {/* Team Members Tab */}
         <TabsContent value="members">
           <Card className="border border-gray-200 shadow-none rounded-none">
             <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
@@ -202,7 +200,6 @@ const BrandTeam = () => {
           </div>
         </TabsContent>
         
-        {/* Invite New Member Tab */}
         <TabsContent value="invite">
           <Card className="border border-gray-200 shadow-none rounded-none">
             <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
@@ -268,24 +265,39 @@ const BrandTeam = () => {
                   <h3 className="text-sm font-medium mb-3">Permissions</h3>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div className="flex items-center gap-2">
-                      <input type="checkbox" id="products" className="rounded border-gray-300" />
-                      <label htmlFor="products" className="text-sm">Products Management</label>
+                      <Checkbox 
+                        id="products" 
+                        className="border-gray-500 data-[state=checked]:bg-gray-800 data-[state=checked]:text-white" 
+                      />
+                      <label htmlFor="products" className="text-sm text-gray-700">Products Management</label>
                     </div>
                     <div className="flex items-center gap-2">
-                      <input type="checkbox" id="orders" className="rounded border-gray-300" />
-                      <label htmlFor="orders" className="text-sm">Orders Management</label>
+                      <Checkbox 
+                        id="orders" 
+                        className="border-gray-500 data-[state=checked]:bg-gray-800 data-[state=checked]:text-white" 
+                      />
+                      <label htmlFor="orders" className="text-sm text-gray-700">Orders Management</label>
                     </div>
                     <div className="flex items-center gap-2">
-                      <input type="checkbox" id="lookbook" className="rounded border-gray-300" />
-                      <label htmlFor="lookbook" className="text-sm">Lookbook Management</label>
+                      <Checkbox 
+                        id="lookbook" 
+                        className="border-gray-500 data-[state=checked]:bg-gray-800 data-[state=checked]:text-white" 
+                      />
+                      <label htmlFor="lookbook" className="text-sm text-gray-700">Lookbook Management</label>
                     </div>
                     <div className="flex items-center gap-2">
-                      <input type="checkbox" id="messages" className="rounded border-gray-300" />
-                      <label htmlFor="messages" className="text-sm">Messages Access</label>
+                      <Checkbox 
+                        id="messages" 
+                        className="border-gray-500 data-[state=checked]:bg-gray-800 data-[state=checked]:text-white" 
+                      />
+                      <label htmlFor="messages" className="text-sm text-gray-700">Messages Access</label>
                     </div>
                     <div className="flex items-center gap-2">
-                      <input type="checkbox" id="settings" className="rounded border-gray-300" />
-                      <label htmlFor="settings" className="text-sm">Settings Access</label>
+                      <Checkbox 
+                        id="settings" 
+                        className="border-gray-500 data-[state=checked]:bg-gray-800 data-[state=checked]:text-white" 
+                      />
+                      <label htmlFor="settings" className="text-sm text-gray-700">Settings Access</label>
                     </div>
                   </div>
                 </div>
