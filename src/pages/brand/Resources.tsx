@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { FileText, Youtube, Book, Download, ExternalLink, Play, Search, Filter } from "lucide-react";
@@ -62,13 +61,8 @@ const BrandResources = () => {
   return (
     <div className="space-y-6">
       {/* Page header */}
-      <div>
-        <h1 className="text-2xl font-medium mb-2">Resources</h1>
-        <p className="text-muted-foreground text-sm">
-          Access brand resources, guides, and educational materials.
-        </p>
-      </div>
-
+      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Resources</h1>
+      
       {/* Search and actions bar */}
       <div className="flex flex-col sm:flex-row justify-between gap-4 items-start sm:items-center pb-4 border-b border-gray-200">
         <div className="flex items-center gap-2 w-full sm:w-auto">
@@ -126,52 +120,50 @@ const BrandResources = () => {
       
       {/* Main content */}
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <TabsList className="bg-transparent border-b border-gray-200 rounded-none w-full flex justify-start overflow-x-auto pb-0">
-          <TabsTrigger 
-            value="all" 
-            className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none rounded-none px-6 py-2"
-          >
-            All Resources
-          </TabsTrigger>
-          <TabsTrigger 
-            value="documents" 
-            className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none rounded-none px-6 py-2"
-          >
-            Documents
-          </TabsTrigger>
-          <TabsTrigger 
-            value="videos" 
-            className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none rounded-none px-6 py-2"
-          >
-            Videos
-          </TabsTrigger>
-          <TabsTrigger 
-            value="external" 
-            className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none rounded-none px-6 py-2"
-          >
-            External Resources
-          </TabsTrigger>
-          <TabsTrigger 
-            value="request" 
-            className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none rounded-none px-6 py-2"
-          >
-            Request Custom
-          </TabsTrigger>
-        </TabsList>
+        <div className="border-t border-gray-200 mb-6">
+          <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
+            <TabsTrigger 
+              value="all" 
+              className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
+            >
+              All Resources
+            </TabsTrigger>
+            <TabsTrigger 
+              value="documents" 
+              className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
+            >
+              Documents
+            </TabsTrigger>
+            <TabsTrigger 
+              value="videos" 
+              className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
+            >
+              Videos
+            </TabsTrigger>
+            <TabsTrigger 
+              value="external" 
+              className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
+            >
+              External Resources
+            </TabsTrigger>
+          </TabsList>
+        </div>
         
-        <TabsContent value="all" className="mt-6 space-y-6">
+        <TabsContent value="all" className="mt-0 space-y-6">
           {/* Documents Section */}
-          <Card className="border-gray-200">
-            <CardHeader className="border-b border-gray-100 pb-3">
-              <CardTitle className="text-lg font-medium flex items-center gap-2">
-                <FileText className="h-5 w-5" />
-                PDF Documents
+          <Card className="border border-gray-200">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-1xl md:text-2xl uppercase font-thin">
+                <div className="flex items-center gap-2">
+                  <FileText className="h-5 w-5" />
+                  PDF Documents
+                </div>
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
               <Table>
                 <TableHeader>
-                  <TableRow>
+                  <TableRow className="bg-gray-50">
                     <TableHead className="w-[45%]">Document Title</TableHead>
                     <TableHead className="w-[20%]">Category</TableHead>
                     <TableHead className="w-[15%]">Size</TableHead>
@@ -223,17 +215,19 @@ const BrandResources = () => {
           </Card>
           
           {/* Videos Section */}
-          <Card className="border-gray-200">
-            <CardHeader className="border-b border-gray-100 pb-3">
-              <CardTitle className="text-lg font-medium flex items-center gap-2">
-                <Youtube className="h-5 w-5" />
-                Video Tutorials
+          <Card className="border border-gray-200">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-1xl md:text-2xl uppercase font-thin">
+                <div className="flex items-center gap-2">
+                  <Youtube className="h-5 w-5" />
+                  Video Tutorials
+                </div>
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
               <Table>
                 <TableHeader>
-                  <TableRow>
+                  <TableRow className="bg-gray-50">
                     <TableHead className="w-[50%]">Video Title</TableHead>
                     <TableHead className="w-[20%]">Category</TableHead>
                     <TableHead className="w-[15%]">Duration</TableHead>
@@ -275,17 +269,19 @@ const BrandResources = () => {
           </Card>
           
           {/* External Resources Section */}
-          <Card className="border-gray-200">
-            <CardHeader className="border-b border-gray-100 pb-3">
-              <CardTitle className="text-lg font-medium flex items-center gap-2">
-                <Book className="h-5 w-5" />
-                External Resources
+          <Card className="border border-gray-200">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-1xl md:text-2xl uppercase font-thin">
+                <div className="flex items-center gap-2">
+                  <Book className="h-5 w-5" />
+                  External Resources
+                </div>
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
               <Table>
                 <TableHeader>
-                  <TableRow>
+                  <TableRow className="bg-gray-50">
                     <TableHead className="w-[35%]">Title</TableHead>
                     <TableHead className="w-[20%]">Source</TableHead>
                     <TableHead className="w-[15%]">Type</TableHead>
@@ -329,18 +325,20 @@ const BrandResources = () => {
           </Card>
         </TabsContent>
         
-        <TabsContent value="documents" className="mt-6">
-          <Card className="border-gray-200">
-            <CardHeader className="border-b border-gray-100 pb-3">
-              <CardTitle className="text-lg font-medium flex items-center gap-2">
-                <FileText className="h-5 w-5" />
-                PDF Documents
+        <TabsContent value="documents" className="mt-0">
+          <Card className="border border-gray-200">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-1xl md:text-2xl uppercase font-thin">
+                <div className="flex items-center gap-2">
+                  <FileText className="h-5 w-5" />
+                  PDF Documents
+                </div>
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
               <Table>
                 <TableHeader>
-                  <TableRow>
+                  <TableRow className="bg-gray-50">
                     <TableHead className="w-[45%]">Document Title</TableHead>
                     <TableHead className="w-[20%]">Category</TableHead>
                     <TableHead className="w-[15%]">Size</TableHead>
@@ -392,18 +390,20 @@ const BrandResources = () => {
           </Card>
         </TabsContent>
         
-        <TabsContent value="videos" className="mt-6">
-          <Card className="border-gray-200">
-            <CardHeader className="border-b border-gray-100 pb-3">
-              <CardTitle className="text-lg font-medium flex items-center gap-2">
-                <Youtube className="h-5 w-5" />
-                Video Tutorials
+        <TabsContent value="videos" className="mt-0">
+          <Card className="border border-gray-200">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-1xl md:text-2xl uppercase font-thin">
+                <div className="flex items-center gap-2">
+                  <Youtube className="h-5 w-5" />
+                  Video Tutorials
+                </div>
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
               <Table>
                 <TableHeader>
-                  <TableRow>
+                  <TableRow className="bg-gray-50">
                     <TableHead className="w-[50%]">Video Title</TableHead>
                     <TableHead className="w-[20%]">Category</TableHead>
                     <TableHead className="w-[15%]">Duration</TableHead>
@@ -445,18 +445,20 @@ const BrandResources = () => {
           </Card>
         </TabsContent>
         
-        <TabsContent value="external" className="mt-6">
-          <Card className="border-gray-200">
-            <CardHeader className="border-b border-gray-100 pb-3">
-              <CardTitle className="text-lg font-medium flex items-center gap-2">
-                <Book className="h-5 w-5" />
-                External Resources
+        <TabsContent value="external" className="mt-0">
+          <Card className="border border-gray-200">
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-1xl md:text-2xl uppercase font-thin">
+                <div className="flex items-center gap-2">
+                  <Book className="h-5 w-5" />
+                  External Resources
+                </div>
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
               <Table>
                 <TableHeader>
-                  <TableRow>
+                  <TableRow className="bg-gray-50">
                     <TableHead className="w-[35%]">Title</TableHead>
                     <TableHead className="w-[20%]">Source</TableHead>
                     <TableHead className="w-[15%]">Type</TableHead>
@@ -496,70 +498,6 @@ const BrandResources = () => {
                   )}
                 </TableBody>
               </Table>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="request" className="mt-6">
-          <Card className="border-gray-200">
-            <CardHeader className="border-b border-gray-100 pb-3">
-              <CardTitle className="text-lg font-medium">Request Custom Resources</CardTitle>
-            </CardHeader>
-            <CardContent className="p-6">
-              <form className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">
-                      Resource Type
-                    </label>
-                    <select className="w-full p-2 border border-gray-200 rounded-none focus:outline-none focus:border-black">
-                      <option value="">Select resource type</option>
-                      <option value="guide">Brand Guide</option>
-                      <option value="template">Marketing Template</option>
-                      <option value="tutorial">Video Tutorial</option>
-                      <option value="custom">Custom Request</option>
-                    </select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">
-                      Priority Level
-                    </label>
-                    <select className="w-full p-2 border border-gray-200 rounded-none focus:outline-none focus:border-black">
-                      <option value="low">Low - Within 2 weeks</option>
-                      <option value="medium">Medium - Within 1 week</option>
-                      <option value="high">High - Within 3 days</option>
-                      <option value="urgent">Urgent - Within 24 hours</option>
-                    </select>
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Description of Request
-                  </label>
-                  <textarea 
-                    className="w-full p-2 border border-gray-200 rounded-none focus:outline-none focus:border-black h-32"
-                    placeholder="Please describe what you're looking for in detail..."
-                  ></textarea>
-                </div>
-                
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Additional Context or Examples
-                  </label>
-                  <textarea 
-                    className="w-full p-2 border border-gray-200 rounded-none focus:outline-none focus:border-black h-24"
-                    placeholder="Provide any examples or additional context that might help us create your resource..."
-                  ></textarea>
-                </div>
-                
-                <div className="flex justify-end">
-                  <Button type="submit" className="bg-black text-white hover:bg-gray-800">
-                    Submit Request
-                  </Button>
-                </div>
-              </form>
             </CardContent>
           </Card>
         </TabsContent>
