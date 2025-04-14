@@ -102,8 +102,7 @@ const Dashboard = () => {
       <section className="bg-black text-white py-24 px-4 md:-mx-10">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl md:text-5xl uppercase font-light mb-6">
-            ADDITIONAL<br/>
-            <span className="font-normal">SERVICES</span>
+            ADDITIONAL SERVICES
           </h1>
           <p className="max-w-2xl text-lg font-light mb-8">
             Specialized consulting services to enhance your buying strategy and store curation
