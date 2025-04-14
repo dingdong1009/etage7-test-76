@@ -137,7 +137,6 @@ const Index = () => {
                 </p>
                 
                 <div className="mb-12">
-
                   <Button 
                     onClick={togglePricing} 
                     disabled={isAnimating}
@@ -146,9 +145,6 @@ const Index = () => {
                   Discover Pricing 
                   <ChevronRight className={`ml-2 h-5 w-5 transform transition-transform duration-300 ${showPricing ? 'rotate-90' : ''}`} />
                   </Button>
-
-
-
                 </div>
               </>
             ) : (
