@@ -99,7 +99,7 @@ const Dashboard = () => {
   return (
     <div className="space-y-6">
   
-      <section className="bg-black text-white py-24 px-4 md:-mx-10">
+      <section className="bg-black text-white py-24 px-4">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl md:text-5xl uppercase font-light mb-6">
             ADDITIONAL SERVICES
