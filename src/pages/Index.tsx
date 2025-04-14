@@ -44,7 +44,7 @@ const Index = () => {
       highlight: true
     }
   ];
-  
+   
   const togglePricing = () => {
     if (isAnimating) return;
     
