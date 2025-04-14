@@ -99,55 +99,46 @@ const SalesUsers = () => {
 
   return (
     <div className="space-y-8">
-      <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">USER MANAGEMENT</h1>
+      <h1 className="text-4xl font-light tracking-tighter">Users Management</h1>
       
-      <div className="border-t border-gray-200 mb-6">
-        <Tabs 
-          value={activeTab}
-          onValueChange={setActiveTab}
-          className="w-full"
-        >
-          <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
-            <TabsTrigger 
-              value="managers" 
-              className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
-            >
-              SALES MANAGERS
-            </TabsTrigger>
-            <TabsTrigger 
-              value="brands" 
-              className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
-            >
-              BRANDS
-            </TabsTrigger>
-            <TabsTrigger 
-              value="buyers" 
-              className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
-            >
-              BUYERS
-            </TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="managers" className="space-y-4">
-            <SalesManagerList 
-              salesManagers={mockSalesManagers}
-              statusFilter={statusFilter}
-              setStatusFilter={setStatusFilter}
-              handleAddUser={handleAddUser}
-              handleViewUser={handleViewUser}
-              handleEditUser={handleEditUser}
-            />
-          </TabsContent>
-          
-          <TabsContent value="brands" className="space-y-4">
-            <p className="text-center py-6 text-gray-500">Brand management interface would be displayed here</p>
-          </TabsContent>
-          
-          <TabsContent value="buyers" className="space-y-4">
-            <p className="text-center py-6 text-gray-500">Buyer management interface would be displayed here</p>
-          </TabsContent>
-        </Tabs>
-      </div>
+      <Card className="border-gray-200 shadow-none">
+        <CardHeader>
+          <CardTitle className="text-2xl font-light">User Accounts</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Tabs 
+            value={activeTab}
+            onValueChange={setActiveTab}
+            className="space-y-4"
+          >
+            <TabsList className="grid w-full grid-cols-3 mb-4">
+              <TabsTrigger value="managers" className="text-sm">SALES MANAGERS</TabsTrigger>
+              <TabsTrigger value="brands" className="text-sm">BRANDS</TabsTrigger>
+              <TabsTrigger value="buyers" className="text-sm">BUYERS</TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="managers" className="space-y-4">
+              <SalesManagerList 
+                salesManagers={mockSalesManagers}
+                statusFilter={statusFilter}
+                setStatusFilter={setStatusFilter}
+                handleAddUser={handleAddUser}
+                handleViewUser={handleViewUser}
+                handleEditUser={handleEditUser}
+              />
+            </TabsContent>
+            
+            {/* Note: The brand and buyer lists would be imported from their respective components */}
+            <TabsContent value="brands" className="space-y-4">
+              <p className="text-center py-6 text-gray-500">Brand management interface would be displayed here</p>
+            </TabsContent>
+            
+            <TabsContent value="buyers" className="space-y-4">
+              <p className="text-center py-6 text-gray-500">Buyer management interface would be displayed here</p>
+            </TabsContent>
+          </Tabs>
+        </CardContent>
+      </Card>
     </div>
   );
 };
