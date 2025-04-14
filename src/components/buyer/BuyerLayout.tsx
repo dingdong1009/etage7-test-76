@@ -19,7 +19,7 @@ const BuyerLayout = () => {
           </div>
         </div>
       </footer>
-    </div>
+    </div> 
   );
 };
 
