@@ -32,15 +32,15 @@ const Index = () => {
     {
       name: "6-MONTH",
       price: "₽ 170'000",
-      features: ["6 months unlimited access", "Unlimited product listing", "Lookbook & Order features", "Store-front", "And many other features"],
-      buttonText: "Purchase Standard",
+      features: ["6 months unlimited access", "Individual newsletter to all buyers (1X)", "Promotion on social media (1X)", "Advanced tools to manage products", "And many other features"],
+      buttonText: "Subscribe 6-Month",
       highlight: false
     }, 
     {
       name: "12-MONTH",
-      price: "₽ 280'000",
-      features: ["12 months unlimited access", "Unlimited product listing", "Lookbook & Order features", "Store-front", "And many other features"],
-      buttonText: "Purchase Premium",
+      price: "₽ 270'000",
+      features: ["All of 6-Month package"],
+      buttonText: "Subscribe 12-Month",
       highlight: true
     }
   ];
