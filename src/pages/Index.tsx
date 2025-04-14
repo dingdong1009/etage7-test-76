@@ -69,7 +69,7 @@ const Index = () => {
                 }
               }, 500);
             }
-          }, 50);
+          }, 500);
         }, 500);
       }
     } else {
@@ -143,7 +143,7 @@ const Index = () => {
                     className="flex items-center text-lg md:text-xl font-light transition-all focus:outline-none"
                   >
                   Discover Pricing 
-                  <ChevronRight className={`ml-2 h-5 w-5 transform transition-transform duration-300 ${showPricing ? 'rotate-90' : ''}`} />
+                  <ChevronRight className={`ml-2 h-5 w-5 transform transition-transform duration-500 ${showPricing ? 'rotate-90' : ''}`} />
                   </Button>
                 </div>
               </>
