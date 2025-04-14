@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, Bell, Search, X } from "lucide-react";
+import { Menu, Bell, Search, X, ShoppingBag } from "lucide-react";
 import { 
   Tooltip, 
   TooltipContent, 
@@ -19,6 +19,8 @@ const BuyerHeader = () => {
   
   // Mock notification count - this would be fetched from a backend in a real app
   const notificationCount = 2;
+  // Mock cart items count
+  const cartItemsCount = 3;
   
   useEffect(() => {
     const handleScroll = () => {
@@ -80,6 +82,26 @@ const BuyerHeader = () => {
         
         {/* User options on desktop */}
         <div className="hidden md:flex items-center space-x-4">
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div className="relative">
+                  <ShoppingBag size={20} className="text-gray-600 hover:text-black cursor-pointer" />
+                  {cartItemsCount > 0 && (
+                    <Badge 
+                      className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-white text-black text-xs rounded-full"
+                    >
+                      {cartItemsCount}
+                    </Badge>
+                  )}
+                </div>
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>{cartItemsCount} items in cart</p> 
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+          
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger asChild>

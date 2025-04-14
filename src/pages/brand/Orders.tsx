@@ -2,7 +2,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Eye, FileText, Printer, Search, Package, Filter } from "lucide-react";
+import { Eye, FileText, Printer, Search, Package, Filter, Edit, Trash } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useState } from "react";
@@ -29,8 +29,12 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useToast } from "@/hooks/use-toast";
 
 const BrandOrders = () => {
+  // Toast for notifications
+  const { toast } = useToast();
+  
   // Sample order data
   const orders = [
     { 
@@ -118,6 +122,22 @@ const BrandOrders = () => {
       status: "declined"
     }
   ];
+
+  // Handle delete order
+  const handleDeleteOrder = (orderId: string) => {
+    toast({
+      title: "Order deletion requested",
+      description: `Order ${orderId} will be deleted.`,
+    });
+  };
+
+  // Handle edit order
+  const handleEditOrder = (orderId: string) => {
+    toast({
+      title: "Edit order",
+      description: `Editing order ${orderId}.`,
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -219,12 +239,33 @@ const BrandOrders = () => {
                               
                               <Tooltip>
                                 <TooltipTrigger asChild>
-                                  <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-gray-100">
-                                    <Printer size={16} />
+                                  <Button 
+                                    variant="ghost" 
+                                    size="icon" 
+                                    className="h-8 w-8 hover:bg-gray-100"
+                                    onClick={() => handleEditOrder(order.id)}
+                                  >
+                                    <Edit size={16} />
                                   </Button>
                                 </TooltipTrigger>
                                 <TooltipContent>
-                                  <p>Print order</p>
+                                  <p>Edit order</p>
+                                </TooltipContent>
+                              </Tooltip>
+                              
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <Button 
+                                    variant="ghost" 
+                                    size="icon" 
+                                    className="h-8 w-8 hover:bg-gray-100"
+                                    onClick={() => handleDeleteOrder(order.id)}
+                                  >
+                                    <Trash size={16} />
+                                  </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p>Delete order</p>
                                 </TooltipContent>
                               </Tooltip>
                             </div>
@@ -350,12 +391,39 @@ const BrandOrders = () => {
                               
                               <Tooltip>
                                 <TooltipTrigger asChild>
-                                  <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-gray-100">
-                                    <Package size={16} />
+                                  <Button 
+                                    variant="ghost" 
+                                    size="icon" 
+                                    className="h-8 w-8 hover:bg-gray-100"
+                                    onClick={() => toast({
+                                      title: "Edit sample request",
+                                      description: `Editing sample request ${request.id}.`,
+                                    })}
+                                  >
+                                    <Edit size={16} />
                                   </Button>
                                 </TooltipTrigger>
                                 <TooltipContent>
-                                  <p>Track samples</p>
+                                  <p>Edit sample request</p>
+                                </TooltipContent>
+                              </Tooltip>
+                              
+                              <Tooltip>
+                                <TooltipTrigger asChild>
+                                  <Button 
+                                    variant="ghost" 
+                                    size="icon" 
+                                    className="h-8 w-8 hover:bg-gray-100"
+                                    onClick={() => toast({
+                                      title: "Sample request deletion requested",
+                                      description: `Sample request ${request.id} will be deleted.`,
+                                    })}
+                                  >
+                                    <Trash size={16} />
+                                  </Button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                  <p>Delete sample request</p>
                                 </TooltipContent>
                               </Tooltip>
                             </div>
