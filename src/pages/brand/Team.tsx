@@ -80,12 +80,6 @@ const BrandTeam = () => {
           >
             Invite New Member
           </TabsTrigger>
-          <TabsTrigger 
-            value="permissions" 
-            className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
-          >
-            Role Permissions
-          </TabsTrigger>
         </TabsList>
         
         {/* Team Members Tab */}
@@ -302,58 +296,6 @@ const BrandTeam = () => {
                   </Button>
                 </div>
               </form>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        {/* Role Permissions Tab */}
-        <TabsContent value="permissions">
-          <Card className="border border-gray-200 shadow-none rounded-none">
-            <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
-              <CardTitle className="text-base font-light text-gray-900">
-                Role Permissions
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-6">
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow className="hover:bg-transparent">
-                      <TableHead>Permission</TableHead>
-                      <TableHead>Brand Manager</TableHead>
-                      <TableHead>Product Designer</TableHead>
-                      <TableHead>Marketing Specialist</TableHead>
-                      <TableHead>Content Creator</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {[
-                      { permission: "View Dashboard", manager: true, designer: true, marketing: true, creator: true },
-                      { permission: "Manage Products", manager: true, designer: true, marketing: false, creator: false },
-                      { permission: "Manage Orders", manager: true, designer: false, marketing: false, creator: false },
-                      { permission: "Manage Lookbook", manager: true, designer: true, marketing: true, creator: true },
-                      { permission: "Access Messages", manager: true, designer: true, marketing: true, creator: true },
-                      { permission: "Access Settings", manager: true, designer: false, marketing: false, creator: false },
-                      { permission: "Invite Team Members", manager: true, designer: false, marketing: false, creator: false },
-                      { permission: "Manage Team", manager: true, designer: false, marketing: false, creator: false }
-                    ].map((item, index) => (
-                      <TableRow key={index}>
-                        <TableCell>{item.permission}</TableCell>
-                        <TableCell>{item.manager ? "✓" : "✗"}</TableCell>
-                        <TableCell>{item.designer ? "✓" : "✗"}</TableCell>
-                        <TableCell>{item.marketing ? "✓" : "✗"}</TableCell>
-                        <TableCell>{item.creator ? "✓" : "✗"}</TableCell>
-                      </TableRow>
-                    ))}
-                  </TableBody>
-                </Table>
-              </div>
-              
-              <div className="mt-6">
-                <p className="text-sm text-gray-500 font-light">
-                  Note: These are default role permissions. Custom permissions can be assigned to individual team members.
-                </p>
-              </div>
             </CardContent>
           </Card>
         </TabsContent>
