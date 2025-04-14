@@ -22,7 +22,7 @@ export const PricingTable = ({ plan }: PricingTableProps) => {
           <h3 className="text-xl uppercase font-normal tracking-tighter">{plan.name}</h3>
           <div className="mt-4 flex items-baseline">
             <span className="text-4xl font-light tracking-tighter">{plan.price}</span>
-            <span className="ml-1 text-sm font-light">/ month</span>
+            <span className="ml-1 text-sm font-light"></span>
           </div>
         </div>
         
