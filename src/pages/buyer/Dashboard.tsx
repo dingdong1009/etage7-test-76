@@ -98,6 +98,22 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-8">
+  
+      <section className="bg-black text-white py-24 px-4 -mx-4 md:-mx-8">
+        <div className="max-w-7xl mx-auto">
+          <h1 className="text-3xl md:text-5xl uppercase font-light mb-6">
+            ADDITIONAL<br/>
+            <span className="font-normal">SERVICES</span>
+          </h1>
+          <p className="max-w-2xl text-lg font-light mb-8">
+            Specialized consulting services to enhance your buying strategy and store curation
+          </p>
+          <Button className="bg-white text-black border-0 hover:bg-gray-100">
+            EXPLORE SERVICES <ArrowRight className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      </section>
+
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <h1 className="text-4xl md:text-6xl font-light tracking-tighter">PRODUCTS</h1>
         
