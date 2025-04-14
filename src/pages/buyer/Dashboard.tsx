@@ -1,8 +1,7 @@
-
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, Heart, Search, SlidersHorizontal, ArrowRight, X, FilterX } from "lucide-react";
+import { ChevronRight, Heart, Search, SlidersHorizontal, ArrowRight, X, FilterX, ChevronUp } from "lucide-react";
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -18,7 +17,6 @@ import { Input } from "@/components/ui/input";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Checkbox } from "@/components/ui/checkbox";
 
-// Product interface for type safety
 interface Product {
   id: string;
   name: string;
@@ -40,7 +38,6 @@ interface Product {
   exclusivity?: boolean;
 }
 
-// Categories and subcategories
 const categoryData = {
   "Dresses": ["Midi", "Maxi", "Mini", "Evening"],
   "Tops": ["T-shirts", "Blouses", "Shirts", "Sweaters"],
@@ -49,10 +46,8 @@ const categoryData = {
   "Shoes": ["Heels", "Flats", "Boots", "Sneakers"]
 };
 
-// Material options
 const materialOptions = ["Cotton", "Silk", "Leather", "Linen", "Denim", "Wool"];
 
-// Additional filter options for fashion buyers
 const seasonOptions = ["Spring/Summer 2025", "Fall/Winter 2024", "Resort 2025", "Pre-Fall 2024"];
 const colorOptions = ["Black", "White", "Navy", "Beige", "Red", "Green", "Blue", "Pink", "Purple", "Yellow", "Orange", "Brown"];
 const sizeOptions = ["XXS", "XS", "S", "M", "L", "XL", "XXL", "One Size"];
@@ -61,18 +56,15 @@ const leadTimeOptions = ["2-4 weeks", "1-2 months", "2-3 months", "3+ months"];
 const shippingFromOptions = ["Europe", "Asia", "North America", "South America", "Africa", "Australia"];
 
 const Dashboard = () => {
-  // Sample product data
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   
-  // Filter states
   const [selectedCategory, setSelectedCategory] = useState<string>("All Categories");
   const [selectedSubCategory, setSelectedSubCategory] = useState<string>("");
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState<number[]>([0, 1000]);
   const [inStockOnly, setInStockOnly] = useState<boolean>(false);
   
-  // Additional filters for professional buyers
   const [selectedSeasons, setSelectedSeasons] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
@@ -83,10 +75,9 @@ const Dashboard = () => {
   const [selectedShippingOrigins, setSelectedShippingOrigins] = useState<string[]>([]);
   const [exclusivityOnly, setExclusivityOnly] = useState<boolean>(false);
   
-  // UI states
   const [sortBy, setSortBy] = useState<string>("Newest");
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [showAdvancedFilters, setShowAdvancedFilters] = useState<boolean>(false);
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState<boolean>(true);
   const [showSubcategories, setShowSubcategories] = useState<boolean>(false);
   const [isAiAssistEnabled, setIsAiAssistEnabled] = useState<boolean>(false);
   const [aiResults, setAiResults] = useState<string | null>(null);
@@ -94,7 +85,6 @@ const Dashboard = () => {
   
   const categories = ["All Categories", "Dresses", "Tops", "Skirts", "Bags", "Shoes"];
   
-  // Initialize products
   useEffect(() => {
     const initialProducts = Array(12).fill(null).map((_, index) => {
       const categoryIndex = Math.floor(Math.random() * 5);
@@ -139,69 +129,56 @@ const Dashboard = () => {
     setFilteredProducts(initialProducts);
   }, []);
   
-  // Filter products based on all criteria
   useEffect(() => {
     let result = [...products];
     
-    // Category filter
     if (selectedCategory !== "All Categories") {
       result = result.filter(product => product.category === selectedCategory);
       
-      // Subcategory filter
       if (selectedSubCategory) {
         result = result.filter(product => product.subCategory === selectedSubCategory);
       }
     }
     
-    // Material filter
     if (selectedMaterials.length > 0) {
       result = result.filter(product => 
         product.material && selectedMaterials.includes(product.material)
       );
     }
     
-    // Price range filter
     result = result.filter(product => {
       const price = parseInt(product.price.split(" ")[0]);
       return price >= priceRange[0] && price <= priceRange[1];
     });
     
-    // Availability filter
     if (inStockOnly) {
       result = result.filter(product => product.availability === "In Stock");
     }
     
-    // Additional professional buyer filters
-    
-    // Season filter
     if (selectedSeasons.length > 0) {
       result = result.filter(product => 
         product.season && selectedSeasons.includes(product.season)
       );
     }
     
-    // Color filter
     if (selectedColors.length > 0) {
       result = result.filter(product => 
         product.color && selectedColors.includes(product.color)
       );
     }
     
-    // Size filter
     if (selectedSizes.length > 0) {
       result = result.filter(product => 
         product.size && selectedSizes.includes(product.size)
       );
     }
     
-    // Brand filter
     if (selectedBrands.length > 0) {
       result = result.filter(product => 
         product.brand && selectedBrands.includes(product.brand)
       );
     }
     
-    // Sustainability certifications filter
     if (selectedCertifications.length > 0) {
       result = result.filter(product => 
         product.sustainableCert && 
@@ -209,33 +186,28 @@ const Dashboard = () => {
       );
     }
     
-    // Minimum order quantity filter
     result = result.filter(product => {
       return product.minimumOrder && 
         product.minimumOrder >= minOrderRange[0] && 
         product.minimumOrder <= minOrderRange[1];
     });
     
-    // Lead time filter
     if (selectedLeadTimes.length > 0) {
       result = result.filter(product => 
         product.leadTime && selectedLeadTimes.includes(product.leadTime)
       );
     }
     
-    // Shipping origin filter
     if (selectedShippingOrigins.length > 0) {
       result = result.filter(product => 
         product.shippingFrom && selectedShippingOrigins.includes(product.shippingFrom)
       );
     }
     
-    // Exclusivity filter
     if (exclusivityOnly) {
       result = result.filter(product => product.exclusivity === true);
     }
     
-    // Search term filter
     if (searchTerm) {
       const searchLower = searchTerm.toLowerCase();
       result = result.filter(product => 
@@ -246,7 +218,6 @@ const Dashboard = () => {
       );
     }
     
-    // Sort products
     switch (sortBy) {
       case "Price: High to Low":
         result.sort((a, b) => {
@@ -264,13 +235,11 @@ const Dashboard = () => {
         break;
       case "Newest":
       default:
-        // For demo purposes, leave as is (would normally sort by date)
         break;
     }
     
     setFilteredProducts(result);
     
-    // Simulate AI assistance when enabled
     if (isAiAssistEnabled && result.length > 0) {
       let aiSuggestion = "Based on your preferences, we recommend exploring ";
       
@@ -365,7 +334,6 @@ const Dashboard = () => {
     setAiResults(null);
   };
 
-  // Function to count active filters
   const getActiveFiltersCount = () => {
     let count = 0;
     if (selectedCategory !== "All Categories") count++;
@@ -385,12 +353,28 @@ const Dashboard = () => {
     return count;
   };
 
-  // Get active filters count
   const activeFiltersCount = getActiveFiltersCount();
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    
+    if (isAiSearchEnabled && value.length > 2) {
+      setIsSearching(true);
+      setTimeout(() => {
+        setIsSearching(false);
+      }, 500);
+    }
+  };
+
+  const toggleAiSearch = () => {
+    const newState = !isAiSearchEnabled;
+    setIsAiSearchEnabled(newState);
+    setSearchPlaceholder(newState ? "Ask AI about products..." : "Search products...");
+  };
 
   return (
     <div className="space-y-6">
-  
       <section className="bg-black text-white py-24 px-4">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl md:text-5xl uppercase font-light mb-6">
@@ -408,16 +392,15 @@ const Dashboard = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <h1 className="text-4xl md:text-6xl font-light tracking-tighter">PRODUCTS</h1>
         
-        {/* Search and filter section */}
         <div className="flex flex-col sm:flex-row w-full md:w-auto gap-3">
           <div className="relative flex-grow">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+            <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 ${isSearching ? 'text-black animate-pulse' : 'text-gray-400'}`} />
             <input 
               type="text" 
-              placeholder="Search products..." 
+              placeholder={searchPlaceholder} 
               value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10 pr-3 py-2 w-full border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black text-sm"
+              onChange={handleSearch}
+              className="pl-10 pr-3 py-3 w-full border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black text-sm"
             />
           </div>
           <div className="flex gap-3">
@@ -471,474 +454,482 @@ const Dashboard = () => {
               className={`border ${showAdvancedFilters ? 'bg-gray-50 border-gray-300' : 'border-gray-200'} hover:bg-gray-50 w-full sm:w-auto relative`}
               onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
             >
-              Advanced
+              {showAdvancedFilters ? 'Hide Filters' : 'Show Filters'}
               {activeFiltersCount > 0 && (
                 <span className="absolute -top-2 -right-2 bg-gray-800 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
                   {activeFiltersCount}
                 </span>
               )}
-              <ChevronRight size={16} className={`ml-1 transition-transform duration-200 ${showAdvancedFilters ? 'rotate-90' : ''}`} />
             </Button>
           </div>
         </div>
       </div>
       
-      {/* Advanced Filter Section */}
-      {showAdvancedFilters && (
-        <Card className="border border-gray-200 overflow-hidden transition-all duration-300 animate-fade-in">
-          <CardContent className="p-5">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-lg font-light uppercase tracking-wide">Advanced Filters</h3>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={() => setShowAdvancedFilters(false)}
-                className="h-8 w-8 p-0"
-              >
-                <X size={16} />
-              </Button>
-            </div>
+      <Collapsible open={showAdvancedFilters} onOpenChange={setShowAdvancedFilters} className="w-full">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-light uppercase tracking-wide">Advanced Filters</h3>
+          <CollapsibleTrigger asChild>
+            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+              {showAdvancedFilters ? <ChevronUp size={16} /> : <ChevronRight size={16} />}
+            </Button>
+          </CollapsibleTrigger>
+        </div>
+        
+        <CollapsibleContent className="w-full">
+          <Card className="border border-gray-200 overflow-hidden transition-all duration-300 animate-fade-in">
+            <CardContent className="p-5">
+              <div className="mb-6">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="relative flex-grow">
+                    <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 ${isSearching ? 'text-black animate-pulse' : 'text-gray-400'}`} />
+                    <input 
+                      type="text" 
+                      placeholder={searchPlaceholder} 
+                      value={searchTerm}
+                      onChange={handleSearch}
+                      className="pl-10 pr-3 py-3 w-full border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black text-sm"
+                    />
+                  </div>
+                  <div className="flex items-center gap-2 whitespace-nowrap">
+                    <Switch 
+                      id="ai-search"
+                      checked={isAiSearchEnabled}
+                      onCheckedChange={toggleAiSearch}
+                    />
+                    <Label htmlFor="ai-search" className="text-sm text-gray-600">AI Search</Label>
+                  </div>
+                </div>
+                {isAiSearchEnabled && (
+                  <p className="text-xs text-gray-500 ml-1">Ask questions like "Show me cotton dresses with fast shipping" or "Find blue items under 200 EUR"</p>
+                )}
+              </div>
 
-            {/* Filter Navigation Tabs */}
-            <div className="border-b border-gray-200 mb-4">
-              <div className="flex space-x-4 overflow-x-auto pb-2">
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'categories' ? 'border-b-2 border-black' : ''}`}
-                  onClick={() => {
-                    setActiveFilterTab('categories');
-                    setShowSubcategories(false);
-                  }}
-                >
-                  Categories
-                </Button>
-                {showSubcategories && (
+              <div className="border-b border-gray-200 mb-4">
+                <div className="flex space-x-4 overflow-x-auto pb-2">
                   <Button 
                     variant="ghost" 
                     size="sm" 
-                    className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'subcategories' ? 'border-b-2 border-black' : ''}`}
-                    onClick={() => setActiveFilterTab('subcategories')}
+                    className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'categories' ? 'border-b-2 border-black' : ''}`}
+                    onClick={() => {
+                      setActiveFilterTab('categories');
+                      setShowSubcategories(false);
+                    }}
                   >
-                    Subcategories
+                    Categories
                   </Button>
-                )}
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'materials' ? 'border-b-2 border-black' : ''}`}
-                  onClick={() => setActiveFilterTab('materials')}
-                >
-                  Materials
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'collections' ? 'border-b-2 border-black' : ''}`}
-                  onClick={() => setActiveFilterTab('collections')}
-                >
-                  Collections
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'specifications' ? 'border-b-2 border-black' : ''}`}
-                  onClick={() => setActiveFilterTab('specifications')}
-                >
-                  Specifications
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'commercial' ? 'border-b-2 border-black' : ''}`}
-                  onClick={() => setActiveFilterTab('commercial')}
-                >
-                  Commercial Terms
-                </Button>
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'ai' ? 'border-b-2 border-black' : ''}`}
-                  onClick={() => setActiveFilterTab('ai')}
-                >
-                  AI Assistant
-                </Button>
+                  {showSubcategories && (
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'subcategories' ? 'border-b-2 border-black' : ''}`}
+                      onClick={() => setActiveFilterTab('subcategories')}
+                    >
+                      Subcategories
+                    </Button>
+                  )}
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'materials' ? 'border-b-2 border-black' : ''}`}
+                    onClick={() => setActiveFilterTab('materials')}
+                  >
+                    Materials
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'collections' ? 'border-b-2 border-black' : ''}`}
+                    onClick={() => setActiveFilterTab('collections')}
+                  >
+                    Collections
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'specifications' ? 'border-b-2 border-black' : ''}`}
+                    onClick={() => setActiveFilterTab('specifications')}
+                  >
+                    Specifications
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'commercial' ? 'border-b-2 border-black' : ''}`}
+                    onClick={() => setActiveFilterTab('commercial')}
+                  >
+                    Commercial Terms
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'ai' ? 'border-b-2 border-black' : ''}`}
+                    onClick={() => setActiveFilterTab('ai')}
+                  >
+                    AI Assistant
+                  </Button>
+                </div>
               </div>
-            </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {/* Left Column */}
-              <div className="space-y-6">
-                {/* Categories & Subcategories Tab Content */}
-                {activeFilterTab === 'categories' && (
-                  <div className="space-y-4">
-                    <h4 className="text-sm uppercase text-gray-500 font-medium">Categories</h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      {categories.filter(c => c !== "All Categories").map((category) => (
-                        <Button 
-                          key={category}
-                          variant={selectedCategory === category ? "black" : "outline"}
-                          size="sm"
-                          className="justify-start text-sm"
-                          onClick={() => handleCategorySelect(category)}
-                        >
-                          {category}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Subcategories Tab Content */}
-                {activeFilterTab === 'subcategories' && selectedCategory !== "All Categories" && (
-                  <div className="space-y-4">
-                    <div className="flex items-center mb-2">
-                      <Button 
-                        variant="outline" 
-                        size="sm" 
-                        className="text-xs px-2 py-1 h-auto"
-                        onClick={() => {
-                          setShowSubcategories(false);
-                          setActiveFilterTab("categories");
-                          setSelectedSubCategory("");
-                        }}
-                      >
-                        <ChevronRight size={14} className="rotate-180 mr-1" />
-                        Back to Categories
-                      </Button>
-                      <span className="ml-2 text-sm font-light">{selectedCategory}</span>
-                    </div>
-                    <div className="grid grid-cols-2 gap-2">
-                      {categoryData[selectedCategory as keyof typeof categoryData]?.map((subCategory) => (
-                        <Button 
-                          key={subCategory}
-                          variant={selectedSubCategory === subCategory ? "black" : "outline"}
-                          size="sm"
-                          className="justify-start text-sm"
-                          onClick={() => handleSubCategorySelect(subCategory)}
-                        >
-                          {subCategory}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Materials Tab Content */}
-                {activeFilterTab === 'materials' && (
-                  <div className="space-y-4">
-                    <h4 className="text-sm uppercase text-gray-500 font-medium">Materials</h4>
-                    <div className="grid grid-cols-2 gap-2">
-                      {materialOptions.map((material) => (
-                        <Button 
-                          key={material}
-                          variant={selectedMaterials.includes(material) ? "black" : "outline"}
-                          size="sm"
-                          className="justify-start text-sm"
-                          onClick={() => toggleMaterial(material)}
-                        >
-                          {material}
-                        </Button>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Collections Tab Content */}
-                {activeFilterTab === 'collections' && (
-                  <div className="space-y-4">
-                    <h4 className="text-sm uppercase text-gray-500 font-medium">Season</h4>
-                    <div className="grid grid-cols-1 gap-2">
-                      {seasonOptions.map((season) => (
-                        <div key={season} className="flex items-center space-x-2">
-                          <Checkbox 
-                            id={`season-${season}`}
-                            checked={selectedSeasons.includes(season)}
-                            onCheckedChange={() => toggleFilterOption(season, selectedSeasons, setSelectedSeasons)}
-                          />
-                          <Label 
-                            htmlFor={`season-${season}`}
-                            className="text-sm font-light cursor-pointer"
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-6">
+                  {activeFilterTab === 'categories' && (
+                    <div className="space-y-4">
+                      <h4 className="text-sm uppercase text-gray-500 font-medium">Categories</h4>
+                      <div className="grid grid-cols-2 gap-2">
+                        {categories.filter(c => c !== "All Categories").map((category) => (
+                          <Button 
+                            key={category}
+                            variant={selectedCategory === category ? "black" : "outline"}
+                            size="sm"
+                            className="justify-start text-sm"
+                            onClick={() => handleCategorySelect(category)}
                           >
-                            {season}
-                          </Label>
-                        </div>
-                      ))}
-                    </div>
-                    
-                    <h4 className="text-sm uppercase text-gray-500 font-medium pt-4">Colors</h4>
-                    <div className="grid grid-cols-3 gap-2">
-                      {colorOptions.map((color) => (
-                        <div key={color} className="flex items-center space-x-2">
-                          <Checkbox 
-                            id={`color-${color}`}
-                            checked={selectedColors.includes(color)}
-                            onCheckedChange={() => toggleFilterOption(color, selectedColors, setSelectedColors)}
-                          />
-                          <Label 
-                            htmlFor={`color-${color}`}
-                            className="text-sm font-light cursor-pointer"
-                          >
-                            {color}
-                          </Label>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Specifications Tab Content */}
-                {activeFilterTab === 'specifications' && (
-                  <div className="space-y-4">
-                    <h4 className="text-sm uppercase text-gray-500 font-medium">Sizes</h4>
-                    <div className="grid grid-cols-4 gap-2">
-                      {sizeOptions.map((size) => (
-                        <Button 
-                          key={size}
-                          variant={selectedSizes.includes(size) ? "black" : "outline"}
-                          size="sm"
-                          className="justify-center text-sm"
-                          onClick={() => toggleFilterOption(size, selectedSizes, setSelectedSizes)}
-                        >
-                          {size}
-                        </Button>
-                      ))}
-                    </div>
-                    
-                    <h4 className="text-sm uppercase text-gray-500 font-medium pt-4">Sustainability</h4>
-                    <div className="grid grid-cols-1 gap-2">
-                      {sustainabilityCertOptions.map((cert) => (
-                        <div key={cert} className="flex items-center space-x-2">
-                          <Checkbox 
-                            id={`cert-${cert}`}
-                            checked={selectedCertifications.includes(cert)}
-                            onCheckedChange={() => toggleFilterOption(cert, selectedCertifications, setSelectedCertifications)}
-                          />
-                          <Label 
-                            htmlFor={`cert-${cert}`}
-                            className="text-sm font-light cursor-pointer"
-                          >
-                            {cert}
-                          </Label>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
-
-                {/* Commercial Terms Tab */}
-                {activeFilterTab === 'commercial' && (
-                  <div className="space-y-6">
-                    <div>
-                      <h4 className="text-sm uppercase text-gray-500 font-medium mb-3">Minimum Order Quantity</h4>
-                      <div className="flex justify-between text-sm font-light">
-                        <span>{minOrderRange[0]} units</span>
-                        <span>{minOrderRange[1]} units</span>
+                            {category}
+                          </Button>
+                        ))}
                       </div>
-                      <Slider
-                        defaultValue={[0, 100]}
-                        min={0}
-                        max={100}
-                        step={5}
-                        value={minOrderRange}
-                        onValueChange={setMinOrderRange}
-                        className="py-4"
-                      />
                     </div>
-                    
-                    <div>
-                      <h4 className="text-sm uppercase text-gray-500 font-medium mb-3">Lead Time</h4>
+                  )}
+
+                  {activeFilterTab === 'subcategories' && selectedCategory !== "All Categories" && (
+                    <div className="space-y-4">
+                      <div className="flex items-center mb-2">
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="text-xs px-2 py-1 h-auto"
+                          onClick={() => {
+                            setShowSubcategories(false);
+                            setActiveFilterTab("categories");
+                            setSelectedSubCategory("");
+                          }}
+                        >
+                          <ChevronRight size={14} className="rotate-180 mr-1" />
+                          Back to Categories
+                        </Button>
+                        <span className="ml-2 text-sm font-light">{selectedCategory}</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        {categoryData[selectedCategory as keyof typeof categoryData]?.map((subCategory) => (
+                          <Button 
+                            key={subCategory}
+                            variant={selectedSubCategory === subCategory ? "black" : "outline"}
+                            size="sm"
+                            className="justify-start text-sm"
+                            onClick={() => handleSubCategorySelect(subCategory)}
+                          >
+                            {subCategory}
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {activeFilterTab === 'materials' && (
+                    <div className="space-y-4">
+                      <h4 className="text-sm uppercase text-gray-500 font-medium">Materials</h4>
+                      <div className="grid grid-cols-2 gap-2">
+                        {materialOptions.map((material) => (
+                          <Button 
+                            key={material}
+                            variant={selectedMaterials.includes(material) ? "black" : "outline"}
+                            size="sm"
+                            className="justify-start text-sm"
+                            onClick={() => toggleMaterial(material)}
+                          >
+                            {material}
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {activeFilterTab === 'collections' && (
+                    <div className="space-y-4">
+                      <h4 className="text-sm uppercase text-gray-500 font-medium">Season</h4>
                       <div className="grid grid-cols-1 gap-2">
-                        {leadTimeOptions.map((leadTime) => (
-                          <div key={leadTime} className="flex items-center space-x-2">
+                        {seasonOptions.map((season) => (
+                          <div key={season} className="flex items-center space-x-2">
                             <Checkbox 
-                              id={`leadtime-${leadTime}`}
-                              checked={selectedLeadTimes.includes(leadTime)}
-                              onCheckedChange={() => toggleFilterOption(leadTime, selectedLeadTimes, setSelectedLeadTimes)}
+                              id={`season-${season}`}
+                              checked={selectedSeasons.includes(season)}
+                              onCheckedChange={() => toggleFilterOption(season, selectedSeasons, setSelectedSeasons)}
                             />
                             <Label 
-                              htmlFor={`leadtime-${leadTime}`}
+                              htmlFor={`season-${season}`}
                               className="text-sm font-light cursor-pointer"
                             >
-                              {leadTime}
+                              {season}
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      <h4 className="text-sm uppercase text-gray-500 font-medium pt-4">Colors</h4>
+                      <div className="grid grid-cols-3 gap-2">
+                        {colorOptions.map((color) => (
+                          <div key={color} className="flex items-center space-x-2">
+                            <Checkbox 
+                              id={`color-${color}`}
+                              checked={selectedColors.includes(color)}
+                              onCheckedChange={() => toggleFilterOption(color, selectedColors, setSelectedColors)}
+                            />
+                            <Label 
+                              htmlFor={`color-${color}`}
+                              className="text-sm font-light cursor-pointer"
+                            >
+                              {color}
                             </Label>
                           </div>
                         ))}
                       </div>
                     </div>
-                    
-                    <div>
-                      <div className="flex items-center justify-between">
-                        <Label htmlFor="exclusivity" className="text-sm uppercase text-gray-500 font-medium">
-                          Exclusivity Available
-                        </Label>
-                        <Switch
-                          id="exclusivity"
-                          checked={exclusivityOnly}
-                          onCheckedChange={setExclusivityOnly}
-                        />
-                      </div>
-                      <p className="text-xs text-gray-500 mt-1">Only show products with exclusivity options</p>
-                    </div>
-                  </div>
-                )}
+                  )}
 
-                {/* AI Assistant Tab Content */}
-                {activeFilterTab === 'ai' && (
-                  <div className="space-y-4">
-                    <div className="pt-2">
-                      <div className="flex items-center justify-between mb-2">
-                        <Label htmlFor="ai-assist" className="text-sm uppercase text-gray-500 font-medium">
-                          AI Shopping Assistant
-                        </Label>
-                        <Switch
-                          id="ai-assist"
-                          checked={isAiAssistEnabled}
-                          onCheckedChange={setIsAiAssistEnabled}
-                        />
+                  {activeFilterTab === 'specifications' && (
+                    <div className="space-y-4">
+                      <h4 className="text-sm uppercase text-gray-500 font-medium">Sizes</h4>
+                      <div className="grid grid-cols-4 gap-2">
+                        {sizeOptions.map((size) => (
+                          <Button 
+                            key={size}
+                            variant={selectedSizes.includes(size) ? "black" : "outline"}
+                            size="sm"
+                            className="justify-center text-sm"
+                            onClick={() => toggleFilterOption(size, selectedSizes, setSelectedSizes)}
+                          >
+                            {size}
+                          </Button>
+                        ))}
                       </div>
-                      <p className="text-xs text-gray-500 mb-4">Enable AI to help you find the best products based on your preferences and buying history</p>
                       
-                      {isAiAssistEnabled && (
-                        <div className="bg-gray-50 border border-gray-200 p-4 rounded-none mb-4">
-                          <p className="text-sm font-light">The AI assistant will analyze your filters, past purchases, and current market trends to suggest the most relevant products for your store.</p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                )}
-              </div>
-
-              {/* Right Column - Always visible regardless of tab */}
-              <div className="space-y-6">
-                {/* Price Range */}
-                <div className="space-y-4">
-                  <div className="flex justify-between">
-                    <h4 className="text-sm uppercase text-gray-500 font-medium">Price Range</h4>
-                    <span className="text-sm font-light">
-                      {priceRange[0]} - {priceRange[1]} EUR
-                    </span>
-                  </div>
-                  <Slider
-                    defaultValue={[0, 1000]}
-                    min={0}
-                    max={1000}
-                    step={50}
-                    value={priceRange}
-                    onValueChange={setPriceRange}
-                    className="py-4"
-                  />
-                </div>
-
-                {/* Shipping From */}
-                <div className="space-y-2">
-                  <h4 className="text-sm uppercase text-gray-500 font-medium">Shipping From</h4>
-                  <div className="grid grid-cols-2 gap-2">
-                    {shippingFromOptions.map((region) => (
-                      <div key={region} className="flex items-center space-x-2">
-                        <Checkbox 
-                          id={`region-${region}`}
-                          checked={selectedShippingOrigins.includes(region)}
-                          onCheckedChange={() => toggleFilterOption(region, selectedShippingOrigins, setSelectedShippingOrigins)}
-                        />
-                        <Label 
-                          htmlFor={`region-${region}`}
-                          className="text-sm font-light cursor-pointer"
-                        >
-                          {region}
-                        </Label>
+                      <h4 className="text-sm uppercase text-gray-500 font-medium pt-4">Sustainability</h4>
+                      <div className="grid grid-cols-1 gap-2">
+                        {sustainabilityCertOptions.map((cert) => (
+                          <div key={cert} className="flex items-center space-x-2">
+                            <Checkbox 
+                              id={`cert-${cert}`}
+                              checked={selectedCertifications.includes(cert)}
+                              onCheckedChange={() => toggleFilterOption(cert, selectedCertifications, setSelectedCertifications)}
+                            />
+                            <Label 
+                              htmlFor={`cert-${cert}`}
+                              className="text-sm font-light cursor-pointer"
+                            >
+                              {cert}
+                            </Label>
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
+                    </div>
+                  )}
+
+                  {activeFilterTab === 'commercial' && (
+                    <div className="space-y-6">
+                      <div>
+                        <h4 className="text-sm uppercase text-gray-500 font-medium mb-3">Minimum Order Quantity</h4>
+                        <div className="flex justify-between text-sm font-light">
+                          <span>{minOrderRange[0]} units</span>
+                          <span>{minOrderRange[1]} units</span>
+                        </div>
+                        <Slider
+                          defaultValue={[0, 100]}
+                          min={0}
+                          max={100}
+                          step={5}
+                          value={minOrderRange}
+                          onValueChange={setMinOrderRange}
+                          className="py-4"
+                        />
+                      </div>
+                      
+                      <div>
+                        <h4 className="text-sm uppercase text-gray-500 font-medium mb-3">Lead Time</h4>
+                        <div className="grid grid-cols-1 gap-2">
+                          {leadTimeOptions.map((leadTime) => (
+                            <div key={leadTime} className="flex items-center space-x-2">
+                              <Checkbox 
+                                id={`leadtime-${leadTime}`}
+                                checked={selectedLeadTimes.includes(leadTime)}
+                                onCheckedChange={() => toggleFilterOption(leadTime, selectedLeadTimes, setSelectedLeadTimes)}
+                              />
+                              <Label 
+                                htmlFor={`leadtime-${leadTime}`}
+                                className="text-sm font-light cursor-pointer"
+                              >
+                                {leadTime}
+                              </Label>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <div className="flex items-center justify-between">
+                          <Label htmlFor="exclusivity" className="text-sm uppercase text-gray-500 font-medium">
+                            Exclusivity Available
+                          </Label>
+                          <Switch
+                            id="exclusivity"
+                            checked={exclusivityOnly}
+                            onCheckedChange={setExclusivityOnly}
+                          />
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1">Only show products with exclusivity options</p>
+                      </div>
+                    </div>
+                  )}
+
+                  {activeFilterTab === 'ai' && (
+                    <div className="space-y-4">
+                      <div className="pt-2">
+                        <div className="flex items-center justify-between mb-2">
+                          <Label htmlFor="ai-assist" className="text-sm uppercase text-gray-500 font-medium">
+                            AI Shopping Assistant
+                          </Label>
+                          <Switch
+                            id="ai-assist"
+                            checked={isAiAssistEnabled}
+                            onCheckedChange={setIsAiAssistEnabled}
+                          />
+                        </div>
+                        <p className="text-xs text-gray-500 mb-4">Enable AI to help you find the best products based on your preferences and buying history</p>
+                        
+                        {isAiAssistEnabled && (
+                          <div className="bg-gray-50 border border-gray-200 p-4 rounded-none mb-4">
+                            <p className="text-sm font-light">The AI assistant will analyze your filters, past purchases, and current market trends to suggest the most relevant products for your store.</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
-                {/* Availability */}
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="in-stock" className="text-sm uppercase text-gray-500 font-medium">
-                    In Stock Only
-                  </Label>
-                  <Switch
-                    id="in-stock"
-                    checked={inStockOnly}
-                    onCheckedChange={setInStockOnly}
-                  />
-                </div>
-                
-                {/* Applied Filters Summary */}
-                {activeFiltersCount > 0 && (
-                  <div className="mt-4 pt-4 border-t border-gray-200">
-                    <div className="flex justify-between items-center mb-2">
-                      <h4 className="text-sm uppercase text-gray-500 font-medium">Applied Filters</h4>
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        onClick={resetFilters}
-                        className="h-8 text-xs text-gray-500 hover:text-black flex items-center gap-1"
-                      >
-                        <FilterX size={14} />
-                        Clear All
-                      </Button>
+                <div className="space-y-6">
+                  <div className="space-y-4">
+                    <div className="flex justify-between">
+                      <h4 className="text-sm uppercase text-gray-500 font-medium">Price Range</h4>
+                      <span className="text-sm font-light">
+                        {priceRange[0]} - {priceRange[1]} EUR
+                      </span>
                     </div>
-                    <div className="flex flex-wrap gap-2 mt-2">
-                      {selectedCategory !== "All Categories" && (
-                        <div className="bg-gray-100 px-2 py-1 text-xs flex items-center gap-1">
-                          <span>Category: {selectedCategory}</span>
-                          <X 
-                            size={12} 
-                            className="cursor-pointer"
-                            onClick={() => setSelectedCategory("All Categories")}
+                    <Slider
+                      defaultValue={[0, 1000]}
+                      min={0}
+                      max={1000}
+                      step={50}
+                      value={priceRange}
+                      onValueChange={setPriceRange}
+                      className="py-4"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <h4 className="text-sm uppercase text-gray-500 font-medium">Shipping From</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {shippingFromOptions.map((region) => (
+                        <div key={region} className="flex items-center space-x-2">
+                          <Checkbox 
+                            id={`region-${region}`}
+                            checked={selectedShippingOrigins.includes(region)}
+                            onCheckedChange={() => toggleFilterOption(region, selectedShippingOrigins, setSelectedShippingOrigins)}
                           />
-                        </div>
-                      )}
-                      {selectedSubCategory && (
-                        <div className="bg-gray-100 px-2 py-1 text-xs flex items-center gap-1">
-                          <span>Subcategory: {selectedSubCategory}</span>
-                          <X 
-                            size={12} 
-                            className="cursor-pointer"
-                            onClick={() => setSelectedSubCategory("")}
-                          />
-                        </div>
-                      )}
-                      {selectedMaterials.map(material => (
-                        <div key={material} className="bg-gray-100 px-2 py-1 text-xs flex items-center gap-1">
-                          <span>Material: {material}</span>
-                          <X 
-                            size={12} 
-                            className="cursor-pointer"
-                            onClick={() => toggleMaterial(material)}
-                          />
+                          <Label 
+                            htmlFor={`region-${region}`}
+                            className="text-sm font-light cursor-pointer"
+                          >
+                            {region}
+                          </Label>
                         </div>
                       ))}
-                      {/* Add more filter chips as needed */}
                     </div>
                   </div>
-                )}
-              </div>
-            </div>
 
-            {/* Action Buttons */}
-            <div className="flex justify-between mt-6">
-              <Button 
-                variant="outline"
-                size="sm"
-                onClick={resetFilters}
-              >
-                Reset Filters
-              </Button>
-              <Button
-                variant="black"
-                size="sm"
-                onClick={() => setShowAdvancedFilters(false)}
-              >
-                Apply Filters
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="in-stock" className="text-sm uppercase text-gray-500 font-medium">
+                      In Stock Only
+                    </Label>
+                    <Switch
+                      id="in-stock"
+                      checked={inStockOnly}
+                      onCheckedChange={setInStockOnly}
+                    />
+                  </div>
+                  
+                  {activeFiltersCount > 0 && (
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                      <div className="flex justify-between items-center mb-2">
+                        <h4 className="text-sm uppercase text-gray-500 font-medium">Applied Filters</h4>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={resetFilters}
+                          className="h-8 text-xs text-gray-500 hover:text-black flex items-center gap-1"
+                        >
+                          <FilterX size={14} />
+                          Clear All
+                        </Button>
+                      </div>
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {selectedCategory !== "All Categories" && (
+                          <div className="bg-gray-100 px-2 py-1 text-xs flex items-center gap-1">
+                            <span>Category: {selectedCategory}</span>
+                            <X 
+                              size={12} 
+                              className="cursor-pointer"
+                              onClick={() => setSelectedCategory("All Categories")}
+                            />
+                          </div>
+                        )}
+                        {selectedSubCategory && (
+                          <div className="bg-gray-100 px-2 py-1 text-xs flex items-center gap-1">
+                            <span>Subcategory: {selectedSubCategory}</span>
+                            <X 
+                              size={12} 
+                              className="cursor-pointer"
+                              onClick={() => setSelectedSubCategory("")}
+                            />
+                          </div>
+                        )}
+                        {selectedMaterials.map(material => (
+                          <div key={material} className="bg-gray-100 px-2 py-1 text-xs flex items-center gap-1">
+                            <span>Material: {material}</span>
+                            <X 
+                              size={12} 
+                              className="cursor-pointer"
+                              onClick={() => toggleMaterial(material)}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="flex justify-between mt-6">
+                <Button 
+                  variant="outline"
+                  size="sm"
+                  onClick={resetFilters}
+                >
+                  Reset Filters
+                </Button>
+                <Button
+                  variant="black"
+                  size="sm"
+                  onClick={() => {
+                    // Keep filters open but apply them
+                  }}
+                >
+                  Apply Filters
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </CollapsibleContent>
+      </Collapsible>
       
-      {/* AI Assistance Results */}
       {aiResults && (
         <div className="bg-gray-50 border border-gray-200 p-4 rounded-none mb-4 animate-fade-in">
           <div className="flex items-start gap-3">
@@ -964,13 +955,11 @@ const Dashboard = () => {
         </div>
       )}
 
-      {/* Product grid with monochrome styling */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
             <Card key={product.id} className="border-0 rounded-none overflow-hidden group">
               <CardContent className="p-0">
-                {/* Product image placeholder */}
                 <div className="aspect-[3/4] bg-gray-50 flex items-center justify-center relative overflow-hidden">
                   <div className="text-gray-400 text-xs">{product.imagePlaceholder}</div>
                   <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
@@ -996,7 +985,6 @@ const Dashboard = () => {
                     </Button>
                   </div>
                 </div>
-                {/* Product details with monochrome styling */}
                 <div className="pt-4 px-1 space-y-1">
                   <p className="text-xs text-gray-500 uppercase tracking-wide">
                     {product.category}{product.subCategory ? ` / ${product.subCategory}` : ''}
@@ -1027,7 +1015,6 @@ const Dashboard = () => {
         )}
       </div>
 
-      {/* Pagination with monochrome styling */}
       {filteredProducts.length > 0 && (
         <div className="flex justify-center pt-8">
           <div className="flex gap-2">
