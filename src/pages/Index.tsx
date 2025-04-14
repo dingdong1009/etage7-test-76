@@ -137,14 +137,18 @@ const Index = () => {
                 </p>
                 
                 <div className="mb-12">
-                  <button 
+
+                  <Button 
                     onClick={togglePricing} 
                     disabled={isAnimating}
                     className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none"
                   >
-                    Discover Pricing 
-                    <ChevronRight className={`ml-2 h-5 w-5 transform transition-transform duration-300 ${showPricing ? 'rotate-90' : ''}`} />
-                  </button>
+                  Discover Pricing 
+                  <ChevronRight className={`ml-2 h-5 w-5 transform transition-transform duration-300 ${showPricing ? 'rotate-90' : ''}`} />
+                  </Button>
+
+
+
                 </div>
               </>
             ) : (
@@ -189,7 +193,7 @@ const Index = () => {
                 blablalblablal bal balbal bal b balbal balba lbal ba b
               </p>}
             
-            <Button onClick={toggleBuyerInfo} className="bg-white text-black border-0 hover:bg-gray-100 text-base py-6 px-8">
+            <Button onClick={toggleBuyerInfo} className="bg-black text-white border-0 hover:bg-gray-100 text-base py-6 px-8">
               JOIN AS A BUYER <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
             </Button>
           </div>
