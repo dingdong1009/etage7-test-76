@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,6 +8,7 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { NewConversationDialog } from "@/components/buyer/messages/NewConversationDialog";
 import { Archive } from "@/components/buyer/messages/Icons";
+import { toast } from "sonner";
 
 const BuyerMessages = () => {
   const [activeTab, setActiveTab] = useState("all");
@@ -41,6 +41,10 @@ const BuyerMessages = () => {
     }
   };
 
+  const handleStartConversation = () => {
+    setIsNewConversationOpen(true);
+  };
+
   const filteredContacts = contacts.filter(contact => {
     if (activeTab === "all") return true;
     if (activeTab === "unread") return contact.unread > 0;
@@ -64,7 +68,7 @@ const BuyerMessages = () => {
 
       <div className="flex justify-between items-center mb-6">
         <Button 
-          onClick={() => setIsNewConversationOpen(true)}
+          onClick={handleStartConversation}
           className="bg-black text-white hover:bg-gray-800 transition-all duration-300 rounded-none"
         >
           <Plus size={16} className="mr-2" /> New Conversation
@@ -110,7 +114,6 @@ const BuyerMessages = () => {
             </CardHeader>
 
             <div className="grid md:grid-cols-3 h-[calc(80vh-200px)]">
-              {/* Contact List - Hidden on mobile when chat is open */}
               <div className="border-r border-gray-100">
                 <div className="p-4 border-b border-gray-100">
                   <div className="relative">
@@ -169,9 +172,7 @@ const BuyerMessages = () => {
                 </div>
               </div>
               
-              {/* Chat Window */}
               <div className="md:col-span-2">
-                {/* Chat Header */}
                 <div className="p-4 border-b border-gray-100 flex justify-between items-center">
                   <div className="flex items-center gap-3">
                     <Avatar className="h-8 w-8">
@@ -195,7 +196,6 @@ const BuyerMessages = () => {
                   </div>
                 </div>
                 
-                {/* Messages */}
                 <div className="p-4 overflow-y-auto h-[calc(80vh-320px)] bg-gray-50/30">
                   <div className="space-y-4">
                     {sampleMessages.map(message => (
@@ -220,7 +220,6 @@ const BuyerMessages = () => {
                   </div>
                 </div>
                 
-                {/* Message Input */}
                 <div className="p-4 border-t border-gray-100">
                   <form onSubmit={handleSendMessage} className="flex gap-2">
                     <Button 
@@ -314,7 +313,7 @@ const BuyerMessages = () => {
       
       <NewConversationDialog 
         open={isNewConversationOpen} 
-        onOpenChange={setIsNewConversationOpen} 
+        onOpenChange={setIsNewConversationOpen}
       />
     </div>
   );

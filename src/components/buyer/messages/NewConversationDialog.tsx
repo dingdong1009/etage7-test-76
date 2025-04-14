@@ -15,6 +15,7 @@ import { ProductSelector } from "./ProductSelector";
 import { MessageTypeSelector } from "./MessageTypeSelector";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
 
 type NewConversationDialogProps = {
   open: boolean;
@@ -55,7 +56,15 @@ export const NewConversationDialog = ({ open, onOpenChange }: NewConversationDia
       products: selectedProducts,
       messageType
     });
+    
+    // Close the dialog
     onOpenChange(false);
+    
+    // Show success message
+    toast("Conversation started", {
+      description: "Your new conversation has been created successfully",
+    });
+    
     // Reset state
     setStep("brand");
     setSelectedBrand(null);
