@@ -1,12 +1,16 @@
 import { ArrowRight, ChevronDown, ChevronUp, ChevronRight, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { PricingTable, PricingPlan } from "@/components/PricingTable";
+
 const Index = () => {
   const [scrolled, setScrolled] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
   const [showBuyerInfo, setShowBuyerInfo] = useState(false);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const brandContentRef = useRef<HTMLDivElement>(null);
+  
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -14,6 +18,7 @@ const Index = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+  
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -22,27 +27,81 @@ const Index = () => {
       });
     }
   };
-  const pricingPlans: PricingPlan[] = [{
-    name: "6-MONTH",
-    price: "₽ 170'000",
-    features: ["6 months unlimited access", "Unlimited product listing", "Lookbook & Order features", "Store-front", "And many other features"],
-    buttonText: "Purchase Standard",
-    highlight: false
-  }, {
-    name: "12-MONTH",
-    price: "₽ 280'000",
-    features: ["12 months unlimited access", "Unlimited product listing", "Lookbook & Order features", "Store-front", "And many other features"],
-    buttonText: "Purchase Premium",
-    highlight: true
-  }];
+  
+  const pricingPlans: PricingPlan[] = [
+    {
+      name: "6-MONTH",
+      price: "₽ 170'000",
+      features: ["6 months unlimited access", "Unlimited product listing", "Lookbook & Order features", "Store-front", "And many other features"],
+      buttonText: "Purchase Standard",
+      highlight: false
+    }, 
+    {
+      name: "12-MONTH",
+      price: "₽ 280'000",
+      features: ["12 months unlimited access", "Unlimited product listing", "Lookbook & Order features", "Store-front", "And many other features"],
+      buttonText: "Purchase Premium",
+      highlight: true
+    }
+  ];
+  
   const togglePricing = () => {
-    setShowPricing(!showPricing);
+    if (isAnimating) return;
+    
+    setIsAnimating(true);
+    
+    if (!showPricing) {
+      if (brandContentRef.current) {
+        brandContentRef.current.classList.add('animate-slide-out-left');
+        
+        setTimeout(() => {
+          setShowPricing(true);
+          
+          setTimeout(() => {
+            if (brandContentRef.current) {
+              brandContentRef.current.classList.remove('animate-slide-out-left');
+              brandContentRef.current.classList.add('animate-slide-in-right');
+              
+              setTimeout(() => {
+                if (brandContentRef.current) {
+                  brandContentRef.current.classList.remove('animate-slide-in-right');
+                  setIsAnimating(false);
+                }
+              }, 500);
+            }
+          }, 50);
+        }, 500);
+      }
+    } else {
+      if (brandContentRef.current) {
+        brandContentRef.current.classList.add('animate-slide-out-right');
+        
+        setTimeout(() => {
+          setShowPricing(false);
+          
+          setTimeout(() => {
+            if (brandContentRef.current) {
+              brandContentRef.current.classList.remove('animate-slide-out-right');
+              brandContentRef.current.classList.add('animate-slide-in-left');
+              
+              setTimeout(() => {
+                if (brandContentRef.current) {
+                  brandContentRef.current.classList.remove('animate-slide-in-left');
+                  setIsAnimating(false);
+                }
+              }, 500);
+            }
+          }, 50);
+        }, 500);
+      }
+    }
   };
+  
   const toggleBuyerInfo = () => {
     setShowBuyerInfo(!showBuyerInfo);
   };
+  
   return <div className="w-full">
-      {/* Hero Section */}
       <section id="hero" className="relative h-screen bg-black text-white flex items-center">
         <div className="container-lg">
           <div className="max-w-3xl">
@@ -56,55 +115,65 @@ const Index = () => {
           </div> 
         </div>
         
-        {/* Scroll indicator */}
         <button onClick={() => scrollToSection('brand')} className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${scrolled ? 'opacity-0' : 'opacity-100'}`} aria-label="Scroll to learn more">
           <span className="text-sm mb-2 text-grey animate-bounce">For Brands</span> 
           <ChevronDown size={24} className="animate-bounce" />
         </button>
       </section>
 
-
-      {/* Brands Section */}
-      <section id="brand" className="relative h-screen bg-white text-black flex items-center">
+      <section id="brand" className="relative h-screen bg-white text-black flex items-center overflow-hidden">
         <div className="container-lg">
-          <div className="max-w-3xl">
+          <div className="max-w-3xl" ref={brandContentRef}>
           <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase">For Brands</p>
             <h1 className="text-4xl md:text-5xl uppercase lg:text-7xl font-light tracking-tighter mb-6">
              Celebrate<br />
               <span className="font-normal uppercase">your uniqueness & opportunities</span>
             </h1>
             
-            {/* Brand description text - visible only when pricing is not shown */}
-            {!showPricing && <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">
-                Your designs are more than collections—they are chapters of a story waiting to be shared. At ETAGE7, we celebrate your creativity by providing you essential tools that empowers your products finding their places in the heart of those who value your craftmanship.
-              </p>}
-            
-            {/* Pricing section */}
-            <div className="mb-12">
-              <button onClick={togglePricing} className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none">
-                Discover Pricing {showPricing ? '-' : '+'} 
-                <ChevronRight className={`ml-2 h-5 w-5 transform transition-transform duration-300 ${showPricing ? 'rotate-90' : ''}`} />
-              </button>
-              
-              {showPricing && <div className="mt-8 animate-fade-in">
+            {!showPricing ? (
+              <>
+                <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
+                  Your designs are more than collections—they are chapters of a story waiting to be shared. At ETAGE7, we celebrate your creativity by providing you essential tools that empowers your products finding their places in the heart of those who value your craftmanship.
+                </p>
+                
+                <div className="mb-12">
+                  <button 
+                    onClick={togglePricing} 
+                    disabled={isAnimating}
+                    className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none"
+                  >
+                    Discover Pricing {showPricing ? '-' : '+'} 
+                    <ChevronRight className={`ml-2 h-5 w-5 transform transition-transform duration-300`} />
+                  </button>
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="mb-12">
+                  <button 
+                    onClick={togglePricing} 
+                    disabled={isAnimating}
+                    className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none mb-8"
+                  >
+                    Back {showPricing ? '-' : '+'} 
+                    <ChevronRight className={`ml-2 h-5 w-5 transform rotate-180 transition-transform duration-300`} />
+                  </button>
+                  
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl">
                     {pricingPlans.map((plan, index) => <PricingTable key={index} plan={plan} />)}
                   </div>
-                </div>}
-            </div>
-            
-            {/* Removed the "JOIN AS A BRAND" button */}
+                </div>
+              </>
+            )}
           </div>
         </div>
         
-        {/* Scroll indicator */}
         <button onClick={() => scrollToSection('buyer')} className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${scrolled ? 'opacity-100' : 'opacity-0'}`} aria-label="Scroll to learn more">
           <span className="text-sm mb-2 text-black animate-bounce">For Buyers</span>
           <ChevronDown size={24} className="text-black animate-bounce" />
         </button> 
       </section>
 
-      {/* Buyer Section */}
       <section id="buyer" className="relative h-screen bg-white text-black flex items-center">
         <div className="container-lg">
           <div className="max-w-3xl">
@@ -114,10 +183,8 @@ const Index = () => {
               <span className="font-normal">FASHION BRANDS & BUYERS</span>
             </h1>
             
-            {/* Buyer description text - visible only when buyer info is not shown */}
-            {!showBuyerInfo && <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">As a tastemaker, you seek the exceptional—designs that captivate and inspire. ETAGE7 is your gateway to a curated world of fashion’s finest, where every brand is chosen for its story and soul. Explore collections with intuitive tools, connect effortlessly with creators, and build partnerships that redefine your offerings. From exclusive events to personalized recommendations, we empower you to discover the next iconic name in fashion with elegance and ease.</p>}
+            {!showBuyerInfo && <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">As a tastemaker, you seek the exceptional—designs that captivate and inspire. ETAGE7 is your gateway to a curated world of fashion's finest, where every brand is chosen for its story and soul. Explore collections with intuitive tools, connect effortlessly with creators, and build partnerships that redefine your offerings. From exclusive events to personalized recommendations, we empower you to discover the next iconic name in fashion with elegance and ease.</p>}
             
-            {/* New buyer info - visible only when button is clicked */}
             {showBuyerInfo && <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">
                 blablalblablal bal balbal bal b balbal balba lbal ba b
               </p>}
@@ -128,16 +195,13 @@ const Index = () => {
           </div>
         </div> 
         
-        {/* Scroll indicator */}
         <button onClick={() => scrollToSection('platform')} className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${scrolled ? 'opacity-100' : 'opacity-0'}`} aria-label="Scroll to learn more">
           <span className="text-sm mb-2 text-black animate-bounce">The Platform</span>
           <ChevronDown size={24} className="text-black animate-bounce" />
         </button> 
       </section>
 
-
-            {/* Platform Section */}
-            <section id="platform" className="relative h-screen bg-white text-black flex items-center">
+      <section id="platform" className="relative h-screen bg-white text-black flex items-center">
         <div className="container-lg">
           <div className="max-w-3xl">
           <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase">The Platform</p>
@@ -145,19 +209,16 @@ const Index = () => {
               CONNECTING<br />
               <span className="font-normal">FASHION BRANDS & BUYERS</span>
             </h1>
-            <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">ÉTAGE7 is more than a platform—it embraces to honor your place in fashion’s story. With a seamless interface as intuitive as a perfectly cut dress, either you are wholesalers, professional buyers, or multi-brand showroom owners, we invite you to join a movement where every connection is a work of art. Register today to explore curated matches, unlock creative tools, and become part of a community that cherishes the beauty of design.</p>
+            <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">ÉTAGE7 is more than a platform—it embraces to honor your place in fashion's story. With a seamless interface as intuitive as a perfectly cut dress, either you are wholesalers, professional buyers, or multi-brand showroom owners, we invite you to join a movement where every connection is a work of art. Register today to explore curated matches, unlock creative tools, and become part of a community that cherishes the beauty of design.</p>
           </div>
         </div> 
         
-        {/* Scroll indicator */}
         <button onClick={() => scrollToSection('services')} className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${scrolled ? 'opacity-100' : 'opacity-0'}`} aria-label="Scroll to learn more">
           <span className="text-sm mb-2 text-black animate-bounce">Consulting Services</span>
           <ChevronDown size={24} className="text-black animate-bounce" /> 
         </button> 
       </section>
 
-
-      {/* Additional services Section */}
       <section id="services" className="relative h-screen bg-white text-black flex items-center">
         <div className="container-lg">
           <div className="max-w-3xl">
@@ -171,24 +232,12 @@ Start the conversation with our team of experts.</p>
           </div>
         </div> 
         
-        {/* Scroll indicator */}
         <button onClick={() => scrollToSection('hero')} className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${scrolled ? 'opacity-100' : 'opacity-0'}`} aria-label="Scroll to learn more">
           <span className="text-sm mb-2 text-black animate-bounce">Navigate Back Up</span>
           <ChevronUp size={24} className="text-black animate-bounce" />
         </button> 
       </section>
 
-
-
-
-
-
-
-
-
-
-
-      {/* Platform Overview */}
       <section id="kjsdhkjs" className="py-24 md:py-32 bg-white">
         <div className="container-lg">
           <div className="max-w-3xl mx-auto text-center mb-16">
@@ -229,7 +278,6 @@ Start the conversation with our team of experts.</p>
         </div>
       </section>
 
-      {/* For Brands & Buyers Section */}
       <section className="py-24 border-t md:py-32">
         <div className="container-lg">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-24">
@@ -298,7 +346,6 @@ Start the conversation with our team of experts.</p>
         </div>
       </section>
 
-      {/* CTA Section */}
       <section className="py-24 md:py-32 bg-black text-white">
         <div className="container-lg text-center">
           <h2 className="text-3xl md:text-4xl font-light tracking-tighter mb-6">
@@ -324,4 +371,5 @@ Start the conversation with our team of experts.</p>
       </section>
     </div>;
 };
+
 export default Index;
