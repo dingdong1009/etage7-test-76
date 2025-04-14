@@ -87,9 +87,6 @@ const BuyerResources = () => {
           <TabsTrigger value="external" className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2">
             External Resources
           </TabsTrigger>
-          <TabsTrigger value="request" className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2">
-            Request Custom
-          </TabsTrigger>
         </TabsList>
         
         <TabsContent value="all" className="mt-0">
@@ -341,70 +338,6 @@ const BuyerResources = () => {
                   <p className="text-sm text-gray-500 p-3 col-span-full">No external resources found matching your search.</p>
                 )}
               </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="request" className="mt-0">
-          <Card className="border border-gray-200">
-            <CardHeader>
-              <CardTitle className="text-lg font-medium">Request Custom Resources</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <form className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">
-                      Resource Type
-                    </label>
-                    <select className="w-full p-2 border border-gray-200 rounded-none focus:outline-none focus:border-black">
-                      <option value="">Select resource type</option>
-                      <option value="guide">Product Guide</option>
-                      <option value="template">Marketing Template</option>
-                      <option value="tutorial">Video Tutorial</option>
-                      <option value="custom">Custom Request</option>
-                    </select>
-                  </div>
-                  
-                  <div className="space-y-2">
-                    <label className="block text-sm font-medium text-gray-700">
-                      Priority Level
-                    </label>
-                    <select className="w-full p-2 border border-gray-200 rounded-none focus:outline-none focus:border-black">
-                      <option value="low">Low - Within 2 weeks</option>
-                      <option value="medium">Medium - Within 1 week</option>
-                      <option value="high">High - Within 3 days</option>
-                      <option value="urgent">Urgent - Within 24 hours</option>
-                    </select>
-                  </div>
-                </div>
-                
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Description of Request
-                  </label>
-                  <textarea 
-                    className="w-full p-2 border border-gray-200 rounded-none focus:outline-none focus:border-black h-32"
-                    placeholder="Please describe what you're looking for in detail..."
-                  ></textarea>
-                </div>
-                
-                <div className="space-y-2">
-                  <label className="block text-sm font-medium text-gray-700">
-                    Additional Context or Examples
-                  </label>
-                  <textarea 
-                    className="w-full p-2 border border-gray-200 rounded-none focus:outline-none focus:border-black h-24"
-                    placeholder="Provide any examples or additional context that might help us create your resource..."
-                  ></textarea>
-                </div>
-                
-                <div className="flex justify-end">
-                  <Button type="submit" variant="black">
-                    Submit Request
-                  </Button>
-                </div>
-              </form>
             </CardContent>
           </Card>
         </TabsContent>
