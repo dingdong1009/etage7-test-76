@@ -83,6 +83,10 @@ const Dashboard = () => {
   const [aiResults, setAiResults] = useState<string | null>(null);
   const [activeFilterTab, setActiveFilterTab] = useState<string>("categories");
   
+  const [isAiSearchEnabled, setIsAiSearchEnabled] = useState<boolean>(false);
+  const [isSearching, setIsSearching] = useState<boolean>(false);
+  const [searchPlaceholder, setSearchPlaceholder] = useState<string>("Search products...");
+  
   const categories = ["All Categories", "Dresses", "Tops", "Skirts", "Bags", "Shoes"];
   
   useEffect(() => {
