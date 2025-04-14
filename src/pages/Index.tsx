@@ -159,7 +159,7 @@ const Index = () => {
                   >
                     <ChevronRight className={`ml-2 h-5 w-5 transform rotate-180 transition-transform duration-300`} /> BACK
                   </button>
-                  
+                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl">
                     {pricingPlans.map((plan, index) => <PricingTable key={index} plan={plan} />)}
                   </div>
