@@ -111,7 +111,7 @@ const Dashboard = () => {
           <Button className="bg-white text-black border-0 hover:bg-gray-100">
             EXPLORE SERVICES <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
-        </div> 
+        </div>
       </section>
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
