@@ -102,7 +102,7 @@ const Dashboard = () => {
       <section className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl md:text-5xl uppercase font-normal mb-6">
-            ADDITIONAL SERVICES
+            ADDITIONAL SERVICES 
           </h1>
           <p className="max-w-2xl text-lg font-light mb-8">
             Specialized consulting services to enhance your buying strategy and store curation
