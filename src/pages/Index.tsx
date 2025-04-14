@@ -189,7 +189,7 @@ const Index = () => {
                 blablalblablal bal balbal bal b balbal balba lbal ba b
               </p>}
             
-            <Button onClick={toggleBuyerInfo} className="bg-black text-white border-0 hover:bg-gray-100 text-base py-6 px-8">
+            <Button onClick={toggleBuyerInfo} className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
               JOIN AS A BUYER <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
             </Button>
           </div>
