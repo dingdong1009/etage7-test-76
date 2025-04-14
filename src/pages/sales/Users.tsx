@@ -1,8 +1,6 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import SalesManagerList from "@/components/admin/users/SalesManagerList";
 import BrandList from "@/components/admin/users/BrandList";
 import BuyerList from "@/components/admin/users/BuyerList";
 import { Brand, Buyer, SalesManager } from "@/types/users";
@@ -59,7 +57,7 @@ const mockSalesManagers: SalesManager[] = Array.from({ length: 5 }, (_, i) => ({
 }));
 
 const SalesUsers = () => {
-  const [activeTab, setActiveTab] = useState("managers");
+  const [activeTab, setActiveTab] = useState("brands");
   const [statusFilter, setStatusFilter] = useState("all");
   const [viewMode, setViewMode] = useState("list");
   const [selectedUser, setSelectedUser] = useState(null);
@@ -111,12 +109,6 @@ const SalesUsers = () => {
         >
           <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
             <TabsTrigger 
-              value="managers" 
-              className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
-            >
-              SALES MANAGERS
-            </TabsTrigger>
-            <TabsTrigger 
               value="brands" 
               className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
             >
@@ -129,17 +121,6 @@ const SalesUsers = () => {
               BUYERS
             </TabsTrigger>
           </TabsList>
-            
-          <TabsContent value="managers" className="space-y-4">
-            <SalesManagerList 
-              salesManagers={mockSalesManagers}
-              statusFilter={statusFilter}
-              setStatusFilter={setStatusFilter}
-              handleAddUser={handleAddUser}
-              handleViewUser={handleViewUser}
-              handleEditUser={handleEditUser}
-            />
-          </TabsContent>
             
           <TabsContent value="brands" className="space-y-4">
             <BrandList 
