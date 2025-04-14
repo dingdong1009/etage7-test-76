@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, Heart, Search, SlidersHorizontal, ArrowRight } from "lucide-react";
+import { ChevronRight, Heart, Search, SlidersHorizontal, ArrowRight, X } from "lucide-react";
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -11,55 +11,123 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
+import { Slider } from "@/components/ui/slider";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 
 // Product interface for type safety
 interface Product {
   id: string;
   name: string;
   category: string;
+  subCategory?: string;
   price: string;
   imagePlaceholder: string;
   favorite?: boolean;
+  material?: string;
+  availability?: string;
 }
+
+// Categories and subcategories
+const categoryData = {
+  "Dresses": ["Midi", "Maxi", "Mini", "Evening"],
+  "Tops": ["T-shirts", "Blouses", "Shirts", "Sweaters"],
+  "Skirts": ["A-line", "Pleated", "Pencil", "Wrap"],
+  "Bags": ["Crossbody", "Tote", "Clutch", "Backpack"],
+  "Shoes": ["Heels", "Flats", "Boots", "Sneakers"]
+};
+
+// Material options
+const materialOptions = ["Cotton", "Silk", "Leather", "Linen", "Denim", "Wool"];
 
 const Dashboard = () => {
   // Sample product data
   const [products, setProducts] = useState<Product[]>([]);
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  
+  // Filter states
   const [selectedCategory, setSelectedCategory] = useState<string>("All Categories");
+  const [selectedSubCategory, setSelectedSubCategory] = useState<string>("");
+  const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
+  const [priceRange, setPriceRange] = useState<number[]>([0, 1000]);
+  const [inStockOnly, setInStockOnly] = useState<boolean>(false);
+  
+  // UI states
   const [sortBy, setSortBy] = useState<string>("Newest");
   const [searchTerm, setSearchTerm] = useState<string>("");
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState<boolean>(false);
+  const [showSubcategories, setShowSubcategories] = useState<boolean>(false);
+  const [isAiAssistEnabled, setIsAiAssistEnabled] = useState<boolean>(false);
+  const [aiResults, setAiResults] = useState<string | null>(null);
   
   const categories = ["All Categories", "Dresses", "Tops", "Skirts", "Bags", "Shoes"];
   
   // Initialize products
   useEffect(() => {
-    const initialProducts = Array(12).fill(null).map((_, index) => ({
-      id: `product-${index + 1}`,
-      name: `Product ${index + 1}`,
-      category: ['Dresses', 'Tops', 'Skirts', 'Bags', 'Shoes'][Math.floor(Math.random() * 5)],
-      price: `${Math.floor(Math.random() * 1000) + 500} EUR`,
-      imagePlaceholder: `${Math.floor(Math.random() * 200) + 200}x${Math.floor(Math.random() * 100) + 250}`,
-      favorite: false
-    }));
+    const initialProducts = Array(12).fill(null).map((_, index) => {
+      const categoryIndex = Math.floor(Math.random() * 5);
+      const category = ['Dresses', 'Tops', 'Skirts', 'Bags', 'Shoes'][categoryIndex];
+      const subCategories = categoryData[category as keyof typeof categoryData] || [];
+      const subCategory = subCategories[Math.floor(Math.random() * subCategories.length)];
+      
+      return {
+        id: `product-${index + 1}`,
+        name: `Product ${index + 1}`,
+        category,
+        subCategory,
+        price: `${Math.floor(Math.random() * 1000) + 500} EUR`,
+        imagePlaceholder: `${Math.floor(Math.random() * 200) + 200}x${Math.floor(Math.random() * 100) + 250}`,
+        favorite: false,
+        material: materialOptions[Math.floor(Math.random() * materialOptions.length)],
+        availability: Math.random() > 0.2 ? "In Stock" : "Out of Stock"
+      };
+    });
     
     setProducts(initialProducts);
     setFilteredProducts(initialProducts);
   }, []);
   
-  // Filter products based on category and search term
+  // Filter products based on all criteria
   useEffect(() => {
     let result = [...products];
     
+    // Category filter
     if (selectedCategory !== "All Categories") {
       result = result.filter(product => product.category === selectedCategory);
+      
+      // Subcategory filter
+      if (selectedSubCategory) {
+        result = result.filter(product => product.subCategory === selectedSubCategory);
+      }
     }
     
+    // Material filter
+    if (selectedMaterials.length > 0) {
+      result = result.filter(product => 
+        product.material && selectedMaterials.includes(product.material)
+      );
+    }
+    
+    // Price range filter
+    result = result.filter(product => {
+      const price = parseInt(product.price.split(" ")[0]);
+      return price >= priceRange[0] && price <= priceRange[1];
+    });
+    
+    // Availability filter
+    if (inStockOnly) {
+      result = result.filter(product => product.availability === "In Stock");
+    }
+    
+    // Search term filter
     if (searchTerm) {
       const searchLower = searchTerm.toLowerCase();
       result = result.filter(product => 
         product.name.toLowerCase().includes(searchLower) || 
-        product.category.toLowerCase().includes(searchLower)
+        product.category.toLowerCase().includes(searchLower) ||
+        (product.subCategory && product.subCategory.toLowerCase().includes(searchLower))
       );
     }
     
@@ -86,7 +154,15 @@ const Dashboard = () => {
     }
     
     setFilteredProducts(result);
-  }, [selectedCategory, searchTerm, sortBy, products]);
+    
+    // Simulate AI assistance when enabled
+    if (isAiAssistEnabled && result.length > 0) {
+      const aiSuggestion = "Based on your preferences, we recommend exploring our Midi Dresses collection in Silk material, which are trending this season.";
+      setAiResults(aiSuggestion);
+    } else {
+      setAiResults(null);
+    }
+  }, [selectedCategory, selectedSubCategory, selectedMaterials, priceRange, inStockOnly, searchTerm, sortBy, products, isAiAssistEnabled]);
   
   const toggleFavorite = (productId: string) => {
     setProducts(products.map(product => 
@@ -94,6 +170,42 @@ const Dashboard = () => {
         ? { ...product, favorite: !product.favorite } 
         : product
     ));
+  };
+  
+  const handleCategorySelect = (category: string) => {
+    setSelectedCategory(category);
+    setSelectedSubCategory("");
+    
+    if (category !== "All Categories") {
+      setShowSubcategories(true);
+    } else {
+      setShowSubcategories(false);
+    }
+  };
+  
+  const handleSubCategorySelect = (subCategory: string) => {
+    setSelectedSubCategory(subCategory);
+  };
+  
+  const toggleMaterial = (material: string) => {
+    if (selectedMaterials.includes(material)) {
+      setSelectedMaterials(selectedMaterials.filter(m => m !== material));
+    } else {
+      setSelectedMaterials([...selectedMaterials, material]);
+    }
+  };
+  
+  const resetFilters = () => {
+    setSelectedCategory("All Categories");
+    setSelectedSubCategory("");
+    setSelectedMaterials([]);
+    setPriceRange([0, 1000]);
+    setInStockOnly(false);
+    setSearchTerm("");
+    setSortBy("Newest");
+    setShowSubcategories(false);
+    setIsAiAssistEnabled(false);
+    setAiResults(null);
   };
 
   return (
@@ -142,7 +254,7 @@ const Dashboard = () => {
                 {categories.map((category) => (
                   <DropdownMenuItem 
                     key={category}
-                    onClick={() => setSelectedCategory(category)}
+                    onClick={() => handleCategorySelect(category)}
                     className="cursor-pointer"
                   >
                     {category}
@@ -172,10 +284,204 @@ const Dashboard = () => {
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
+
+            <Button 
+              variant="outline" 
+              size="sm" 
+              className={`border ${showAdvancedFilters ? 'bg-gray-50 border-gray-300' : 'border-gray-200'} hover:bg-gray-50 w-full sm:w-auto`}
+              onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
+            >
+              Advanced
+              <ChevronRight size={16} className={`ml-1 transition-transform duration-200 ${showAdvancedFilters ? 'rotate-90' : ''}`} />
+            </Button>
           </div>
         </div>
       </div>
       
+      {/* Advanced Filter Section */}
+      {showAdvancedFilters && (
+        <Card className="border border-gray-200 overflow-hidden transition-all duration-300 animate-fade-in">
+          <CardContent className="p-5">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-light uppercase tracking-wide">Advanced Filters</h3>
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={() => setShowAdvancedFilters(false)}
+                className="h-8 w-8 p-0"
+              >
+                <X size={16} />
+              </Button>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-4">
+                {/* Categories & Subcategories */}
+                <div className="space-y-2">
+                  <h4 className="text-sm uppercase text-gray-500 font-medium">Categories</h4>
+                  {showSubcategories ? (
+                    <>
+                      <div className="flex items-center mb-2">
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="text-xs px-2 py-1 h-auto"
+                          onClick={() => {
+                            setShowSubcategories(false);
+                            setSelectedSubCategory("");
+                          }}
+                        >
+                          <ChevronRight size={14} className="rotate-180 mr-1" />
+                          Back to Categories
+                        </Button>
+                        <span className="ml-2 text-sm font-light">{selectedCategory}</span>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        {categoryData[selectedCategory as keyof typeof categoryData]?.map((subCategory) => (
+                          <Button 
+                            key={subCategory}
+                            variant={selectedSubCategory === subCategory ? "black" : "outline"}
+                            size="sm"
+                            className="justify-start text-sm"
+                            onClick={() => handleSubCategorySelect(subCategory)}
+                          >
+                            {subCategory}
+                          </Button>
+                        ))}
+                      </div>
+                    </>
+                  ) : (
+                    <div className="grid grid-cols-2 gap-2">
+                      {categories.filter(c => c !== "All Categories").map((category) => (
+                        <Button 
+                          key={category}
+                          variant={selectedCategory === category ? "black" : "outline"}
+                          size="sm"
+                          className="justify-start text-sm"
+                          onClick={() => handleCategorySelect(category)}
+                        >
+                          {category}
+                        </Button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Materials */}
+                <div className="space-y-2">
+                  <h4 className="text-sm uppercase text-gray-500 font-medium">Materials</h4>
+                  <div className="grid grid-cols-2 gap-2">
+                    {materialOptions.map((material) => (
+                      <Button 
+                        key={material}
+                        variant={selectedMaterials.includes(material) ? "black" : "outline"}
+                        size="sm"
+                        className="justify-start text-sm"
+                        onClick={() => toggleMaterial(material)}
+                      >
+                        {material}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-6">
+                {/* Price Range */}
+                <div className="space-y-4">
+                  <div className="flex justify-between">
+                    <h4 className="text-sm uppercase text-gray-500 font-medium">Price Range</h4>
+                    <span className="text-sm font-light">
+                      {priceRange[0]} - {priceRange[1]} EUR
+                    </span>
+                  </div>
+                  <Slider
+                    defaultValue={[0, 1000]}
+                    min={0}
+                    max={1000}
+                    step={50}
+                    value={priceRange}
+                    onValueChange={setPriceRange}
+                    className="py-4"
+                  />
+                </div>
+
+                {/* Availability */}
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="in-stock" className="text-sm uppercase text-gray-500 font-medium">
+                    In Stock Only
+                  </Label>
+                  <Switch
+                    id="in-stock"
+                    checked={inStockOnly}
+                    onCheckedChange={setInStockOnly}
+                  />
+                </div>
+
+                {/* AI Assistance */}
+                <div className="pt-2">
+                  <div className="flex items-center justify-between mb-2">
+                    <Label htmlFor="ai-assist" className="text-sm uppercase text-gray-500 font-medium">
+                      AI Shopping Assistant
+                    </Label>
+                    <Switch
+                      id="ai-assist"
+                      checked={isAiAssistEnabled}
+                      onCheckedChange={setIsAiAssistEnabled}
+                    />
+                  </div>
+                  <p className="text-xs text-gray-500">Enable AI to help you find the best products based on your preferences</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Action Buttons */}
+            <div className="flex justify-between mt-6">
+              <Button 
+                variant="outline"
+                size="sm"
+                onClick={resetFilters}
+              >
+                Reset Filters
+              </Button>
+              <Button
+                variant="black"
+                size="sm"
+                onClick={() => setShowAdvancedFilters(false)}
+              >
+                Apply Filters
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+      
+      {/* AI Assistance Results */}
+      {aiResults && (
+        <div className="bg-gray-50 border border-gray-200 p-4 rounded-none mb-4 animate-fade-in">
+          <div className="flex items-start gap-3">
+            <div className="bg-black text-white p-2 rounded-none">
+              <SlidersHorizontal size={16} />
+            </div>
+            <div>
+              <h4 className="font-medium text-sm mb-1">AI Shopping Assistant</h4>
+              <p className="text-sm text-gray-600">{aiResults}</p>
+            </div>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="ml-auto h-6 w-6 p-0"
+              onClick={() => {
+                setAiResults(null);
+                setIsAiAssistEnabled(false);
+              }}
+            >
+              <X size={14} />
+            </Button>
+          </div>
+        </div>
+      )}
+
       {/* Product grid with monochrome styling */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredProducts.length > 0 ? (
@@ -210,9 +516,17 @@ const Dashboard = () => {
                 </div>
                 {/* Product details with monochrome styling */}
                 <div className="pt-4 px-1 space-y-1">
-                  <p className="text-xs text-gray-500 uppercase tracking-wide">{product.category}</p>
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">
+                    {product.category}{product.subCategory ? ` / ${product.subCategory}` : ''}
+                  </p>
                   <h3 className="font-light text-sm tracking-tight">{product.name}</h3>
                   <p className="text-sm">{product.price}</p>
+                  <div className="flex justify-between items-center">
+                    <p className="text-xs text-gray-500">{product.material}</p>
+                    <p className={`text-xs ${product.availability === "In Stock" ? "text-gray-500" : "text-gray-400"}`}>
+                      {product.availability}
+                    </p>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -223,11 +537,7 @@ const Dashboard = () => {
             <Button 
               variant="outline" 
               className="mt-4"
-              onClick={() => {
-                setSelectedCategory("All Categories");
-                setSearchTerm("");
-                setSortBy("Newest");
-              }}
+              onClick={resetFilters}
             >
               Clear Filters
             </Button>
