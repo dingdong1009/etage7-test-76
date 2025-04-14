@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -9,14 +8,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Separator } from "@/components/ui/separator";
-import { AlertTriangle, Download, Search, User, Lock, Bell, Settings2, Database } from "lucide-react";
+import { AlertTriangle, Download } from "lucide-react";
 
 const BrandSettings = () => {
-  const [searchQuery, setSearchQuery] = useState("");
   const [passwordForm, setPasswordForm] = useState({
     currentPassword: "",
     newPassword: "",
@@ -84,445 +78,439 @@ const BrandSettings = () => {
     console.log("Profile update:", profileForm);
   };
 
-  const filterLogsBySearch = (logs: typeof errorLogs) => {
-    if (!searchQuery) return logs;
-    
-    return logs.filter(log => 
-      log.message.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      log.source.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-  };
-
   return (
     <div className="space-y-6">
-      <h1 className="text-4xl md:text-5xl uppercase font-light mb-6">Account Settings</h1>
+      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Settings</h1>
       
-      {/* Header with search */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6">
-        <div className="flex items-center gap-2">
-          <Settings2 className="h-5 w-5" />
-          <span className="text-lg font-light">Manage your account settings</span>
-        </div>
-        
-        <div className="relative w-full sm:w-auto">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
-          <Input 
-            type="search"
-            placeholder="Search settings..." 
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 w-full sm:w-[300px] border-gray-200"
-          />
-        </div>
-      </div>
-
-      {/* Main tabs section */}
       <Tabs defaultValue="profile" className="w-full">
-        <div className="border-b border-gray-200 mb-6">
-          <TabsList className="bg-transparent p-0 h-auto flex gap-6">
-            <TabsTrigger 
-              value="profile" 
-              className="px-0 py-3 data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none bg-transparent data-[state=active]:bg-transparent text-base data-[state=active]:shadow-none"
-            >
-              <User className="mr-2 h-4 w-4" />
-              Profile
-            </TabsTrigger>
-            <TabsTrigger 
-              value="security" 
-              className="px-0 py-3 data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none bg-transparent data-[state=active]:bg-transparent text-base data-[state=active]:shadow-none"
-            >
-              <Lock className="mr-2 h-4 w-4" />
-              Security
-            </TabsTrigger>
-            <TabsTrigger 
-              value="notifications" 
-              className="px-0 py-3 data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none bg-transparent data-[state=active]:bg-transparent text-base data-[state=active]:shadow-none"
-            >
-              <Bell className="mr-2 h-4 w-4" />
-              Notifications
-            </TabsTrigger>
-            <TabsTrigger 
-              value="advanced" 
-              className="px-0 py-3 data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none bg-transparent data-[state=active]:bg-transparent text-base data-[state=active]:shadow-none"
-            >
-              <Database className="mr-2 h-4 w-4" />
-              Advanced
-            </TabsTrigger>
-            <TabsTrigger 
-              value="errorLogs" 
-              className="px-0 py-3 data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none bg-transparent data-[state=active]:bg-transparent text-base data-[state=active]:shadow-none"
-            >
-              <AlertTriangle className="mr-2 h-4 w-4" />
-              Error Logs
-            </TabsTrigger>
-          </TabsList>
-        </div>
+        <TabsList className="mb-6">
+          <TabsTrigger value="profile">Profile</TabsTrigger>
+          <TabsTrigger value="security">Security</TabsTrigger>
+          <TabsTrigger value="notifications">Notifications</TabsTrigger>
+          <TabsTrigger value="advanced">Advanced</TabsTrigger>
+          <TabsTrigger value="errorLogs">Error Logs</TabsTrigger>
+        </TabsList>
         
-        <TabsContent value="profile" className="m-0">
-          <Card className="border border-gray-200 shadow-none">
+        <TabsContent value="profile">
+          <Card className="border border-gray-200">
             <CardHeader>
-              <CardTitle className="text-xl font-light">Brand Profile</CardTitle>
+              <CardTitle className="text-lg font-medium">Brand Profile</CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleProfileSubmit} className="space-y-4">
-                <div className="grid gap-6 md:grid-cols-2">
-                  <div>
-                    <Label htmlFor="brandName" className="text-sm font-medium text-gray-700 mb-1">
-                      Brand Name
-                    </Label>
-                    <Input
-                      id="brandName"
-                      name="brandName"
-                      value={profileForm.brandName}
-                      onChange={handleProfileChange}
-                      className="border-gray-200"
-                    />
-                  </div>
-                  
-                  <div>
-                    <Label htmlFor="contactName" className="text-sm font-medium text-gray-700 mb-1">
-                      Contact Person
-                    </Label>
-                    <Input
-                      id="contactName"
-                      name="contactName"
-                      value={profileForm.contactName}
-                      onChange={handleProfileChange}
-                      className="border-gray-200"
-                    />
-                  </div>
-                  
-                  <div>
-                    <Label htmlFor="email" className="text-sm font-medium text-gray-700 mb-1">
-                      Email Address
-                    </Label>
-                    <Input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={profileForm.email}
-                      onChange={handleProfileChange}
-                      className="border-gray-200"
-                    />
-                  </div>
-                  
-                  <div>
-                    <Label htmlFor="phone" className="text-sm font-medium text-gray-700 mb-1">
-                      Phone Number
-                    </Label>
-                    <Input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={profileForm.phone}
-                      onChange={handleProfileChange}
-                      className="border-gray-200"
-                    />
-                  </div>
-                  
-                  <div className="md:col-span-2">
-                    <Label htmlFor="address" className="text-sm font-medium text-gray-700 mb-1">
-                      Address
-                    </Label>
-                    <textarea
-                      id="address"
-                      name="address"
-                      value={profileForm.address}
-                      onChange={handleProfileChange}
-                      rows={3}
-                      className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500 rounded-none"
-                    />
-                  </div>
+                <div>
+                  <label htmlFor="brandName" className="block text-sm font-medium text-gray-700 mb-1">
+                    Brand Name
+                  </label>
+                  <input
+                    type="text"
+                    id="brandName"
+                    name="brandName"
+                    value={profileForm.brandName}
+                    onChange={handleProfileChange}
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  />
                 </div>
                 
-                <div className="flex justify-end">
-                  <Button 
-                    type="submit" 
-                    className="bg-black text-white px-4 py-2 hover:bg-gray-800 rounded-none"
-                  >
-                    Update Profile
-                  </Button>
+                <div>
+                  <label htmlFor="contactName" className="block text-sm font-medium text-gray-700 mb-1">
+                    Contact Person
+                  </label>
+                  <input
+                    type="text"
+                    id="contactName"
+                    name="contactName"
+                    value={profileForm.contactName}
+                    onChange={handleProfileChange}
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  />
                 </div>
+                
+                <div>
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+                    Email Address
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    value={profileForm.email}
+                    onChange={handleProfileChange}
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+                    Phone Number
+                  </label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    name="phone"
+                    value={profileForm.phone}
+                    onChange={handleProfileChange}
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  />
+                </div>
+                
+                <div>
+                  <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
+                    Address
+                  </label>
+                  <textarea
+                    id="address"
+                    name="address"
+                    value={profileForm.address}
+                    onChange={handleProfileChange}
+                    rows={3}
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  />
+                </div>
+                
+                <button 
+                  type="submit" 
+                  className="bg-black text-white px-4 py-2 hover:bg-black-600"
+                >
+                  Update Profile
+                </button>
               </form>
             </CardContent>
           </Card>
         </TabsContent>
         
-        <TabsContent value="security" className="m-0">
-          <Card className="border border-gray-200 shadow-none">
+        <TabsContent value="security">
+          <Card className="border border-gray-200">
             <CardHeader>
-              <CardTitle className="text-xl font-light">Change Password</CardTitle>
+              <CardTitle className="text-lg font-medium">Change Password</CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handlePasswordSubmit} className="space-y-4">
-                <div className="grid gap-6 md:grid-cols-2">
-                  <div>
-                    <Label htmlFor="currentPassword" className="text-sm font-medium text-gray-700 mb-1">
-                      Current Password
-                    </Label>
-                    <Input
-                      type="password"
-                      id="currentPassword"
-                      name="currentPassword"
-                      value={passwordForm.currentPassword}
-                      onChange={handlePasswordChange}
-                      className="border-gray-200"
-                    />
-                  </div>
-                  
-                  <div className="md:col-span-2">
-                    <Separator className="my-4" />
-                  </div>
-                  
-                  <div>
-                    <Label htmlFor="newPassword" className="text-sm font-medium text-gray-700 mb-1">
-                      New Password
-                    </Label>
-                    <Input
-                      type="password"
-                      id="newPassword"
-                      name="newPassword"
-                      value={passwordForm.newPassword}
-                      onChange={handlePasswordChange}
-                      className="border-gray-200"
-                    />
-                  </div>
-                  
-                  <div>
-                    <Label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700 mb-1">
-                      Confirm New Password
-                    </Label>
-                    <Input
-                      type="password"
-                      id="confirmPassword"
-                      name="confirmPassword"
-                      value={passwordForm.confirmPassword}
-                      onChange={handlePasswordChange}
-                      className="border-gray-200"
-                    />
-                  </div>
+                <div>
+                  <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                    Current Password
+                  </label>
+                  <input
+                    type="password"
+                    id="currentPassword"
+                    name="currentPassword"
+                    value={passwordForm.currentPassword}
+                    onChange={handlePasswordChange}
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  />
                 </div>
                 
-                <div className="flex justify-end">
-                  <Button 
-                    type="submit" 
-                    className="bg-black text-white px-4 py-2 hover:bg-gray-800 rounded-none"
-                  >
-                    Update Password
-                  </Button>
-                </div>
-              </form>
-
-              <Separator className="my-6" />
-              
-              <div>
-                <h3 className="text-lg font-light mb-4">Two-Factor Authentication</h3>
-                <div className="flex items-center justify-between bg-gray-50 p-4">
-                  <div>
-                    <p className="font-medium">Enhance your account security</p>
-                    <p className="text-sm text-gray-500">Add an extra layer of security to your account</p>
-                  </div>
-                  <Button 
-                    variant="outline"
-                    className="border-gray-200"
-                  >
-                    Enable 2FA
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="notifications" className="m-0">
-          <Card className="border border-gray-200 shadow-none">
-            <CardHeader>
-              <CardTitle className="text-xl font-light">Notification Preferences</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-6">
-                <div className="grid gap-6 md:grid-cols-2">
-                  {Object.entries(notificationSettings).map(([key, value]) => {
-                    const displayName = key
-                      .replace(/([A-Z])/g, ' $1')
-                      .replace(/^./, str => str.toUpperCase());
-                    
-                    return (
-                      <div key={key} className="flex items-center justify-between p-4 border border-gray-100 hover:bg-gray-50">
-                        <div>
-                          <h3 className="font-medium">{displayName}</h3>
-                          <p className="text-sm text-gray-500">
-                            Receive notifications about {displayName.toLowerCase()}
-                          </p>
-                        </div>
-                        <label className="relative inline-flex items-center cursor-pointer">
-                          <input 
-                            type="checkbox" 
-                            className="sr-only peer" 
-                            checked={value}
-                            onChange={() => handleNotificationChange(key)}
-                          />
-                          <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
-                        </label>
-                      </div>
-                    );
-                  })}
+                <div>
+                  <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                    New Password
+                  </label>
+                  <input
+                    type="password"
+                    id="newPassword"
+                    name="newPassword"
+                    value={passwordForm.newPassword}
+                    onChange={handlePasswordChange}
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  />
                 </div>
                 
-                <div className="flex justify-end">
-                  <Button 
-                    className="bg-black text-white px-4 py-2 hover:bg-gray-800 rounded-none"
-                  >
-                    Save Preferences
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="advanced" className="m-0">
-          <Card className="border border-gray-200 shadow-none">
-            <CardHeader>
-              <CardTitle className="text-xl font-light">Advanced Settings</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid gap-6 md:grid-cols-2">
-                <div className="p-4 border border-gray-200">
-                  <h3 className="font-medium mb-3">Data Management</h3>
-                  
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <span className="text-sm font-medium">Data Caching</span>
-                        <p className="text-xs text-gray-500">Cache data for better performance</p>
-                      </div>
-                      <label className="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" className="sr-only peer" defaultChecked />
-                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-gray-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
-                      </label>
-                    </div>
-                    
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <span className="text-sm font-medium">Analytics</span>
-                        <p className="text-xs text-gray-500">Allow usage analytics to improve services</p>
-                      </div>
-                      <label className="relative inline-flex items-center cursor-pointer">
-                        <input type="checkbox" className="sr-only peer" defaultChecked />
-                        <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-gray-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
-                      </label>
-                    </div>
-                  </div>
+                <div>
+                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
+                    Confirm New Password
+                  </label>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    value={passwordForm.confirmPassword}
+                    onChange={handlePasswordChange}
+                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                  />
                 </div>
                 
-                <div className="p-4 border border-gray-200">
-                  <h3 className="font-medium mb-3">Display Settings</h3>
-                  
-                  <div className="space-y-4">
-                    <div>
-                      <Label className="text-sm font-medium">Default Date Format</Label>
-                      <Select value={dateFormat} onValueChange={setDateFormat}>
-                        <SelectTrigger className="w-full border-gray-200 mt-1">
-                          <SelectValue placeholder="Select date format" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="MM/DD/YYYY">MM/DD/YYYY</SelectItem>
-                          <SelectItem value="DD/MM/YYYY">DD/MM/YYYY</SelectItem>
-                          <SelectItem value="YYYY-MM-DD">YYYY-MM-DD</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                    
-                    <div>
-                      <Label className="text-sm font-medium">Default Currency</Label>
-                      <Select value={currency} onValueChange={setCurrency}>
-                        <SelectTrigger className="w-full border-gray-200 mt-1">
-                          <SelectValue placeholder="Select currency" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="USD ($)">USD ($)</SelectItem>
-                          <SelectItem value="EUR (€)">EUR (€)</SelectItem>
-                          <SelectItem value="GBP (£)">GBP (£)</SelectItem>
-                          <SelectItem value="JPY (¥)">JPY (¥)</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-4 border border-yellow-100 bg-yellow-50 mt-6">
-                <h3 className="font-medium text-yellow-800 mb-3">Danger Zone</h3>
-                <p className="text-sm text-yellow-700 mb-4">These actions cannot be undone.</p>
-                
-                <div className="flex flex-wrap gap-3">
-                  <Button variant="outline" className="border-gray-300 text-gray-700 hover:bg-gray-50 rounded-none">
-                    <Download className="mr-2 h-4 w-4" />
-                    Export All Data
-                  </Button>
-                  <Button variant="outline" className="border-red-300 text-red-600 hover:bg-red-50 rounded-none">
-                    Delete Brand Account
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="errorLogs" className="m-0">
-          <Card className="border border-gray-200 shadow-none">
-            <CardHeader className="flex flex-row items-center justify-between">
-              <CardTitle className="text-xl font-light">Error Logs</CardTitle>
-              <div className="flex items-center gap-2">
-                <Button 
-                  variant="outline" 
-                  size="sm"
-                  className="border-gray-200 text-xs flex items-center gap-1 h-8"
+                <button 
+                  type="submit" 
+                  className="bg-black text-white px-4 py-2 hover:bg-black-600"
                 >
-                  <Download className="h-3 w-3" />
-                  Export Logs
-                </Button>
-              </div>
+                  Update Password
+                </button>
+              </form>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="notifications">
+          <Card className="border border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-lg font-medium">Notification Preferences</CardTitle>
             </CardHeader>
             <CardContent>
-              {filterLogsBySearch(errorLogs).length > 0 ? (
-                <div className="space-y-4">
-                  {filterLogsBySearch(errorLogs).map((log) => (
-                    <div key={log.id} className="p-4 border border-gray-200 rounded-lg">
-                      <div className="flex items-center justify-between mb-3">
-                        <div className="flex items-center gap-2">
-                          <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium ${
+              <div className="space-y-4">
+                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
+                  <div>
+                    <h3 className="font-medium">Email Notifications</h3>
+                    <p className="text-sm text-gray-500">Receive email notifications for important updates</p>
+                  </div>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      className="sr-only peer" 
+                      checked={notificationSettings.emailNotifications}
+                      onChange={() => handleNotificationChange('emailNotifications')}
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                  </label>
+                </div>
+
+                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
+                  <div>
+                    <h3 className="font-medium">Order Alerts</h3>
+                    <p className="text-sm text-gray-500">Get notified of new orders and updates</p>
+                  </div>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      className="sr-only peer" 
+                      checked={notificationSettings.orderAlerts}
+                      onChange={() => handleNotificationChange('orderAlerts')}
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                  </label>
+                </div>
+
+                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
+                  <div>
+                    <h3 className="font-medium">Marketing Updates</h3>
+                    <p className="text-sm text-gray-500">Receive updates about marketing features and tips</p>
+                  </div>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      className="sr-only peer" 
+                      checked={notificationSettings.marketingUpdates}
+                      onChange={() => handleNotificationChange('marketingUpdates')}
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                  </label>
+                </div>
+
+                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
+                  <div>
+                    <h3 className="font-medium">Low Inventory Alerts</h3>
+                    <p className="text-sm text-gray-500">Get notified when product inventory is running low</p>
+                  </div>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      className="sr-only peer" 
+                      checked={notificationSettings.lowInventory}
+                      onChange={() => handleNotificationChange('lowInventory')}
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                  </label>
+                </div>
+
+                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
+                  <div>
+                    <h3 className="font-medium">Stock Alerts</h3>
+                    <p className="text-sm text-gray-500">Notifications for stock changes and new inventory</p>
+                  </div>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      className="sr-only peer" 
+                      checked={notificationSettings.stockAlerts}
+                      onChange={() => handleNotificationChange('stockAlerts')}
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                  </label>
+                </div>
+
+                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
+                  <div>
+                    <h3 className="font-medium">Price Changes</h3>
+                    <p className="text-sm text-gray-500">Get notified about price updates and promotions</p>
+                  </div>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      className="sr-only peer" 
+                      checked={notificationSettings.priceChanges}
+                      onChange={() => handleNotificationChange('priceChanges')}
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                  </label>
+                </div>
+
+                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
+                  <div>
+                    <h3 className="font-medium">Delivery Updates</h3>
+                    <p className="text-sm text-gray-500">Notifications for shipping and delivery changes</p>
+                  </div>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      className="sr-only peer" 
+                      checked={notificationSettings.deliveryUpdates}
+                      onChange={() => handleNotificationChange('deliveryUpdates')}
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                  </label>
+                </div>
+
+                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
+                  <div>
+                    <h3 className="font-medium">System Announcements</h3>
+                    <p className="text-sm text-gray-500">Important platform updates and announcements</p>
+                  </div>
+                  <label className="relative inline-flex items-center cursor-pointer">
+                    <input 
+                      type="checkbox" 
+                      className="sr-only peer" 
+                      checked={notificationSettings.systemAnnouncements}
+                      onChange={() => handleNotificationChange('systemAnnouncements')}
+                    />
+                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                  </label>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="advanced">
+          <Card className="border border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-lg font-medium">Advanced Settings</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="p-4 border border-gray-200 rounded-md">
+                <h3 className="font-medium">Data Management</h3>
+                <p className="text-sm text-gray-500 mt-1">Control how your data is stored and processed</p>
+                
+                <div className="mt-3 space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-sm font-medium">Data Caching</span>
+                      <p className="text-xs text-gray-500">Cache data for better performance</p>
+                    </div>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" className="sr-only peer" defaultChecked />
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-gray-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                    </label>
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <span className="text-sm font-medium">Analytics</span>
+                      <p className="text-xs text-gray-500">Allow usage analytics to improve services</p>
+                    </div>
+                    <label className="relative inline-flex items-center cursor-pointer">
+                      <input type="checkbox" className="sr-only peer" defaultChecked />
+                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-gray-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="p-4 border border-gray-200 rounded-md">
+                <h3 className="font-medium">Display Settings</h3>
+                <p className="text-sm text-gray-500 mt-1">Customize how information is displayed</p>
+                
+                <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Default Date Format</label>
+                    <Select value={dateFormat} onValueChange={setDateFormat}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select date format" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="MM/DD/YYYY">MM/DD/YYYY</SelectItem>
+                        <SelectItem value="DD/MM/YYYY">DD/MM/YYYY</SelectItem>
+                        <SelectItem value="YYYY-MM-DD">YYYY-MM-DD</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  
+                  <div>
+                    <label className="block text-sm font-medium mb-1">Default Currency</label>
+                    <Select value={currency} onValueChange={setCurrency}>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder="Select currency" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="USD ($)">USD ($)</SelectItem>
+                        <SelectItem value="EUR (€)">EUR (€)</SelectItem>
+                        <SelectItem value="GBP (£)">GBP (£)</SelectItem>
+                        <SelectItem value="JPY (¥)">JPY (¥)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </div>
+
+              <div className="p-4 border border-yellow-100 rounded-md bg-yellow-50">
+                <h3 className="font-medium text-yellow-800">Danger Zone</h3>
+                <p className="text-sm text-yellow-700 mt-1">These actions cannot be undone.</p>
+                
+                <div className="mt-4 flex flex-col sm:flex-row gap-3">
+                  <button className="px-4 py-2 border border-gray-300 text-gray-700 rounded hover:bg-gray-50">
+                    Export All Data
+                  </button>
+                  <button className="px-4 py-2 border border-red-300 text-red-600 rounded hover:bg-red-50">
+                    Delete Brand Account
+                  </button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="errorLogs">
+          <Card className="border border-gray-200">
+            <CardHeader>
+              <CardTitle className="text-lg font-medium">Error Logs</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr className="border-b border-gray-200">
+                      <th className="text-left py-3 px-4 font-medium text-sm">Level</th>
+                      <th className="text-left py-3 px-4 font-medium text-sm">Message</th>
+                      <th className="text-left py-3 px-4 font-medium text-sm">Source</th>
+                      <th className="text-left py-3 px-4 font-medium text-sm">Timestamp</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {errorLogs.map((log) => (
+                      <tr key={log.id} className="border-b border-gray-200 hover:bg-gray-50">
+                        <td className="py-3 px-4">
+                          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                             log.level === 'Error' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
                           }`}>
                             {log.level === 'Error' && <AlertTriangle className="mr-1 h-3 w-3" />}
                             {log.level}
                           </span>
-                          <span className="text-sm font-medium">{log.source}</span>
-                        </div>
-                        <span className="text-xs text-gray-500">{log.timestamp}</span>
-                      </div>
-                      
-                      <div className="bg-gray-50 p-3 rounded">
-                        <p className="font-mono text-sm">{log.message}</p>
-                      </div>
-                      
-                      <div className="mt-3 flex justify-end gap-2">
-                        <Button variant="ghost" size="sm" className="text-xs h-8">
-                          View Details
-                        </Button>
-                        <Button variant="outline" size="sm" className="text-xs text-red-600 border-red-200 hover:bg-red-50 h-8">
-                          Resolve
-                        </Button>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="p-8 text-center border border-dashed border-gray-200 rounded-lg">
-                  <p className="text-gray-500">No error logs found matching your search</p>
-                </div>
-              )}
+                        </td>
+                        <td className="py-3 px-4 font-light">{log.message}</td>
+                        <td className="py-3 px-4 font-light text-sm">{log.source}</td>
+                        <td className="py-3 px-4 font-light text-sm">{log.timestamp}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              
+              <div className="mt-6 flex justify-end">
+                <button 
+                  type="button" 
+                  className="inline-flex items-center gap-2 bg-white border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+                >
+                  <Download className="h-4 w-4" />
+                  Export Error Logs
+                </button>
+              </div>
             </CardContent>
           </Card>
         </TabsContent>
