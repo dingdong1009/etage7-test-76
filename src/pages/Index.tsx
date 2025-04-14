@@ -1,12 +1,16 @@
+
 import { ArrowRight, ChevronDown, ChevronUp, ChevronRight, Check } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { PricingTable, PricingPlan } from "@/components/PricingTable";
+
 const Index = () => {
   const [scrolled, setScrolled] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
   const [showBuyerInfo, setShowBuyerInfo] = useState(false);
+  const [animateSwipe, setAnimateSwipe] = useState(false);
+  
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -14,6 +18,7 @@ const Index = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+  
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -22,6 +27,7 @@ const Index = () => {
       });
     }
   };
+  
   const pricingPlans: PricingPlan[] = [{
     name: "6-MONTH",
     price: "₽ 170'000",
@@ -35,12 +41,23 @@ const Index = () => {
     buttonText: "Purchase Premium",
     highlight: true
   }];
+  
   const togglePricing = () => {
-    setShowPricing(!showPricing);
+    if (!showPricing) {
+      setAnimateSwipe(true);
+      setTimeout(() => {
+        setShowPricing(true);
+      }, 300); // Wait for the swipe animation to complete
+    } else {
+      setShowPricing(false);
+      setAnimateSwipe(false);
+    }
   };
+  
   const toggleBuyerInfo = () => {
     setShowBuyerInfo(!showBuyerInfo);
   };
+
   return <div className="w-full">
       {/* Hero Section */}
       <section id="hero" className="relative h-screen bg-black text-white flex items-center">
@@ -67,33 +84,42 @@ const Index = () => {
       {/* Brands Section */}
       <section id="brand" className="relative h-screen bg-white text-black flex items-center">
         <div className="container-lg">
-          <div className="max-w-3xl">
-          <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase">For Brands</p>
+          <div className="max-w-3xl overflow-hidden">
+            <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase">For Brands</p>
             <h1 className="text-4xl md:text-5xl uppercase lg:text-7xl font-light tracking-tighter mb-6">
-             Celebrate<br />
+              Celebrate<br />
               <span className="font-normal uppercase">your uniqueness & opportunities</span>
             </h1>
             
-            {/* Brand description text - visible only when pricing is not shown */}
-            {!showPricing && <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">
-                Your designs are more than collections—they are chapters of a story waiting to be shared. At ETAGE7, we celebrate your creativity by providing you essential tools that empowers your products finding their places in the heart of those who value your craftmanship.
-              </p>}
-            
-            {/* Pricing section */}
-            <div className="mb-12">
-              <button onClick={togglePricing} className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none">
-                Discover Pricing {showPricing ? '-' : '+'} 
-                <ChevronRight className={`ml-2 h-5 w-5 transform transition-transform duration-300 ${showPricing ? 'rotate-90' : ''}`} />
-              </button>
+            {/* Content wrapper with slide animation */}
+            <div className="relative">
+              {/* Brand description text - visible only when pricing is not shown */}
+              <div className={`transition-transform duration-300 ease-in-out ${animateSwipe ? 'transform -translate-x-full opacity-0' : 'transform translate-x-0 opacity-100'}`}>
+                {!showPricing && (
+                  <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">
+                    Your designs are more than collections—they are chapters of a story waiting to be shared. At ETAGE7, we celebrate your creativity by providing you essential tools that empowers your products finding their places in the heart of those who value your craftmanship.
+                  </p>
+                )}
+              </div>
               
-              {showPricing && <div className="mt-8 animate-fade-in">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl">
-                    {pricingPlans.map((plan, index) => <PricingTable key={index} plan={plan} />)}
+              {/* Pricing section with entrance animation */}
+              <div className={`absolute top-0 left-0 w-full transition-transform duration-300 ease-in-out ${!showPricing ? 'transform translate-x-full opacity-0' : 'transform translate-x-0 opacity-100'}`}>
+                {showPricing && (
+                  <div className="mt-8 animate-fade-in">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl">
+                      {pricingPlans.map((plan, index) => <PricingTable key={index} plan={plan} />)}
+                    </div>
                   </div>
-                </div>}
+                )}
+              </div>
             </div>
             
-            {/* Removed the "JOIN AS A BRAND" button */}
+            <div className="mb-12">
+              <button onClick={togglePricing} className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none">
+                {showPricing ? 'Hide Pricing' : 'Discover Pricing'} {showPricing ? '-' : '+'} 
+                <ChevronRight className={`ml-2 h-5 w-5 transform transition-transform duration-300 ${showPricing ? 'rotate-90' : ''}`} />
+              </button>
+            </div>
           </div>
         </div>
         
@@ -324,4 +350,5 @@ Start the conversation with our team of experts.</p>
       </section>
     </div>;
 };
+
 export default Index;
