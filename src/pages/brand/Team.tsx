@@ -3,7 +3,17 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Search, Mail, Phone, Edit, Trash2, Filter, Download, UploadCloud } from "lucide-react";
+import { 
+  Plus, 
+  Search, 
+  Mail, 
+  Phone, 
+  Edit, 
+  Trash2, 
+  Filter, 
+  Download as DownloadIcon, 
+  UploadCloud as UploadCloudIcon 
+} from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -190,11 +200,11 @@ const BrandTeam = () => {
           
           <div className="mt-6 flex justify-end gap-3">
             <Button variant="outline" size="sm" className="rounded-none text-xs font-light gap-2">
-              <Download size={14} />
+              <DownloadIcon size={14} />
               Export Team List
             </Button>
             <Button variant="outline" size="sm" className="rounded-none text-xs font-light gap-2">
-              <UploadCloud size={14} />
+              <UploadCloudIcon size={14} />
               Import Team Members
             </Button>
           </div>
