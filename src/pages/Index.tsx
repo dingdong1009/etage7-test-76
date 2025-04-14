@@ -150,6 +150,8 @@ const Index = () => {
             ) : (
               <div>
                 <div className="mb-12">
+                <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase">Pricing</p>
+
                   <button 
                     onClick={togglePricing} 
                     disabled={isAnimating}
