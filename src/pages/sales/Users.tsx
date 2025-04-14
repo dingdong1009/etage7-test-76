@@ -3,6 +3,8 @@ import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import SalesManagerList from "@/components/admin/users/SalesManagerList";
+import BrandList from "@/components/admin/users/BrandList";
+import BuyerList from "@/components/admin/users/BuyerList";
 import { Brand, Buyer, SalesManager } from "@/types/users";
 
 // Mock data for demonstration purposes
@@ -140,11 +142,25 @@ const SalesUsers = () => {
           </TabsContent>
             
           <TabsContent value="brands" className="space-y-4">
-            <p className="text-center py-6 text-gray-500">Brand management interface would be displayed here</p>
+            <BrandList 
+              brands={mockBrands}
+              statusFilter={statusFilter}
+              setStatusFilter={setStatusFilter}
+              handleAddUser={handleAddUser}
+              handleViewUser={handleViewUser}
+              handleEditUser={handleEditUser}
+            />
           </TabsContent>
             
           <TabsContent value="buyers" className="space-y-4">
-            <p className="text-center py-6 text-gray-500">Buyer management interface would be displayed here</p>
+            <BuyerList 
+              buyers={mockBuyers}
+              statusFilter={statusFilter}
+              setStatusFilter={setStatusFilter}
+              handleAddUser={handleAddUser}
+              handleViewUser={handleViewUser}
+              handleEditUser={handleEditUser}
+            />
           </TabsContent>
         </Tabs>
       </div>
