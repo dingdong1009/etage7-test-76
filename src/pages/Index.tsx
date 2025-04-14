@@ -142,7 +142,7 @@ const Index = () => {
                     disabled={isAnimating}
                     className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none"
                   >
-                    Discover Pricing {showPricing ? '-' : '+'} 
+                    Discover Pricing 
                     <ChevronRight className={`ml-2 h-5 w-5 transform transition-transform duration-300 ${showPricing ? 'rotate-90' : ''}`} />
                   </button>
                 </div>
@@ -155,8 +155,7 @@ const Index = () => {
                     disabled={isAnimating}
                     className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none mb-8"
                   >
-                    Back {showPricing ? '-' : '+'} 
-                    <ChevronRight className={`ml-2 h-5 w-5 transform rotate-180 transition-transform duration-300`} />
+                    <ChevronRight className={`ml-2 h-5 w-5 transform rotate-180 transition-transform duration-300`} /> BACK
                   </button>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl">
