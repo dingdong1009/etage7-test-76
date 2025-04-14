@@ -123,6 +123,9 @@ const BrandOrders = () => {
     }
   ];
 
+  // State for active tab
+  const [activeTab, setActiveTab] = useState("orders");
+
   // Handle delete order
   const handleDeleteOrder = (orderId: string) => {
     toast({
@@ -141,24 +144,43 @@ const BrandOrders = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Orders</h1>
-        <Button variant="outline" size="sm" className="w-full sm:w-auto flex items-center gap-2">
-          <FileText size={16} />
-          Export Orders
-        </Button>
-      </div>
+      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Orders</h1>
       
-      <Tabs defaultValue="orders" className="w-full">
-        <TabsList className="mb-6 bg-gray-100">
-          <TabsTrigger value="orders" className="data-[state=active]:bg-white">Orders</TabsTrigger>
-          <TabsTrigger value="samples" className="data-[state=active]:bg-white">Sample Requests</TabsTrigger>
-        </TabsList>
+      <Tabs defaultValue="orders" value={activeTab} onValueChange={setActiveTab} className="w-full">
+        <div className="border-t border-gray-200 mb-6">
+          <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
+            <TabsTrigger 
+              value="orders" 
+              className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
+            >
+              Orders
+            </TabsTrigger>
+            <TabsTrigger 
+              value="samples" 
+              className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
+            >
+              Sample Requests
+            </TabsTrigger>
+          </TabsList>
+        </div>
         
-        <TabsContent value="orders">
+        <TabsContent value="orders" className="mt-0">
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-6">
+            <div className="relative w-full max-w-sm">
+            </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <Button variant="outline" size="sm" className="h-9 text-xs">
+                <FileText size={16} className="mr-1" />
+                Export Orders
+              </Button>
+            </div>
+          </div>
+        </TabsContent>
+
+        <TabsContent value="orders" className="space-y-6">
           <Card className="border border-gray-200">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Recent Orders</CardTitle>
+              <CardTitle className="text-1xl md:text-2xl uppercase font-thin">Recent Orders</CardTitle>
               <div className="flex items-center gap-3">
                 <div className="relative">
                   <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
@@ -188,11 +210,11 @@ const BrandOrders = () => {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="overflow-x-auto">
+              <div className="rounded-md border">
                 <Table>
                   <TableHeader>
-                    <TableRow>
-                      <TableHead>Order ID</TableHead>
+                    <TableRow className="bg-gray-50">
+                      <TableHead className="w-[120px]">Order ID</TableHead>
                       <TableHead>Date</TableHead>
                       <TableHead>Customer</TableHead>
                       <TableHead>Total</TableHead>
@@ -223,7 +245,7 @@ const BrandOrders = () => {
                         <TableCell>{order.items}</TableCell>
                         <TableCell className="text-right">
                           <TooltipProvider>
-                            <div className="flex items-center justify-end space-x-2">
+                            <div className="flex justify-end gap-1">
                               <Tooltip>
                                 <TooltipTrigger asChild>
                                   <Link to={`/brand/orders/${order.id}`}>
@@ -303,10 +325,10 @@ const BrandOrders = () => {
           </Card>
         </TabsContent>
         
-        <TabsContent value="samples">
+        <TabsContent value="samples" className="space-y-6">
           <Card className="border border-gray-200">
             <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">
+              <CardTitle className="text-1xl md:text-2xl uppercase font-thin">
                 Sample Requests
               </CardTitle>
               <div className="flex items-center gap-3">
@@ -339,11 +361,11 @@ const BrandOrders = () => {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="overflow-x-auto">
+              <div className="rounded-md border">
                 <Table>
                   <TableHeader>
-                    <TableRow>
-                      <TableHead>Request ID</TableHead>
+                    <TableRow className="bg-gray-50">
+                      <TableHead className="w-[120px]">Request ID</TableHead>
                       <TableHead>Date</TableHead>
                       <TableHead>Retailer</TableHead>
                       <TableHead>Products</TableHead>
@@ -375,7 +397,7 @@ const BrandOrders = () => {
                         </TableCell>
                         <TableCell className="text-right">
                           <TooltipProvider>
-                            <div className="flex items-center justify-end space-x-2">
+                            <div className="flex justify-end gap-1">
                               <Tooltip>
                                 <TooltipTrigger asChild>
                                   <Link to={`/brand/samples/${request.id}`}>
