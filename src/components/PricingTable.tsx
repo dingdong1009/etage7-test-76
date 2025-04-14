@@ -16,7 +16,7 @@ interface PricingTableProps {
 
 export const PricingTable = ({ plan }: PricingTableProps) => {
   return (
-    <div className={`pricing-table border ${plan.highlight ? 'bg-black text-white' : 'bg-white text-black'} transition-all duration-300`}>
+    <div className={`pricing-table border ${plan.highlight ? 'bg-white text-black' : 'bg-white text-black'} transition-all duration-300`}>
       <div className="p-8 flex flex-col h-full">
         <div className="mb-8">
           <h3 className="text-xl uppercase font-normal tracking-tighter">{plan.name}</h3>
@@ -30,7 +30,7 @@ export const PricingTable = ({ plan }: PricingTableProps) => {
           {plan.features.map((feature, index) => (
             <li key={index} className="flex items-start">
               <div className="mr-3 mt-1">
-                <Check size={16} strokeWidth={1} className={plan.highlight ? "text-white" : "text-black"} />
+                <Check size={16} strokeWidth={1} className={plan.highlight ? "text-black" : "text-black"} />
               </div>
               <span className="font-light text-sm">{feature}</span>
             </li>
