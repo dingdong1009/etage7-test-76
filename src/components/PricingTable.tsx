@@ -40,7 +40,7 @@ export const PricingTable = ({ plan }: PricingTableProps) => {
         <Button 
           className={`mt-auto w-full uppercase tracking-wide ${
             plan.highlight 
-              ? "bg-white text-black hover:bg-gray-100" 
+              ? "bg-black text-white hover:bg-gray-100" 
               : "bg-black text-white hover:bg-gray-800"
           }`}
           size="lg"
