@@ -129,7 +129,7 @@ const Index = () => {
                 <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase pl-4">For Brands</p>
                 <h1 className="text-4xl md:text-5xl uppercase lg:text-7xl font-light tracking-tighter mb-6">
                   Celebrate<br />
-                  <span className="font-normal uppercase">your uniqueness & opportunities</span>
+                  <span className="font-normal uppercase">uniqueness & opportunities</span>
                 </h1>
                 
                 <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
