@@ -294,10 +294,8 @@ const Index = () => {
                   As a tastemaker, you seek the exceptional—designs that captivate and inspire. ETAGE7 is your gateway to a curated world of fashion's finest, where every brand is chosen for its story and soul. Explore collections with intuitive tools, connect effortlessly with creators, and build partnerships that redefine your offerings. From exclusive events to personalized recommendations, we empower you to discover the next iconic name in fashion with elegance and ease.
                 </p>
                 
-                <Button asChild className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
-                  <Link to="/curated">
-                    Learn More <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
-                  </Link>
+                <Button onClick={toggleBuyerInfo} className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
+                  Learn More <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
                 </Button>
               </>
             ) : (
