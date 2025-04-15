@@ -3,7 +3,6 @@ import { ArrowRight, Check, ChevronDown, ChevronUp, ChevronRight } from "lucide-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PricingTable, PricingPlan } from "@/components/PricingTable";
-
 const Index = () => {
   const [scrolled, setScrolled] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
@@ -12,7 +11,6 @@ const Index = () => {
   const [isBuyerAnimating, setIsBuyerAnimating] = useState(false);
   const brandContentRef = useRef<HTMLDivElement>(null);
   const buyerContentRef = useRef<HTMLDivElement>(null);
-  
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -20,7 +18,6 @@ const Index = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -29,41 +26,31 @@ const Index = () => {
       });
     }
   };
-  
-  const pricingPlans: PricingPlan[] = [
-    {
-      name: "6-MONTH",
-      price: "₽ 170'000",
-      features: ["6 months unlimited access", "Individual newsletter to all buyers (1X)", "Promotion on social media (1X)", "Advanced tools to manage products", "And many other features"],
-      buttonText: "Subscribe 6-Month",
-      highlight: false
-    }, 
-    {
-      name: "12-MONTH",
-      price: "₽ 270'000",
-      features: ["All of 6-Month package", "Save ₽ 70'000"],
-      buttonText: "Subscribe 12-Month",
-      highlight: true
-    }
-  ];
-   
+  const pricingPlans: PricingPlan[] = [{
+    name: "6-MONTH",
+    price: "₽ 170'000",
+    features: ["6 months unlimited access", "Individual newsletter to all buyers (1X)", "Promotion on social media (1X)", "Advanced tools to manage products", "And many other features"],
+    buttonText: "Subscribe 6-Month",
+    highlight: false
+  }, {
+    name: "12-MONTH",
+    price: "₽ 270'000",
+    features: ["All of 6-Month package", "Save ₽ 70'000"],
+    buttonText: "Subscribe 12-Month",
+    highlight: true
+  }];
   const togglePricing = () => {
     if (isAnimating) return;
-    
     setIsAnimating(true);
-    
     if (!showPricing) {
       if (brandContentRef.current) {
         brandContentRef.current.classList.add('animate-slide-out-left');
-        
         setTimeout(() => {
           setShowPricing(true);
-          
           setTimeout(() => {
             if (brandContentRef.current) {
               brandContentRef.current.classList.remove('animate-slide-out-left');
               brandContentRef.current.classList.add('animate-slide-in-right');
-              
               setTimeout(() => {
                 if (brandContentRef.current) {
                   brandContentRef.current.classList.remove('animate-slide-in-right');
@@ -77,15 +64,12 @@ const Index = () => {
     } else {
       if (brandContentRef.current) {
         brandContentRef.current.classList.add('animate-slide-out-right');
-        
         setTimeout(() => {
           setShowPricing(false);
-          
           setTimeout(() => {
             if (brandContentRef.current) {
               brandContentRef.current.classList.remove('animate-slide-out-right');
               brandContentRef.current.classList.add('animate-slide-in-left');
-              
               setTimeout(() => {
                 if (brandContentRef.current) {
                   brandContentRef.current.classList.remove('animate-slide-in-left');
@@ -98,24 +82,18 @@ const Index = () => {
       }
     }
   };
-  
   const toggleBuyerInfo = () => {
     if (isBuyerAnimating) return;
-    
     setIsBuyerAnimating(true);
-    
     if (!showBuyerInfo) {
       if (buyerContentRef.current) {
         buyerContentRef.current.classList.add('animate-slide-out-left');
-        
         setTimeout(() => {
           setShowBuyerInfo(true);
-          
           setTimeout(() => {
             if (buyerContentRef.current) {
               buyerContentRef.current.classList.remove('animate-slide-out-left');
               buyerContentRef.current.classList.add('animate-slide-in-right');
-              
               setTimeout(() => {
                 if (buyerContentRef.current) {
                   buyerContentRef.current.classList.remove('animate-slide-in-right');
@@ -129,15 +107,12 @@ const Index = () => {
     } else {
       if (buyerContentRef.current) {
         buyerContentRef.current.classList.add('animate-slide-out-right');
-        
         setTimeout(() => {
           setShowBuyerInfo(false);
-          
           setTimeout(() => {
             if (buyerContentRef.current) {
               buyerContentRef.current.classList.remove('animate-slide-out-right');
               buyerContentRef.current.classList.add('animate-slide-in-left');
-              
               setTimeout(() => {
                 if (buyerContentRef.current) {
                   buyerContentRef.current.classList.remove('animate-slide-in-left');
@@ -150,7 +125,6 @@ const Index = () => {
       }
     }
   };
-  
   return <div className="w-full">
       <section id="hero" className="relative h-screen bg-black text-white flex items-center">
         <div className="container-lg">
@@ -174,8 +148,7 @@ const Index = () => {
       <section id="brand" className="relative h-screen bg-white text-black flex items-center overflow-hidden">
         <div className="container-lg">
           <div className="max-w-3xl" ref={brandContentRef}>
-            {!showPricing ? (
-              <>
+            {!showPricing ? <>
                 <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase pl-4">For Brands</p>
                 <h1 className="text-4xl md:text-5xl uppercase lg:text-7xl font-light tracking-tighter mb-6">
                   Celebrate<br />
@@ -187,26 +160,16 @@ const Index = () => {
                 </p>
                 
                 <div className="mb-12">
-                  <Button 
-                    onClick={togglePricing} 
-                    disabled={isAnimating}
-                    className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8"
-                  >
+                  <Button onClick={togglePricing} disabled={isAnimating} className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
                   Discover Pricing 
                   <ChevronRight className={`ml-2 h-5 w-5 transform transition-transform duration-500 ${showPricing ? 'rotate-90' : ''}`} />
                   </Button>
                 </div>
-              </>
-            ) : (
-              <div>
+              </> : <div>
                 <div className="mb-12">
                 <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase pl-4">Pricing</p>
 
-                  <button 
-                    onClick={togglePricing} 
-                    disabled={isAnimating}
-                    className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none mb-8"
-                  >
+                  <button onClick={togglePricing} disabled={isAnimating} className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none mb-8">
                     <ChevronRight className={`ml-2 h-5 w-5 transform rotate-180 transition-transform duration-300`} /> BACK
                   </button>
                    
@@ -214,8 +177,7 @@ const Index = () => {
                     {pricingPlans.map((plan, index) => <PricingTable key={index} plan={plan} />)}
                   </div>
                 </div>
-              </div>
-            )} 
+              </div>} 
           </div>
         </div>
         <button onClick={() => scrollToSection('buyer')} className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${scrolled ? 'opacity-100' : 'opacity-0'}`} aria-label="Scroll to learn more">
@@ -227,8 +189,7 @@ const Index = () => {
       <section id="buyer" className="relative h-screen bg-white text-black flex items-center overflow-hidden">
         <div className="container-lg">
           <div className="max-w-3xl" ref={buyerContentRef}>
-            {!showBuyerInfo ? (
-              <>
+            {!showBuyerInfo ? <>
                 <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase pl-4">For Buyers</p>
                 <h1 className="text-4xl md:text-5xl lg:text-7xl font-light uppercase tracking-tighter mb-6">
                   Discover<br />
@@ -242,17 +203,11 @@ const Index = () => {
                 <Button onClick={toggleBuyerInfo} className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
                   Learn More <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
                 </Button>
-              </>
-            ) : (
-              <div>
+              </> : <div>
                 <div className="mb-12">
                   <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase pl-4">For Buyers</p>
                   
-                  <button 
-                    onClick={toggleBuyerInfo} 
-                    disabled={isBuyerAnimating}
-                    className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none mb-8"
-                  >
+                  <button onClick={toggleBuyerInfo} disabled={isBuyerAnimating} className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none mb-8">
                     <ChevronRight className={`ml-2 h-5 w-5 transform rotate-180 transition-transform duration-300`} /> BACK
                   </button>
                   
@@ -277,18 +232,14 @@ const Index = () => {
                       </span>
                     </li>
                     </ul>
-                    <Button 
-                      asChild
-                      className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8"
-                    >
+                    <Button asChild className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
                       <Link to="/curated">
                         Discover Our Brands <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
                       </Link>
                     </Button>
                   </div>
                 </div>
-              </div>
-            )}
+              </div>}
           </div>
         </div>
         
@@ -324,8 +275,7 @@ const Index = () => {
               CONNECTING<br />
               <span className="font-normal">FASHION BRANDS & BUYERS</span> 
             </h1>
-            <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">ETAGE7 offers tailored consulting services (excluded from the subscriptions plan) for both brands and buyers to help them navigate the dynamic fashion industry on topics such as: Brand Identity Development, Collection Development Consulting, Marketing &amp; Campaign Strategy, Trend-Based Buying Guidance, etc.
-Start the conversation with our team of experts.</p>
+            <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">ETAGE7 offers tailored consulting services (excluded from the subscriptions plan) for both brands and buyers to help navigate the dynamic fashion industry on topics such as: Brand Identity Development, Collection Development Consulting, Marketing &amp; Campaign Strategy, Trend-Based Buying Guidance, etc. Start the conversation with our team of experts and see how we can help.</p>
           </div>
         </div> 
         
@@ -468,5 +418,4 @@ Start the conversation with our team of experts.</p>
       </section>
     </div>;
 };
-
 export default Index;
