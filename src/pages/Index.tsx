@@ -402,7 +402,7 @@ const Index = () => {
                               Join Us <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
                             </Link>
                           </Button></span>
-                        </div>
+                        </div> 
                       </div>
                     )}
                   </div>
