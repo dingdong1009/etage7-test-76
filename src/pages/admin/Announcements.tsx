@@ -267,14 +267,12 @@ const AdminAnnouncements = () => {
               value="history" 
               className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
             >
-              <BookOpen className="h-4 w-4 mr-2" />
               Announcement History
             </TabsTrigger>
             <TabsTrigger 
               value="create" 
               className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
             >
-              <Megaphone className="h-4 w-4 mr-2" />
               Create Announcement
             </TabsTrigger>
           </TabsList>
