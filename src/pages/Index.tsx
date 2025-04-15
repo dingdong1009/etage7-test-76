@@ -263,9 +263,9 @@ const Index = () => {
                     <ul className="space-y-4 mb-8 flex-grow">
                     <li className="flex items-start">
                     <div className="mr-3 mt-1">
-                    <Check size={16} strokeWidth={1} /> 
-                    <Check size={16} strokeWidth={1} />  
-                    <Check size={16} strokeWidth={1} /> 
+                    <Check size={16} strokeWidth={1} className="pt-2"/> 
+                    <Check size={16} strokeWidth={1} className="pt-2" />  
+                    <Check size={16} strokeWidth={1} className="pt-2" /> 
                     </div>
                     <span className="font-light text-sm">Access full list of brands and their products
                     <p>AI powered search to find perfect match</p>
