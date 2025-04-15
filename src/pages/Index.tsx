@@ -191,7 +191,7 @@ const Index = () => {
                   <Button 
                     onClick={togglePricing} 
                     disabled={isAnimating}
-                    className="flex items-center text-lg md:text-xl font-light transition-all focus:outline-none"
+                    className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8"
                   >
                   Discover Pricing 
                   <ChevronRight className={`ml-2 h-5 w-5 transform transition-transform duration-500 ${showPricing ? 'rotate-90' : ''}`} />
