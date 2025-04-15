@@ -8,7 +8,7 @@ const ThankYouPage = () => {
     <div className="min-h-[90vh] flex items-center justify-center px-4">
       <div className="text-center max-w-md">
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-light tracking-tighter mb-6">
-          THANK <span className="font-normal">YOU <Heart size={16} className="fill-black text-black" /> 
+          THANK <span className="font-normal">YOU <Heart size={16} className="fill-black text-black" /></span> 
         </h1>
         
         <p className="text-lg mb-12 text-gray-700 font-light">
