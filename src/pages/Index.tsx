@@ -435,7 +435,7 @@ const Index = () => {
           <span className="text-sm mb-2 text-black animate-bounce">Consulting Services</span>
           <ChevronDown size={24} className="text-black animate-bounce" /> 
         </button> 
-      </section>
+      </section> 
 
       <section id="services" className="relative h-screen bg-white text-black flex items-center">
         <div className="container-lg">
