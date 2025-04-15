@@ -276,8 +276,21 @@ const AdminAnnouncements = () => {
               Create Announcement
             </TabsTrigger>
           </TabsList>
-          
-          <div className="flex gap-2">
+        </div>
+        
+        {/* Announcement History Tab */}
+        <TabsContent value="history" className="pt-6">
+          <div className="flex flex-col md:flex-row justify-between gap-4 mb-6">
+            <div className="relative md:w-1/3">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
+              <Input 
+                placeholder="Search announcements..." 
+                className="pl-10 pr-4 py-2 border-gray-200"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
+            <div className="flex gap-2">
             {activeTab === "create" && (
               <Button 
                 variant="outline" 
@@ -298,20 +311,6 @@ const AdminAnnouncements = () => {
               </Button>
             )}
           </div>
-        </div>
-        
-        {/* Announcement History Tab */}
-        <TabsContent value="history" className="pt-6">
-          <div className="flex flex-col md:flex-row justify-between gap-4 mb-6">
-            <div className="relative md:w-1/3">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
-              <Input 
-                placeholder="Search announcements..." 
-                className="pl-10 pr-4 py-2 border-gray-200"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
-            </div>
             <div className="flex gap-2">
               <Select 
                 value={filterType} 
