@@ -108,11 +108,8 @@ const AdminPages = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-        <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">
-          PAGE MANAGEMENT
-        </h1>
-      </div>
+      <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">PAGES MANAGEMENT</h1>
+
       
       <Tabs defaultValue="events" className="w-full" value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="border-b border-t border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
