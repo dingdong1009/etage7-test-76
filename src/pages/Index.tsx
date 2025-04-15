@@ -1,6 +1,5 @@
-
 import React, { useState, useRef, useEffect } from 'react';
-import { ArrowRight, Check, ChevronDown, ChevronUp, ChevronRight, Check } from "lucide-react";
+import { ArrowRight, Check, ChevronDown, ChevronUp, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PricingTable, PricingPlan } from "@/components/PricingTable";
@@ -9,10 +8,13 @@ const Index = () => {
   const [scrolled, setScrolled] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
   const [showBuyerInfo, setShowBuyerInfo] = useState(false);
+  const [showCuratedBrands, setShowCuratedBrands] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
   const [isBuyerAnimating, setIsBuyerAnimating] = useState(false);
+  const [isCuratedAnimating, setIsCuratedAnimating] = useState(false);
   const brandContentRef = useRef<HTMLDivElement>(null);
   const buyerContentRef = useRef<HTMLDivElement>(null);
+  const curatedContentRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     const handleScroll = () => {
@@ -152,6 +154,58 @@ const Index = () => {
     }
   };
   
+  const toggleCuratedBrands = () => {
+    if (isCuratedAnimating) return;
+    
+    setIsCuratedAnimating(true);
+    
+    if (!showCuratedBrands) {
+      if (curatedContentRef.current) {
+        curatedContentRef.current.classList.add('animate-slide-out-left');
+        
+        setTimeout(() => {
+          setShowCuratedBrands(true);
+          
+          setTimeout(() => {
+            if (curatedContentRef.current) {
+              curatedContentRef.current.classList.remove('animate-slide-out-left');
+              curatedContentRef.current.classList.add('animate-slide-in-right');
+              
+              setTimeout(() => {
+                if (curatedContentRef.current) {
+                  curatedContentRef.current.classList.remove('animate-slide-in-right');
+                  setIsCuratedAnimating(false);
+                }
+              }, 500);
+            }
+          }, 500);
+        }, 500);
+      }
+    } else {
+      if (curatedContentRef.current) {
+        curatedContentRef.current.classList.add('animate-slide-out-right');
+        
+        setTimeout(() => {
+          setShowCuratedBrands(false);
+          
+          setTimeout(() => {
+            if (curatedContentRef.current) {
+              curatedContentRef.current.classList.remove('animate-slide-out-right');
+              curatedContentRef.current.classList.add('animate-slide-in-left');
+              
+              setTimeout(() => {
+                if (curatedContentRef.current) {
+                  curatedContentRef.current.classList.remove('animate-slide-in-left');
+                  setIsCuratedAnimating(false);
+                }
+              }, 500);
+            }
+          }, 50);
+        }, 500);
+      }
+    }
+  };
+  
   return <div className="w-full">
       <section id="hero" className="relative h-screen bg-black text-white flex items-center">
         <div className="container-lg">
@@ -257,30 +311,101 @@ const Index = () => {
                     <ChevronRight className={`ml-2 h-5 w-5 transform rotate-180 transition-transform duration-300`} /> BACK
                   </button>
                   
-                  <div className="max-w-3xl">
-                    <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
-                    ÉTAGE7 represents aspirational premium and luxury brands, catering to a discerning clientele who value rarity and prestige and maintain an aura of exclusivity.</p>
-                    <ul className="space-y-4 mb-8 flex-grow">
-                    <li className="flex items-start">
-                    <div className="mr-3 mt-1 space-y-2">
-                    <Check size={16} strokeWidth={1} /> 
-                    <Check size={16} strokeWidth={1} />  
-                    <Check size={16} strokeWidth={1} /> 
-                    <Check size={16} strokeWidth={1} /> 
-                    <Check size={16} strokeWidth={1} /> 
-                    </div>
-                    <span className="font-light">Access to categories Woman, Man, Kids, Home, and Beatuty
-                    <p>Access exclusive brands and products</p>
-                    <p>AI powered search to find perfect match</p>
-                    <p>Receive alerts when new brands are added</p>
-                    <p>Invitation to Premiere pop-up showroom</p>
-                    <p>Possibility to manage orders directly from the platform</p>
-                    </span>
-                    </li>
-                    </ul>
-                    <Button asChild className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
-                      <Link to="/curated">Discover Our Brands <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} /></Link>
-                    </Button>
+                  <div className="max-w-3xl" ref={curatedContentRef}>
+                    {!showCuratedBrands ? (
+                      <>
+                        <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
+                        ÉTAGE7 represents aspirational premium and luxury brands, catering to a discerning clientele who value rarity and prestige and maintain an aura of exclusivity.</p>
+                        <ul className="space-y-4 mb-8 flex-grow">
+                        <li className="flex items-start">
+                          <div className="mr-3 mt-1 space-y-2">
+                          <Check size={16} strokeWidth={1} /> 
+                          <Check size={16} strokeWidth={1} />  
+                          <Check size={16} strokeWidth={1} /> 
+                          <Check size={16} strokeWidth={1} /> 
+                          <Check size={16} strokeWidth={1} /> 
+                          </div>
+                          <span className="font-light">Access to categories Woman, Man, Kids, Home, and Beatuty
+                          <p>Access exclusive brands and products</p>
+                          <p>AI powered search to find perfect match</p>
+                          <p>Receive alerts when new brands are added</p>
+                          <p>Invitation to Premiere pop-up showroom</p>
+                          <p>Possibility to manage orders directly from the platform</p>
+                          </span>
+                        </li>
+                        </ul>
+                        <Button 
+                          onClick={toggleCuratedBrands} 
+                          className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8"
+                        >
+                          Discover Our Brands <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
+                        </Button>
+                      </>
+                    ) : (
+                      <div>
+                        <button 
+                          onClick={toggleCuratedBrands} 
+                          disabled={isCuratedAnimating}
+                          className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none mb-8"
+                        >
+                          <ChevronRight className={`ml-2 h-5 w-5 transform rotate-180 transition-transform duration-300`} /> BACK
+                        </button>
+                        
+                        <div className="max-w-3xl">
+                          <h2 className="text-2xl md:text-3xl font-light tracking-tighter mb-6">
+                            Our <span className="font-normal">Curated Brands</span>
+                          </h2>
+                          <p className="text-lg md:text-xl font-light text-black-100 mb-8">
+                            Explore our carefully selected collection of premium and luxury brands, each with their unique story and exceptional craftsmanship.
+                          </p>
+                          
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+                            <div className="border border-gray-200 p-6">
+                              <h3 className="text-xl font-light mb-2">Woman</h3>
+                              <p className="text-gray-600 mb-3">Discover elegant designs crafted with precision and passion.</p>
+                              <Button asChild variant="outline" className="w-full justify-between">
+                                <Link to="/curated#woman">
+                                  Explore <ArrowRight size={16} />
+                                </Link>
+                              </Button>
+                            </div>
+                            <div className="border border-gray-200 p-6">
+                              <h3 className="text-xl font-light mb-2">Man</h3>
+                              <p className="text-gray-600 mb-3">Explore refined collections that blend tradition with innovation.</p>
+                              <Button asChild variant="outline" className="w-full justify-between">
+                                <Link to="/curated#man">
+                                  Explore <ArrowRight size={16} />
+                                </Link>
+                              </Button>
+                            </div>
+                            <div className="border border-gray-200 p-6">
+                              <h3 className="text-xl font-light mb-2">Kids</h3>
+                              <p className="text-gray-600 mb-3">Quality designs for the next generation of trendsetters.</p>
+                              <Button asChild variant="outline" className="w-full justify-between">
+                                <Link to="/curated#kids">
+                                  Explore <ArrowRight size={16} />
+                                </Link>
+                              </Button>
+                            </div>
+                            <div className="border border-gray-200 p-6">
+                              <h3 className="text-xl font-light mb-2">Home</h3>
+                              <p className="text-gray-600 mb-3">Elevate your spaces with expertly crafted home collections.</p>
+                              <Button asChild variant="outline" className="w-full justify-between">
+                                <Link to="/curated#home">
+                                  Explore <ArrowRight size={16} />
+                                </Link>
+                              </Button>
+                            </div>
+                          </div>
+                          
+                          <Button asChild className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
+                            <Link to="/curated">
+                              View All Brands <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
+                            </Link>
+                          </Button>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
