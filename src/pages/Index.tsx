@@ -343,13 +343,6 @@ const Index = () => {
                       </>
                     ) : (
                       <div>
-                        <button 
-                          onClick={toggleCuratedBrands} 
-                          disabled={isCuratedAnimating}
-                          className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none mb-8"
-                        >
-                          <ChevronRight className={`ml-2 h-5 w-5 transform rotate-180 transition-transform duration-300`} /> BACK
-                        </button>
                         
                         <div className="max-w-3xl">
                           <h2 className="text-2xl md:text-3xl font-light tracking-tighter mb-6">
@@ -403,7 +396,11 @@ const Index = () => {
                               View All Brands <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
                             </Link>
                           </Button>
-                        </div>
+                          <Button asChild className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
+                            <Link to="/register">
+                              Join Us <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
+                            </Link>
+                          </Button>                        </div>
                       </div>
                     )}
                   </div>
