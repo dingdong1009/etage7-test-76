@@ -257,16 +257,9 @@ const AdminAnnouncements = () => {
   };
 
   return (
-    <div className="space-y-8 animate-fade-in">
-      {/* Header Section */}
-      <div className="flex flex-col space-y-2">
-        <h1 className="text-4xl md:text-5xl lg:text-7xl font-normal tracking-tighter uppercase">
-          ANNOUNCEMENTS MANAGER
-        </h1>
-        <p className="text-lg text-gray-500">
-          Create, manage, and monitor platform announcements
-        </p>
-      </div>
+    <div className="space-y-6">
+      <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">Announcements MANAGEMENT</h1>
+
       
       {/* Main Content Tabs */}
       <Tabs 
