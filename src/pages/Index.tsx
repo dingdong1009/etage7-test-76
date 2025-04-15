@@ -400,7 +400,8 @@ const Index = () => {
                             <Link to="/register">
                               Join Us <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
                             </Link>
-                          </Button>                        </div>
+                          </Button>
+                        </div>
                       </div>
                     )}
                   </div>
