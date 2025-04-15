@@ -262,12 +262,12 @@ const Index = () => {
                     ÉTAGE7 represents aspirational premium and luxury, catering to a discerning clientele who value rarity and prestige and maintain an aura of exclusivity.</p>
                     <ul className="space-y-4 mb-8 flex-grow">
                     <li className="flex items-start">
-                    <div className="mr-3 mt-1">
-                    <Check size={16} strokeWidth={1} className="pt-2"/> 
-                    <Check size={16} strokeWidth={1} className="pt-2" />  
-                    <Check size={16} strokeWidth={1} className="pt-2" /> 
+                    <div className="mr-3 mt-3">
+                    <Check size={16} strokeWidth={1} /> 
+                    <Check size={16} strokeWidth={1} />  
+                    <Check size={16} strokeWidth={1} /> 
                     </div>
-                    <span className="font-light text-sm">Access full list of brands and their products
+                    <span className="font-light">Access full list of brands and their products
                     <p>AI powered search to find perfect match</p>
                     <p>Receive alerts when new brands are added</p></span>
 
