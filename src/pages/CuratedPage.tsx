@@ -1,30 +1,59 @@
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, ChevronDown } from "lucide-react";
+import { Link } from "react-router-dom";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState, useEffect } from "react";
 
 const CuratedPage = () => {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   return (
     <div className="w-full">
       {/* Hero Section */}
-      <section className="relative min-h-[90vh] bg-black text-white flex items-center">
+      <section className="relative h-screen bg-black text-white flex items-center">
         <div className="container-lg">
           <div className="max-w-3xl">
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
-              AI-POWERED<br/>
-              <span className="font-normal">BRAND CURATION</span>
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">
+              Upcoming<br/>
+              <span className="font-normal uppercase">Curated Contents</span>
             </h1>
             <p className="text-lg md:text-xl font-light text-gray-300 mb-12 max-w-2xl">
-              Discover brands hand-picked by our AI to match your specific requirements.
+            Valuable insights and tools for fashion brands and buyers.
             </p>
-            <Button className="text-base bg-white text-black border-0 hover:bg-gray-100 py-6 px-8">
-              COMING SOON <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
-            </Button>
           </div>
         </div>
+        
+        {/* Scroll indicator */}
+        <button 
+          onClick={() => scrollToSection('content')}
+          className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 ${
+            scrolled ? 'opacity-0' : 'opacity-100'
+          }`}
+          aria-label="Scroll to learn more"
+        >
+          <ChevronDown size={24} className="animate-bounce" />
+        </button>
       </section>
 
       {/* Content Section */}
-      <section className="py-28 px-4">
+      <section id="content" className="py-28 px-4">
         <div className="max-w-[1481px] mx-auto">
           <div className="max-w-3xl">
             <h2 className="text-3xl md:text-4xl font-light tracking-tighter mb-8">
