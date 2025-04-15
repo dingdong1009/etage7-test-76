@@ -260,26 +260,19 @@ const AdminAnnouncements = () => {
     <div className="space-y-6">
       <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">Announcements MANAGEMENT</h1>
 
-      
-      {/* Main Content Tabs */}
-      <Tabs 
-        defaultValue="history" 
-        className="w-full" 
-        value={activeTab} 
-        onValueChange={setActiveTab}
-      >
-        <div className="flex justify-between items-center border-b border-gray-200">
-          <TabsList className="h-auto p-0">
+      <Tabs defaultValue="history" className="w-full" value={activeTab} onValueChange={setActiveTab} >
+      <div className="border-t border-gray-200 mb-6">
+          <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
             <TabsTrigger 
               value="history" 
-              className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-3"
+              className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
             >
               <BookOpen className="h-4 w-4 mr-2" />
               Announcement History
             </TabsTrigger>
             <TabsTrigger 
               value="create" 
-              className="text-sm font-light data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-3"
+              className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
             >
               <Megaphone className="h-4 w-4 mr-2" />
               Create Announcement
