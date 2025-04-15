@@ -261,7 +261,7 @@ const Index = () => {
                     <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
                     <li>Access full list of brands and their products</li>
                     <li>AI powered search to find perfect match</li>
-                    <li></li></p>
+                    <li></li></p> 
                     
                     <Button asChild className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
                       <Link to="/buyers">EXPLORE OUR PLATFORM <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} /></Link>
