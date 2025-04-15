@@ -351,57 +351,13 @@ const Index = () => {
                           <p className="text-lg md:text-xl font-light text-black-100 mb-8">
                             Explore our carefully selected collection of premium and luxury brands, each with their unique story and exceptional craftsmanship.
                           </p>
-                          
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                            <div className="border border-gray-200 p-6">
-                              <h3 className="text-xl font-light mb-2">Woman</h3>
-                              <p className="text-gray-600 mb-3">Discover elegant designs crafted with precision and passion.</p>
-                              <Button asChild variant="outline" className="w-full justify-between">
-                                <Link to="/curated#woman">
-                                  Explore <ArrowRight size={16} />
-                                </Link>
-                              </Button>
-                            </div>
-                            <div className="border border-gray-200 p-6">
-                              <h3 className="text-xl font-light mb-2">Man</h3>
-                              <p className="text-gray-600 mb-3">Explore refined collections that blend tradition with innovation.</p>
-                              <Button asChild variant="outline" className="w-full justify-between">
-                                <Link to="/curated#man">
-                                  Explore <ArrowRight size={16} />
-                                </Link>
-                              </Button>
-                            </div>
-                            <div className="border border-gray-200 p-6">
-                              <h3 className="text-xl font-light mb-2">Kids</h3>
-                              <p className="text-gray-600 mb-3">Quality designs for the next generation of trendsetters.</p>
-                              <Button asChild variant="outline" className="w-full justify-between">
-                                <Link to="/curated#kids">
-                                  Explore <ArrowRight size={16} />
-                                </Link>
-                              </Button>
-                            </div>
-                            <div className="border border-gray-200 p-6">
-                              <h3 className="text-xl font-light mb-2">Home</h3>
-                              <p className="text-gray-600 mb-3">Elevate your spaces with expertly crafted home collections.</p>
-                              <Button asChild variant="outline" className="w-full justify-between">
-                                <Link to="/curated#home">
-                                  Explore <ArrowRight size={16} />
-                                </Link>
-                              </Button>
-                            </div>
-                          </div>
-                          <span>
+                          <Link to="/curated">See all our brands</Link>
+                    
                           <Button asChild className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
-                            <Link to="/curated">
-                              View All Brands <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
-                            </Link>
-                          </Button></span>
-
-                          <span><Button asChild className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
                             <Link to="/register">
                               Join Us <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
                             </Link>
-                          </Button></span>
+                          </Button>
                         </div> 
                       </div>
                     )}
