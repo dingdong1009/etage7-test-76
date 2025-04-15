@@ -267,9 +267,9 @@ const Index = () => {
                     <Check size={16} strokeWidth={1} />  
                     <Check size={16} strokeWidth={1} /> 
                     </div>
-                    <span className="font-light text-sm">Access full list of brands and their products</span>
-                    <span className="font-light text-sm">AI powered search to find perfect match</span>
-                    <span className="font-light text-sm">Receive alerts when new brands are added</span>
+                    <span className="font-light text-sm">Access full list of brands and their products
+                    <p>AI powered search to find perfect match</p>
+                    <p>Receive alerts when new brands are added</p></span>
 
                     </li>
                     </ul>
