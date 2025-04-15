@@ -290,6 +290,7 @@ const AdminAnnouncements = () => {
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
+
             <div className="flex gap-2">
             {activeTab === "create" && (
               <Button 
@@ -310,8 +311,7 @@ const AdminAnnouncements = () => {
                 New Announcement
               </Button>
             )}
-          </div>
-            <div className="flex gap-2">
+
               <Select 
                 value={filterType} 
                 onValueChange={(value) => setFilterType(value as AnnouncementType | "all")}
