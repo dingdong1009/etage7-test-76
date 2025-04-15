@@ -178,9 +178,9 @@ const Index = () => {
         <div className="container-lg">
           <div className="max-w-3xl">
           <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase">For Buyers</p>
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
-              CONNECTING<br />
-              <span className="font-normal">FASHION BRANDS & BUYERS</span>
+            <h1 className="text-4xl md:text-5xl lg:text-7xl font-light uppercase tracking-tighter mb-6">
+              Discover<br />
+              <span className="font-normal uppercase">the extraordinary</span>
             </h1>
             
             {!showBuyerInfo && <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">As a tastemaker, you seek the exceptional—designs that captivate and inspire. ETAGE7 is your gateway to a curated world of fashion's finest, where every brand is chosen for its story and soul. Explore collections with intuitive tools, connect effortlessly with creators, and build partnerships that redefine your offerings. From exclusive events to personalized recommendations, we empower you to discover the next iconic name in fashion with elegance and ease.</p>}
