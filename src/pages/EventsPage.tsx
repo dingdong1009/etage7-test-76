@@ -108,8 +108,8 @@ const EventsPage = () => {
         <div className="container-lg">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter mb-6">
-              INDUSTRY<br/>
-              <span className="font-normal">RESOURCES</span>
+              Upcoming<br/>
+              <span className="font-normal">Exclusive Events</span>
             </h1>
             <p className="text-lg md:text-xl font-light text-gray-300 mb-12 max-w-2xl">
             Valuable insights and tools for fashion brands and buyers.
