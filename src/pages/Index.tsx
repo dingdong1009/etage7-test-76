@@ -213,7 +213,7 @@ const Index = () => {
                   
                   <div className="max-w-3xl">
                     <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
-                    ÉTAGE7 represents aspirational premium and luxury brands, catering to a discerning clientele who value rarity and prestige and maintain an aura of exclusivity. <Link to="/curated">Discover our brands</Link></p>
+                    ÉTAGE7 represents aspirational premium and luxury brands, catering to a discerning clientele who value rarity and prestige and maintain an aura of exclusivity. <Link to="/curated">Discover our brands</Link>.</p>
                     <ul className="space-y-4 mb-8 flex-grow">
                     <li className="flex items-start">
                       <div className="mr-3 mt-1 space-y-2">
