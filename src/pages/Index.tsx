@@ -276,11 +276,11 @@ const Index = () => {
                 </div>
               </div>
             )}
-          </div>
+          </div> 
         </div>
         
         <button onClick={() => scrollToSection('platform')} className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${scrolled ? 'opacity-100' : 'opacity-0'}`} aria-label="Scroll to learn more">
-          <span className="text-sm mb-2 text-black animate-bounce">The Platform</span>
+          <span className="text-sm mb-2 text-black animate-bounce">Discover The Platform</span>
           <ChevronDown size={24} className="text-black animate-bounce" />
         </button> 
       </section>
