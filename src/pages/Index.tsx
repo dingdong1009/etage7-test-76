@@ -353,11 +353,11 @@ const Index = () => {
                           </p>
                           <Link to="/curated">See all our brands</Link>
                     
-                          <Button asChild className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
+                          <p><Button asChild className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
                             <Link to="/register">
                               Join Us <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
                             </Link>
-                          </Button>
+                          </Button></p>
                         </div> 
                       </div>
                     )}
