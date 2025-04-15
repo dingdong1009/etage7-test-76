@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { ArrowRight, ChevronDown, ChevronUp, ChevronRight, Check } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -9,7 +10,9 @@ const Index = () => {
   const [showPricing, setShowPricing] = useState(false);
   const [showBuyerInfo, setShowBuyerInfo] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
+  const [isBuyerAnimating, setIsBuyerAnimating] = useState(false);
   const brandContentRef = useRef<HTMLDivElement>(null);
+  const buyerContentRef = useRef<HTMLDivElement>(null);
   
   useEffect(() => {
     const handleScroll = () => {
@@ -98,7 +101,55 @@ const Index = () => {
   };
   
   const toggleBuyerInfo = () => {
-    setShowBuyerInfo(!showBuyerInfo);
+    if (isBuyerAnimating) return;
+    
+    setIsBuyerAnimating(true);
+    
+    if (!showBuyerInfo) {
+      if (buyerContentRef.current) {
+        buyerContentRef.current.classList.add('animate-slide-out-left');
+        
+        setTimeout(() => {
+          setShowBuyerInfo(true);
+          
+          setTimeout(() => {
+            if (buyerContentRef.current) {
+              buyerContentRef.current.classList.remove('animate-slide-out-left');
+              buyerContentRef.current.classList.add('animate-slide-in-right');
+              
+              setTimeout(() => {
+                if (buyerContentRef.current) {
+                  buyerContentRef.current.classList.remove('animate-slide-in-right');
+                  setIsBuyerAnimating(false);
+                }
+              }, 500);
+            }
+          }, 500);
+        }, 500);
+      }
+    } else {
+      if (buyerContentRef.current) {
+        buyerContentRef.current.classList.add('animate-slide-out-right');
+        
+        setTimeout(() => {
+          setShowBuyerInfo(false);
+          
+          setTimeout(() => {
+            if (buyerContentRef.current) {
+              buyerContentRef.current.classList.remove('animate-slide-out-right');
+              buyerContentRef.current.classList.add('animate-slide-in-left');
+              
+              setTimeout(() => {
+                if (buyerContentRef.current) {
+                  buyerContentRef.current.classList.remove('animate-slide-in-left');
+                  setIsBuyerAnimating(false);
+                }
+              }, 500);
+            }
+          }, 50);
+        }, 500);
+      }
+    }
   };
   
   return <div className="w-full">
@@ -174,26 +225,57 @@ const Index = () => {
         </button> 
       </section>
 
-      <section id="buyer" className="relative h-screen bg-white text-black flex items-center">
+      <section id="buyer" className="relative h-screen bg-white text-black flex items-center overflow-hidden">
         <div className="container-lg">
-          <div className="max-w-3xl">
-          <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase">For Buyers</p>
-            <h1 className="text-4xl md:text-5xl lg:text-7xl font-light uppercase tracking-tighter mb-6">
-              Discover<br />
-              <span className="font-normal uppercase">the extraordinary</span>
-            </h1>
-            
-            {!showBuyerInfo && <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">As a tastemaker, you seek the exceptional—designs that captivate and inspire. ETAGE7 is your gateway to a curated world of fashion's finest, where every brand is chosen for its story and soul. Explore collections with intuitive tools, connect effortlessly with creators, and build partnerships that redefine your offerings. From exclusive events to personalized recommendations, we empower you to discover the next iconic name in fashion with elegance and ease.</p>}
-            
-            {showBuyerInfo && <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">
-                blablalblablal bal balbal bal b balbal balba lbal ba b
-              </p>}
-            
-            <Button onClick={toggleBuyerInfo} className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
-              JOIN AS A BUYER <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
-            </Button>
+          <div className="max-w-3xl" ref={buyerContentRef}>
+            {!showBuyerInfo ? (
+              <>
+                <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase pl-4">For Buyers</p>
+                <h1 className="text-4xl md:text-5xl lg:text-7xl font-light uppercase tracking-tighter mb-6">
+                  Discover<br />
+                  <span className="font-normal uppercase">the extraordinary</span>
+                </h1>
+                
+                <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl animate-fade-in">
+                  As a tastemaker, you seek the exceptional—designs that captivate and inspire. ETAGE7 is your gateway to a curated world of fashion's finest, where every brand is chosen for its story and soul. Explore collections with intuitive tools, connect effortlessly with creators, and build partnerships that redefine your offerings. From exclusive events to personalized recommendations, we empower you to discover the next iconic name in fashion with elegance and ease.
+                </p>
+                
+                <Button onClick={toggleBuyerInfo} className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
+                  JOIN AS A BUYER <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
+                </Button>
+              </>
+            ) : (
+              <div>
+                <div className="mb-12">
+                  <p className="text-lg md:text-xl font-light bg-black text-white mb-12 max-w-2xl uppercase pl-4">For Buyers</p>
+                  
+                  <button 
+                    onClick={toggleBuyerInfo} 
+                    disabled={isBuyerAnimating}
+                    className="flex items-center text-lg md:text-xl font-light hover:underline transition-all focus:outline-none mb-8"
+                  >
+                    <ChevronRight className={`ml-2 h-5 w-5 transform rotate-180 transition-transform duration-300`} /> BACK
+                  </button>
+                  
+                  <div className="max-w-3xl">
+                    <h1 className="text-4xl md:text-5xl lg:text-7xl font-light uppercase tracking-tighter mb-6">
+                      CONNECTING<br />
+                      <span className="font-normal uppercase">FASHION BRANDS & BUYERS</span>
+                    </h1>
+                    
+                    <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
+                      As a tastemaker, you seek the exceptional—designs that captivate and inspire. ETAGE7 is your gateway to a curated world of fashion's finest, where every brand is chosen for its story and soul. Explore collections with intuitive tools, connect effortlessly with creators, and build partnerships that redefine your offerings. From exclusive events to personalized recommendations, we empower you to discover the next iconic name in fashion with elegance and ease.
+                    </p>
+                    
+                    <Button asChild className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
+                      <Link to="/buyers">EXPLORE OUR PLATFORM <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} /></Link>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
-        </div> 
+        </div>
         
         <button onClick={() => scrollToSection('platform')} className={`absolute left-1/2 -translate-x-1/2 bottom-10 p-3 transition-opacity duration-500 flex flex-col items-center ${scrolled ? 'opacity-100' : 'opacity-0'}`} aria-label="Scroll to learn more">
           <span className="text-sm mb-2 text-black animate-bounce">The Platform</span>
