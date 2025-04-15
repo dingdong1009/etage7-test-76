@@ -390,17 +390,18 @@ const Index = () => {
                               </Button>
                             </div>
                           </div>
-                          
+                          <span>
                           <Button asChild className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
                             <Link to="/curated">
                               View All Brands <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
                             </Link>
-                          </Button>
-                          <Button asChild className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
+                          </Button></span>
+
+                          <span><Button asChild className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
                             <Link to="/register">
                               Join Us <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
                             </Link>
-                          </Button>
+                          </Button></span>
                         </div>
                       </div>
                     )}
