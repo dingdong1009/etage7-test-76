@@ -263,10 +263,14 @@ const Index = () => {
                     <ul className="space-y-4 mb-8 flex-grow">
                     <li className="flex items-start">
                     <div className="mr-3 mt-1">
-                    <Check size={16} strokeWidth={1}> Access full list of brands and their products </Check>
-                    <Check size={16} strokeWidth={1}> AI powered search to find perfect match </Check>
-                    <Check size={16} strokeWidth={1}> Receive alerts when new brands are added </Check>
+                    <Check size={16} strokeWidth={1} /> 
+                    <Check size={16} strokeWidth={1} />  
+                    <Check size={16} strokeWidth={1} /> 
                     </div>
+                    <span className="font-light text-sm">Access full list of brands and their products</span>
+                    <span className="font-light text-sm">AI powered search to find perfect match</span>
+                    <span className="font-light text-sm">Receive alerts when new brands are added</span>
+
                     </li>
                     </ul>
                     <Button asChild className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
