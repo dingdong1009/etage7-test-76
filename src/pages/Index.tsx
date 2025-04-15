@@ -259,7 +259,7 @@ const Index = () => {
                   
                   <div className="max-w-3xl">
                     <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
-                    ÉTAGE7 represents aspirational premium and luxury, catering to a discerning clientele who value rarity and prestige and maintain an aura of exclusivity.</p>
+                    ÉTAGE7 represents aspirational premium and luxury brands, catering to a discerning clientele who value rarity and prestige and maintain an aura of exclusivity.</p>
                     <ul className="space-y-4 mb-8 flex-grow">
                     <li className="flex items-start">
                     <div className="mr-3 mt-1 space-y-2">
@@ -269,7 +269,8 @@ const Index = () => {
                     <Check size={16} strokeWidth={1} /> 
                     <Check size={16} strokeWidth={1} /> 
                     </div>
-                    <span className="font-light">Access exclusive brands and products
+                    <span className="font-light">Access to categories Woman, Man, Kids, Home, and Beatuty
+                    <p>Access exclusive brands and products</p>
                     <p>AI powered search to find perfect match</p>
                     <p>Receive alerts when new brands are added</p>
                     <p>Invitation to Premiere pop-up showroom</p>
@@ -278,7 +279,7 @@ const Index = () => {
                     </li>
                     </ul>
                     <Button asChild className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
-                      <Link to="/register">Join Us <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} /></Link>
+                      <Link to="/curated">Discover Our Brands <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} /></Link>
                     </Button>
                   </div>
                 </div>
