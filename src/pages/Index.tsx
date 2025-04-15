@@ -213,7 +213,7 @@ const Index = () => {
                   
                   <div className="max-w-3xl">
                     <p className="text-lg md:text-xl font-light text-black-100 mb-12 max-w-2xl">
-                    ÉTAGE7 represents aspirational premium and luxury brands, catering to a discerning clientele who value rarity and prestige and maintain an aura of exclusivity.</p>
+                    ÉTAGE7 represents aspirational premium and luxury brands, catering to a discerning clientele who value rarity and prestige and maintain an aura of exclusivity. <Link to="/curated">Discover our brands</Link></p>
                     <ul className="space-y-4 mb-8 flex-grow">
                     <li className="flex items-start">
                       <div className="mr-3 mt-1 space-y-2">
@@ -233,8 +233,8 @@ const Index = () => {
                     </li>
                     </ul>
                     <Button asChild className="bg-black text-white border-0 hover:bg-gray-800 text-base py-6 px-8">
-                      <Link to="/curated">
-                        Discover Our Brands <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
+                      <Link to="/register">
+                        Register <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
                       </Link>
                     </Button>
                   </div>
@@ -296,15 +296,17 @@ const Index = () => {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-6">
             <Button asChild className="bg-white text-black hover:bg-gray-100 btn">
-              <Link to="/brands">
-                FOR BRANDS <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
+              <Link to="/register">
+                Join Us <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
               </Link>
             </Button>
-            <Button asChild className="bg-transparent text-white border border-white hover:bg-white/10 btn">
-              <Link to="/buyers">
-                FOR BUYERS <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
-              </Link>
+{/*            <Button asChild className="bg-transparent text-white border border-white hover:bg-white/10 btn">
+//              <Link to="/buyers">
+//                FOR BUYERS <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
+//              </Link>
             </Button>
+
+*/}
           </div>
         </div>
       </section>
