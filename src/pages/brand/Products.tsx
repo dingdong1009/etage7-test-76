@@ -33,7 +33,8 @@ const BrandProducts = () => {
       status: "active",
       releaseDate: "2025-03-15",
       description: "Luxurious silk blend blazer with modern tailoring and subtle texture.",
-      materials: "70% Silk, 30% Cotton"
+      materials: "70% Silk, 30% Cotton",
+      images: ["/placeholder.svg", "/placeholder.svg"]
     },
     {
       id: 2,
@@ -46,7 +47,8 @@ const BrandProducts = () => {
       status: "draft",
       releaseDate: "2024-08-30",
       description: "Premium cashmere wool cardigan with ribbed cuffs and hem.",
-      materials: "85% Cashmere, 15% Wool"
+      materials: "85% Cashmere, 15% Wool",
+      images: ["/placeholder.svg"]
     },
     {
       id: 3,
@@ -59,7 +61,8 @@ const BrandProducts = () => {
       status: "active",
       releaseDate: "2025-01-10",
       description: "Artisanal leather crossbody with adjustable strap and distinctive hardware.",
-      materials: "100% Full-grain Leather"
+      materials: "100% Full-grain Leather",
+      images: ["/placeholder.svg", "/placeholder.svg", "/placeholder.svg"]
     }
   ]);
 

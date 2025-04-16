@@ -11,6 +11,7 @@ export interface Product {
   releaseDate: string;
   description: string;
   materials: string;
+  images?: string[]; // Added for product images
 }
 
 export interface ColorOption {
