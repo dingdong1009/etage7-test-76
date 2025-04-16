@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -17,6 +16,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Checkbox } from "@/components/ui/checkbox";
+import { QuickViewModal } from "@/components/buyer/QuickViewModal";
+import { Badge } from "@/components/ui/badge";
 
 interface Product {
   id: string;
@@ -88,6 +89,9 @@ const Dashboard = () => {
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [searchPlaceholder, setSearchPlaceholder] = useState<string>("Search products...");
   
+  const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
+  const [showFavoritesOnly, setShowFavoritesOnly] = useState<boolean>(false);
+  
   const categories = ["All Categories", "Dresses", "Tops", "Skirts", "Bags", "Shoes"];
   
   useEffect(() => {
@@ -136,6 +140,10 @@ const Dashboard = () => {
   
   useEffect(() => {
     let result = [...products];
+    
+    if (showFavoritesOnly) {
+      result = result.filter(product => product.favorite === true);
+    }
     
     if (selectedCategory !== "All Categories") {
       result = result.filter(product => product.category === selectedCategory);
@@ -272,7 +280,7 @@ const Dashboard = () => {
     selectedCategory, selectedSubCategory, selectedMaterials, priceRange, inStockOnly,
     selectedSeasons, selectedColors, selectedSizes, selectedBrands, selectedCertifications,
     minOrderRange, selectedLeadTimes, selectedShippingOrigins, exclusivityOnly,
-    searchTerm, sortBy, products, isAiAssistEnabled
+    searchTerm, sortBy, products, isAiAssistEnabled, showFavoritesOnly
   ]);
   
   const toggleFilterOption = (option: string, currentSelection: string[], setSelection: (selection: string[]) => void) => {
@@ -355,6 +363,7 @@ const Dashboard = () => {
     count += selectedLeadTimes.length;
     count += selectedShippingOrigins.length;
     if (exclusivityOnly) count++;
+    if (showFavoritesOnly) count++;
     return count;
   };
 
@@ -453,6 +462,16 @@ const Dashboard = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
+            <Button 
+              variant={showFavoritesOnly ? "black" : "outline"}
+              size="sm" 
+              className={`border ${showFavoritesOnly ? 'bg-black text-white' : 'border-gray-200 hover:bg-gray-50'} w-auto flex items-center gap-1`}
+              onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
+            >
+              <Heart size={14} className={showFavoritesOnly ? "fill-white text-white" : ""} />
+              Favorites
+            </Button>
+            
             <Button 
               variant="outline" 
               size="sm" 
@@ -960,6 +979,22 @@ const Dashboard = () => {
         </div>
       )}
 
+      {showFavoritesOnly && (
+        <div className="flex items-center gap-2">
+          <Badge variant="outline" className="rounded-sm bg-gray-50 text-gray-600 font-light border-gray-200">
+            Showing favorites only
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="h-5 w-5 p-0 ml-2"
+              onClick={() => setShowFavoritesOnly(false)}
+            >
+              <X size={12} />
+            </Button>
+          </Badge>
+        </div>
+      )}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
@@ -985,7 +1020,11 @@ const Dashboard = () => {
                     <Button className="bg-black text-white text-xs px-3 py-1.5 hover:bg-gray-900">
                       Add to Bag
                     </Button>
-                    <Button variant="outline" className="bg-white text-black text-xs px-3 py-1.5">
+                    <Button 
+                      variant="outline" 
+                      className="bg-white text-black text-xs px-3 py-1.5"
+                      onClick={() => openQuickView(product)}
+                    >
                       Quick View
                     </Button>
                   </div>
@@ -1039,6 +1078,13 @@ const Dashboard = () => {
           </div>
         </div>
       )}
+      
+      <QuickViewModal 
+        product={quickViewProduct}
+        isOpen={quickViewProduct !== null}
+        onClose={closeQuickView}
+        onToggleFavorite={toggleFavorite}
+      />
     </div>
   );
 };
