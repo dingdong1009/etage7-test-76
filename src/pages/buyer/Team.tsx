@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -6,8 +7,28 @@ import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Search, Mail, Phone, Edit, Trash2, Eye, Download as DownloadIcon, UploadCloud as UploadCloudIcon, Settings2 } from "lucide-react";
+import { 
+  Plus, 
+  Search, 
+  Mail, 
+  Phone, 
+  Edit, 
+  Trash2, 
+  Eye, 
+  Download as DownloadIcon, 
+  UploadCloud as UploadCloudIcon, 
+  Settings2 
+} from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
+import { 
+  Dialog, 
+  DialogContent, 
+  DialogDescription, 
+  DialogFooter, 
+  DialogHeader, 
+  DialogTitle 
+} from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
 
 interface TeamMember {
   id: string;
@@ -20,7 +41,7 @@ interface TeamMember {
 }
 
 const Team = () => {
-  const [teamMembers] = useState<TeamMember[]>([
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([
     { id: "1", name: "Sophie Martin", email: "sophie@fashionstore.com", phone: "+1 (555) 123-4567", role: "Owner", status: "Active", joinDate: "Jan 15, 2023" },
     { id: "2", name: "Jean Dupont", email: "jean@fashionstore.com", phone: "+1 (555) 234-5678", role: "Buyer", status: "Active", joinDate: "Mar 22, 2023" },
     { id: "3", name: "Amelia Chen", email: "amelia@fashionstore.com", phone: "+1 (555) 345-6789", role: "Buyer Assistant", status: "Active", joinDate: "Jun 10, 2023" },
@@ -31,6 +52,13 @@ const Team = () => {
   const [activeTab, setActiveTab] = useState("members");
   const [searchQuery, setSearchQuery] = useState("");
   const [filterValue, setFilterValue] = useState("all");
+  const [viewMember, setViewMember] = useState<TeamMember | null>(null);
+  const [editMember, setEditMember] = useState<TeamMember | null>(null);
+  const [deleteConfirmation, setDeleteConfirmation] = useState<{ isOpen: boolean; memberId: string | null }>({
+    isOpen: false,
+    memberId: null
+  });
+  const { toast } = useToast();
 
   const filteredMembers = teamMembers.filter(member => {
     const matchesSearch = member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -42,6 +70,46 @@ const Team = () => {
                           (filterValue === "Pending" && member.status === "Pending");
     return matchesSearch && matchesFilter;
   });
+
+  // View team member details
+  const handleViewMember = (member: TeamMember) => {
+    setViewMember(member);
+  };
+
+  // Edit team member
+  const handleEditMember = (member: TeamMember) => {
+    setEditMember(member);
+  };
+
+  // Open delete confirmation
+  const handleDeleteConfirmation = (memberId: string) => {
+    setDeleteConfirmation({ isOpen: true, memberId });
+  };
+
+  // Delete team member
+  const handleDeleteMember = () => {
+    if (deleteConfirmation.memberId) {
+      setTeamMembers(prevMembers => 
+        prevMembers.filter(member => member.id !== deleteConfirmation.memberId)
+      );
+      setDeleteConfirmation({ isOpen: false, memberId: null });
+      
+      toast({
+        title: "Team member removed",
+        description: "The team member has been successfully removed.",
+        variant: "default",
+      });
+    }
+  };
+
+  // Handle member settings
+  const handleMemberSettings = (member: TeamMember) => {
+    toast({
+      title: "Settings accessed",
+      description: `Configuring settings for ${member.name}`,
+      variant: "default",
+    });
+  };
 
   return (
     <div className="space-y-6">
@@ -148,13 +216,28 @@ const Team = () => {
                       </TableCell>
                       <TableCell className="text-right">
                         <div className="flex justify-end gap-2"> 
-                        <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-none text-black-500 hover:text-black hover:border" >
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          className="h-8 w-8 p-0 rounded-none text-black-500 hover:text-black hover:border"
+                          onClick={() => handleViewMember(member)}
+                        >
                           <Eye size={14} />
                           </Button>
-                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-none text-black-500 hover:text-black hover:border" >
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="h-8 w-8 p-0 rounded-none text-black-500 hover:text-black hover:border"
+                            onClick={() => handleMemberSettings(member)}
+                          >
                             <Settings2 size={14} />
                           </Button>
-                          <Button variant="ghost" size="sm" className="h-8 w-8 p-0 text-red-600 hover:text-red-700 rounded-none hover:border">
+                          <Button 
+                            variant="ghost" 
+                            size="sm" 
+                            className="h-8 w-8 p-0 text-red-600 hover:text-red-700 rounded-none hover:border"
+                            onClick={() => handleDeleteConfirmation(member.id)}
+                          >
                             <Trash2 size={14} />
                           </Button>
                         </div>
@@ -286,6 +369,216 @@ const Team = () => {
           </Card>
         </TabsContent>
       </Tabs>
+
+      {/* View Team Member Dialog */}
+      <Dialog open={viewMember !== null} onOpenChange={(open) => !open && setViewMember(null)}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Team Member Details</DialogTitle>
+            <DialogDescription>
+              Detailed information about this team member.
+            </DialogDescription>
+          </DialogHeader>
+          
+          {viewMember && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500">Name</h3>
+                  <p className="mt-1">{viewMember.name}</p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500">Role</h3>
+                  <p className="mt-1">{viewMember.role}</p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500">Email</h3>
+                  <p className="mt-1">{viewMember.email}</p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500">Phone</h3>
+                  <p className="mt-1">{viewMember.phone}</p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500">Join Date</h3>
+                  <p className="mt-1">{viewMember.joinDate}</p>
+                </div>
+                <div>
+                  <h3 className="text-sm font-medium text-gray-500">Status</h3>
+                  <Badge 
+                    className={`mt-1 ${
+                      viewMember.status === "Active" ? "bg-accent-mint font-normal text-gray-800" : 
+                      viewMember.status === "Pending" ? "bg-accent-yellow font-normal text-gray-800" :
+                      "bg-gray-100 text-gray-800"
+                    }`}
+                  >
+                    {viewMember.status.toLowerCase()}
+                  </Badge>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          <DialogFooter className="sm:justify-end">
+            <Button 
+              variant="outline" 
+              className="rounded-none"
+              onClick={() => setViewMember(null)}
+            >
+              Close
+            </Button>
+            <Button 
+              className="rounded-none"
+              onClick={() => {
+                if (viewMember) {
+                  setViewMember(null);
+                  handleEditMember(viewMember);
+                }
+              }}
+            >
+              Edit Member
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Edit Team Member Dialog */}
+      <Dialog open={editMember !== null} onOpenChange={(open) => !open && setEditMember(null)}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Edit Team Member</DialogTitle>
+            <DialogDescription>
+              Update information for this team member.
+            </DialogDescription>
+          </DialogHeader>
+          
+          {editMember && (
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 gap-4">
+                <div>
+                  <label className="text-sm font-medium text-gray-700">Name</label>
+                  <Input 
+                    className="mt-1 rounded-none border-gray-200" 
+                    value={editMember.name}
+                    onChange={(e) => setEditMember({...editMember, name: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-gray-700">Email</label>
+                  <Input 
+                    className="mt-1 rounded-none border-gray-200" 
+                    value={editMember.email}
+                    onChange={(e) => setEditMember({...editMember, email: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-gray-700">Phone</label>
+                  <Input 
+                    className="mt-1 rounded-none border-gray-200" 
+                    value={editMember.phone}
+                    onChange={(e) => setEditMember({...editMember, phone: e.target.value})}
+                  />
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-gray-700">Role</label>
+                  <Select 
+                    value={editMember.role} 
+                    onValueChange={(value) => setEditMember({...editMember, role: value})}
+                  >
+                    <SelectTrigger className="rounded-none border-gray-200">
+                      <SelectValue placeholder="Select role" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Owner">Owner</SelectItem>
+                      <SelectItem value="Buyer">Buyer</SelectItem>
+                      <SelectItem value="Buyer Assistant">Buyer Assistant</SelectItem>
+                      <SelectItem value="Merchandiser">Merchandiser</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <label className="text-sm font-medium text-gray-700">Status</label>
+                  <Select 
+                    value={editMember.status} 
+                    onValueChange={(value: "Active" | "Pending" | "Inactive") => setEditMember({...editMember, status: value})}
+                  >
+                    <SelectTrigger className="rounded-none border-gray-200">
+                      <SelectValue placeholder="Select status" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="Active">Active</SelectItem>
+                      <SelectItem value="Pending">Pending</SelectItem>
+                      <SelectItem value="Inactive">Inactive</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+            </div>
+          )}
+          
+          <DialogFooter className="sm:justify-end">
+            <Button 
+              variant="outline" 
+              className="rounded-none"
+              onClick={() => setEditMember(null)}
+            >
+              Cancel
+            </Button>
+            <Button 
+              className="rounded-none"
+              onClick={() => {
+                if (editMember) {
+                  setTeamMembers(prevMembers => 
+                    prevMembers.map(member => 
+                      member.id === editMember.id ? editMember : member
+                    )
+                  );
+                  setEditMember(null);
+                  toast({
+                    title: "Team member updated",
+                    description: "The team member has been successfully updated.",
+                    variant: "default",
+                  });
+                }
+              }}
+            >
+              Save Changes
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <Dialog 
+        open={deleteConfirmation.isOpen} 
+        onOpenChange={(open) => !open && setDeleteConfirmation({ isOpen: false, memberId: null })}
+      >
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Confirm Deletion</DialogTitle>
+            <DialogDescription>
+              Are you sure you want to remove this team member? This action cannot be undone.
+            </DialogDescription>
+          </DialogHeader>
+          
+          <DialogFooter className="sm:justify-end">
+            <Button 
+              variant="outline" 
+              className="rounded-none"
+              onClick={() => setDeleteConfirmation({ isOpen: false, memberId: null })}
+            >
+              Cancel
+            </Button>
+            <Button 
+              variant="destructive"
+              className="rounded-none"
+              onClick={handleDeleteMember}
+            >
+              Delete
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };
