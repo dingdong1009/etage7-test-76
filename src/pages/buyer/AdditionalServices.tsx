@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Calendar, Check, ArrowRight } from "lucide-react";
@@ -157,7 +156,7 @@ const BuyerAdditionalServices = () => {
                     <span className="text-sm text-gray-500 font-light">{service.duration}</span>
                   </div>
                   <Button 
-                    className="w-full bg-black text-white hover:bg-gray-800 group-hover:translate-x-1 transition-transform" 
+                    className="w-full bg-black text-white hover:bg-gray-800" 
                     onClick={() => openBookingDialog(service)}
                   >
                     Book Consultation <Calendar className="ml-2 h-4 w-4" />

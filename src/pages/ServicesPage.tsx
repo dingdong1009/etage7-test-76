@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Calendar, Check } from "lucide-react";
@@ -219,7 +218,7 @@ const ServicesPage = () => {
                   </div>
                   <Button 
                     variant="black"
-                    className="w-full group"
+                    className="w-full"
                     onClick={() => openBookingDialog(service)}
                   >
                     Book Consultation <Calendar className="ml-2 h-4 w-4" />
@@ -270,7 +269,7 @@ const ServicesPage = () => {
                   </div>
                   <Button 
                     variant="black"
-                    className="w-full group"
+                    className="w-full"
                     onClick={() => openBookingDialog(service)}
                   >
                     Book Consultation <Calendar className="ml-2 h-4 w-4" />
