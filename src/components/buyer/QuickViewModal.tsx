@@ -8,7 +8,7 @@ interface QuickViewModalProps {
   product: Product | null;
   isOpen: boolean;
   onClose: () => void;
-  onToggleFavorite: (productId: string) => void;
+  onToggleFavorite: (productId: string | number) => void;
 }
 
 export const QuickViewModal = ({ 
@@ -24,7 +24,7 @@ export const QuickViewModal = ({
       <DialogContent className="sm:max-w-3xl p-0 overflow-hidden">
         <div className="grid grid-cols-1 md:grid-cols-2">
           <div className="aspect-[3/4] bg-gray-50 flex items-center justify-center">
-            <div className="text-gray-400 text-xs">{product.imagePlaceholder}</div>
+            <div className="text-gray-400 text-xs">{product.imagePlaceholder || 'No image available'}</div>
           </div>
           <div className="p-6 space-y-4">
             <DialogHeader>
@@ -57,22 +57,22 @@ export const QuickViewModal = ({
 
               <div>
                 <h3 className="font-medium text-sm mb-1">Material</h3>
-                <p className="font-light">{product.material}</p>
+                <p className="font-light">{product.material || product.materials}</p>
               </div>
 
               <div>
                 <h3 className="font-medium text-sm mb-1">Season</h3>
-                <p className="font-light">{product.season}</p>
+                <p className="font-light">{product.season || 'N/A'}</p>
               </div>
 
               <div>
                 <h3 className="font-medium text-sm mb-1">Color</h3>
-                <p className="font-light">{product.color}</p>
+                <p className="font-light">{product.color || 'N/A'}</p>
               </div>
 
               <div className="flex justify-between items-center pt-2">
                 <p className={`text-sm ${product.availability === "In Stock" ? "text-gray-500" : "text-gray-400"}`}>
-                  {product.availability}
+                  {product.availability || 'Status unknown'}
                 </p>
                 {product.minimumOrder && (
                   <p className="text-sm text-gray-500">Min. order: {product.minimumOrder} units</p>

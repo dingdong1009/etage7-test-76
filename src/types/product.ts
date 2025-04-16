@@ -1,16 +1,25 @@
 
 export interface Product {
-  id: number;
+  id: number | string;
   name: string;
   sku: string;
   category: string;
-  season: string;
-  color: string;
-  price: number;
+  subCategory?: string;
+  season?: string;
+  color?: string;
+  price: number | string;
   status: string;
   releaseDate: string;
   description: string;
   materials: string;
+  material?: string;
+  favorite?: boolean;
+  imagePlaceholder?: string;
+  availability?: string;
+  minimumOrder?: number;
+  leadTime?: string;
+  shippingFrom?: string;
+  exclusivity?: boolean;
 }
 
 export interface ColorOption {

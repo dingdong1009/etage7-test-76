@@ -18,6 +18,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { Checkbox } from "@/components/ui/checkbox";
 import { QuickViewModal } from "@/components/buyer/QuickViewModal";
 import { Badge } from "@/components/ui/badge";
+import { Product } from "@/types/product";
 
 interface Product {
   id: string;
@@ -385,6 +386,14 @@ const Dashboard = () => {
     const newState = !isAiSearchEnabled;
     setIsAiSearchEnabled(newState);
     setSearchPlaceholder(newState ? "Ask AI about products..." : "Search products...");
+  };
+
+  const openQuickView = (product: Product) => {
+    setQuickViewProduct(product);
+  };
+  
+  const closeQuickView = () => {
+    setQuickViewProduct(null);
   };
 
   return (
