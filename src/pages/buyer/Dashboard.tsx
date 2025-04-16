@@ -16,17 +16,19 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Checkbox } from "@/components/ui/checkbox";
-import { QuickViewModal } from "@/components/buyer/QuickViewModal";
-import { Badge } from "@/components/ui/badge";
-import { Product } from "@/types/product";
 
-interface DashboardProduct extends Product {
+interface Product {
+  id: string;
+  name: string;
+  category: string;
+  subCategory?: string;
+  price: string;
   imagePlaceholder: string;
-  favorite: boolean;
-  availability: string;
-  material: string;
-  season: string;
-  color: string;
+  favorite?: boolean;
+  material?: string;
+  availability?: string;
+  season?: string;
+  color?: string;
   size?: string;
   brand?: string;
   sustainableCert?: string[];
@@ -54,8 +56,8 @@ const leadTimeOptions = ["2-4 weeks", "1-2 months", "2-3 months", "3+ months"];
 const shippingFromOptions = ["Europe", "Asia", "North America", "South America", "Africa", "Australia"];
 
 const Dashboard = () => {
-  const [products, setProducts] = useState<DashboardProduct[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<DashboardProduct[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   
   const [selectedCategory, setSelectedCategory] = useState<string>("All Categories");
   const [selectedSubCategory, setSelectedSubCategory] = useState<string>("");
@@ -85,9 +87,6 @@ const Dashboard = () => {
   const [isSearching, setIsSearching] = useState<boolean>(false);
   const [searchPlaceholder, setSearchPlaceholder] = useState<string>("Search products...");
   
-  const [quickViewProduct, setQuickViewProduct] = useState<DashboardProduct | null>(null);
-  const [showFavoritesOnly, setShowFavoritesOnly] = useState<boolean>(false);
-  
   const categories = ["All Categories", "Dresses", "Tops", "Skirts", "Bags", "Shoes"];
   
   useEffect(() => {
@@ -111,14 +110,12 @@ const Dashboard = () => {
       return {
         id: `product-${index + 1}`,
         name: `Product ${index + 1}`,
-        sku: `SKU-${index + 1}`,
         category,
         subCategory,
         price: `${Math.floor(Math.random() * 1000) + 500} EUR`,
         imagePlaceholder: `${Math.floor(Math.random() * 200) + 200}x${Math.floor(Math.random() * 100) + 250}`,
         favorite: false,
         material: materialOptions[Math.floor(Math.random() * materialOptions.length)],
-        materials: materialOptions[Math.floor(Math.random() * materialOptions.length)],
         availability: Math.random() > 0.2 ? "In Stock" : "Out of Stock",
         season,
         color,
@@ -128,16 +125,154 @@ const Dashboard = () => {
         minimumOrder,
         leadTime,
         shippingFrom,
-        exclusivity,
-        status: Math.random() > 0.5 ? "active" : "draft",
-        releaseDate: new Date().toISOString().split('T')[0],
-        description: `Description for product ${index + 1}`
+        exclusivity
       };
     });
     
     setProducts(initialProducts);
     setFilteredProducts(initialProducts);
   }, []);
+  
+  useEffect(() => {
+    let result = [...products];
+    
+    if (selectedCategory !== "All Categories") {
+      result = result.filter(product => product.category === selectedCategory);
+      
+      if (selectedSubCategory) {
+        result = result.filter(product => product.subCategory === selectedSubCategory);
+      }
+    }
+    
+    if (selectedMaterials.length > 0) {
+      result = result.filter(product => 
+        product.material && selectedMaterials.includes(product.material)
+      );
+    }
+    
+    result = result.filter(product => {
+      const price = parseInt(product.price.split(" ")[0]);
+      return price >= priceRange[0] && price <= priceRange[1];
+    });
+    
+    if (inStockOnly) {
+      result = result.filter(product => product.availability === "In Stock");
+    }
+    
+    if (selectedSeasons.length > 0) {
+      result = result.filter(product => 
+        product.season && selectedSeasons.includes(product.season)
+      );
+    }
+    
+    if (selectedColors.length > 0) {
+      result = result.filter(product => 
+        product.color && selectedColors.includes(product.color)
+      );
+    }
+    
+    if (selectedSizes.length > 0) {
+      result = result.filter(product => 
+        product.size && selectedSizes.includes(product.size)
+      );
+    }
+    
+    if (selectedBrands.length > 0) {
+      result = result.filter(product => 
+        product.brand && selectedBrands.includes(product.brand)
+      );
+    }
+    
+    if (selectedCertifications.length > 0) {
+      result = result.filter(product => 
+        product.sustainableCert && 
+        product.sustainableCert.some(cert => selectedCertifications.includes(cert))
+      );
+    }
+    
+    result = result.filter(product => {
+      return product.minimumOrder && 
+        product.minimumOrder >= minOrderRange[0] && 
+        product.minimumOrder <= minOrderRange[1];
+    });
+    
+    if (selectedLeadTimes.length > 0) {
+      result = result.filter(product => 
+        product.leadTime && selectedLeadTimes.includes(product.leadTime)
+      );
+    }
+    
+    if (selectedShippingOrigins.length > 0) {
+      result = result.filter(product => 
+        product.shippingFrom && selectedShippingOrigins.includes(product.shippingFrom)
+      );
+    }
+    
+    if (exclusivityOnly) {
+      result = result.filter(product => product.exclusivity === true);
+    }
+    
+    if (searchTerm) {
+      const searchLower = searchTerm.toLowerCase();
+      result = result.filter(product => 
+        product.name.toLowerCase().includes(searchLower) || 
+        product.category.toLowerCase().includes(searchLower) ||
+        (product.subCategory && product.subCategory.toLowerCase().includes(searchLower)) ||
+        (product.brand && product.brand.toLowerCase().includes(searchLower))
+      );
+    }
+    
+    switch (sortBy) {
+      case "Price: High to Low":
+        result.sort((a, b) => {
+          const priceA = parseInt(a.price.split(" ")[0]);
+          const priceB = parseInt(b.price.split(" ")[0]);
+          return priceB - priceA;
+        });
+        break;
+      case "Price: Low to High":
+        result.sort((a, b) => {
+          const priceA = parseInt(a.price.split(" ")[0]);
+          const priceB = parseInt(b.price.split(" ")[0]);
+          return priceA - priceB;
+        });
+        break;
+      case "Newest":
+      default:
+        break;
+    }
+    
+    setFilteredProducts(result);
+    
+    if (isAiAssistEnabled && result.length > 0) {
+      let aiSuggestion = "Based on your preferences, we recommend exploring ";
+      
+      if (selectedCategory !== "All Categories") {
+        aiSuggestion += `${selectedCategory}`;
+        if (selectedSubCategory) {
+          aiSuggestion += ` in ${selectedSubCategory} style`;
+        }
+      } else if (selectedMaterials.length > 0) {
+        aiSuggestion += `items in ${selectedMaterials.join(" or ")} material`;
+      } else if (selectedColors.length > 0) {
+        aiSuggestion += `items in ${selectedColors.join(" or ")} color`;
+      } else if (selectedSeasons.length > 0) {
+        aiSuggestion += `items from ${selectedSeasons[0]} collection`;
+      } else {
+        aiSuggestion += "our trending items with fast shipping options";
+      }
+      
+      aiSuggestion += ". These items are popular with buyers with similar preferences.";
+      setAiResults(aiSuggestion);
+    } else {
+      setAiResults(null);
+    }
+  }, [
+    selectedCategory, selectedSubCategory, selectedMaterials, priceRange, inStockOnly,
+    selectedSeasons, selectedColors, selectedSizes, selectedBrands, selectedCertifications,
+    minOrderRange, selectedLeadTimes, selectedShippingOrigins, exclusivityOnly,
+    searchTerm, sortBy, products, isAiAssistEnabled
+  ]);
   
   const toggleFilterOption = (option: string, currentSelection: string[], setSelection: (selection: string[]) => void) => {
     if (currentSelection.includes(option)) {
@@ -147,7 +282,7 @@ const Dashboard = () => {
     }
   };
   
-  const toggleFavorite = (productId: string | number) => {
+  const toggleFavorite = (productId: string) => {
     setProducts(products.map(product => 
       product.id === productId 
         ? { ...product, favorite: !product.favorite } 
@@ -219,7 +354,6 @@ const Dashboard = () => {
     count += selectedLeadTimes.length;
     count += selectedShippingOrigins.length;
     if (exclusivityOnly) count++;
-    if (showFavoritesOnly) count++;
     return count;
   };
 
@@ -243,17 +377,9 @@ const Dashboard = () => {
     setSearchPlaceholder(newState ? "Ask AI about products..." : "Search products...");
   };
 
-  const openQuickView = (product: DashboardProduct) => {
-    setQuickViewProduct(product);
-  };
-  
-  const closeQuickView = () => {
-    setQuickViewProduct(null);
-  };
-
   return (
     <div className="space-y-6">
-      <section className="bg-black text-white py-24 px-4 transition-all duration-300 ease-in-out hover:h-[781px] group">
+      <section className="bg-black text-white py-24 px-4">
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl md:text-5xl uppercase font-light mb-6">
             ADDITIONAL SERVICES
@@ -326,16 +452,6 @@ const Dashboard = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
-            <Button 
-              variant={showFavoritesOnly ? "black" : "outline"}
-              size="sm" 
-              className={`border ${showFavoritesOnly ? 'bg-black text-white' : 'border-gray-200 hover:bg-gray-50'} w-auto flex items-center gap-1`}
-              onClick={() => setShowFavoritesOnly(!showFavoritesOnly)}
-            >
-              <Heart size={14} className={showFavoritesOnly ? "fill-white text-white" : ""} />
-              Favorites
-            </Button>
-            
             <Button 
               variant="outline" 
               size="sm" 
@@ -843,22 +959,6 @@ const Dashboard = () => {
         </div>
       )}
 
-      {showFavoritesOnly && (
-        <div className="flex items-center gap-2">
-          <Badge variant="outline" className="rounded-sm bg-gray-50 text-gray-600 font-light border-gray-200">
-            Showing favorites only
-            <Button 
-              variant="ghost" 
-              size="sm" 
-              className="h-5 w-5 p-0 ml-2"
-              onClick={() => setShowFavoritesOnly(false)}
-            >
-              <X size={12} />
-            </Button>
-          </Badge>
-        </div>
-      )}
-
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
@@ -884,11 +984,7 @@ const Dashboard = () => {
                     <Button className="bg-black text-white text-xs px-3 py-1.5 hover:bg-gray-900">
                       Add to Bag
                     </Button>
-                    <Button 
-                      variant="outline" 
-                      className="bg-white text-black text-xs px-3 py-1.5"
-                      onClick={() => openQuickView(product)}
-                    >
+                    <Button variant="outline" className="bg-white text-black text-xs px-3 py-1.5">
                       Quick View
                     </Button>
                   </div>
@@ -942,13 +1038,6 @@ const Dashboard = () => {
           </div>
         </div>
       )}
-      
-      <QuickViewModal 
-        product={quickViewProduct}
-        isOpen={quickViewProduct !== null}
-        onClose={closeQuickView}
-        onToggleFavorite={toggleFavorite}
-      />
     </div>
   );
 };

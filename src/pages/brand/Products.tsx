@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Plus, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -96,20 +97,10 @@ const BrandProducts = () => {
   const sortedProducts = [...products].sort((a, b) => {
     if (!sortConfig.key) return 0;
     
-    const valueA = a[sortConfig.key as keyof Product];
-    const valueB = b[sortConfig.key as keyof Product];
-    
-    if (typeof valueA === 'number' && typeof valueB === 'number') {
-      return sortConfig.direction === 'asc' ? valueA - valueB : valueB - valueA;
-    }
-    
-    const strA = String(valueA).toLowerCase();
-    const strB = String(valueB).toLowerCase();
-    
-    if (strA < strB) {
+    if (a[sortConfig.key as keyof Product] < b[sortConfig.key as keyof Product]) {
       return sortConfig.direction === 'asc' ? -1 : 1;
     }
-    if (strA > strB) {
+    if (a[sortConfig.key as keyof Product] > b[sortConfig.key as keyof Product]) {
       return sortConfig.direction === 'asc' ? 1 : -1;
     }
     return 0;
@@ -139,36 +130,37 @@ const BrandProducts = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Products</h1>
+        <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Products</h1>
 
       <Tabs defaultValue="list" value={activeTab} onValueChange={setActiveTab} className="w-full">
-        <div className="border-t border-gray-200 mb-6">
-          <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
-            <TabsTrigger value="list" className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
-            >Product List</TabsTrigger>
-            <TabsTrigger value="add" className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none">Add Product</TabsTrigger>
-          </TabsList>
-        </div>
+      <div className="border-t border-gray-200 mb-6">
+        <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
+          <TabsTrigger value="list" className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
+          >Product List</TabsTrigger>
+          <TabsTrigger value="add" className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none">Add Product</TabsTrigger>
+        </TabsList>
+      </div>
 
-        <TabsContent value="list" className="mt-0">
-          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-6">
-            <div className="relative w-full max-w-sm">
+  
+      <TabsContent value="list" className="mt-0">
+        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-6">
+        <div className="relative w-full max-w-sm">
             </div>
 
-            <div className="flex flex-wrap items-center gap-3">
-              <Button 
-                onClick={() => setActiveTab("add")} 
-                className="h-9 text-xs bg-black hover:bg-black-600 text-white"
-              >
-                <Plus size={16} className="mr-1" />
-                Add Product
-              </Button>
-              <Button variant="outline" size="sm" className="h-9 text-xs">
-                <FileText size={16} className="mr-1" />
-                Export
-              </Button>
-            </div>
-          </div> 
+          <div className="flex flex-wrap items-center gap-3">
+          <Button 
+            onClick={() => setActiveTab("add")} 
+            className="h-9 text-xs bg-black hover:bg-black-600 text-white"
+          >
+            <Plus size={16} className="mr-1" />
+            Add Product
+          </Button>
+          <Button variant="outline" size="sm" className="h-9 text-xs">
+            <FileText size={16} className="mr-1" />
+            Export
+          </Button>
+          </div>
+        </div> 
         </TabsContent>
 
         <TabsContent value="list" className="space-y-6">
@@ -199,7 +191,7 @@ const BrandProducts = () => {
           />
         </TabsContent>
       </Tabs>
-    </div>
+      </div>
   );
 };
 
