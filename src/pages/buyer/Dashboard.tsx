@@ -967,8 +967,12 @@ const Dashboard = () => {
               <CardContent className="p-0">
                 <div className="aspect-[3/4] bg-gray-50 flex items-center justify-center relative overflow-hidden">
                   <div className="text-gray-400 text-xs">{product.imagePlaceholder}</div>
-                  <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                  <div className="absolute top-0 right-0 p-3">
+                  <div 
+                    className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-all duration-300 
+                    group-hover:scale-110 group-hover:left-[-5%] group-hover:right-[-5%] group-hover:w-[110%]
+                    group-hover:[&:nth-child(4n)]:left-[-10%] group-hover:[&:nth-child(4n)]:right-0"
+                  ></div>
+                  <div className="absolute top-0 right-0 p-3 z-10">
                     <Button 
                       variant="ghost" 
                       size="icon" 
@@ -981,7 +985,7 @@ const Dashboard = () => {
                       />
                     </Button>
                   </div>
-                  <div className="absolute bottom-0 left-0 right-0 flex justify-between p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                  <div className="absolute bottom-0 left-0 right-0 flex justify-between p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 z-10">
                     <Button className="bg-black text-white text-xs px-3 py-1.5 hover:bg-gray-900">
                       Add to Bag
                     </Button>
