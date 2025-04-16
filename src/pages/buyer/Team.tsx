@@ -1,5 +1,4 @@
-
-import { useState } from "react";
+import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -71,22 +70,18 @@ const Team = () => {
     return matchesSearch && matchesFilter;
   });
 
-  // View team member details
   const handleViewMember = (member: TeamMember) => {
     setViewMember(member);
   };
 
-  // Edit team member
   const handleEditMember = (member: TeamMember) => {
     setEditMember(member);
   };
 
-  // Open delete confirmation
   const handleDeleteConfirmation = (memberId: string) => {
     setDeleteConfirmation({ isOpen: true, memberId });
   };
 
-  // Delete team member
   const handleDeleteMember = () => {
     if (deleteConfirmation.memberId) {
       setTeamMembers(prevMembers => 
@@ -102,13 +97,24 @@ const Team = () => {
     }
   };
 
-  // Handle member settings
   const handleMemberSettings = (member: TeamMember) => {
     toast({
       title: "Settings accessed",
       description: `Configuring settings for ${member.name}`,
       variant: "default",
     });
+  };
+
+  const handleInviteMember = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    
+    toast({
+      title: "Invitation Sent",
+      description: "Your team member invitation has been sent successfully.",
+      variant: "default",
+    });
+    
+    setActiveTab("members");
   };
 
   return (
@@ -265,7 +271,7 @@ const Team = () => {
               </CardTitle>
             </CardHeader>
             <CardContent className="p-6">
-              <form className="space-y-6">
+              <form onSubmit={handleInviteMember} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
