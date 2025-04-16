@@ -43,7 +43,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
   const [title, setTitle] = useState(lookbook?.title || "");
   const [description, setDescription] = useState("");
   const [activeTab, setActiveTab] = useState("content");
-  const [pages, setPages] = useState([{ id: 1, template: "grid-2", images: [], linkedProducts: [] }]);
+  const [pages, setPages] = useState([{ id: 1, template: "grid-2", images: [], linkedProducts: [] as number[] }]);
   const [currentPage, setCurrentPage] = useState(1);
   const [previewMode, setPreviewMode] = useState(false);
   const [productSearchQuery, setProductSearchQuery] = useState("");
@@ -95,7 +95,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
       id: pages.length + 1,
       template: "grid-2",
       images: [],
-      linkedProducts: []
+      linkedProducts: [] as number[]
     };
     setPages([...pages, newPage]);
   };
@@ -137,17 +137,18 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
     const updatedPages = pages.map(page => {
       if (page.id === currentPage) {
         const linkedProducts = page.linkedProducts || [];
-        const productIndex = linkedProducts.indexOf(productId);
+        const safeProductId = getProductId(productId);
+        const productIndex = linkedProducts.indexOf(safeProductId);
         
         if (productIndex >= 0) {
           return {
             ...page,
-            linkedProducts: linkedProducts.filter(id => id !== productId)
+            linkedProducts: linkedProducts.filter(id => id !== safeProductId)
           };
         } else {
           return {
             ...page,
-            linkedProducts: [...linkedProducts, productId]
+            linkedProducts: [...linkedProducts, safeProductId]
           };
         }
       }
@@ -159,7 +160,8 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
 
   const isProductLinked = (productId: number) => {
     const currentPageData = pages.find(page => page.id === currentPage);
-    return currentPageData?.linkedProducts?.includes(productId) || false;
+    const safeProductId = getProductId(productId);
+    return currentPageData?.linkedProducts?.includes(safeProductId) || false;
   };
 
   const filteredProducts = products.filter(product => {
@@ -176,7 +178,10 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
       return [];
     }
     
-    return products.filter(product => pageData.linkedProducts.includes(product.id));
+    return products.filter(product => {
+      const productId = getProductId(product.id);
+      return pageData.linkedProducts.includes(productId);
+    });
   };
   
   const availableTemplates = [
