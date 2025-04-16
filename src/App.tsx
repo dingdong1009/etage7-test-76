@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -122,11 +123,7 @@ const App = () => {
               <Route path="team" element={<BuyerTeam />} />
               <Route path="resources" element={<BuyerResources />} />
               <Route path="settings" element={<BuyerSettings />} />
-              <Route path="products" element={
-                <BuyerLayout>
-                  <BuyerProducts />
-                </BuyerLayout>
-              } />
+              <Route path="products" element={<BuyerProducts />} />
             </Route>
             
             {/* Admin routes */}
