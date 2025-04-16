@@ -11,6 +11,8 @@ export interface Product {
   releaseDate: string;
   description: string;
   materials: string;
+  imageUrl?: string;
+  additionalImages?: string[];
 }
 
 export interface ColorOption {
@@ -32,4 +34,9 @@ export interface SocialMediaLinks {
   telegram?: string;
   whatsapp?: string;
   vk?: string;
+}
+
+export interface ProductQuickViewData {
+  isOpen: boolean;
+  product: Product | null;
 }
