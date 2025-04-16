@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -10,7 +9,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Plus, Search, Mail, Phone, Edit, Trash2, Eye, Download as DownloadIcon, UploadCloud as UploadCloudIcon, Settings2 } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 
-// Team member interface for type safety
 interface TeamMember {
   id: string;
   name: string;
@@ -22,7 +20,6 @@ interface TeamMember {
 }
 
 const Team = () => {
-  // Sample team members data
   const [teamMembers] = useState<TeamMember[]>([
     { id: "1", name: "Sophie Martin", email: "sophie@fashionstore.com", phone: "+1 (555) 123-4567", role: "Owner", status: "Active", joinDate: "Jan 15, 2023" },
     { id: "2", name: "Jean Dupont", email: "jean@fashionstore.com", phone: "+1 (555) 234-5678", role: "Buyer", status: "Active", joinDate: "Mar 22, 2023" },
@@ -105,6 +102,7 @@ const Team = () => {
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <CardTitle className="text-lg font-normal flex items-center uppercase gap-2">
                   Team Members 
+                  <span className="text-sm text-gray-500 ml-2">({filteredMembers.length})</span>
                 </CardTitle>
               </div>
             </CardHeader>
