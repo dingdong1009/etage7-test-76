@@ -1,14 +1,21 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Search, Send, Paperclip, MoreVertical, Phone, Video, Filter, User, Users, Bell, Plus } from "lucide-react";
+import { Search, Send, Paperclip, MoreVertical, Phone, Video, Filter, User, Users, Bell, Plus, ChevronDown } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { NewConversationDialog } from "@/components/buyer/messages/NewConversationDialog";
 import { Archive } from "@/components/buyer/messages/Icons";
 import { toast } from "sonner";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuItem, 
+  DropdownMenuTrigger 
+} from "@/components/ui/dropdown-menu";
 
 const BuyerMessages = () => {
   const [activeTab, setActiveTab] = useState("all");
@@ -43,6 +50,14 @@ const BuyerMessages = () => {
 
   const handleStartConversation = () => {
     setIsNewConversationOpen(true);
+  };
+
+  // Filter labels for the dropdown
+  const filterLabels = {
+    "all": "ALL MESSAGES",
+    "unread": "UNREAD", 
+    "quotes": "QUOTES",
+    "samples": "SAMPLES"
   };
 
   const filteredContacts = contacts.filter(contact => {
@@ -90,14 +105,19 @@ const BuyerMessages = () => {
         </div>
 
         <div className="flex flex-wrap items-center gap-3">
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-0" >
-              <TabsList className="grid bg-white border w-full grid-cols-4">
-              <TabsTrigger value="all" className="text-sm">ALL</TabsTrigger>
-              <TabsTrigger value="unread" className="text-sm">UNREAD</TabsTrigger>
-              <TabsTrigger value="quotes" className="text-sm">QUOTES</TabsTrigger>
-              <TabsTrigger value="samples" className="text-sm">SAMPLES</TabsTrigger>
-          </TabsList>
-        </Tabs>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="bg-white">
+                {filterLabels[activeTab as keyof typeof filterLabels]} <ChevronDown size={16} className="ml-2" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem onClick={() => setActiveTab("all")}>ALL MESSAGES</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setActiveTab("unread")}>UNREAD</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setActiveTab("quotes")}>QUOTES</DropdownMenuItem>
+              <DropdownMenuItem onClick={() => setActiveTab("samples")}>SAMPLES</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
 
         <Button 
           onClick={handleStartConversation}
