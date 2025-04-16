@@ -18,6 +18,12 @@ export const ProductCard = ({ product, colorOptions, onQuickView }: ProductCardP
   // Placeholder image
   const imageUrl = product.imageUrl || "https://via.placeholder.com/300x400?text=Product+Image";
 
+  const handleQuickView = (e: React.MouseEvent) => {
+    e.preventDefault(); // Prevent any parent click handlers
+    e.stopPropagation(); // Stop event propagation
+    onQuickView(product);
+  };
+
   return (
     <div 
       className="group relative"
@@ -38,7 +44,7 @@ export const ProductCard = ({ product, colorOptions, onQuickView }: ProductCardP
         <Button 
           variant="secondary" 
           className="pointer-events-auto bg-white hover:bg-gray-100"
-          onClick={() => onQuickView(product)}
+          onClick={handleQuickView}
         >
           <Eye className="h-4 w-4 mr-2" />
           Quick View

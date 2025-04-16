@@ -35,13 +35,15 @@ export const ProductQuickView = ({
     ])
   ];
 
-  const handlePrevImage = () => {
+  const handlePrevImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setCurrentImageIndex(prev => 
       prev === 0 ? productImages.length - 1 : prev - 1
     );
   };
 
-  const handleNextImage = () => {
+  const handleNextImage = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setCurrentImageIndex(prev => 
       prev === productImages.length - 1 ? 0 : prev + 1
     );
@@ -90,7 +92,10 @@ export const ProductQuickView = ({
                     className={`w-2 h-2 rounded-full transition-all ${
                       i === currentImageIndex ? 'bg-black' : 'bg-gray-400'
                     }`}
-                    onClick={() => setCurrentImageIndex(i)}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setCurrentImageIndex(i);
+                    }}
                   />
                 ))}
               </div>
