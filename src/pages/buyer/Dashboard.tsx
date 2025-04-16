@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -386,11 +387,11 @@ const Dashboard = () => {
   return (
     <div className="space-y-6">
       <section 
-        className={`bg-black text-white px-4 transition-all duration-700 ease-in-out ${expanded ? 'py-[390.5px]' : 'py-24'}`}
+        className={`bg-black text-white px-4 transition-all duration-700 ease-in-out relative ${expanded ? 'py-[390.5px]' : 'py-24'}`}
         onMouseEnter={() => setExpanded(true)}
         onMouseLeave={() => setExpanded(false)}
       >
-        <div className="max-w-7xl mx-auto">
+        <div className="max-w-7xl mx-auto absolute top-24 left-1/2 transform -translate-x-1/2">
           <h1 className="text-3xl md:text-5xl uppercase font-light mb-6">
             ADDITIONAL SERVICES
           </h1>
