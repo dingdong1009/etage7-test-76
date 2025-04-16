@@ -28,6 +28,30 @@ interface ProductTableProps {
   onEditProduct: () => void;
 }
 
+// Helper function to safely format price values
+const formatPrice = (price: string | number): string => {
+  if (typeof price === 'number') {
+    return price.toFixed(2);
+  } else {
+    // If price is a string, we extract the numeric part if possible
+    const numericValue = parseFloat(price);
+    if (!isNaN(numericValue)) {
+      return numericValue.toFixed(2);
+    }
+    return price.toString();
+  }
+};
+
+// Helper function to safely handle product IDs
+const getProductId = (id: string | number): number => {
+  if (typeof id === 'number') {
+    return id;
+  }
+  // Try to parse string to number
+  const numId = parseInt(id.toString(), 10);
+  return isNaN(numId) ? 0 : numId;
+};
+
 export const ProductTable = ({
   products,
   colorOptions,
@@ -124,7 +148,7 @@ export const ProductTable = ({
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>
-                <TableCell className="text-right">${product.price.toFixed(2)}</TableCell>
+                <TableCell className="text-right">${formatPrice(product.price)}</TableCell>
                 <TableCell>
                   <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                     product.status === 'active' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
@@ -157,7 +181,7 @@ export const ProductTable = ({
                         size="icon" 
                         className="h-8 w-8" 
                         title="Deactivate product"
-                        onClick={() => toggleProductStatus(product.id, 'draft')}
+                        onClick={() => toggleProductStatus(getProductId(product.id), 'draft')}
                       >
                         <XCircle className="h-4 w-4 text-red-500" />
                       </Button>
@@ -167,7 +191,7 @@ export const ProductTable = ({
                         size="icon" 
                         className="h-8 w-8" 
                         title="Activate product"
-                        onClick={() => toggleProductStatus(product.id, 'active')}
+                        onClick={() => toggleProductStatus(getProductId(product.id), 'active')}
                       >
                         <CheckCircle className="h-4 w-4 text-green-500" />
                       </Button>
@@ -177,7 +201,7 @@ export const ProductTable = ({
                       size="icon" 
                       className="h-8 w-8" 
                       title="Delete product"
-                      onClick={() => deleteProduct(product.id)}
+                      onClick={() => deleteProduct(getProductId(product.id))}
                     >
                       <Trash2 className="h-4 w-4 text-red-500" />
                     </Button>

@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -20,6 +19,26 @@ interface LookbookCreatorProps {
   onClose: () => void;
 }
 
+const formatPrice = (price: string | number): string => {
+  if (typeof price === 'number') {
+    return price.toFixed(2);
+  } else {
+    const numericValue = parseFloat(price);
+    if (!isNaN(numericValue)) {
+      return numericValue.toFixed(2);
+    }
+    return price;
+  }
+};
+
+const getProductId = (id: string | number): number => {
+  if (typeof id === 'number') {
+    return id;
+  }
+  const numId = parseInt(id.toString(), 10);
+  return isNaN(numId) ? 0 : numId;
+};
+
 const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) => {
   const [title, setTitle] = useState(lookbook?.title || "");
   const [description, setDescription] = useState("");
@@ -29,7 +48,6 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
   const [previewMode, setPreviewMode] = useState(false);
   const [productSearchQuery, setProductSearchQuery] = useState("");
   
-  // Sample products data - in a real app this would come from an API or context
   const [products, setProducts] = useState<Product[]>([
     {
       id: 1,
@@ -107,7 +125,6 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
     const updatedPages = pages.filter(page => page.id !== pageId);
     setPages(updatedPages);
     
-    // If deleted current page, switch to first available page
     if (pageId === currentPage) {
       setCurrentPage(updatedPages[0].id);
     }
@@ -123,13 +140,11 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
         const productIndex = linkedProducts.indexOf(productId);
         
         if (productIndex >= 0) {
-          // Remove product if already linked
           return {
             ...page,
             linkedProducts: linkedProducts.filter(id => id !== productId)
           };
         } else {
-          // Add product if not linked yet
           return {
             ...page,
             linkedProducts: [...linkedProducts, productId]
@@ -358,7 +373,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                                         />
                                       </div>
                                       <div className="text-xs text-gray-500">
-                                        SKU: {product.sku} · ${product.price.toFixed(2)}
+                                        SKU: {product.sku} · ${formatPrice(product.price)}
                                       </div>
                                       <div className="text-xs text-gray-500 truncate">
                                         {product.description.substring(0, 60)}...
@@ -395,11 +410,11 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                                     <div key={product.id} className="flex justify-between items-center p-2 border rounded-md">
                                       <div className="flex items-center gap-2">
                                         <div className="h-10 w-10 bg-gray-100 flex items-center justify-center rounded-md">
-                                          <Tag size={14} className="text-gray-400" />
+                                          <Tag size={20} className="text-gray-400" />
                                         </div>
                                         <div>
                                           <div className="font-medium text-sm">{product.name}</div>
-                                          <div className="text-xs text-gray-500">${product.price.toFixed(2)}</div>
+                                          <div className="text-xs text-gray-500">${formatPrice(product.price)}</div>
                                         </div>
                                       </div>
                                       <Button
@@ -496,7 +511,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                                   <Tag size={20} className="text-gray-400" />
                                 </div>
                                 <h4 className="font-medium text-sm truncate">{product.name}</h4>
-                                <div className="text-xs text-gray-500 mt-1">${product.price.toFixed(2)}</div>
+                                <div className="text-xs text-gray-500 mt-1">${formatPrice(product.price)}</div>
                               </div>
                             ))}
                           </div>
