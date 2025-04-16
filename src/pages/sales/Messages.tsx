@@ -8,7 +8,15 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Search, Send, PaperclipIcon, ChevronLeft } from "lucide-react";
 
-// Mock data for demonstration
+
+const SalesMessages = () => {
+  const [activeTab, setActiveTab] = useState("all");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedContact, setSelectedContact] = useState<number | null>(1); // Initially select the first contact
+  const [newMessage, setNewMessage] = useState("");
+  const [showMobileChat, setShowMobileChat] = useState(false);
+  
+  // Mock data for demonstration
 const mockContacts = [
   { id: 1, name: "Jane Cooper", role: "Brand", avatar: null, lastMessage: "Hi there! When can we discuss the new collection?", timestamp: "10:32 AM", unread: 3 },
   { id: 2, name: "Cody Fisher", role: "Buyer", avatar: null, lastMessage: "I'd like to place an order for the summer collection.", timestamp: "Yesterday", unread: 0 },
@@ -29,13 +37,6 @@ const mockMessages = [
   { id: 7, sender: "them", content: "That works for us. Can you send over a catalog and line sheet?", timestamp: "10:32 AM" },
 ];
 
-const SalesMessages = () => {
-  const [activeTab, setActiveTab] = useState("all");
-  const [searchQuery, setSearchQuery] = useState("");
-  const [selectedContact, setSelectedContact] = useState<number | null>(1); // Initially select the first contact
-  const [newMessage, setNewMessage] = useState("");
-  const [showMobileChat, setShowMobileChat] = useState(false);
-  
   const filteredContacts = mockContacts
     .filter(contact => {
       if (activeTab === "all") return true;
@@ -69,8 +70,8 @@ const SalesMessages = () => {
   };
 
   return (
-    <div className="space-y-8">
-      <h1 className="text-4xl font-light tracking-tighter">Messages</h1>
+    <div className="space-y-6">
+      <h1 className="text-4xl md:text-6xl font-light tracking-tighter mb-6">MESSAGES</h1>
       
       <Card className="border-gray-200 shadow-none overflow-hidden">
         <div className="grid md:grid-cols-3 h-[calc(80vh-100px)]">

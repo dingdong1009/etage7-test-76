@@ -62,84 +62,66 @@ const BuyerMessages = () => {
 
   return (
     <div className="space-y-6">
-      <h1 className="text-4xl md:text-6xl font-light tracking-tighter mb-6">MESSAGES</h1>
+      <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">MESSAGES</h1>
       
-      <div className="border-t border-gray-200 mb-6"></div>
+      <Tabs defaultValue="messages" className="w-full">
+      <div className="border-t border-gray-200 mb-6">
+        <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
+          <TabsTrigger 
+            value="messages" 
+            className="text-xs font-normal uppercase data-[state=active]:border-b-2 data-[state=active]:border-black px-6 py-2 data-[state=active]:shadow-none"
+          >
+            Messages
+          </TabsTrigger>
+          <TabsTrigger 
+            value="archived" 
+            className="text-xs font-normal uppercase data-[state=active]:border-b-2 data-[state=active]:border-black px-6 py-2 data-[state=active]:shadow-none"
+          >
+            Archived
+          </TabsTrigger>
+        </TabsList>
+      </div>
 
-      <div className="flex justify-between items-center mb-6">
+      <TabsContent value="messages" className="mt-0">
+        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-6">
+        <div className="relative w-full max-w-sm">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+              <Input type="search" placeholder="Search messages..." className="pl-9 border-gray-200 bg-gray-50/50" value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} />
+        </div>
+
+        <div className="flex flex-wrap items-center gap-3">
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="mt-0" >
+              <TabsList className="grid bg-white border w-full grid-cols-4">
+              <TabsTrigger value="all" className="text-sm">ALL</TabsTrigger>
+              <TabsTrigger value="unread" className="text-sm">UNREAD</TabsTrigger>
+              <TabsTrigger value="quotes" className="text-sm">QUOTES</TabsTrigger>
+              <TabsTrigger value="samples" className="text-sm">SAMPLES</TabsTrigger>
+          </TabsList>
+        </Tabs>
+
         <Button 
           onClick={handleStartConversation}
           className="bg-black text-white hover:bg-gray-800 transition-all duration-300 rounded-none"
         >
           <Plus size={16} className="mr-2" /> New Conversation
         </Button>
-      </div>
 
-      <Tabs defaultValue="messages" className="w-full">
-        <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
-          <TabsTrigger 
-            value="messages" 
-            className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
-          >
-            Messages
-          </TabsTrigger>
-          <TabsTrigger 
-            value="notifications" 
-            className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
-          >
-            Notifications
-          </TabsTrigger>
-          <TabsTrigger 
-            value="archived" 
-            className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
-          >
-            Archived
-          </TabsTrigger>
-        </TabsList>
+        </div>
+      </div>
+      </TabsContent>
 
         <TabsContent value="messages">
           <Card className="border border-gray-200 shadow-none rounded-none overflow-hidden">
             <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
               <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <CardTitle className="text-base font-light text-gray-900">
+                <CardTitle className="text-lg font-medium flex items-center gap-2">
                   Conversations
                 </CardTitle>
-                <div className="flex flex-wrap gap-3">
-                  <Button variant="outline" size="sm" className="h-8 rounded-none text-xs font-light gap-2">
-                    <Filter className="h-3.5 w-3.5" />
-                    Filter
-                  </Button>
-                </div>
               </div>
             </CardHeader>
 
             <div className="grid md:grid-cols-3 h-[calc(80vh-200px)]">
               <div className="border-r border-gray-100">
-                <div className="p-4 border-b border-gray-100">
-                  <div className="relative">
-                    <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
-                    <Input
-                      type="search"
-                      placeholder="Search messages..."
-                      className="pl-9 border-gray-200 bg-gray-50/50"
-                      value={searchQuery}
-                      onChange={(e) => setSearchQuery(e.target.value)}
-                    />
-                  </div>
-                  <Tabs 
-                    value={activeTab}
-                    onValueChange={setActiveTab}
-                    className="mt-4"
-                  >
-                    <TabsList className="grid w-full grid-cols-4">
-                      <TabsTrigger value="all" className="text-xs">ALL</TabsTrigger>
-                      <TabsTrigger value="unread" className="text-xs">UNREAD</TabsTrigger>
-                      <TabsTrigger value="quotes" className="text-xs">QUOTES</TabsTrigger>
-                      <TabsTrigger value="samples" className="text-xs">SAMPLES</TabsTrigger>
-                    </TabsList>
-                  </Tabs>
-                </div>
-                
                 <div className="overflow-y-auto h-[calc(80vh-270px)]">
                   {filteredContacts.length === 0 ? (
                     <div className="p-6 text-center text-gray-500">
@@ -184,12 +166,6 @@ const BuyerMessages = () => {
                     </div>
                   </div>
                   <div className="flex items-center gap-2">
-                    <Button variant="ghost" size="icon" className="h-8 w-8">
-                      <Phone size={16} />
-                    </Button>
-                    <Button variant="ghost" size="icon" className="h-8 w-8">
-                      <Video size={16} />
-                    </Button>
                     <Button variant="ghost" size="icon" className="h-8 w-8">
                       <MoreVertical size={16} />
                     </Button>
@@ -252,51 +228,10 @@ const BuyerMessages = () => {
           </Card>
         </TabsContent>
 
-        <TabsContent value="notifications">
-          <Card className="border border-gray-200 shadow-none rounded-none">
-            <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
-              <div className="flex justify-between items-center">
-                <CardTitle className="text-base font-light text-gray-900">Notifications</CardTitle>
-                <Button variant="outline" size="sm" className="h-8 rounded-none text-xs font-light">
-                  Mark all as read
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent className="p-0 divide-y divide-gray-100">
-              {[
-                { id: 1, title: "New message from Brand Studio A", description: "We've sent you product information", time: "10:23 AM", read: false, type: "message" },
-                { id: 2, title: "Quote received", description: "Brand Studio A has sent you a quote", time: "Yesterday", read: true, type: "order" },
-                { id: 3, title: "Samples shipped", description: "Your sample request has been processed", time: "Apr 10", read: true, type: "product" }
-              ].map((notification) => (
-                <div key={notification.id} className={`p-4 ${!notification.read ? 'bg-gray-50' : ''}`}>
-                  <div className="flex gap-3">
-                    <div className={`h-10 w-10 rounded-full flex items-center justify-center ${
-                      notification.type === 'message' ? 'bg-gray-100' : 
-                      notification.type === 'order' ? 'bg-gray-100' :
-                      'bg-gray-100'
-                    }`}>
-                      {notification.type === 'message' ? <Users size={16} /> : 
-                       notification.type === 'order' ? <Bell size={16} /> : 
-                       <User size={16} />}
-                    </div>
-                    <div className="flex-1">
-                      <div className="flex justify-between">
-                        <h3 className={`text-sm ${!notification.read ? 'font-medium' : ''}`}>{notification.title}</h3>
-                        <span className="text-xs text-gray-500">{notification.time}</span>
-                      </div>
-                      <p className="text-xs text-gray-500 mt-1">{notification.description}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </CardContent>
-          </Card>
-        </TabsContent>
-
         <TabsContent value="archived">
           <Card className="border border-gray-200 shadow-none rounded-none">
             <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
-              <CardTitle className="text-base font-light text-gray-900">Archived Messages</CardTitle>
+              <CardTitle className="text-lg font-medium flex items-center gap-2">Archived Messages</CardTitle>
             </CardHeader>
             <CardContent className="p-6 text-center text-gray-500">
               <div className="py-12">

@@ -292,7 +292,24 @@ const AdminAnnouncements = () => {
             </div>
 
             <div className="flex gap-2">
-            {activeTab === "create" && (
+              <Select 
+                value={filterType} 
+                onValueChange={(value) => setFilterType(value as AnnouncementType | "all")}
+              >
+                <SelectTrigger className="w-[180px] border-gray-200 bg-white">
+                  <SelectValue placeholder="Filter by type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Types</SelectItem>
+                  <SelectItem value="general">General</SelectItem>
+                  <SelectItem value="brand">Brand</SelectItem>
+                  <SelectItem value="newsletter">Newsletter</SelectItem>
+                  <SelectItem value="maintenance">Maintenance</SelectItem>
+                  <SelectItem value="update">Update</SelectItem>
+                </SelectContent>
+              </Select>
+
+              {activeTab === "create" && (
               <Button 
                 variant="outline" 
                 className="admin-button-outline gap-2" 
@@ -312,22 +329,6 @@ const AdminAnnouncements = () => {
               </Button>
             )}
 
-              <Select 
-                value={filterType} 
-                onValueChange={(value) => setFilterType(value as AnnouncementType | "all")}
-              >
-                <SelectTrigger className="w-[180px] border-gray-200 bg-white">
-                  <SelectValue placeholder="Filter by type" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Types</SelectItem>
-                  <SelectItem value="general">General</SelectItem>
-                  <SelectItem value="brand">Brand</SelectItem>
-                  <SelectItem value="newsletter">Newsletter</SelectItem>
-                  <SelectItem value="maintenance">Maintenance</SelectItem>
-                  <SelectItem value="update">Update</SelectItem>
-                </SelectContent>
-              </Select>
             </div>
           </div>
           

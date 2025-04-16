@@ -1,431 +1,393 @@
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { AlertTriangle } from "lucide-react";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { ChevronRight, Bell, User, Lock, Mail, Eye, EyeOff, Camera } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
+
 
 const Settings = () => {
-  const [passwordForm, setPasswordForm] = useState({
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: ""
-  });
+  const [activeTab, setActiveTab] = useState("profile");
+  const [showPassword, setShowPassword] = useState(false);
   
-  const [profileForm, setProfileForm] = useState({
-    name: "Sophie Martin",
-    email: "sophie@fashionstore.com",
-    phone: "+33 6 12 34 56 78",
-    companyName: "Fashion Store Paris",
-    address: "15 Rue de la Paix, 75002 Paris, France",
-    website: "www.fashionstoreparis.com"
+  // Mock user data for demonstration
+  const [userData, setUserData] = useState({
+    name: "Alex Johnson",
+    email: "alex.johnson@etage7.com",
+    phone: "+1 (555) 123-4567",
+    title: "Senior Sales Manager",
+    language: "english",
+    timezone: "america_new_york",
+    notifications: {
+      email: true,
+      push: true,
+      sms: false,
+      news: true,
+      marketing: false
+    }
   });
-  
-  const [notificationSettings, setNotificationSettings] = useState({
-    emailNotifications: true,
-    orderUpdates: true,
-    brandAnnouncements: true,
-    productAlerts: false,
-    marketingEmails: true,
-    eventInvites: false,
-    weeklyDigest: true
-  });
-  
-  const [dateFormat, setDateFormat] = useState("DD/MM/YYYY");
-  const [currency, setCurrency] = useState("EUR (€)");
-  const [timeZone, setTimeZone] = useState("Central European Time (CET)");
 
-  const errorLogs = [
-    { id: 1, level: "Error", message: "Failed to load product images", source: "Product Gallery", timestamp: "2023-12-15 10:22:45" },
-    { id: 2, level: "Warning", message: "Order confirmation email delayed", source: "Email Service", timestamp: "2023-12-14 16:14:22" },
-  ];
-
-  const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPasswordForm({
-      ...passwordForm,
-      [e.target.name]: e.target.value
+  const handleSaveProfile = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Here you would send the updated profile data to your API
+    console.log("Saving profile:", userData);
+    toast({
+      title: "Profile updated",
+      description: "Your profile information has been saved successfully."
     });
   };
-
-  const handleProfileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProfileForm({
-      ...profileForm,
-      [e.target.name]: e.target.value
+  
+  const handlePasswordChange = (e: React.FormEvent) => {
+    e.preventDefault();
+    // Here you would handle password change logic
+    console.log("Changing password");
+    toast({
+      title: "Password updated",
+      description: "Your password has been changed successfully."
     });
   };
-
-  const handleNotificationChange = (setting: string) => {
-    setNotificationSettings({
-      ...notificationSettings,
-      [setting]: !notificationSettings[setting as keyof typeof notificationSettings]
-    });
+  
+  const toggleNotification = (key: keyof typeof userData.notifications) => {
+    setUserData(prev => ({
+      ...prev,
+      notifications: {
+        ...prev.notifications,
+        [key]: !prev.notifications[key]
+      }
+    }));
   };
 
   return (
     <div className="space-y-6">
-      <h1 className="text-4xl md:text-6xl uppercase font-light tracking-tighter mb-6">Settings</h1>
+      <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">ACCOUNT SETTINGS</h1>
       
-      <Tabs defaultValue="profile" className="w-full">
-        <TabsList className="mb-6 bg-gray-100 p-1">
-          <TabsTrigger 
-            value="profile"
-            className="data-[state=active]:bg-white data-[state=active]:shadow-none transition-all"
-          >
-            Profile
-          </TabsTrigger>
-          <TabsTrigger 
-            value="password"
-            className="data-[state=active]:bg-white data-[state=active]:shadow-none transition-all"
-          >
-            Password
-          </TabsTrigger>
-          <TabsTrigger 
-            value="notifications"
-            className="data-[state=active]:bg-white data-[state=active]:shadow-none transition-all"
-          >
-            Notifications
-          </TabsTrigger>
-          <TabsTrigger 
-            value="advanced"
-            className="data-[state=active]:bg-white data-[state=active]:shadow-none transition-all"
-          >
-            Advanced
-          </TabsTrigger>
-          <TabsTrigger 
-            value="errorLogs"
-            className="data-[state=active]:bg-white data-[state=active]:shadow-none transition-all"
-          >
-            Error Logs
-          </TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="profile">
-          <Card className="border border-gray-200 rounded-none">
-            <CardHeader>
-              <CardTitle className="text-lg font-medium">Buyer Profile</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <form className="space-y-4">
-                <div>
-                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
-                    Name
-                  </label>
-                  <Input
-                    type="text"
-                    id="name"
-                    name="name"
-                    value={profileForm.name}
-                    onChange={handleProfileChange}
-                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black"
-                  />
+      <div className="border-t border-gray-200 mb-6">
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className="w-full"
+        >
+          <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
+            <TabsTrigger 
+              value="profile" 
+              className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
+            >
+              PROFILE
+            </TabsTrigger>
+            <TabsTrigger 
+              value="security" 
+              className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
+            >
+              SECURITY
+            </TabsTrigger>
+            <TabsTrigger 
+              value="notifications" 
+              className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none"
+            >
+              NOTIFICATIONS
+            </TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="profile" className="space-y-4">
+            <Card className="p-6 border border-gray-200 shadow-none rounded-none">
+              <h2 className="text-xl md:text-2xl uppercase font-light mb-6 tracking-tighter">Profile Information</h2>
+              
+              <div className="flex flex-col items-center md:flex-row md:items-start gap-6">
+                <div className="relative">
+                  <Avatar className="h-24 w-24">
+                    <AvatarImage src="/placeholder.svg" />
+                    <AvatarFallback>AJ</AvatarFallback>
+                  </Avatar>
+                  <Button 
+                    size="icon"
+                    variant="outline" 
+                    className="absolute bottom-0 right-0 rounded-full h-8 w-8 bg-white"
+                  >
+                    <Camera className="h-4 w-4" />
+                  </Button>
                 </div>
                 
-                <div>
-                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                    Email Address
-                  </label>
-                  <Input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={profileForm.email}
-                    onChange={handleProfileChange}
-                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black"
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                    Phone Number
-                  </label>
-                  <Input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    value={profileForm.phone}
-                    onChange={handleProfileChange}
-                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black"
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="companyName" className="block text-sm font-medium text-gray-700 mb-1">
-                    Company Name
-                  </label>
-                  <Input
-                    type="text"
-                    id="companyName"
-                    name="companyName"
-                    value={profileForm.companyName}
-                    onChange={handleProfileChange}
-                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black"
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1">
-                    Address
-                  </label>
-                  <Input
-                    type="text"
-                    id="address"
-                    name="address"
-                    value={profileForm.address}
-                    onChange={handleProfileChange}
-                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black"
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="website" className="block text-sm font-medium text-gray-700 mb-1">
-                    Website
-                  </label>
-                  <Input
-                    type="text"
-                    id="website"
-                    name="website"
-                    value={profileForm.website}
-                    onChange={handleProfileChange}
-                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black"
-                  />
-                </div>
-                
-                <Button 
-                  type="submit" 
-                  className="bg-black text-white hover:bg-gray-800"
-                >
-                  Update Profile
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-        </TabsContent>
-        
-        <TabsContent value="password">
-          <Card className="border border-gray-200 rounded-none">
-            <CardHeader>
-              <CardTitle className="text-lg font-medium">Change Password</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <form className="space-y-4">
-                <div>
-                  <label htmlFor="currentPassword" className="block text-sm font-medium text-gray-700 mb-1">
-                    Current Password
-                  </label>
-                  <Input
-                    type="password"
-                    id="currentPassword"
-                    name="currentPassword"
-                    value={passwordForm.currentPassword}
-                    onChange={handlePasswordChange}
-                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black"
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="newPassword" className="block text-sm font-medium text-gray-700 mb-1">
-                    New Password
-                  </label>
-                  <Input
-                    type="password"
-                    id="newPassword"
-                    name="newPassword"
-                    value={passwordForm.newPassword}
-                    onChange={handlePasswordChange}
-                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black"
-                  />
-                </div>
-                
-                <div>
-                  <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-                    Confirm New Password
-                  </label>
-                  <Input
-                    type="password"
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    value={passwordForm.confirmPassword}
-                    onChange={handlePasswordChange}
-                    className="w-full p-2 border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black"
-                  />
-                </div>
-                
-                <Button 
-                  type="submit" 
-                  className="bg-black text-white hover:bg-gray-800"
-                >
-                  Update Password
-                </Button>
-              </form>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="notifications">
-          <Card className="border border-gray-200 rounded-none">
-            <CardHeader>
-              <CardTitle className="text-lg font-medium">Notification Preferences</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
-                  <div>
-                    <h3 className="font-medium">Email Notifications</h3>
-                    <p className="text-sm text-gray-500">Receive email notifications for important updates</p>
-                  </div>
-                  <label className="relative inline-flex items-center cursor-pointer">
-                    <input 
-                      type="checkbox" 
-                      className="sr-only peer" 
-                      checked={notificationSettings.emailNotifications}
-                      onChange={() => handleNotificationChange('emailNotifications')}
-                    />
-                    <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-black rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
-                  </label>
-                </div>
-
-                {Object.entries(notificationSettings).slice(1).map(([key, value]) => (
-                  <div key={key} className="flex items-center justify-between hover:bg-gray-50 p-2 rounded-md transition-colors">
-                    <div>
-                      <h3 className="font-medium">{key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}</h3>
-                      <p className="text-sm text-gray-500">Manage your {key.toLowerCase()} preferences</p>
-                    </div>
-                    <label className="relative inline-flex items-center cursor-pointer">
-                      <input 
-                        type="checkbox" 
-                        className="sr-only peer" 
-                        checked={value}
-                        onChange={() => handleNotificationChange(key)}
+                <form onSubmit={handleSaveProfile} className="w-full">
+                  <div className="grid gap-4 md:grid-cols-2">
+                    <div className="space-y-2">
+                      <Label htmlFor="name">Full Name</Label>
+                      <Input 
+                        id="name" 
+                        value={userData.name}
+                        onChange={e => setUserData({...userData, name: e.target.value})}
+                        className="border-gray-200 rounded-none"
                       />
-                      <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-black rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-black"></div>
-                    </label>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="advanced">
-          <Card className="border border-gray-200 rounded-none">
-            <CardHeader>
-              <CardTitle className="text-lg font-medium">Advanced Settings</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="p-4 border border-gray-200 rounded-md">
-                <h3 className="font-medium">Display Preferences</h3>
-                <p className="text-sm text-gray-500 mt-1">Customize how information is displayed</p>
-                
-                <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Default Date Format</label>
-                    <Select value={dateFormat} onValueChange={setDateFormat}>
-                      <SelectTrigger className="w-full focus:ring-0 focus:border-black">
-                        <SelectValue placeholder="Select date format" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="DD/MM/YYYY">DD/MM/YYYY</SelectItem>
-                        <SelectItem value="MM/DD/YYYY">MM/DD/YYYY</SelectItem>
-                        <SelectItem value="YYYY-MM-DD">YYYY-MM-DD</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Default Currency</label>
-                    <Select value={currency} onValueChange={setCurrency}>
-                      <SelectTrigger className="w-full focus:ring-0 focus:border-black">
-                        <SelectValue placeholder="Select currency" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="EUR (€)">EUR (€)</SelectItem>
-                        <SelectItem value="USD ($)">USD ($)</SelectItem>
-                        <SelectItem value="GBP (£)">GBP (£)</SelectItem>
-                        <SelectItem value="JPY (¥)">JPY (¥)</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium mb-1">Time Zone</label>
-                    <Select value={timeZone} onValueChange={setTimeZone}>
-                      <SelectTrigger className="w-full focus:ring-0 focus:border-black">
-                        <SelectValue placeholder="Select time zone" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="Central European Time (CET)">Central European Time (CET)</SelectItem>
-                        <SelectItem value="Eastern Time (ET)">Eastern Time (ET)</SelectItem>
-                        <SelectItem value="Pacific Time (PT)">Pacific Time (PT)</SelectItem>
-                        <SelectItem value="Japan Standard Time (JST)">Japan Standard Time (JST)</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-4 border border-gray-200 rounded-md">
-                <h3 className="font-medium">Data Management</h3>
-                <p className="text-sm text-gray-500 mt-1">Manage your account data</p>
-                
-                <div className="mt-4 flex flex-col sm:flex-row gap-3">
-                  <Button variant="outline" className="border-gray-300">
-                    Export Account Data
-                  </Button>
-                  <Button variant="outline" className="border-gray-300 text-gray-600 hover:bg-gray-50">
-                    Delete Account
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="errorLogs">
-          <Card className="border border-gray-200 rounded-none">
-            <CardHeader>
-              <CardTitle className="text-lg font-medium">Error Logs</CardTitle>
-            </CardHeader>
-            <CardContent>
-              {errorLogs.length > 0 ? (
-                <div className="space-y-4">
-                  {errorLogs.map((log) => (
-                    <div key={log.id} className="p-4 border border-gray-200 rounded-md">
-                      <div className="flex items-center justify-between mb-2">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          log.level === 'Error' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
-                        }`}>
-                          {log.level === 'Error' && <AlertTriangle className="mr-1 h-3 w-3" />}
-                          {log.level}
-                        </span>
-                        <span className="text-sm text-gray-500">{log.timestamp}</span>
-                      </div>
-                      <p className="font-medium mb-1">{log.message}</p>
-                      <p className="text-sm text-gray-600">Source: {log.source}</p>
                     </div>
-                  ))}
+                    <div className="space-y-2">
+                      <Label htmlFor="email">Email</Label>
+                      <Input 
+                        id="email" 
+                        type="email" 
+                        value={userData.email}
+                        onChange={e => setUserData({...userData, email: e.target.value})}
+                        className="border-gray-200 rounded-none"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="phone">Phone</Label>
+                      <Input 
+                        id="phone" 
+                        value={userData.phone}
+                        onChange={e => setUserData({...userData, phone: e.target.value})}
+                        className="border-gray-200 rounded-none"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="title">Job Title</Label>
+                      <Input 
+                        id="title" 
+                        value={userData.title}
+                        onChange={e => setUserData({...userData, title: e.target.value})}
+                        className="border-gray-200 rounded-none"
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="language">Language</Label>
+                      <Select 
+                        value={userData.language}
+                        onValueChange={value => setUserData({...userData, language: value})}
+                      >
+                        <SelectTrigger id="language" className="border-gray-200 rounded-none">
+                          <SelectValue placeholder="Select language" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="english">English</SelectItem>
+                          <SelectItem value="french">French</SelectItem>
+                          <SelectItem value="spanish">Spanish</SelectItem>
+                          <SelectItem value="german">German</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="timezone">Timezone</Label>
+                      <Select 
+                        value={userData.timezone}
+                        onValueChange={value => setUserData({...userData, timezone: value})}
+                      >
+                        <SelectTrigger id="timezone" className="border-gray-200 rounded-none">
+                          <SelectValue placeholder="Select timezone" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="america_new_york">America/New_York (EST)</SelectItem>
+                          <SelectItem value="america_los_angeles">America/Los_Angeles (PST)</SelectItem>
+                          <SelectItem value="europe_london">Europe/London (GMT)</SelectItem>
+                          <SelectItem value="europe_paris">Europe/Paris (CET)</SelectItem>
+                          <SelectItem value="asia_tokyo">Asia/Tokyo (JST)</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </div>
                   
-                  <div className="flex justify-end mt-4">
-                    <Button variant="outline" className="text-sm">
-                      Export Logs
+                  <div className="mt-6 text-right">
+                    <Button 
+                      type="submit" 
+                      className="rounded-none bg-black text-white hover:bg-gray-800 text-xs font-light"
+                    >
+                      Save Changes
+                    </Button>
+                  </div>
+                </form>
+              </div>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="security" className="space-y-4">
+            <Card className="p-6 border border-gray-200 shadow-none rounded-none">
+              <h2 className="text-xl md:text-2xl uppercase font-light mb-6 tracking-tighter">Security Settings</h2>
+              
+              <div className="space-y-6">
+                <h3 className="text-lg font-light">Change Password</h3>
+                <form onSubmit={handlePasswordChange} className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="current-password">Current Password</Label>
+                    <div className="relative">
+                      <Input 
+                        id="current-password" 
+                        type={showPassword ? "text" : "password"} 
+                        className="border-gray-200 pr-10 rounded-none"
+                      />
+                      <Button 
+                        type="button"
+                        variant="ghost"
+                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent rounded-none"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4 text-gray-500" />
+                        ) : (
+                          <Eye className="h-4 w-4 text-gray-500" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="new-password">New Password</Label>
+                    <div className="relative">
+                      <Input 
+                        id="new-password" 
+                        type={showPassword ? "text" : "password"} 
+                        className="border-gray-200 pr-10 rounded-none"
+                      />
+                      <Button 
+                        type="button"
+                        variant="ghost"
+                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent rounded-none"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4 text-gray-500" />
+                        ) : (
+                          <Eye className="h-4 w-4 text-gray-500" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <Label htmlFor="confirm-password">Confirm New Password</Label>
+                    <div className="relative">
+                      <Input 
+                        id="confirm-password" 
+                        type={showPassword ? "text" : "password"} 
+                        className="border-gray-200 pr-10 rounded-none"
+                      />
+                      <Button 
+                        type="button"
+                        variant="ghost"
+                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent rounded-none"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4 text-gray-500" />
+                        ) : (
+                          <Eye className="h-4 w-4 text-gray-500" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                  
+                  <div className="mt-6 text-right">
+                    <Button 
+                      type="submit" 
+                      className="rounded-none bg-black text-white hover:bg-gray-800 text-xs font-light"
+                    >
+                      Update Password
+                    </Button>
+                  </div>
+                </form>
+                
+                <Separator className="my-6" />
+                
+                <div className="space-y-4">
+                  <h3 className="text-lg font-light">Two-Factor Authentication</h3>
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="text-sm">Enhance your account security by enabling 2FA</p>
+                    </div>
+                    <Button variant="outline" className="rounded-none">
+                      Enable
                     </Button>
                   </div>
                 </div>
-              ) : (
-                <div className="p-8 text-center">
-                  <p className="text-gray-500">No error logs found</p>
+              </div>
+            </Card>
+          </TabsContent>
+          
+          <TabsContent value="notifications" className="space-y-4">
+            <Card className="p-6 border border-gray-200 shadow-none rounded-none">
+              <h2 className="text-xl md:text-2xl uppercase font-light mb-6 tracking-tighter">Notification Preferences</h2>
+              
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label htmlFor="email-notifications">Email Notifications</Label>
+                    <p className="text-sm text-gray-500">Receive notifications via email</p>
+                  </div>
+                  <Switch 
+                    id="email-notifications" 
+                    checked={userData.notifications.email}
+                    onCheckedChange={() => toggleNotification('email')}
+                  />
                 </div>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
+                
+                <Separator />
+                
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label htmlFor="push-notifications">Push Notifications</Label>
+                    <p className="text-sm text-gray-500">Receive notifications on your device</p>
+                  </div>
+                  <Switch 
+                    id="push-notifications" 
+                    checked={userData.notifications.push}
+                    onCheckedChange={() => toggleNotification('push')}
+                  />
+                </div>
+                
+                <Separator />
+                
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label htmlFor="sms-notifications">SMS Notifications</Label>
+                    <p className="text-sm text-gray-500">Receive important updates via SMS</p>
+                  </div>
+                  <Switch 
+                    id="sms-notifications" 
+                    checked={userData.notifications.sms}
+                    onCheckedChange={() => toggleNotification('sms')}
+                  />
+                </div>
+                
+                <Separator />
+                
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label htmlFor="news-notifications">Newsletter</Label>
+                    <p className="text-sm text-gray-500">Receive weekly newsletter updates</p>
+                  </div>
+                  <Switch 
+                    id="news-notifications" 
+                    checked={userData.notifications.news}
+                    onCheckedChange={() => toggleNotification('news')}
+                  />
+                </div>
+                
+                <Separator />
+                
+                <div className="flex items-center justify-between">
+                  <div className="space-y-0.5">
+                    <Label htmlFor="marketing-notifications">Marketing</Label>
+                    <p className="text-sm text-gray-500">Receive marketing communications</p>
+                  </div>
+                  <Switch 
+                    id="marketing-notifications" 
+                    checked={userData.notifications.marketing}
+                    onCheckedChange={() => toggleNotification('marketing')}
+                  />
+                </div>
+              </div>
+              
+              <div className="mt-6 text-right">
+                <Button className="rounded-none bg-black text-white hover:bg-gray-800 text-xs font-light">
+                  Save Preferences
+                </Button>
+              </div>
+            </Card>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 };

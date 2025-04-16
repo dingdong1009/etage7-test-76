@@ -1,42 +1,17 @@
 
 import { useState } from "react";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow
-} from "@/components/ui/table";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Search, Filter, Eye, Edit, Trash } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger
-} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { Search, Filter, Eye, Edit, Trash2 } from "lucide-react";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger,} from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import { Link } from "react-router-dom";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
+import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious,} from "@/components/ui/pagination";
 
 // Order interface for type safety
 interface Order {
@@ -62,7 +37,8 @@ interface SampleRequest {
 const Orders = () => {
   // Toast for notifications
   const { toast } = useToast();
-  
+  const [searchQuery, setSearchQuery] = useState("");
+
   // Sample order data
   const [orders] = useState<Order[]>([
     { id: "1", orderNumber: "ORD-2025-001", date: "2025-04-01", customer: "Fashion Store Paris", status: "Processing", total: "€2,450.00" },
@@ -98,88 +74,87 @@ const Orders = () => {
   };
 
   return (
-    <div className="space-y-8">
-      <div className="flex justify-between items-center">
-        <h1 className="text-4xl md:text-6xl font-light tracking-tighter mb-6">ORDERS</h1>
-        <Button variant="outline" size="sm" className="flex items-center gap-2">
-          <Search className="h-4 w-4" />
-          Export Orders
-        </Button>
-      </div>
-      
+    <div className="space-y-6">
+      <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">Orders Management</h1>      
       <Tabs defaultValue="orders" className="w-full">
-        <TabsList className="mb-6 bg-gray-100 p-1">
+      <div className="border-t border-gray-200 mb-6">
+        <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
           <TabsTrigger 
             value="orders" 
-            className="data-[state=active]:bg-white data-[state=active]:shadow-none transition-all"
+            className="text-xs font-normal uppercase data-[state=active]:border-b-2 data-[state=active]:border-black px-6 py-2 data-[state=active]:shadow-none"
           >
             Orders
           </TabsTrigger>
           <TabsTrigger 
             value="samples" 
-            className="data-[state=active]:bg-white data-[state=active]:shadow-none transition-all"
+            className="text-xs font-normal uppercase data-[state=active]:border-b-2 data-[state=active]:border-black px-6 py-2 data-[state=active]:shadow-none"
           >
             Sample Requests
           </TabsTrigger>
         </TabsList>
-        
-        <TabsContent value="orders">
-          <Card className="border border-gray-200 rounded-none">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-1xl md:text-2xl uppercase font-thin">Recent Orders</CardTitle>
-              <div className="flex gap-3">
-                <div className="relative">
-                  <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
-                  <input 
-                    type="text" 
-                    placeholder="Search orders" 
-                    className="pl-8 pr-3 py-1.5 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-black focus:border-black bg-white w-48 md:w-60"
-                  />
-                </div>
-                <DropdownMenu>
+      </div>
+
+        <TabsContent value="orders" className="mt-0">
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-6">
+            <div className="relative w-full max-w-sm">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+            <Input placeholder="Search Orders..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-9 border-gray-200 bg-gray-50/50" />
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+            <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm" className="border border-gray-200 hover:bg-gray-50">
-                      <Filter size={14} className="mr-2" />
-                      Filter
+                    <Button variant="outline" className="w-[150px] border-gray-200 bg-white text-sm">
+                      All
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-48 bg-white">
-                    <DropdownMenuLabel>Status</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>All Status</DropdownMenuItem>
+                    <DropdownMenuItem>All</DropdownMenuItem>
                     <DropdownMenuItem>Processing</DropdownMenuItem>
                     <DropdownMenuItem>Shipped</DropdownMenuItem>
                     <DropdownMenuItem>Delivered</DropdownMenuItem>
                     <DropdownMenuItem>Cancelled</DropdownMenuItem>
                   </DropdownMenuContent>
-                </DropdownMenu>
+            </DropdownMenu>
+          </div>
+        </div>
+        </TabsContent>
+
+        <TabsContent value="orders">
+          <Card className="border border-gray-200 shadow-none rounded-none overflow-hidden">
+            <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <CardTitle className="text-lg font-normal flex items-center uppercase gap-2">
+                    Recent Orders
+                </CardTitle>
               </div>
             </CardHeader>
+
             <CardContent className="p-0">
               <Table>
                 <TableHeader>
-                  <TableRow className="border-b border-gray-200 hover:bg-white">
-                    <TableHead>Order Number</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead className="hidden md:table-cell">Customer</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Total</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                <TableRow className="hover:bg-transparent uppercase">
+                    <TableHead className="font-normal text-gray-600 text-sm">Order Number</TableHead>
+                    <TableHead className="font-normal text-gray-600 text-sm">Date</TableHead>
+                    <TableHead className="font-normal text-gray-600 text-sm">Brands</TableHead>
+                    <TableHead className="font-normal text-gray-600 text-sm">Status</TableHead>
+                    <TableHead className="font-normal text-gray-600 text-sm text-right">Total</TableHead>
+                    <TableHead className="font-normal text-gray-600 text-sm text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {orders.map((order) => (
-                    <TableRow key={order.id} className="border-b border-gray-100 hover:bg-gray-50">
-                      <TableCell className="font-medium">{order.orderNumber}</TableCell>
-                      <TableCell>{order.date}</TableCell>
-                      <TableCell className="hidden md:table-cell">{order.customer}</TableCell>
+                    <TableRow key={order.id} className="hover:bg-gray-50/50">
+                      <TableCell className="font-normal">{order.orderNumber}</TableCell>
+                      <TableCell className="font-normal">{order.date}</TableCell>
+                      <TableCell>{order.customer}</TableCell>
                       <TableCell>
                         <Badge 
                           className={`inline-block px-2 py-0.5 text-xs ${
-                            order.status === "Processing" ? "bg-blue-100 text-blue-800" :
-                            order.status === "Shipped" ? "bg-purple-100 text-purple-800" :
-                            order.status === "Delivered" ? "bg-green-100 text-green-800" :
-                            "bg-red-100 text-red-800"
+                            order.status === "Processing" ? "bg-accent-pink font-normal text-gray-800" :
+                            order.status === "Shipped" ? "bg-accent-mint font-normal text-gray-800" :
+                            order.status === "Delivered" ? "bg-accent-blue font-normal text-gray-800" :
+                            "bg-red-100 font-normal text-red-800"
                           }`}
                         >
                           {order.status}
@@ -192,8 +167,8 @@ const Orders = () => {
                             <Tooltip>
                               <TooltipTrigger asChild>
                                 <Link to={`/buyer/orders/${order.id}`}>
-                                  <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-gray-100">
-                                    <Eye size={16} />
+                                  <Button variant="ghost" size="sm" className="h-8 w-8 p-0 rounded-none text-black-500 hover:text-black hover:border">
+                                    <Eye size={14} />
                                   </Button>
                                 </Link>
                               </TooltipTrigger>
@@ -206,11 +181,11 @@ const Orders = () => {
                               <TooltipTrigger asChild>
                                 <Button 
                                   variant="ghost" 
-                                  size="icon" 
-                                  className="h-8 w-8 hover:bg-gray-100"
+                                  size="sm" 
+                                  className="h-8 w-8 p-0 rounded-none text-black-500 hover:text-black hover:border"
                                   onClick={() => handleEditOrder(order.orderNumber)}
                                 >
-                                  <Edit size={16} />
+                                  <Edit size={14} />
                                 </Button>
                               </TooltipTrigger>
                               <TooltipContent>
@@ -222,11 +197,11 @@ const Orders = () => {
                               <TooltipTrigger asChild>
                                 <Button 
                                   variant="ghost" 
-                                  size="icon" 
-                                  className="h-8 w-8 hover:bg-gray-100"
+                                  size="sm" 
+                                  className="h-8 w-8 p-0 text-red-600 hover:text-red-700 rounded-none hover:border"
                                   onClick={() => handleDeleteOrder(order.orderNumber)}
                                 >
-                                  <Trash size={16} />
+                                  <Trash2 size={14} />
                                 </Button>
                               </TooltipTrigger>
                               <TooltipContent>
@@ -240,8 +215,9 @@ const Orders = () => {
                   ))}
                 </TableBody>
               </Table>
+
+
               <div className="flex items-center justify-between p-4 border-t border-gray-100">
-                <p className="text-sm text-gray-500">Showing 5 of 25 orders</p>
                 <Pagination>
                   <PaginationContent>
                     <PaginationItem>
@@ -263,58 +239,61 @@ const Orders = () => {
                 </Pagination>
               </div>
             </CardContent>
-          </Card>
+            </Card>
         </TabsContent>
-        
-        <TabsContent value="samples">
-          <Card className="border border-gray-200 rounded-none">
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-1xl md:text-2xl uppercase font-thin">Sample Requests</CardTitle>
-              <div className="flex gap-3">
-                <div className="relative">
-                  <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
-                  <input 
-                    type="text" 
-                    placeholder="Search sample requests" 
-                    className="pl-8 pr-3 py-1.5 text-sm border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-black focus:border-black bg-white w-48 md:w-60"
-                  />
-                </div>
-                <DropdownMenu>
+
+        <TabsContent value="samples" className="mt-0">
+          <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-6">
+            <div className="relative w-full max-w-sm">
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
+            <Input placeholder="Search Orders..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="pl-9 border-gray-200 bg-gray-50/50" />
+            </div>
+
+            <div className="flex flex-wrap items-center gap-3">
+            <DropdownMenu>
                   <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="sm" className="border border-gray-200 hover:bg-gray-50">
-                      <Filter size={14} className="mr-2" />
-                      Filter
+                    <Button variant="outline" className="w-[150px] border-gray-200 bg-white text-sm">
+                      All
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-48 bg-white">
-                    <DropdownMenuLabel>Status</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>All Status</DropdownMenuItem>
-                    <DropdownMenuItem>Pending</DropdownMenuItem>
-                    <DropdownMenuItem>Approved</DropdownMenuItem>
+                    <DropdownMenuItem>All</DropdownMenuItem>
+                    <DropdownMenuItem>Processing</DropdownMenuItem>
                     <DropdownMenuItem>Shipped</DropdownMenuItem>
                     <DropdownMenuItem>Delivered</DropdownMenuItem>
-                    <DropdownMenuItem>Declined</DropdownMenuItem>
+                    <DropdownMenuItem>Cancelled</DropdownMenuItem>
                   </DropdownMenuContent>
-                </DropdownMenu>
+            </DropdownMenu>
+          </div>
+        </div>
+        </TabsContent>
+
+        <TabsContent value="samples">
+         <Card className="border border-gray-200 shadow-none rounded-none overflow-hidden">
+            <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
+              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <CardTitle className="text-lg font-normal flex items-center uppercase gap-2">
+                  Sample Requests 
+                </CardTitle>
               </div>
             </CardHeader>
+
             <CardContent className="p-0">
               <Table>
                 <TableHeader>
-                  <TableRow className="border-b border-gray-200 hover:bg-white">
-                    <TableHead>Request Number</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead className="hidden md:table-cell">Brand</TableHead>
-                    <TableHead className="hidden md:table-cell">Products</TableHead>
-                    <TableHead>Quantity</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead className="text-right">Actions</TableHead>
+                <TableRow className="hover:bg-transparent uppercase">
+                    <TableHead className="font-normal text-gray-600 text-sm">Request Number</TableHead>
+                    <TableHead className="font-normal text-gray-600 text-sm">Date</TableHead>
+                    <TableHead className="font-normal text-gray-600 text-sm">Brand</TableHead>
+                    <TableHead className="font-normal text-gray-600 text-sm">Products</TableHead>
+                    <TableHead className="font-normal text-gray-600 text-sm">Quantity</TableHead>
+                    <TableHead className="font-normal text-gray-600 text-sm">Status</TableHead>
+                    <TableHead className="font-normal text-gray-600 text-sm text-right">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {sampleRequests.map((request) => (
-                    <TableRow key={request.id} className="border-b border-gray-100 hover:bg-gray-50">
+                    <TableRow key={request.id} className="hover:bg-gray-50/50">
                       <TableCell className="font-medium">{request.requestNumber}</TableCell>
                       <TableCell>{request.date}</TableCell>
                       <TableCell className="hidden md:table-cell">{request.brand}</TableCell>
@@ -323,11 +302,11 @@ const Orders = () => {
                       <TableCell>
                         <Badge 
                           className={`inline-block px-2 py-0.5 text-xs ${
-                            request.status === "Approved" ? "bg-blue-100 text-blue-800" :
-                            request.status === "Shipped" ? "bg-purple-100 text-purple-800" :
-                            request.status === "Delivered" ? "bg-green-100 text-green-800" :
-                            request.status === "Pending" ? "bg-yellow-100 text-yellow-800" :
-                            "bg-red-100 text-red-800"
+                            request.status === "Approved" ? "bg-accent-mint font-normal text-gray-800" :
+                            request.status === "Shipped" ? "bg-accent-yellow font-normal text-gray-800" :
+                            request.status === "Delivered" ? "bg-accent-blue font-normal text-gray-800" :
+                            request.status === "Pending" ? "bg-accent-pink font-normal text-gray-800" :
+                            "bg-red-100 font-normal text-red-800"
                           }`}
                         >
                           {request.status}
@@ -339,8 +318,8 @@ const Orders = () => {
                             <Tooltip>
                               <TooltipTrigger asChild>
                                 <Link to={`/buyer/samples/${request.id}`}>
-                                  <Button variant="ghost" size="icon" className="h-8 w-8 hover:bg-gray-100">
-                                    <Eye size={16} />
+                                  <Button variant="ghost" size="icon" className="h-8 w-8 p-0 rounded-none text-black-500 hover:text-black hover:border">
+                                    <Eye size={14} />
                                   </Button>
                                 </Link>
                               </TooltipTrigger>
@@ -353,14 +332,14 @@ const Orders = () => {
                               <TooltipTrigger asChild>
                                 <Button 
                                   variant="ghost" 
-                                  size="icon" 
-                                  className="h-8 w-8 hover:bg-gray-100"
+                                  size="sm" 
+                                  className="h-8 w-8 p-0 rounded-none text-black-500 hover:text-black hover:border"
                                   onClick={() => toast({
                                     title: "Edit sample request",
                                     description: `Editing sample request ${request.requestNumber}.`,
                                   })}
                                 >
-                                  <Edit size={16} />
+                                  <Edit size={14} />
                                 </Button>
                               </TooltipTrigger>
                               <TooltipContent>
@@ -372,14 +351,14 @@ const Orders = () => {
                               <TooltipTrigger asChild>
                                 <Button 
                                   variant="ghost" 
-                                  size="icon" 
-                                  className="h-8 w-8 hover:bg-gray-100"
+                                  size="sm" 
+                                  className="h-8 w-8 p-0 text-red-600 hover:text-red-700 rounded-none hover:border"
                                   onClick={() => toast({
                                     title: "Sample request deletion requested",
                                     description: `Sample request ${request.requestNumber} will be deleted.`,
                                   })}
                                 >
-                                  <Trash size={16} />
+                                  <Trash2 size={14} />
                                 </Button>
                               </TooltipTrigger>
                               <TooltipContent>
@@ -394,7 +373,6 @@ const Orders = () => {
                 </TableBody>
               </Table>
               <div className="flex items-center justify-between p-4 border-t border-gray-100">
-                <p className="text-sm text-gray-500">Showing 5 of 12 sample requests</p>
                 <Pagination>
                   <PaginationContent>
                     <PaginationItem>

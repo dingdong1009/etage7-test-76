@@ -50,15 +50,12 @@ const BrandList = ({
           />
         </div>
         <div className="flex items-center space-x-3">
-          <Select
-            value={statusFilter}
-            onValueChange={(value) => setStatusFilter(value)}
-          >
+          <Select value={statusFilter} onValueChange={(value) => setStatusFilter(value)} >
             <SelectTrigger className="w-[150px] border-gray-200 bg-white text-sm">
               <SelectValue placeholder="Filter by status" />
             </SelectTrigger>
             <SelectContent className="bg-white">
-              <SelectItem value="all">All Statuses</SelectItem>
+              <SelectItem value="all">All</SelectItem>
               <SelectItem value="active">Active</SelectItem>
               <SelectItem value="pending">Pending</SelectItem>
               <SelectItem value="inactive">Inactive</SelectItem>
@@ -81,7 +78,7 @@ const BrandList = ({
             <Table>
               <TableHeader>
                 <TableRow className="hover:bg-transparent bg-gray-50">
-                  <TableHead className="w-[80px] font-medium text-gray-600 text-sm">ID</TableHead>
+                  <TableHead className="w-[40px] font-medium text-gray-600 text-sm">ID</TableHead>
                   <TableHead className="font-medium text-gray-600 text-sm">Name</TableHead>
                   <TableHead className="font-medium text-gray-600 text-sm">Contact</TableHead>
                   <TableHead className="font-medium text-gray-600 text-sm">Status</TableHead>
