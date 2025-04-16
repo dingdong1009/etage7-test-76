@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Checkbox } from "@/components/ui/checkbox";
 
-interface Product {
+interface DashboardProduct {
   id: string;
   name: string;
   category: string;
@@ -56,8 +56,8 @@ const leadTimeOptions = ["2-4 weeks", "1-2 months", "2-3 months", "3+ months"];
 const shippingFromOptions = ["Europe", "Asia", "North America", "South America", "Africa", "Australia"];
 
 const Dashboard = () => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<DashboardProduct[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<DashboardProduct[]>([]);
   
   const [selectedCategory, setSelectedCategory] = useState<string>("All Categories");
   const [selectedSubCategory, setSelectedSubCategory] = useState<string>("");
@@ -89,6 +89,12 @@ const Dashboard = () => {
   
   const categories = ["All Categories", "Dresses", "Tops", "Skirts", "Bags", "Shoes"];
   
+  const [expanded, setExpanded] = useState(false);
+  
+  const toggleExpand = () => {
+    setExpanded(!expanded);
+  };
+
   useEffect(() => {
     const initialProducts = Array(12).fill(null).map((_, index) => {
       const categoryIndex = Math.floor(Math.random() * 5);
@@ -379,7 +385,11 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-6">
-      <section className="bg-black text-white py-24 px-4">
+      <section 
+        className={`bg-black text-white px-4 transition-all duration-700 ease-in-out ${expanded ? 'py-[390.5px]' : 'py-24'}`}
+        onMouseEnter={() => setExpanded(true)}
+        onMouseLeave={() => setExpanded(false)}
+      >
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl md:text-5xl uppercase font-light mb-6">
             ADDITIONAL SERVICES
