@@ -89,6 +89,8 @@ const Dashboard = () => {
   
   const categories = ["All Categories", "Dresses", "Tops", "Skirts", "Bags", "Shoes"];
   
+  const [isHoveringSection, setIsHoveringSection] = useState(false);
+
   useEffect(() => {
     const initialProducts = Array(12).fill(null).map((_, index) => {
       const categoryIndex = Math.floor(Math.random() * 5);
@@ -379,7 +381,11 @@ const Dashboard = () => {
 
   return (
     <div className="space-y-6">
-      <section className="bg-black text-white py-24 px-4">
+      <section 
+        className={`bg-black text-white px-4 transition-all duration-500 ease-in-out ${isHoveringSection ? 'h-[781px]' : 'py-24'}`}
+        onMouseEnter={() => setIsHoveringSection(true)}
+        onMouseLeave={() => setIsHoveringSection(false)}
+      >
         <div className="max-w-7xl mx-auto">
           <h1 className="text-3xl md:text-5xl uppercase font-light mb-6">
             ADDITIONAL SERVICES
