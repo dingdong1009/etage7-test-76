@@ -57,30 +57,6 @@ const BrandDashboard = () => {
         </div>
       </div>
 
-      {/* Engagement Overview Chart */}
-      <Card className="border-gray-100 shadow-none rounded-none">
-        <CardHeader className="p-4 pb-2">
-          <CardTitle className="text-sm font-light uppercase">Engagement Overview</CardTitle>
-          <CardDescription className="text-xs">Monthly engagement metrics</CardDescription>
-        </CardHeader>
-        <CardContent className="p-4">
-          <div className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={engagementData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis dataKey="name" fontSize={12} />
-                <YAxis fontSize={12} />
-                <Tooltip />
-                <Bar dataKey="followers" name="Followers" fill="#d1d5db" />
-                <Bar dataKey="likes" name="Likes" fill="#9ca3af" />
-                <Bar dataKey="carts" name="Carts" fill="#6b7280" />
-                <Bar dataKey="visits" name="Visits" fill="#374151" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </CardContent>
-      </Card>
-
       {/* Product Stats and Notifications Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
@@ -154,6 +130,30 @@ const BrandDashboard = () => {
           </CardContent>
         </Card>
       </div>
+
+      {/* Engagement Overview Chart */}
+      <Card className="border-gray-100 shadow-none rounded-none">
+        <CardHeader className="p-4 pb-2">
+          <CardTitle className="text-sm font-light uppercase">Engagement Overview</CardTitle>
+          <CardDescription className="text-xs">Monthly engagement metrics</CardDescription>
+        </CardHeader>
+        <CardContent className="p-4">
+          <div className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={engagementData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis dataKey="name" fontSize={12} />
+                <YAxis fontSize={12} />
+                <Tooltip />
+                <Bar dataKey="followers" name="Followers" fill="#d1d5db" />
+                <Bar dataKey="likes" name="Likes" fill="#9ca3af" />
+                <Bar dataKey="carts" name="Carts" fill="#6b7280" />
+                <Bar dataKey="visits" name="Visits" fill="#374151" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Recent Activity and Buyer Insights */}
       <div className="space-y-8">
