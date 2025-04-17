@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { 
   Card, 
@@ -15,7 +14,7 @@ import {
 } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Heart, ShoppingCart, User, Eye } from "lucide-react";
+import { Heart, ShoppingCart, User, Eye, Package } from "lucide-react";
 import {
   BarChart,
   Bar,
@@ -28,7 +27,6 @@ import {
   Line
 } from "recharts";
 
-// Mock data for insights
 const mockFollowers = [
   { id: 1, name: "Galeries Lafayette", email: "buyer@gl.com", location: "Paris, France", followedDate: "2025-03-15", avatar: "" },
   { id: 2, name: "Selfridges", email: "buyer@selfridges.com", location: "London, UK", followedDate: "2025-03-10", avatar: "" },
@@ -74,7 +72,7 @@ const BuyerInsights = () => {
   
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
         <Card className="border-gray-100 shadow-none rounded-none hover:shadow-sm transition-shadow">
           <CardHeader className="p-4 pb-2">
             <CardTitle className="text-sm flex items-center gap-2 font-light uppercase">
@@ -124,6 +122,19 @@ const BuyerInsights = () => {
           </CardHeader>
           <CardContent className="p-4 pt-0">
             <div className="text-3xl font-light">{mockVisits.length}</div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-gray-100 shadow-none rounded-none hover:shadow-sm transition-shadow">
+          <CardHeader className="p-4 pb-2">
+            <CardTitle className="text-sm flex items-center gap-2 font-light uppercase">
+              <Package size={16} strokeWidth={1} className="text-gray-600" />
+              Active Products
+            </CardTitle>
+            <CardDescription className="text-xs">Currently active products</CardDescription>
+          </CardHeader>
+          <CardContent className="p-4 pt-0">
+            <div className="text-3xl font-light">45</div>
           </CardContent>
         </Card>
       </div>
