@@ -5,6 +5,7 @@ import BuyerInsights from "@/components/brand/marketing/BuyerInsights";
 import EmailCampaigns from "@/components/brand/marketing/EmailCampaigns";
 import FollowUps from "@/components/brand/marketing/FollowUps";
 import CreditsInfo from "@/components/brand/marketing/CreditsInfo";
+import LookbookContent from "@/components/brand/marketing/LookbookContent";
 
 const Marketing = () => {
   const [activeTab, setActiveTab] = useState("insights");
@@ -44,6 +45,12 @@ const Marketing = () => {
               Follow-ups
             </TabsTrigger>
             <TabsTrigger 
+              value="lookbook" 
+              className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none data-[state=active]:rounded-none data-[state=active]:bg-transparent px-4 py-2 h-auto text-xs uppercase font-light"
+            >
+              Lookbook
+            </TabsTrigger>
+            <TabsTrigger 
               value="credits" 
               className="data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none data-[state=active]:rounded-none data-[state=active]:bg-transparent px-4 py-2 h-auto text-xs uppercase font-light"
             >
@@ -62,6 +69,10 @@ const Marketing = () => {
         
         <TabsContent value="followups" className="mt-6">
           <FollowUps />
+        </TabsContent>
+
+        <TabsContent value="lookbook" className="mt-6">
+          <LookbookContent />
         </TabsContent>
         
         <TabsContent value="credits" className="mt-6">
