@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/tabs";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Heart, ShoppingCart, User, Eye, MessageCircle } from "lucide-react";
+import { Heart, ShoppingCart, User, Eye, Package } from "lucide-react";
 import {
   BarChart,
   Bar,
@@ -128,13 +128,13 @@ const BuyerInsights = () => {
         <Card className="border-gray-100 shadow-none rounded-none hover:shadow-sm transition-shadow">
           <CardHeader className="p-4 pb-2">
             <CardTitle className="text-sm flex items-center gap-2 font-light uppercase">
-              <MessageCircle size={16} strokeWidth={1} className="text-gray-600" />
-              Recent Messages
+              <Package size={16} strokeWidth={1} className="text-gray-600" />
+              Active Products
             </CardTitle>
-            <CardDescription className="text-xs">Latest buyer conversations</CardDescription>
+            <CardDescription className="text-xs">Currently active products</CardDescription>
           </CardHeader>
           <CardContent className="p-4 pt-0">
-            <div className="text-3xl font-light">3</div>
+            <div className="text-3xl font-light">45</div>
           </CardContent>
         </Card>
       </div>
