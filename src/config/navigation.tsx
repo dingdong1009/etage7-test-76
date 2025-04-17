@@ -1,5 +1,4 @@
-
-import { LayoutDashboard, Package, ShoppingCart, Megaphone, MessageSquare, Settings, Users, Building, HelpCircle, FileText, UserPlus, CheckCircle, XCircle, AlertTriangle, Star, Home, Plus, ListChecks, UserCog, CreditCard, Mail, Bell, Lock, BarChart, LineChart, PieChart, KanbanSquare, File, Folder, Calendar, ClipboardList, CheckCheck, UserRound, GraduationCap, Book, Briefcase, Lightbulb, ShieldCheck, Heart, Award, Flag, TrendingUp, Globe2, Cloud, Server, Database, Code, Terminal, Puzzle, Layers, GitBranch, Share2, Archive, Download, Upload, RefreshCw, Search, Filter, Edit, Trash2, Copy, Move, Link2, ZoomIn, ZoomOut, RotateCw, RotateCcw, Crop, ImageIcon, Type, Bold, Italic, Underline, Strikethrough, List, ListOrdered, AlignLeft, AlignCenter, AlignRight, AlignJustify, Indent, Outdent, Code2, Quote } from "lucide-react"
+import { LayoutDashboard, Package, ShoppingCart, Megaphone, MessageSquare, Settings, Users, Building, CreditCard } from "lucide-react"
 
 export const mainNav = [
   {
@@ -72,6 +71,11 @@ export const brandNav = [
     icon: MessageSquare,
   },
   {
+    title: "Paid Services",
+    href: "/brand/paid-services",
+    icon: CreditCard,
+  },
+  {
     title: "Settings",
     href: "/brand/settings",
     icon: Settings,
@@ -89,7 +93,7 @@ export const buyerNav = [
     href: "/buyer/brands",
     icon: Building,
   },
-    {
+  {
     title: "Orders",
     href: "/buyer/orders",
     icon: ShoppingCart,
