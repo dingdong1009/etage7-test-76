@@ -22,6 +22,8 @@ import PressPage from "./pages/PressPage";
 import PressKitPage from "./pages/PressKitPage";
 import FaqPage from "./pages/FaqPage";
 import BrandStorefront from "./pages/brand/BrandStorefront";
+import Marketing from "./pages/brand/Marketing";
+import MarketingCredits from "./pages/admin/MarketingCredits";
 
 // Admin components
 import AdminLayout from "./components/admin/AdminLayout";
@@ -105,6 +107,7 @@ const App = () => {
               <Route path="orders" element={<BrandOrders />} />
               <Route path="orders/:orderId" element={<BrandOrderDetails />} />
               <Route path="lookbook" element={<BrandLookbook />} />
+              <Route path="marketing" element={<Marketing />} />
               <Route path="additional-services" element={<BrandAdditionalServices />} />
               <Route path="team" element={<BrandTeam />} />
               <Route path="store" element={<BrandStore />} />
@@ -136,6 +139,7 @@ const App = () => {
               <Route path="subscriptions" element={<AdminSubscriptions />} />
               <Route path="additional-services" element={<AdminAdditionalServices />} />
               <Route path="resources" element={<AdminResources />} />
+              <Route path="marketing-credits" element={<MarketingCredits />} />
             </Route>
             
             {/* Sales routes */}

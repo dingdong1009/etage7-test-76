@@ -40,6 +40,7 @@ const BrandHeader = () => {
     { name: "Products", path: "/brand/products", tooltip: "Manage your products" },
     { name: "Orders", path: "/brand/orders", tooltip: "View and manage orders" },
     { name: "Lookbook", path: "/brand/lookbook", tooltip: "Create and manage lookbooks" },
+    { name: "Marketing", path: "/brand/marketing", tooltip: "Email marketing and buyer insights" },
     { name: "Additional Services", path: "/brand/additional-services", tooltip: "Book consulting services" },
     { name: "Team", path: "/brand/team", tooltip: "Manage your team" },
     { name: "Store", path: "/brand/store", tooltip: "Manage your store" },
