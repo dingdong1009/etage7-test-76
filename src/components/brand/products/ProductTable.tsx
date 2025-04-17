@@ -17,6 +17,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Product, ColorOption } from "../../../types/product";
+import { useNavigate } from "react-router-dom";
+import { useToast } from "@/components/ui/use-toast";
 
 interface ProductTableProps {
   products: Product[];
@@ -37,6 +39,42 @@ export const ProductTable = ({
   deleteProduct,
   onEditProduct
 }: ProductTableProps) => {
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  
+  const handleViewProduct = (productId: number) => {
+    navigate(`/brand/products/${productId}`);
+  };
+  
+  const handleEditProduct = (productId: number) => {
+    // For now, just use the generic edit handler
+    // In a real app, you would navigate to a specific product edit page
+    toast({
+      title: "Edit Product",
+      description: `Editing product ID: ${productId}`,
+    });
+    onEditProduct();
+  };
+  
+  const handleDeleteConfirm = (productId: number, productName: string) => {
+    if (window.confirm(`Are you sure you want to delete "${productName}"?`)) {
+      deleteProduct(productId);
+      toast({
+        title: "Product deleted",
+        description: `"${productName}" has been removed from your catalog`,
+      });
+    }
+  };
+  
+  const handleToggleStatus = (productId: number, currentStatus: string, productName: string) => {
+    const newStatus = currentStatus === 'active' ? 'draft' : 'active';
+    toggleProductStatus(productId, newStatus);
+    toast({
+      title: `Product ${newStatus === 'active' ? 'activated' : 'deactivated'}`,
+      description: `"${productName}" is now ${newStatus === 'active' ? 'active' : 'in draft mode'}`,
+    });
+  };
+
   return (
     <div className="rounded-md border">
       <Table>
@@ -138,7 +176,8 @@ export const ProductTable = ({
                       variant="ghost" 
                       size="icon" 
                       className="h-8 w-8" 
-                      title="View details"
+                      title="View product details"
+                      onClick={() => handleViewProduct(product.id)}
                     >
                       <Eye className="h-4 w-4" />
                     </Button>
@@ -147,7 +186,7 @@ export const ProductTable = ({
                       size="icon" 
                       className="h-8 w-8" 
                       title="Edit product"
-                      onClick={onEditProduct}
+                      onClick={() => handleEditProduct(product.id)}
                     >
                       <Edit className="h-4 w-4" />
                     </Button>
@@ -157,7 +196,7 @@ export const ProductTable = ({
                         size="icon" 
                         className="h-8 w-8" 
                         title="Deactivate product"
-                        onClick={() => toggleProductStatus(product.id, 'draft')}
+                        onClick={() => handleToggleStatus(product.id, product.status, product.name)}
                       >
                         <XCircle className="h-4 w-4 text-red-500" />
                       </Button>
@@ -167,7 +206,7 @@ export const ProductTable = ({
                         size="icon" 
                         className="h-8 w-8" 
                         title="Activate product"
-                        onClick={() => toggleProductStatus(product.id, 'active')}
+                        onClick={() => handleToggleStatus(product.id, product.status, product.name)}
                       >
                         <CheckCircle className="h-4 w-4 text-green-500" />
                       </Button>
@@ -177,7 +216,7 @@ export const ProductTable = ({
                       size="icon" 
                       className="h-8 w-8" 
                       title="Delete product"
-                      onClick={() => deleteProduct(product.id)}
+                      onClick={() => handleDeleteConfirm(product.id, product.name)}
                     >
                       <Trash2 className="h-4 w-4 text-red-500" />
                     </Button>
