@@ -5,8 +5,15 @@ import {
   Routes,
   Route,
   Navigate,
+  Outlet
 } from "react-router-dom";
 import Layout from "./components/Layout";
+import BuyerLayout from "./components/buyer/BuyerLayout";
+import BrandLayout from "./components/brand/BrandLayout";
+import AdminLayout from "./components/admin/AdminLayout";
+
+// Import the Marketing component
+import Marketing from "./pages/brand/Marketing";
 
 // Mock page components for the pages that are missing
 const Home = () => <div>Home Page</div>;
@@ -36,13 +43,6 @@ const BrandResources = () => <div>Brand Resources</div>;
 const BrandSettings = () => <div>Brand Settings</div>;
 const AdminEmailCredits = () => <div>Admin Email Credits</div>;
 
-import BuyerLayout from "./components/buyer/BuyerLayout";
-import BrandLayout from "./components/brand/BrandLayout";
-import AdminLayout from "./components/admin/AdminLayout";
-
-// Import the Marketing component
-import Marketing from "./pages/brand/Marketing";
-
 // Mock auth context
 const useAuth = () => {
   return {
@@ -57,7 +57,8 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        {/* Public routes with Layout */}
+        <Route path="/" element={<Layout><Outlet /></Layout>}>
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="contact" element={<Contact />} />
@@ -66,6 +67,7 @@ function App() {
           <Route path="product-details/:id" element={<ProductDetails />} />
         </Route>
 
+        {/* Auth routes */}
         <Route path="/login" element={!isLoggedIn ? <Login /> : <Navigate to="/" />} />
         <Route path="/register" element={!isLoggedIn ? <Register /> : <Navigate to="/" />} />
         <Route path="/forgot-password" element={!isLoggedIn ? <ForgotPassword /> : <Navigate to="/" />} />
