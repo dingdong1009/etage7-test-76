@@ -1,3 +1,4 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Package, ShoppingCart, Bell, MessageSquare, ChevronRight } from "lucide-react";
@@ -38,9 +39,6 @@ const BrandDashboard = () => {
           </h1>
         </div>
       </div>
-
-      {/* Engagement Overview */}
-      <BuyerInsights variant="chart" />
 
       {/* Product Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -85,10 +83,12 @@ const BrandDashboard = () => {
         </Card>
       </div>
 
-      {/* Recent Activity Sections */}
+      {/* Recent Activity and Buyer Insights */}
       <div className="space-y-8">
-        {/* Recent Insights Removed from this location */}
-        
+        {/* Buyer Insights Section */}
+        <BuyerInsights />
+
+        {/* Recent Activity Sections */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Recent Orders */}
           <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
