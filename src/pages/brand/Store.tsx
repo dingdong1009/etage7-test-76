@@ -330,7 +330,12 @@ const BrandStore = () => {
         
         {/* Page Layouts Tab */}
         <TabsContent value="layouts">
-          {isPreviewMode ? <StorePreview template={selectedTemplate.type} storeInfo={storeInfo} socialMedia={socialMedia} featuredProducts={selectedProducts} /> : <div className="space-y-6">
+          {isPreviewMode ? <StorePreview 
+            template={selectedTemplate.type} 
+            storeInfo={storeInfo} 
+            socialMedia={socialMedia} 
+            featuredProducts={selectedProducts} 
+          /> : <div className="space-y-6">
               <Card className="border border-gray-200">
                 <CardHeader>
                   <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">Select Template</CardTitle>
