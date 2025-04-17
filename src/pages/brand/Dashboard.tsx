@@ -103,23 +103,34 @@ const BrandDashboard = () => {
           </CardContent>
         </Card>
 
+        {/* Recent Orders */}
         <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-4">
-                <Package className="h-8 w-8 text-gray-400" />
-                <div>
-                  <p className="text-sm text-gray-500 uppercase">Total Products</p>
-                  <h3 className="text-3xl font-light">{mockData.products.total}</h3>
-                </div>
+                <ShoppingCart className="h-6 w-6 text-gray-400" />
+                <h3 className="text-lg font-light uppercase">Recent Orders</h3>
               </div>
+              <Button variant="ghost" size="sm" className="text-xs" asChild>
+                <Link to="/brand/orders">
+                  View All <ChevronRight className="h-4 w-4 ml-1" />
+                </Link>
+              </Button>
             </div>
-            <Link 
-              to="/brand/products" 
-              className="text-xs text-gray-600 hover:text-black flex items-center gap-1 transition-colors"
-            >
-              View All Products <ChevronRight className="h-3 w-3" />
-            </Link>
+            <div className="space-y-4">
+              {mockData.recentOrders.map((order) => (
+                <div key={order.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                  <div>
+                    <p className="text-sm font-normal">{order.customer}</p>
+                    <p className="text-xs text-gray-500">{order.date}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-normal">{order.amount}</p>
+                    <p className="text-xs text-gray-500 uppercase">{order.status}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
 
