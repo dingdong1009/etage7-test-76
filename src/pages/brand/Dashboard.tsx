@@ -1,201 +1,176 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { ChartContainer } from "@/components/ui/chart";
-import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { Bell, MessageSquare, Package, ShoppingCart, Megaphone, CreditCard, Settings, ChevronRight } from "lucide-react";
+import { 
+  Package, 
+  ShoppingCart, 
+  Bell, 
+  MessageSquare,
+  ChevronRight 
+} from "lucide-react";
 import { Link } from "react-router-dom";
-const BrandDashboard = () => {
-  // Sample data for charts
-  const viewsData = [{
-    name: "Jan",
-    views: 65
-  }, {
-    name: "Feb",
-    views: 59
-  }, {
-    name: "Mar",
-    views: 80
-  }, {
-    name: "Apr",
-    views: 81
-  }, {
-    name: "May",
-    views: 56
-  }, {
-    name: "Jun",
-    views: 55
-  }, {
-    name: "Jul",
-    views: 40
-  }];
-  const conversionData = [{
-    name: "Jan",
-    rate: 2.5
-  }, {
-    name: "Feb",
-    rate: 3.1
-  }, {
-    name: "Mar",
-    rate: 3.5
-  }, {
-    name: "Apr",
-    rate: 3.2
-  }, {
-    name: "May",
-    rate: 3.8
-  }, {
-    name: "Jun",
-    rate: 4.0
-  }, {
-    name: "Jul",
-    rate: 4.2
-  }];
 
-  // Chart configuration object required by ChartContainer
-  const chartConfig = {
-    views: {
-      label: "Product Views",
-      color: "#000"
-    },
-    rate: {
-      label: "Conversion Rate",
-      color: "#000"
-    }
-  };
-  return <div className="space-y-8 animate-fade-in">
+// Sample data - in a real app, this would come from your backend
+const mockData = {
+  products: {
+    active: 45,
+    total: 86
+  },
+  recentOrders: [
+    { id: '1', customer: 'Fashion Store Paris', date: '2025-04-15', status: 'pending', amount: '€2,400' },
+    { id: '2', customer: 'Luxury Boutique', date: '2025-04-14', status: 'shipped', amount: '€1,800' },
+    { id: '3', customer: 'Style Hub', date: '2025-04-13', status: 'delivered', amount: '€3,200' }
+  ],
+  notifications: [
+    { id: '1', message: 'New order received from Fashion Store Paris', time: '2 hours ago' },
+    { id: '2', message: 'Product stock running low: Summer Collection Dress', time: '5 hours ago' },
+    { id: '3', message: 'Payment confirmed for order #12345', time: 'Yesterday' }
+  ],
+  messages: [
+    { id: '1', from: 'Fashion Store Paris', preview: 'Regarding the Spring collection...', time: '1 hour ago' },
+    { id: '2', from: 'Luxury Boutique', preview: 'Can you provide more details about...', time: '3 hours ago' },
+    { id: '3', from: 'Style Hub', preview: 'We would like to place a bulk order...', time: 'Yesterday' }
+  ]
+};
+
+const BrandDashboard = () => {
+  return (
+    <div className="space-y-8 animate-fade-in">
       {/* Hero Section */}
       <div className="relative -mx-8 px-8 py-12 bg-gray-50/50 border-b border-gray-100">
         <div className="max-w-[1481px] mx-auto">
           <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-4">
             BRAND DASHBOARD
           </h1>
-          
         </div>
       </div>
 
-      {/* Quick Actions */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        <Link to="/brand/messages" className="block">
-          <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
-            <CardContent className="p-6 flex flex-col gap-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-500 uppercase mb-1">Messages</p>
-                  <h3 className="text-2xl font-light">12</h3>
-                </div>
-                <MessageSquare className="h-8 w-8 text-gray-400" />
-              </div>
-              <div className="text-xs text-green-500">3 new messages</div>
-            </CardContent>
-          </Card>
-        </Link>
-
-        <Link to="/brand/products" className="block">
-          <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
-            <CardContent className="p-6 flex flex-col gap-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-500 uppercase mb-1">Products</p>
-                  <h3 className="text-2xl font-light">86</h3>
-                </div>
+      {/* Product Stats */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-4">
                 <Package className="h-8 w-8 text-gray-400" />
-              </div>
-              <div className="text-xs text-gray-500">12 low in stock</div>
-            </CardContent>
-          </Card>
-        </Link>
-
-        <Link to="/brand/orders" className="block">
-          <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
-            <CardContent className="p-6 flex flex-col gap-4">
-              <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-500 uppercase mb-1">Orders</p>
-                  <h3 className="text-2xl font-light">24</h3>
+                  <p className="text-sm text-gray-500 uppercase">Active Products</p>
+                  <h3 className="text-3xl font-light">{mockData.products.active}</h3>
                 </div>
-                <ShoppingCart className="h-8 w-8 text-gray-400" />
               </div>
-              <div className="text-xs text-green-500">5 new orders</div>
-            </CardContent>
-          </Card>
-        </Link>
-
-        <Link to="/brand/notifications" className="block">
-          <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
-            <CardContent className="p-6 flex flex-col gap-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-500 uppercase mb-1">Notifications</p>
-                  <h3 className="text-2xl font-light">7</h3>
-                </div>
-                <Bell className="h-8 w-8 text-gray-400" />
-              </div>
-              <div className="text-xs text-gray-500">2 require action</div>
-            </CardContent>
-          </Card>
-        </Link>
-      </div>
-
-      {/* Quick Links */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <div className="h-10 w-10 rounded-full flex items-center justify-center bg-gray-50">
-                <Megaphone className="h-5 w-5" />
-              </div>
-              <Button variant="ghost" size="sm" className="text-xs" asChild>
-                <Link to="/brand/marketing">
-                  View All <ChevronRight className="h-4 w-4 ml-1" />
-                </Link>
-              </Button>
             </div>
-            <h3 className="text-lg font-light mb-2">Marketing</h3>
-            <p className="text-sm text-gray-500">View campaign performance and analytics</p>
+            <Link 
+              to="/brand/products" 
+              className="text-xs text-gray-600 hover:text-black flex items-center gap-1 transition-colors"
+            >
+              View Products <ChevronRight className="h-3 w-3" />
+            </Link>
           </CardContent>
         </Card>
 
         <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <div className="h-10 w-10 rounded-full flex items-center justify-center bg-gray-50">
-                <CreditCard className="h-5 w-5" />
+            <div className="flex items-center justify-between mb-4">
+              <div className="flex items-center gap-4">
+                <Package className="h-8 w-8 text-gray-400" />
+                <div>
+                  <p className="text-sm text-gray-500 uppercase">Total Products</p>
+                  <h3 className="text-3xl font-light">{mockData.products.total}</h3>
+                </div>
               </div>
-              <Button variant="ghost" size="sm" className="text-xs" asChild>
-                <Link to="/brand/paid-services">
-                  View All <ChevronRight className="h-4 w-4 ml-1" />
-                </Link>
-              </Button>
             </div>
-            <h3 className="text-lg font-light mb-2">Paid Services</h3>
-            <p className="text-sm text-gray-500">Manage your subscriptions and services</p>
-          </CardContent>
-        </Card>
-
-        <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <div className="h-10 w-10 rounded-full flex items-center justify-center bg-gray-50">
-                <Settings className="h-5 w-5" />
-              </div>
-              <Button variant="ghost" size="sm" className="text-xs" asChild>
-                <Link to="/brand/settings">
-                  View All <ChevronRight className="h-4 w-4 ml-1" />
-                </Link>
-              </Button>
-            </div>
-            <h3 className="text-lg font-light mb-2">Settings</h3>
-            <p className="text-sm text-gray-500">Configure your brand preferences</p>
+            <Link 
+              to="/brand/products" 
+              className="text-xs text-gray-600 hover:text-black flex items-center gap-1 transition-colors"
+            >
+              View All Products <ChevronRight className="h-3 w-3" />
+            </Link>
           </CardContent>
         </Card>
       </div>
 
-      {/* Analytics Section */}
+      {/* Recent Activity Sections */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        
+        {/* Recent Orders */}
+        <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-4">
+                <ShoppingCart className="h-6 w-6 text-gray-400" />
+                <h3 className="text-lg font-light uppercase">Recent Orders</h3>
+              </div>
+              <Button variant="ghost" size="sm" className="text-xs" asChild>
+                <Link to="/brand/orders">
+                  View All <ChevronRight className="h-4 w-4 ml-1" />
+                </Link>
+              </Button>
+            </div>
+            <div className="space-y-4">
+              {mockData.recentOrders.map((order) => (
+                <div key={order.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                  <div>
+                    <p className="text-sm font-normal">{order.customer}</p>
+                    <p className="text-xs text-gray-500">{order.date}</p>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm font-normal">{order.amount}</p>
+                    <p className="text-xs text-gray-500 uppercase">{order.status}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
 
-        
+        {/* Recent Messages */}
+        <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-4">
+                <MessageSquare className="h-6 w-6 text-gray-400" />
+                <h3 className="text-lg font-light uppercase">Recent Messages</h3>
+              </div>
+              <Button variant="ghost" size="sm" className="text-xs" asChild>
+                <Link to="/brand/messages">
+                  View All <ChevronRight className="h-4 w-4 ml-1" />
+                </Link>
+              </Button>
+            </div>
+            <div className="space-y-4">
+              {mockData.messages.map((message) => (
+                <div key={message.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                  <div>
+                    <p className="text-sm font-normal">{message.from}</p>
+                    <p className="text-xs text-gray-500">{message.preview}</p>
+                  </div>
+                  <p className="text-xs text-gray-500">{message.time}</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Notifications */}
+        <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors lg:col-span-2">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-4">
+                <Bell className="h-6 w-6 text-gray-400" />
+                <h3 className="text-lg font-light uppercase">Recent Notifications</h3>
+              </div>
+            </div>
+            <div className="space-y-4">
+              {mockData.notifications.map((notification) => (
+                <div key={notification.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                  <p className="text-sm font-normal">{notification.message}</p>
+                  <p className="text-xs text-gray-500">{notification.time}</p>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
       </div>
-    </div>;
+    </div>
+  );
 };
+
 export default BrandDashboard;
