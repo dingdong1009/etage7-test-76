@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -60,7 +59,6 @@ import BuyerAdditionalServices from "./pages/buyer/AdditionalServices";
 import BuyerTeam from "./pages/buyer/Team";
 import BuyerResources from "./pages/buyer/Resources";
 import BuyerSettings from "./pages/buyer/Settings";
-import BuyerAnalytics from "./pages/buyer/Analytics"; // New import for Analytics page
 
 // Sales components
 import SalesLayout from "./components/sales/SalesLayout";
@@ -120,7 +118,6 @@ const App = () => {
             <Route path="/buyer" element={<BuyerLayout />}>
               <Route index element={<BuyerDashboard />} />
               <Route path="orders" element={<BuyerOrders />} />
-              <Route path="analytics" element={<BuyerAnalytics />} /> {/* New Analytics route */}
               <Route path="messages" element={<BuyerMessages />} />
               <Route path="additional-services" element={<BuyerAdditionalServices />} />
               <Route path="team" element={<BuyerTeam />} />
