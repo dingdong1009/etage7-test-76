@@ -16,6 +16,11 @@ import {
   SelectTrigger, 
   SelectValue 
 } from "@/components/ui/select";
+import { 
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger
+} from "@/components/ui/collapsible";
 
 interface ProductFiltersProps {
   searchQuery: string;
@@ -38,6 +43,8 @@ export const ProductFilters = ({
   statusFilter,
   setStatusFilter
 }: ProductFiltersProps) => {
+  const [isAdvancedFiltersOpen, setIsAdvancedFiltersOpen] = useState(false);
+
   return (
     <div className="flex flex-col md:flex-row gap-4 mb-6">
       <div className="relative flex-grow">
@@ -58,70 +65,90 @@ export const ProductFilters = ({
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-72 p-4">
-            <div className="space-y-4">
-              <div>
-                <Label className="text-sm">Category</Label>
-                <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                  <SelectTrigger className="mt-1.5">
-                    <SelectValue placeholder="All categories" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="">All categories</SelectItem>
-                    <SelectItem value="Outerwear">Outerwear</SelectItem>
-                    <SelectItem value="Tops">Tops</SelectItem>
-                    <SelectItem value="Bottoms">Bottoms</SelectItem>
-                    <SelectItem value="Dresses">Dresses</SelectItem>
-                    <SelectItem value="Accessories">Accessories</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <Label className="text-sm">Season</Label>
-                <Select value={seasonFilter} onValueChange={setSeasonFilter}>
-                  <SelectTrigger className="mt-1.5">
-                    <SelectValue placeholder="All seasons" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="">All seasons</SelectItem>
-                    <SelectItem value="Spring/Summer 2025">Spring/Summer 2025</SelectItem>
-                    <SelectItem value="Fall/Winter 2024">Fall/Winter 2024</SelectItem>
-                    <SelectItem value="Resort 2025">Resort 2025</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <Label className="text-sm">Status</Label>
-                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger className="mt-1.5">
-                    <SelectValue placeholder="All statuses" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="">All statuses</SelectItem>
-                    <SelectItem value="active">Active</SelectItem>
-                    <SelectItem value="draft">Draft</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex justify-between">
+            <Collapsible 
+              open={isAdvancedFiltersOpen} 
+              onOpenChange={setIsAdvancedFiltersOpen}
+            >
+              <CollapsibleTrigger asChild>
                 <Button 
-                  variant="outline" 
+                  variant="ghost" 
                   size="sm" 
-                  onClick={() => {
-                    setCategoryFilter("");
-                    setSeasonFilter("");
-                    setStatusFilter("");
-                  }}
+                  className="w-full justify-between"
                 >
-                  Reset
+                  Advanced Filters
+                  <ChevronRight 
+                    className={`h-4 w-4 transition-transform ${isAdvancedFiltersOpen ? 'rotate-90' : ''}`} 
+                  />
                 </Button>
-                <Button 
-                  size="sm" 
-                  className="bg-black hover:bg-black-600"
-                >
-                  Apply Filters
-                </Button>
-              </div>
-            </div>
+              </CollapsibleTrigger>
+              
+              <CollapsibleContent>
+                <div className="space-y-4 mt-4">
+                  <div>
+                    <Label className="text-sm">Category</Label>
+                    <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                      <SelectTrigger className="mt-1.5">
+                        <SelectValue placeholder="All categories" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="">All categories</SelectItem>
+                        <SelectItem value="Outerwear">Outerwear</SelectItem>
+                        <SelectItem value="Tops">Tops</SelectItem>
+                        <SelectItem value="Bottoms">Bottoms</SelectItem>
+                        <SelectItem value="Dresses">Dresses</SelectItem>
+                        <SelectItem value="Accessories">Accessories</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label className="text-sm">Season</Label>
+                    <Select value={seasonFilter} onValueChange={setSeasonFilter}>
+                      <SelectTrigger className="mt-1.5">
+                        <SelectValue placeholder="All seasons" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="">All seasons</SelectItem>
+                        <SelectItem value="Spring/Summer 2025">Spring/Summer 2025</SelectItem>
+                        <SelectItem value="Fall/Winter 2024">Fall/Winter 2024</SelectItem>
+                        <SelectItem value="Resort 2025">Resort 2025</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <Label className="text-sm">Status</Label>
+                    <Select value={statusFilter} onValueChange={setStatusFilter}>
+                      <SelectTrigger className="mt-1.5">
+                        <SelectValue placeholder="All statuses" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="">All statuses</SelectItem>
+                        <SelectItem value="active">Active</SelectItem>
+                        <SelectItem value="draft">Draft</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="flex justify-between">
+                    <Button 
+                      variant="outline" 
+                      size="sm" 
+                      onClick={() => {
+                        setCategoryFilter("");
+                        setSeasonFilter("");
+                        setStatusFilter("");
+                      }}
+                    >
+                      Reset
+                    </Button>
+                    <Button 
+                      size="sm" 
+                      className="bg-black hover:bg-black-600"
+                    >
+                      Apply Filters
+                    </Button>
+                  </div>
+                </div>
+              </CollapsibleContent>
+            </Collapsible>
           </PopoverContent>
         </Popover>
       </div>
