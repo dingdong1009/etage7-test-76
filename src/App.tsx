@@ -54,127 +54,60 @@ const useAuth = () => {
 function App() {
   const { isLoggedIn, userType } = useAuth();
 
-  const routes = [
-    {
-      path: "/",
-      element: <Layout><Home /></Layout>,
-    },
-    {
-      path: "/about",
-      element: <Layout><About /></Layout>,
-    },
-    {
-      path: "/contact",
-      element: <Layout><Contact /></Layout>,
-    },
-    {
-      path: "/blog",
-      element: <Layout><Blog /></Layout>,
-    },
-    {
-      path: "/shop",
-      element: <Layout><Shop /></Layout>,
-    },
-    {
-      path: "/product-details/:id",
-      element: <Layout><ProductDetails /></Layout>,
-    },
-    {
-      path: "/login",
-      element: !isLoggedIn ? <Login /> : <Navigate to="/" />,
-    },
-    {
-      path: "/register",
-      element: !isLoggedIn ? <Register /> : <Navigate to="/" />,
-    },
-    {
-      path: "/forgot-password",
-      element: !isLoggedIn ? <ForgotPassword /> : <Navigate to="/" />,
-    },
-    {
-      path: "/reset-password",
-      element: !isLoggedIn ? <ResetPassword /> : <Navigate to="/" />,
-    },
-    {
-      path: "/buyer",
-      element: isLoggedIn && userType === "buyer" ? <BuyerLayout><BuyerDashboard /></BuyerLayout> : <Navigate to="/login" />,
-    },
-    {
-      path: "/brand",
-      element: isLoggedIn && userType === "brand" ? <BrandLayout><BrandDashboard /></BrandLayout> : <Navigate to="/login" />,
-    },
-    {
-      path: "/brand/products",
-      element: isLoggedIn && userType === "brand" ? <BrandLayout><BrandProducts /></BrandLayout> : <Navigate to="/login" />,
-    },
-    {
-      path: "/brand/orders",
-      element: isLoggedIn && userType === "brand" ? <BrandLayout><BrandOrders /></BrandLayout> : <Navigate to="/login" />,
-    },
-    {
-      path: "/brand/lookbook",
-      element: isLoggedIn && userType === "brand" ? <BrandLayout><BrandLookbook /></BrandLayout> : <Navigate to="/login" />,
-    },
-    {
-      path: "/brand/additional-services",
-      element: isLoggedIn && userType === "brand" ? <BrandLayout><BrandAdditionalServices /></BrandLayout> : <Navigate to="/login" />,
-    },
-    {
-      path: "/brand/team",
-      element: isLoggedIn && userType === "brand" ? <BrandLayout><BrandTeam /></BrandLayout> : <Navigate to="/login" />,
-    },
-    {
-      path: "/brand/store",
-      element: isLoggedIn && userType === "brand" ? <BrandLayout><BrandStore /></BrandLayout> : <Navigate to="/login" />,
-    },
-    {
-      path: "/brand/messages",
-      element: isLoggedIn && userType === "brand" ? <BrandLayout><BrandMessages /></BrandLayout> : <Navigate to="/login" />,
-    },
-    {
-      path: "/brand/subscriptions",
-      element: isLoggedIn && userType === "brand" ? <BrandLayout><BrandSubscriptions /></BrandLayout> : <Navigate to="/login" />,
-    },
-    {
-      path: "/brand/resources",
-      element: isLoggedIn && userType === "brand" ? <BrandLayout><BrandResources /></BrandLayout> : <Navigate to="/login" />,
-    },
-    {
-      path: "/brand/settings",
-      element: isLoggedIn && userType === "brand" ? <BrandLayout><BrandSettings /></BrandLayout> : <Navigate to="/login" />,
-    },
-    {
-      path: "/admin",
-      element: isLoggedIn && userType === "salesManager" ? <AdminLayout><AdminDashboard /></AdminLayout> : <Navigate to="/login" />,
-    },
-    {
-      path: "/admin/users",
-      element: isLoggedIn && userType === "salesManager" ? <AdminLayout><Users /></AdminLayout> : <Navigate to="/login" />,
-    },
-    {
-      path: "/admin/subscriptions",
-      element: isLoggedIn && userType === "salesManager" ? <AdminLayout><Subscriptions /></AdminLayout> : <Navigate to="/login" />,
-    },
-    
-    // Add the new Marketing route for brands
-    {
-      path: "/brand/marketing",
-      element: isLoggedIn && userType === "brand" ? <BrandLayout><Marketing /></BrandLayout> : <Navigate to="/login" />,
-    },
-    
-    // Add the new Email Credits management route for admin
-    {
-      path: "/admin/email-credits",
-      element: isLoggedIn && userType === "salesManager" ? <AdminLayout><AdminEmailCredits /></AdminLayout> : <Navigate to="/login" />,
-    },
-  ];
-  
   return (
     <Router>
       <Routes>
-        {routes.map((route, index) => (
-          <Route key={index} path={route.path} element={route.element} />
-        ))}
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="contact" element={<Contact />} />
+          <Route path="blog" element={<Blog />} />
+          <Route path="shop" element={<Shop />} />
+          <Route path="product-details/:id" element={<ProductDetails />} />
+        </Route>
+
+        <Route path="/login" element={!isLoggedIn ? <Login /> : <Navigate to="/" />} />
+        <Route path="/register" element={!isLoggedIn ? <Register /> : <Navigate to="/" />} />
+        <Route path="/forgot-password" element={!isLoggedIn ? <ForgotPassword /> : <Navigate to="/" />} />
+        <Route path="/reset-password" element={!isLoggedIn ? <ResetPassword /> : <Navigate to="/" />} />
+
+        {/* Buyer Routes */}
+        <Route 
+          path="/buyer" 
+          element={isLoggedIn && userType === "buyer" ? <BuyerLayout /> : <Navigate to="/login" />}
+        >
+          <Route index element={<BuyerDashboard />} />
+        </Route>
+
+        {/* Brand Routes */}
+        <Route 
+          path="/brand" 
+          element={isLoggedIn && userType === "brand" ? <BrandLayout /> : <Navigate to="/login" />}
+        >
+          <Route index element={<BrandDashboard />} />
+          <Route path="products" element={<BrandProducts />} />
+          <Route path="orders" element={<BrandOrders />} />
+          <Route path="lookbook" element={<BrandLookbook />} />
+          <Route path="additional-services" element={<BrandAdditionalServices />} />
+          <Route path="team" element={<BrandTeam />} />
+          <Route path="store" element={<BrandStore />} />
+          <Route path="messages" element={<BrandMessages />} />
+          <Route path="subscriptions" element={<BrandSubscriptions />} />
+          <Route path="resources" element={<BrandResources />} />
+          <Route path="settings" element={<BrandSettings />} />
+          <Route path="marketing" element={<Marketing />} />
+        </Route>
+
+        {/* Admin Routes */}
+        <Route 
+          path="/admin" 
+          element={isLoggedIn && userType === "salesManager" ? <AdminLayout /> : <Navigate to="/login" />}
+        >
+          <Route index element={<AdminDashboard />} />
+          <Route path="users" element={<Users />} />
+          <Route path="subscriptions" element={<Subscriptions />} />
+          <Route path="email-credits" element={<AdminEmailCredits />} />
+        </Route>
       </Routes>
     </Router>
   );
