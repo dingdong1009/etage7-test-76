@@ -1,8 +1,8 @@
+
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Package, ShoppingCart, Bell, MessageSquare, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
-import BuyerInsights from "@/components/brand/marketing/BuyerInsights";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 // Mock data for the engagement chart
@@ -195,13 +195,9 @@ const BrandDashboard = () => {
         </CardContent>
       </Card>
 
-      {/* Recent Activity and Buyer Insights */}
+      {/* Recent Activity Section */}
       <div className="space-y-8">
-        {/* Buyer Insights Section */}
-        <BuyerInsights />
-
-        {/* Recent Activity Sections */}
-        
+        {/* Any additional sections would go here */}
       </div>
     </div>;
 };
