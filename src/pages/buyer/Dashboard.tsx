@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -16,6 +17,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Checkbox } from "@/components/ui/checkbox";
+import FeaturedProducts from "@/components/buyer/FeaturedProducts";
 
 interface DashboardProduct {
   id: string;
@@ -402,6 +404,9 @@ const Dashboard = () => {
           </Button>
         </div> 
       </section>
+
+      {/* Featured Products Section */}
+      <FeaturedProducts toggleFavorite={toggleFavorite} />
 
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <h1 className="text-4xl md:text-6xl font-light tracking-tighter">PRODUCTS</h1>
