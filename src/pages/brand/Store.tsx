@@ -135,6 +135,14 @@ const BrandStore = () => {
       [platform]: value
     }));
   };
+
+  const handleVisitStore = () => {
+    // Format store name for URL (remove spaces, lowercase)
+    const storeSlug = storeInfo.name.toLowerCase().replace(/\s+/g, '-');
+    // Open in a new tab
+    window.open(`/brand/${storeSlug}`, '_blank');
+  };
+
   return <div className="space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-4xl md:text-6xl uppercase font-thin mb-6">Store Settings</h1>
@@ -381,6 +389,7 @@ interface StorePreviewProps {
   socialMedia: SocialMediaLinks;
   featuredProducts: Product[];
 }
+
 const StorePreview: React.FC<StorePreviewProps> = ({
   template,
   storeInfo,
@@ -423,6 +432,14 @@ const StorePreview: React.FC<StorePreviewProps> = ({
         };
     }
   };
+
+  const handleVisitStore = () => {
+    // Format store name for URL (remove spaces, lowercase)
+    const storeSlug = storeInfo.name.toLowerCase().replace(/\s+/g, '-');
+    // Open in a new tab
+    window.open(`/brand/${storeSlug}`, '_blank');
+  };
+
   const styles = getTemplateStyles();
   return <div className={`border rounded-lg overflow-hidden ${styles.mainBg}`}>
       <header className={`p-8 ${styles.headerBg}`}>
@@ -437,7 +454,9 @@ const StorePreview: React.FC<StorePreviewProps> = ({
             </div>
           </div>
           <div className="flex gap-3">
-            <Button variant="outline">Visit Store</Button>
+            <Button variant="outline" onClick={handleVisitStore}>
+              Visit Store
+            </Button>
             <Dialog>
               <DialogTrigger asChild>
                 <Button variant="ghost" size="icon">
@@ -545,4 +564,5 @@ const StorePreview: React.FC<StorePreviewProps> = ({
       </footer>
     </div>;
 };
+
 export default BrandStore;
