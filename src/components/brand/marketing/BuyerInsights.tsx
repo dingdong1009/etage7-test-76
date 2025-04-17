@@ -5,6 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Heart, ShoppingCart, User, Eye, Package } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts";
+
 const mockFollowers = [{
   id: 1,
   name: "Galeries Lafayette",
@@ -41,6 +42,7 @@ const mockFollowers = [{
   followedDate: "2025-02-15",
   avatar: ""
 }];
+
 const mockLikes = [{
   id: 1,
   name: "Galeries Lafayette",
@@ -72,6 +74,7 @@ const mockLikes = [{
   likedDate: "2025-03-08",
   avatar: ""
 }];
+
 const mockCarts = [{
   id: 1,
   name: "Galeries Lafayette",
@@ -108,6 +111,7 @@ const mockCarts = [{
   addedDate: "2025-03-09",
   avatar: ""
 }];
+
 const mockVisits = [{
   id: 1,
   name: "Galeries Lafayette",
@@ -139,6 +143,7 @@ const mockVisits = [{
   pageViews: 7,
   avatar: ""
 }];
+
 const engagementData = [{
   name: 'Jan',
   followers: 4,
@@ -170,240 +175,337 @@ const engagementData = [{
   carts: 10,
   visits: 35
 }];
+
 const BuyerInsights = () => {
   const [insightTab, setInsightTab] = useState("overview");
-  return <div className="space-y-6">
-      
-      
-      
-      
-      <Tabs value={insightTab} onValueChange={setInsightTab} className="w-full">
-        <TabsList className="bg-transparent p-0 mb-4 border-b w-full flex justify-start space-x-4 h-auto">
-          <TabsTrigger value="overview" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-black border-b-2 border-transparent px-2 py-2 rounded-none text-xs uppercase font-light">
-            All Data
-          </TabsTrigger>
-          <TabsTrigger value="followers" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-black border-b-2 border-transparent px-2 py-2 rounded-none text-xs uppercase font-light">
-            Followers
-          </TabsTrigger>
-          <TabsTrigger value="likes" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-black border-b-2 border-transparent px-2 py-2 rounded-none text-xs uppercase font-light">
-            Likes
-          </TabsTrigger>
-          <TabsTrigger value="carts" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-black border-b-2 border-transparent px-2 py-2 rounded-none text-xs uppercase font-light">
-            Carts
-          </TabsTrigger>
-          <TabsTrigger value="visits" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-black border-b-2 border-transparent px-2 py-2 rounded-none text-xs uppercase font-light">
-            Visits
-          </TabsTrigger>
-        </TabsList>
-        
-        <TabsContent value="followers" className="space-y-4">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="font-light">Buyer</TableHead>
-                <TableHead className="font-light">Location</TableHead>
-                <TableHead className="font-light">Followed Date</TableHead>
-                <TableHead className="font-light text-right">Email</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {mockFollowers.map(follower => <TableRow key={follower.id}>
-                  <TableCell className="font-medium">
+  
+  return (
+    <div className="w-full">
+      <div className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+          <Card className="border-gray-100 shadow-none rounded-none">
+            <CardHeader className="p-4 pb-2">
+              <CardTitle className="text-sm font-light uppercase">Recent Followers</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4">
+              <div className="space-y-4">
+                {mockFollowers.slice(0, 3).map(follower => <div key={follower.id} className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Avatar className="h-8 w-8">
                         <AvatarImage src={follower.avatar} alt={follower.name} />
                         <AvatarFallback className="text-xs">{follower.name.substring(0, 2)}</AvatarFallback>
                       </Avatar>
-                      <span>{follower.name}</span>
+                      <div>
+                        <p className="text-sm font-medium">{follower.name}</p>
+                        <p className="text-xs text-gray-500">{follower.location}</p>
+                      </div>
                     </div>
-                  </TableCell>
-                  <TableCell>{follower.location}</TableCell>
-                  <TableCell>{follower.followedDate}</TableCell>
-                  <TableCell className="text-right">{follower.email}</TableCell>
-                </TableRow>)}
-            </TableBody>
-          </Table>
-        </TabsContent>
-        
-        <TabsContent value="likes" className="space-y-4">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="font-light">Buyer</TableHead>
-                <TableHead className="font-light">Product</TableHead>
-                <TableHead className="font-light text-right">Liked Date</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {mockLikes.map(like => <TableRow key={like.id}>
-                  <TableCell className="font-medium">
+                    <p className="text-xs text-gray-500">{follower.followedDate}</p>
+                  </div>)}
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="border-gray-100 shadow-none rounded-none">
+            <CardHeader className="p-4 pb-2">
+              <CardTitle className="text-sm font-light uppercase">Recent Likes</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4">
+              <div className="space-y-4">
+                {mockLikes.slice(0, 3).map(like => <div key={like.id} className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Avatar className="h-8 w-8">
                         <AvatarImage src={like.avatar} alt={like.name} />
                         <AvatarFallback className="text-xs">{like.name.substring(0, 2)}</AvatarFallback>
                       </Avatar>
-                      <span>{like.name}</span>
+                      <div>
+                        <p className="text-sm font-medium">{like.name}</p>
+                        <p className="text-xs text-gray-500">{like.productName}</p>
+                      </div>
                     </div>
-                  </TableCell>
-                  <TableCell>{like.productName}</TableCell>
-                  <TableCell className="text-right">{like.likedDate}</TableCell>
-                </TableRow>)}
-            </TableBody>
-          </Table>
-        </TabsContent>
-        
-        <TabsContent value="carts" className="space-y-4">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="font-light">Buyer</TableHead>
-                <TableHead className="font-light">Product</TableHead>
-                <TableHead className="font-light">Quantity</TableHead>
-                <TableHead className="font-light text-right">Added Date</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {mockCarts.map(cart => <TableRow key={cart.id}>
-                  <TableCell className="font-medium">
+                    <p className="text-xs text-gray-500">{like.likedDate}</p>
+                  </div>)}
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="border-gray-100 shadow-none rounded-none">
+            <CardHeader className="p-4 pb-2">
+              <CardTitle className="text-sm font-light uppercase">Recent Cart Additions</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4">
+              <div className="space-y-4">
+                {mockCarts.slice(0, 3).map(cart => <div key={cart.id} className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Avatar className="h-8 w-8">
                         <AvatarImage src={cart.avatar} alt={cart.name} />
                         <AvatarFallback className="text-xs">{cart.name.substring(0, 2)}</AvatarFallback>
                       </Avatar>
-                      <span>{cart.name}</span>
+                      <div>
+                        <p className="text-sm font-medium">{cart.name}</p>
+                        <p className="text-xs text-gray-500">{cart.productName} (Qty: {cart.quantity})</p>
+                      </div>
                     </div>
-                  </TableCell>
-                  <TableCell>{cart.productName}</TableCell>
-                  <TableCell>{cart.quantity}</TableCell>
-                  <TableCell className="text-right">{cart.addedDate}</TableCell>
-                </TableRow>)}
-            </TableBody>
-          </Table>
-        </TabsContent>
-        
-        <TabsContent value="visits" className="space-y-4">
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="font-light">Buyer</TableHead>
-                <TableHead className="font-light">Visit Date</TableHead>
-                <TableHead className="font-light text-right">Page Views</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {mockVisits.map(visit => <TableRow key={visit.id}>
-                  <TableCell className="font-medium">
+                    <p className="text-xs text-gray-500">{cart.addedDate}</p>
+                  </div>)}
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="border-gray-100 shadow-none rounded-none">
+            <CardHeader className="p-4 pb-2">
+              <CardTitle className="text-sm font-light uppercase">Recent Profile Visits</CardTitle>
+            </CardHeader>
+            <CardContent className="p-4">
+              <div className="space-y-4">
+                {mockVisits.slice(0, 3).map(visit => <div key={visit.id} className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Avatar className="h-8 w-8">
                         <AvatarImage src={visit.avatar} alt={visit.name} />
                         <AvatarFallback className="text-xs">{visit.name.substring(0, 2)}</AvatarFallback>
                       </Avatar>
-                      <span>{visit.name}</span>
+                      <div>
+                        <p className="text-sm font-medium">{visit.name}</p>
+                        <p className="text-xs text-gray-500">{visit.pageViews} page views</p>
+                      </div>
                     </div>
-                  </TableCell>
-                  <TableCell>{visit.visitDate}</TableCell>
-                  <TableCell className="text-right">{visit.pageViews}</TableCell>
-                </TableRow>)}
-            </TableBody>
-          </Table>
-        </TabsContent>
+                    <p className="text-xs text-gray-500">{visit.visitDate}</p>
+                  </div>)}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
         
-        <TabsContent value="overview" className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card className="border-gray-100 shadow-none rounded-none">
-              <CardHeader className="p-4 pb-2">
-                <CardTitle className="text-sm font-light uppercase">Recent Followers</CardTitle>
-              </CardHeader>
-              <CardContent className="p-4">
-                <div className="space-y-4">
-                  {mockFollowers.slice(0, 3).map(follower => <div key={follower.id} className="flex items-center justify-between">
+        <Tabs value={insightTab} onValueChange={setInsightTab} className="w-full">
+          <TabsList className="bg-transparent p-0 mb-4 border-b w-full flex justify-start space-x-4 h-auto">
+            <TabsTrigger value="overview" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-black border-b-2 border-transparent px-2 py-2 rounded-none text-xs uppercase font-light">
+              All Data
+            </TabsTrigger>
+            <TabsTrigger value="followers" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-black border-b-2 border-transparent px-2 py-2 rounded-none text-xs uppercase font-light">
+              Followers
+            </TabsTrigger>
+            <TabsTrigger value="likes" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-black border-b-2 border-transparent px-2 py-2 rounded-none text-xs uppercase font-light">
+              Likes
+            </TabsTrigger>
+            <TabsTrigger value="carts" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-black border-b-2 border-transparent px-2 py-2 rounded-none text-xs uppercase font-light">
+              Carts
+            </TabsTrigger>
+            <TabsTrigger value="visits" className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-black border-b-2 border-transparent px-2 py-2 rounded-none text-xs uppercase font-light">
+              Visits
+            </TabsTrigger>
+          </TabsList>
+          
+          <TabsContent value="followers" className="space-y-4">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="font-light">Buyer</TableHead>
+                  <TableHead className="font-light">Location</TableHead>
+                  <TableHead className="font-light">Followed Date</TableHead>
+                  <TableHead className="font-light text-right">Email</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {mockFollowers.map(follower => <TableRow key={follower.id}>
+                    <TableCell className="font-medium">
                       <div className="flex items-center space-x-2">
                         <Avatar className="h-8 w-8">
                           <AvatarImage src={follower.avatar} alt={follower.name} />
                           <AvatarFallback className="text-xs">{follower.name.substring(0, 2)}</AvatarFallback>
                         </Avatar>
-                        <div>
-                          <p className="text-sm font-medium">{follower.name}</p>
-                          <p className="text-xs text-gray-500">{follower.location}</p>
-                        </div>
+                        <span>{follower.name}</span>
                       </div>
-                      <p className="text-xs text-gray-500">{follower.followedDate}</p>
-                    </div>)}
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card className="border-gray-100 shadow-none rounded-none">
-              <CardHeader className="p-4 pb-2">
-                <CardTitle className="text-sm font-light uppercase">Recent Likes</CardTitle>
-              </CardHeader>
-              <CardContent className="p-4">
-                <div className="space-y-4">
-                  {mockLikes.slice(0, 3).map(like => <div key={like.id} className="flex items-center justify-between">
+                    </TableCell>
+                    <TableCell>{follower.location}</TableCell>
+                    <TableCell>{follower.followedDate}</TableCell>
+                    <TableCell className="text-right">{follower.email}</TableCell>
+                  </TableRow>)}
+              </TableBody>
+            </Table>
+          </TabsContent>
+          
+          <TabsContent value="likes" className="space-y-4">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="font-light">Buyer</TableHead>
+                  <TableHead className="font-light">Product</TableHead>
+                  <TableHead className="font-light text-right">Liked Date</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {mockLikes.map(like => <TableRow key={like.id}>
+                    <TableCell className="font-medium">
                       <div className="flex items-center space-x-2">
                         <Avatar className="h-8 w-8">
                           <AvatarImage src={like.avatar} alt={like.name} />
                           <AvatarFallback className="text-xs">{like.name.substring(0, 2)}</AvatarFallback>
                         </Avatar>
-                        <div>
-                          <p className="text-sm font-medium">{like.name}</p>
-                          <p className="text-xs text-gray-500">{like.productName}</p>
-                        </div>
+                        <span>{like.name}</span>
                       </div>
-                      <p className="text-xs text-gray-500">{like.likedDate}</p>
-                    </div>)}
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card className="border-gray-100 shadow-none rounded-none">
-              <CardHeader className="p-4 pb-2">
-                <CardTitle className="text-sm font-light uppercase">Recent Cart Additions</CardTitle>
-              </CardHeader>
-              <CardContent className="p-4">
-                <div className="space-y-4">
-                  {mockCarts.slice(0, 3).map(cart => <div key={cart.id} className="flex items-center justify-between">
+                    </TableCell>
+                    <TableCell>{like.productName}</TableCell>
+                    <TableCell className="text-right">{like.likedDate}</TableCell>
+                  </TableRow>)}
+              </TableBody>
+            </Table>
+          </TabsContent>
+          
+          <TabsContent value="carts" className="space-y-4">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="font-light">Buyer</TableHead>
+                  <TableHead className="font-light">Product</TableHead>
+                  <TableHead className="font-light">Quantity</TableHead>
+                  <TableHead className="font-light text-right">Added Date</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {mockCarts.map(cart => <TableRow key={cart.id}>
+                    <TableCell className="font-medium">
                       <div className="flex items-center space-x-2">
                         <Avatar className="h-8 w-8">
                           <AvatarImage src={cart.avatar} alt={cart.name} />
                           <AvatarFallback className="text-xs">{cart.name.substring(0, 2)}</AvatarFallback>
                         </Avatar>
-                        <div>
-                          <p className="text-sm font-medium">{cart.name}</p>
-                          <p className="text-xs text-gray-500">{cart.productName} (Qty: {cart.quantity})</p>
-                        </div>
+                        <span>{cart.name}</span>
                       </div>
-                      <p className="text-xs text-gray-500">{cart.addedDate}</p>
-                    </div>)}
-                </div>
-              </CardContent>
-            </Card>
-            
-            <Card className="border-gray-100 shadow-none rounded-none">
-              <CardHeader className="p-4 pb-2">
-                <CardTitle className="text-sm font-light uppercase">Recent Profile Visits</CardTitle>
-              </CardHeader>
-              <CardContent className="p-4">
-                <div className="space-y-4">
-                  {mockVisits.slice(0, 3).map(visit => <div key={visit.id} className="flex items-center justify-between">
+                    </TableCell>
+                    <TableCell>{cart.productName}</TableCell>
+                    <TableCell>{cart.quantity}</TableCell>
+                    <TableCell className="text-right">{cart.addedDate}</TableCell>
+                  </TableRow>)}
+              </TableBody>
+            </Table>
+          </TabsContent>
+          
+          <TabsContent value="visits" className="space-y-4">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="font-light">Buyer</TableHead>
+                  <TableHead className="font-light">Visit Date</TableHead>
+                  <TableHead className="font-light text-right">Page Views</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {mockVisits.map(visit => <TableRow key={visit.id}>
+                    <TableCell className="font-medium">
                       <div className="flex items-center space-x-2">
                         <Avatar className="h-8 w-8">
                           <AvatarImage src={visit.avatar} alt={visit.name} />
                           <AvatarFallback className="text-xs">{visit.name.substring(0, 2)}</AvatarFallback>
                         </Avatar>
-                        <div>
-                          <p className="text-sm font-medium">{visit.name}</p>
-                          <p className="text-xs text-gray-500">{visit.pageViews} page views</p>
-                        </div>
+                        <span>{visit.name}</span>
                       </div>
-                      <p className="text-xs text-gray-500">{visit.visitDate}</p>
-                    </div>)}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-      </Tabs>
-    </div>;
+                    </TableCell>
+                    <TableCell>{visit.visitDate}</TableCell>
+                    <TableCell className="text-right">{visit.pageViews}</TableCell>
+                  </TableRow>)}
+              </TableBody>
+            </Table>
+          </TabsContent>
+          
+          <TabsContent value="overview" className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <Card className="border-gray-100 shadow-none rounded-none">
+                <CardHeader className="p-4 pb-2">
+                  <CardTitle className="text-sm font-light uppercase">Recent Followers</CardTitle>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <div className="space-y-4">
+                    {mockFollowers.slice(0, 3).map(follower => <div key={follower.id} className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <Avatar className="h-8 w-8">
+                            <AvatarImage src={follower.avatar} alt={follower.name} />
+                            <AvatarFallback className="text-xs">{follower.name.substring(0, 2)}</AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <p className="text-sm font-medium">{follower.name}</p>
+                            <p className="text-xs text-gray-500">{follower.location}</p>
+                          </div>
+                        </div>
+                        <p className="text-xs text-gray-500">{follower.followedDate}</p>
+                      </div>)}
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="border-gray-100 shadow-none rounded-none">
+                <CardHeader className="p-4 pb-2">
+                  <CardTitle className="text-sm font-light uppercase">Recent Likes</CardTitle>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <div className="space-y-4">
+                    {mockLikes.slice(0, 3).map(like => <div key={like.id} className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <Avatar className="h-8 w-8">
+                            <AvatarImage src={like.avatar} alt={like.name} />
+                            <AvatarFallback className="text-xs">{like.name.substring(0, 2)}</AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <p className="text-sm font-medium">{like.name}</p>
+                            <p className="text-xs text-gray-500">{like.productName}</p>
+                          </div>
+                        </div>
+                        <p className="text-xs text-gray-500">{like.likedDate}</p>
+                      </div>)}
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="border-gray-100 shadow-none rounded-none">
+                <CardHeader className="p-4 pb-2">
+                  <CardTitle className="text-sm font-light uppercase">Recent Cart Additions</CardTitle>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <div className="space-y-4">
+                    {mockCarts.slice(0, 3).map(cart => <div key={cart.id} className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <Avatar className="h-8 w-8">
+                            <AvatarImage src={cart.avatar} alt={cart.name} />
+                            <AvatarFallback className="text-xs">{cart.name.substring(0, 2)}</AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <p className="text-sm font-medium">{cart.name}</p>
+                            <p className="text-xs text-gray-500">{cart.productName} (Qty: {cart.quantity})</p>
+                          </div>
+                        </div>
+                        <p className="text-xs text-gray-500">{cart.addedDate}</p>
+                      </div>)}
+                  </div>
+                </CardContent>
+              </Card>
+              
+              <Card className="border-gray-100 shadow-none rounded-none">
+                <CardHeader className="p-4 pb-2">
+                  <CardTitle className="text-sm font-light uppercase">Recent Profile Visits</CardTitle>
+                </CardHeader>
+                <CardContent className="p-4">
+                  <div className="space-y-4">
+                    {mockVisits.slice(0, 3).map(visit => <div key={visit.id} className="flex items-center justify-between">
+                        <div className="flex items-center space-x-2">
+                          <Avatar className="h-8 w-8">
+                            <AvatarImage src={visit.avatar} alt={visit.name} />
+                            <AvatarFallback className="text-xs">{visit.name.substring(0, 2)}</AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <p className="text-sm font-medium">{visit.name}</p>
+                            <p className="text-xs text-gray-500">{visit.pageViews} page views</p>
+                          </div>
+                        </div>
+                        <p className="text-xs text-gray-500">{visit.visitDate}</p>
+                      </div>)}
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
+    </div>
+  );
 };
+
 export default BuyerInsights;
