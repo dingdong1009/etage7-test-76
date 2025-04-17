@@ -87,18 +87,18 @@ const BrandDashboard = () => {
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
               <div className="flex items-center gap-4">
-                <Package className="h-8 w-8 text-gray-400" />
+                <MessageSquare className="h-8 w-8 text-gray-400" />
                 <div>
-                  <p className="text-sm text-gray-500 uppercase">Active Products</p>
-                  <h3 className="text-3xl font-light">{mockData.products.active}</h3>
+                  <p className="text-sm text-gray-500 uppercase">Recent Messages</p>
+                  <h3 className="text-3xl font-light">{mockData.messages.length}</h3>
                 </div>
               </div>
             </div>
             <Link 
-              to="/brand/products" 
+              to="/brand/messages" 
               className="text-xs text-gray-600 hover:text-black flex items-center gap-1 transition-colors"
             >
-              View Products <ChevronRight className="h-3 w-3" />
+              View Messages <ChevronRight className="h-3 w-3" />
             </Link>
           </CardContent>
         </Card>
@@ -134,7 +134,7 @@ const BrandDashboard = () => {
           </CardContent>
         </Card>
 
-        {/* Recent Notifications - Moved to third column */}
+        {/* Recent Notifications */}
         <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-6">
