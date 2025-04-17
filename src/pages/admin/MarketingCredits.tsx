@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { 
   Card, 
@@ -66,8 +65,16 @@ import {
   Plus, 
   Settings, 
   Trash2, 
-  User 
+  User,
+  Eye 
 } from "lucide-react";
+import { Link } from "react-router-dom";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 // Mock brands data for credit management
 const mockBrands = [
@@ -557,6 +564,7 @@ const MarketingCredits = () => {
                     <TableHead className="font-light text-right">Credits</TableHead>
                     <TableHead className="font-light text-right">Price (€)</TableHead>
                     <TableHead className="font-light">Description</TableHead>
+                    <TableHead className="text-right font-light">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -580,6 +588,49 @@ const MarketingCredits = () => {
                       <TableCell className="text-right">{transaction.amount}</TableCell>
                       <TableCell className="text-right">{transaction.price}</TableCell>
                       <TableCell>{transaction.description}</TableCell>
+                      <TableCell className="text-right">
+                        <TooltipProvider>
+                          <div className="flex justify-end gap-1">
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button 
+                                  variant="ghost" 
+                                  size="icon" 
+                                  className="h-8 w-8 hover:bg-gray-100"
+                                  onClick={() => toast({
+                                    title: "View Transaction Details",
+                                    description: `Viewing details for transaction ${transaction.id}`,
+                                  })}
+                                >
+                                  <Eye size={16} />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>View transaction details</p>
+                              </TooltipContent>
+                            </Tooltip>
+                            
+                            <Tooltip>
+                              <TooltipTrigger asChild>
+                                <Button 
+                                  variant="ghost" 
+                                  size="icon" 
+                                  className="h-8 w-8 hover:bg-gray-100"
+                                  onClick={() => toast({
+                                    title: "Export Transaction",
+                                    description: `Exporting transaction ${transaction.id}`,
+                                  })}
+                                >
+                                  <Download size={16} />
+                                </Button>
+                              </TooltipTrigger>
+                              <TooltipContent>
+                                <p>Export transaction</p>
+                              </TooltipContent>
+                            </Tooltip>
+                          </div>
+                        </TooltipProvider>
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -687,202 +738,3 @@ const MarketingCredits = () => {
                         <SelectItem value="Promotion">Promotion</SelectItem>
                         <SelectItem value="Compensation">Compensation</SelectItem>
                       </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={brandForm.control}
-                name="notes"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sm font-light">Notes (Optional)</FormLabel>
-                    <FormControl>
-                      <Textarea 
-                        placeholder="Add any additional notes about this credit addition" 
-                        className="rounded-none border-gray-200" 
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={brandForm.control}
-                name="notify"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-center space-x-2 space-y-0">
-                    <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormLabel className="text-sm font-light">
-                      Notify brand via email
-                    </FormLabel>
-                  </FormItem>
-                )}
-              />
-
-              <DialogFooter>
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  size="sm"
-                  className="text-xs rounded-none font-light"
-                  onClick={() => setIsAddBrandCreditsOpen(false)}
-                >
-                  Cancel
-                </Button>
-                <Button 
-                  type="submit" 
-                  size="sm"
-                  className="bg-black text-white hover:bg-gray-800 text-xs rounded-none font-light"
-                >
-                  <Plus className="w-3 h-3 mr-1" strokeWidth={1.5} />
-                  Add Credits
-                </Button>
-              </DialogFooter>
-            </form>
-          </Form>
-        </DialogContent>
-      </Dialog>
-      
-      {/* Edit Package Dialog */}
-      <Dialog open={isEditPackageOpen} onOpenChange={setIsEditPackageOpen}>
-        <DialogContent className="sm:max-w-[500px] rounded-none">
-          <DialogHeader>
-            <DialogTitle className="text-lg font-light">{selectedPackageId ? 'Edit' : 'Create'} Credit Package</DialogTitle>
-            <DialogDescription>
-              {selectedPackageId ? 'Update the details of this credit package' : 'Create a new credit package for brands to purchase'}
-            </DialogDescription>
-          </DialogHeader>
-          
-          <Form {...packageForm}>
-            <form onSubmit={packageForm.handleSubmit(handleSavePackage)} className="space-y-4">
-              <FormField
-                control={packageForm.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sm font-light">Package Name</FormLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder="e.g. Basic, Standard, Premium" 
-                        className="rounded-none border-gray-200" 
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="grid grid-cols-2 gap-4">
-                <FormField
-                  control={packageForm.control}
-                  name="credits"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-sm font-light">Number of Credits</FormLabel>
-                      <FormControl>
-                        <Input 
-                          type="number" 
-                          min="1" 
-                          className="rounded-none border-gray-200" 
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={packageForm.control}
-                  name="price"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-sm font-light">Price (€)</FormLabel>
-                      <FormControl>
-                        <Input 
-                          type="number" 
-                          min="0" 
-                          className="rounded-none border-gray-200" 
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-
-              <FormField
-                control={packageForm.control}
-                name="description"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sm font-light">Description</FormLabel>
-                    <FormControl>
-                      <Textarea 
-                        placeholder="Brief description of this credit package" 
-                        className="rounded-none border-gray-200" 
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={packageForm.control}
-                name="active"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-center space-x-2 space-y-0">
-                    <FormControl>
-                      <Switch
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </FormControl>
-                    <FormLabel className="text-sm font-light">
-                      Package is active and available for purchase
-                    </FormLabel>
-                  </FormItem>
-                )}
-              />
-
-              <DialogFooter>
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  size="sm"
-                  className="text-xs rounded-none font-light"
-                  onClick={() => setIsEditPackageOpen(false)}
-                >
-                  Cancel
-                </Button>
-                <Button 
-                  type="submit" 
-                  size="sm"
-                  className="bg-black text-white hover:bg-gray-800 text-xs rounded-none font-light"
-                >
-                  {selectedPackageId ? 'Save Changes' : 'Create Package'}
-                </Button>
-              </DialogFooter>
-            </form>
-          </Form>
-        </DialogContent>
-      </Dialog>
-    </div>
-  );
-};
-
-export default MarketingCredits;
