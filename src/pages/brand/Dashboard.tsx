@@ -1,32 +1,55 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { ChartContainer } from "@/components/ui/chart";
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 import { Bell, MessageSquare, Package, ShoppingCart, Megaphone, CreditCard, Settings, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
-
 const BrandDashboard = () => {
   // Sample data for charts
-  const viewsData = [
-    { name: "Jan", views: 65 },
-    { name: "Feb", views: 59 },
-    { name: "Mar", views: 80 },
-    { name: "Apr", views: 81 },
-    { name: "May", views: 56 },
-    { name: "Jun", views: 55 },
-    { name: "Jul", views: 40 }
-  ];
-
-  const conversionData = [
-    { name: "Jan", rate: 2.5 },
-    { name: "Feb", rate: 3.1 },
-    { name: "Mar", rate: 3.5 },
-    { name: "Apr", rate: 3.2 },
-    { name: "May", rate: 3.8 },
-    { name: "Jun", rate: 4.0 },
-    { name: "Jul", rate: 4.2 }
-  ];
+  const viewsData = [{
+    name: "Jan",
+    views: 65
+  }, {
+    name: "Feb",
+    views: 59
+  }, {
+    name: "Mar",
+    views: 80
+  }, {
+    name: "Apr",
+    views: 81
+  }, {
+    name: "May",
+    views: 56
+  }, {
+    name: "Jun",
+    views: 55
+  }, {
+    name: "Jul",
+    views: 40
+  }];
+  const conversionData = [{
+    name: "Jan",
+    rate: 2.5
+  }, {
+    name: "Feb",
+    rate: 3.1
+  }, {
+    name: "Mar",
+    rate: 3.5
+  }, {
+    name: "Apr",
+    rate: 3.2
+  }, {
+    name: "May",
+    rate: 3.8
+  }, {
+    name: "Jun",
+    rate: 4.0
+  }, {
+    name: "Jul",
+    rate: 4.2
+  }];
 
   // Chart configuration object required by ChartContainer
   const chartConfig = {
@@ -39,9 +62,7 @@ const BrandDashboard = () => {
       color: "#000"
     }
   };
-
-  return (
-    <div className="space-y-8 animate-fade-in">
+  return <div className="space-y-8 animate-fade-in">
       {/* Hero Section */}
       <div className="relative -mx-8 px-8 py-12 bg-gray-50/50 border-b border-gray-100">
         <div className="max-w-[1481px] mx-auto">
@@ -173,61 +194,10 @@ const BrandDashboard = () => {
 
       {/* Analytics Section */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="border border-gray-200 shadow-none rounded-none">
-          <CardContent className="p-6">
-            <h3 className="text-lg font-light mb-6 uppercase">Product Views</h3>
-            <div className="h-[300px]">
-              <ChartContainer config={chartConfig}>
-                <LineChart
-                  data={viewsData}
-                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f1f1" />
-                  <XAxis dataKey="name" stroke="#666" />
-                  <YAxis stroke="#666" />
-                  <Tooltip formatter={(value) => `${value} views`} />
-                  <Legend />
-                  <Line 
-                    type="monotone" 
-                    dataKey="views" 
-                    stroke="#000" 
-                    activeDot={{ r: 8 }}
-                    strokeWidth={2}
-                  />
-                </LineChart>
-              </ChartContainer>
-            </div>
-          </CardContent>
-        </Card>
+        
 
-        <Card className="border border-gray-200 shadow-none rounded-none">
-          <CardContent className="p-6">
-            <h3 className="text-lg font-light mb-6 uppercase">Conversion Rates</h3>
-            <div className="h-[300px]">
-              <ChartContainer config={chartConfig}>
-                <BarChart
-                  data={conversionData}
-                  margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" stroke="#f1f1f1" />
-                  <XAxis dataKey="name" stroke="#666" />
-                  <YAxis stroke="#666" />
-                  <Tooltip formatter={(value) => `${value}%`} />
-                  <Legend />
-                  <Bar 
-                    dataKey="rate" 
-                    name="Conversion Rate" 
-                    fill="#000"
-                    radius={[4, 4, 0, 0]}
-                  />
-                </BarChart>
-              </ChartContainer>
-            </div>
-          </CardContent>
-        </Card>
+        
       </div>
-    </div>
-  );
+    </div>;
 };
-
 export default BrandDashboard;
