@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -49,6 +50,7 @@ import BrandMessages from "./pages/brand/Messages";
 import BrandSubscriptions from "./pages/brand/Subscriptions";
 import BrandResources from "./pages/brand/Resources";
 import BrandSettings from "./pages/brand/Settings";
+import ProductDetail from "./pages/brand/ProductDetail";
 
 // Buyer components
 import BuyerLayout from "./components/buyer/BuyerLayout";
@@ -102,6 +104,7 @@ const App = () => {
             <Route path="/brand" element={<BrandLayout />}>
               <Route index element={<BrandDashboard />} />
               <Route path="products" element={<BrandProducts />} />
+              <Route path="products/:productId" element={<ProductDetail />} />
               <Route path="orders" element={<BrandOrders />} />
               <Route path="orders/:orderId" element={<BrandOrderDetails />} />
               <Route path="lookbook" element={<BrandLookbook />} />

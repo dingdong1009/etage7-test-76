@@ -1,6 +1,6 @@
 
 import { useState } from "react";
-import { ArrowUpDown, CheckCircle, Edit, Eye, Trash2, XCircle } from "lucide-react";
+import { ArrowUpDown, CheckCircle, Edit, Eye, Trash2, XCircle, ExternalLink } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { 
   DropdownMenu,
@@ -17,6 +17,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Product, ColorOption } from "../../../types/product";
+import { useNavigate } from "react-router-dom";
 
 interface ProductTableProps {
   products: Product[];
@@ -37,6 +38,12 @@ export const ProductTable = ({
   deleteProduct,
   onEditProduct
 }: ProductTableProps) => {
+  const navigate = useNavigate();
+  
+  const handleOpenProduct = (productId: number) => {
+    navigate(`/brand/products/${productId}`);
+  };
+
   return (
     <div className="rounded-md border">
       <Table>
@@ -78,7 +85,7 @@ export const ProductTable = ({
                 <ArrowUpDown size={16} className="ml-1.5" />
               </div>
             </TableHead>
-            <TableHead className="w-[100px] text-right">Actions</TableHead>
+            <TableHead className="w-[140px] text-right">Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -134,6 +141,15 @@ export const ProductTable = ({
                 </TableCell>
                 <TableCell>
                   <div className="flex justify-end gap-1">
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-8 w-8" 
+                      title="Open product page"
+                      onClick={() => handleOpenProduct(product.id)}
+                    >
+                      <ExternalLink className="h-4 w-4" />
+                    </Button>
                     <Button 
                       variant="ghost" 
                       size="icon" 
