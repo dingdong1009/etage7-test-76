@@ -28,6 +28,18 @@ const BrandDashboard = () => {
     { name: "Jul", rate: 4.2 }
   ];
 
+  // Chart configuration object required by ChartContainer
+  const chartConfig = {
+    views: {
+      label: "Product Views",
+      color: "#000"
+    },
+    rate: {
+      label: "Conversion Rate",
+      color: "#000"
+    }
+  };
+
   return (
     <div className="space-y-8 animate-fade-in">
       {/* Hero Section */}
@@ -165,7 +177,7 @@ const BrandDashboard = () => {
           <CardContent className="p-6">
             <h3 className="text-lg font-light mb-6 uppercase">Product Views</h3>
             <div className="h-[300px]">
-              <ChartContainer>
+              <ChartContainer config={chartConfig}>
                 <LineChart
                   data={viewsData}
                   margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
@@ -192,7 +204,7 @@ const BrandDashboard = () => {
           <CardContent className="p-6">
             <h3 className="text-lg font-light mb-6 uppercase">Conversion Rates</h3>
             <div className="h-[300px]">
-              <ChartContainer>
+              <ChartContainer config={chartConfig}>
                 <BarChart
                   data={conversionData}
                   margin={{ top: 5, right: 30, left: 20, bottom: 5 }}
