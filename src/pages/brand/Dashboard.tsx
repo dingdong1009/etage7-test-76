@@ -93,8 +93,12 @@ const mockData = {
     time: 'Yesterday'
   }]
 };
+
 const BrandDashboard = () => {
   return <div className="space-y-8 animate-fade-in">
+      {/* Buyer Insights Section */}
+      <BuyerInsights />
+      
       {/* Hero Section */}
       <div className="relative -mx-8 px-8 py-12 bg-gray-50/50 border-b border-gray-100">
         <div className="max-w-[1481px] mx-auto">
@@ -265,11 +269,7 @@ const BrandDashboard = () => {
 
       {/* Recent Activity and Buyer Insights */}
       <div className="space-y-8">
-        {/* Buyer Insights Section */}
-        <BuyerInsights />
-
         {/* Recent Activity Sections */}
-        
       </div>
     </div>;
 };
