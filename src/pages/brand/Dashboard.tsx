@@ -81,8 +81,8 @@ const BrandDashboard = () => {
         </CardContent>
       </Card>
 
-      {/* Product Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      {/* Product Stats and Notifications Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-4">
@@ -120,6 +120,26 @@ const BrandDashboard = () => {
             >
               View All Products <ChevronRight className="h-3 w-3" />
             </Link>
+          </CardContent>
+        </Card>
+
+        {/* Recent Notifications - Moved to third column */}
+        <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center gap-4">
+                <Bell className="h-6 w-6 text-gray-400" />
+                <h3 className="text-lg font-light uppercase">Recent Notifications</h3>
+              </div>
+            </div>
+            <div className="space-y-4">
+              {mockData.notifications.map((notification) => (
+                <div key={notification.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                  <p className="text-sm font-normal">{notification.message}</p>
+                  <p className="text-xs text-gray-500">{notification.time}</p>
+                </div>
+              ))}
+            </div>
           </CardContent>
         </Card>
       </div>
@@ -184,26 +204,6 @@ const BrandDashboard = () => {
                       <p className="text-xs text-gray-500">{message.preview}</p>
                     </div>
                     <p className="text-xs text-gray-500">{message.time}</p>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Notifications */}
-          <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors lg:col-span-2">
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <div className="flex items-center gap-4">
-                  <Bell className="h-6 w-6 text-gray-400" />
-                  <h3 className="text-lg font-light uppercase">Recent Notifications</h3>
-                </div>
-              </div>
-              <div className="space-y-4">
-                {mockData.notifications.map((notification) => (
-                  <div key={notification.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
-                    <p className="text-sm font-normal">{notification.message}</p>
-                    <p className="text-xs text-gray-500">{notification.time}</p>
                   </div>
                 ))}
               </div>
