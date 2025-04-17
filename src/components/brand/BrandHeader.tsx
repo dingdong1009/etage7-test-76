@@ -1,7 +1,7 @@
 
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, MessageSquare, Search, X, ShoppingBag } from "lucide-react";
+import { Menu, MessageSquare, Search, X, Bell } from "lucide-react";
 import { 
   Tooltip, 
   TooltipContent, 
@@ -19,8 +19,8 @@ const BrandHeader = () => {
   
   // Mock notification count - this would be fetched from a backend in a real app
   const messageCount = 1;
-  // Mock cart items count
-  const cartItemsCount = 2;
+  // Mock notification count
+  const notificationCount = 2;
   
   useEffect(() => {
     const handleScroll = () => {
@@ -93,18 +93,18 @@ const BrandHeader = () => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <div className="relative">
-                  <ShoppingBag size={20} className="text-gray-600 hover:text-black cursor-pointer" />
-                  {cartItemsCount > 0 && (
+                  <Bell size={20} className="text-gray-600 hover:text-black cursor-pointer" />
+                  {notificationCount > 0 && (
                     <Badge 
                       className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-white text-black text-xs rounded-full"
                     >
-                      {cartItemsCount}
+                      {notificationCount}
                     </Badge>
                   )}
                 </div>
               </TooltipTrigger>
               <TooltipContent>
-                <p>{cartItemsCount} items in cart</p> 
+                <p>{notificationCount} unread notifications</p> 
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
