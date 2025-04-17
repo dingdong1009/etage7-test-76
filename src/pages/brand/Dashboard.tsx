@@ -1,9 +1,26 @@
-
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Package, ShoppingCart, Bell, MessageSquare, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import BuyerInsights from "@/components/brand/marketing/BuyerInsights";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+
+// Mock data for the engagement chart
+const engagementData = [
+  { name: 'Jan', followers: 4, likes: 8, carts: 2, visits: 15 },
+  { name: 'Feb', followers: 6, likes: 12, carts: 4, visits: 20 },
+  { name: 'Mar', followers: 8, likes: 16, carts: 6, visits: 25 },
+  { name: 'Apr', followers: 10, likes: 14, carts: 8, visits: 30 },
+  { name: 'May', followers: 12, likes: 18, carts: 10, visits: 35 },
+];
 
 // Sample data - in a real app, this would come from your backend
 const mockData = {
@@ -39,6 +56,30 @@ const BrandDashboard = () => {
           </h1>
         </div>
       </div>
+
+      {/* Engagement Overview Chart */}
+      <Card className="border-gray-100 shadow-none rounded-none">
+        <CardHeader className="p-4 pb-2">
+          <CardTitle className="text-sm font-light uppercase">Engagement Overview</CardTitle>
+          <CardDescription className="text-xs">Monthly engagement metrics</CardDescription>
+        </CardHeader>
+        <CardContent className="p-4">
+          <div className="h-80">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={engagementData}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                <XAxis dataKey="name" fontSize={12} />
+                <YAxis fontSize={12} />
+                <Tooltip />
+                <Bar dataKey="followers" name="Followers" fill="#d1d5db" />
+                <Bar dataKey="likes" name="Likes" fill="#9ca3af" />
+                <Bar dataKey="carts" name="Carts" fill="#6b7280" />
+                <Bar dataKey="visits" name="Visits" fill="#374151" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Product Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
