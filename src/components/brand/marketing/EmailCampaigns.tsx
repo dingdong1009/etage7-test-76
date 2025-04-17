@@ -10,7 +10,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Mail, Users, Calendar, Clock, AlertCircle, Send, Edit, Trash2, ChevronDown, Plus } from "lucide-react";
+import { Mail, Users, Calendar, Clock, AlertCircle, Send, Edit, Trash2, ChevronDown, Plus, CreditCard } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
