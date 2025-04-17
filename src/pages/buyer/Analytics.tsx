@@ -807,3 +807,130 @@ const Analytics = () => {
                             id="ai-assist"
                             checked={isAiAssistEnabled}
                             onCheckedChange={setIsAiAssistEnabled}
+                          />
+                        </div>
+                        <p className="text-xs text-gray-500 mt-1">
+                          Enable AI-powered shopping suggestions based on your preferences
+                        </p>
+                        
+                        {aiResults && (
+                          <div className="bg-gray-50 p-3 mt-4 border-l-2 border-gray-300 text-sm">
+                            <p>{aiResults}</p>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  )}
+                </div>
+                
+                <div className="space-y-6">
+                  <div className="border-b border-gray-200 pb-4 mb-4">
+                    <div className="flex items-center justify-between">
+                      <h4 className="text-sm uppercase text-gray-500 font-medium">Price Range</h4>
+                      <div className="text-sm font-light">
+                        {priceRange[0]} - {priceRange[1]} EUR
+                      </div>
+                    </div>
+                    <Slider
+                      defaultValue={[0, 1000]}
+                      min={0}
+                      max={1000}
+                      step={50}
+                      value={priceRange}
+                      onValueChange={setPriceRange}
+                      className="py-4"
+                    />
+                  </div>
+                  
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="in-stock" className="text-sm uppercase text-gray-500 font-medium">
+                      In Stock Only
+                    </Label>
+                    <Switch
+                      id="in-stock"
+                      checked={inStockOnly}
+                      onCheckedChange={setInStockOnly}
+                    />
+                  </div>
+                  
+                  <div className="pt-4 border-t border-gray-200 mt-6">
+                    <Button 
+                      variant="outline"
+                      className="w-full"
+                      onClick={resetFilters}
+                    >
+                      <FilterX size={14} className="mr-2" /> Reset all filters
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </CollapsibleContent>
+      </Collapsible>
+      
+      {filteredProducts.length > 0 && (
+        <FeaturedProducts 
+          products={filteredProducts.filter(p => p.favorite || Math.random() > 0.8).map(product => ({
+            id: product.id,
+            name: product.name,
+            category: product.category,
+            price: product.price,
+            favorite: product.favorite || false,
+            onToggleFavorite: toggleFavorite
+          }))}
+        />
+      )}
+      
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {filteredProducts.map(product => (
+          <div key={product.id} className="border border-gray-200 p-4 bg-white rounded-md">
+            <div className="aspect-[3/4] bg-gray-100 mb-3 rounded-md flex items-center justify-center">
+              <span className="text-gray-400 text-xs">{product.imagePlaceholder}</span>
+            </div>
+            
+            <div>
+              <h3 className="font-medium">{product.name}</h3>
+              <p className="text-sm text-gray-500">{product.category} {product.subCategory && `- ${product.subCategory}`}</p>
+              
+              <div className="flex justify-between items-center mt-3">
+                <span className="font-bold">{product.price}</span>
+                <button 
+                  onClick={() => toggleFavorite(product.id)} 
+                  className="p-1 rounded-full hover:bg-gray-100"
+                >
+                  <Heart 
+                    size={18} 
+                    className={product.favorite ? "fill-black text-black" : "text-gray-400"} 
+                  />
+                </button>
+              </div>
+              
+              <div className="mt-2 text-xs">
+                <span className={`inline-block px-2 py-0.5 rounded-full ${
+                  product.availability === "In Stock" ? "bg-gray-100" : "bg-red-50 text-red-600"
+                }`}>
+                  {product.availability}
+                </span>
+                
+                {product.sustainableCert && product.sustainableCert.length > 0 && (
+                  <span className="inline-block px-2 py-0.5 rounded-full bg-green-50 text-green-600 ml-1">
+                    {product.sustainableCert[0]}
+                  </span>
+                )}
+                
+                {product.exclusivity && (
+                  <span className="inline-block px-2 py-0.5 rounded-full bg-yellow-50 text-amber-600 ml-1">
+                    Exclusive
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default Analytics;
