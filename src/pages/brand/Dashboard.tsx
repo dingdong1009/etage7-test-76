@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Package, ShoppingCart, Bell, MessageSquare, ChevronRight } from "lucide-react";
+import { Package, ShoppingCart, Bell, MessageSquare, ChevronRight, User, Heart, Eye } from "lucide-react";
 import { Link } from "react-router-dom";
 import BuyerInsights from "@/components/brand/marketing/BuyerInsights";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
@@ -104,6 +104,74 @@ const BrandDashboard = () => {
         </div>
       </div>
 
+      {/* Stats Overview Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        <Card className="border-gray-100 shadow-none rounded-none hover:shadow-sm transition-shadow">
+          <CardHeader className="p-4 pb-2">
+            <CardTitle className="text-sm flex items-center gap-2 font-light uppercase">
+              <User size={16} strokeWidth={1} className="text-gray-600" />
+              Following Buyers
+            </CardTitle>
+            <CardDescription className="text-xs">Buyers who follow your brand</CardDescription>
+          </CardHeader>
+          <CardContent className="p-4 pt-0">
+            <div className="text-3xl font-light">{mockData.messages.length}</div>
+          </CardContent>
+        </Card>
+        
+        <Card className="border-gray-100 shadow-none rounded-none hover:shadow-sm transition-shadow">
+          <CardHeader className="p-4 pb-2">
+            <CardTitle className="text-sm flex items-center gap-2 font-light uppercase">
+              <Heart size={16} strokeWidth={1} className="text-gray-600" />
+              Likes
+            </CardTitle>
+            <CardDescription className="text-xs">Buyers who liked your products</CardDescription>
+          </CardHeader>
+          <CardContent className="p-4 pt-0">
+            <div className="text-3xl font-light">{mockData.messages.length}</div>
+          </CardContent>
+        </Card>
+        
+        <Card className="border-gray-100 shadow-none rounded-none hover:shadow-sm transition-shadow">
+          <CardHeader className="p-4 pb-2">
+            <CardTitle className="text-sm flex items-center gap-2 font-light uppercase">
+              <ShoppingCart size={16} strokeWidth={1} className="text-gray-600" />
+              Carts
+            </CardTitle>
+            <CardDescription className="text-xs">Buyers with your products in cart</CardDescription>
+          </CardHeader>
+          <CardContent className="p-4 pt-0">
+            <div className="text-3xl font-light">{mockData.messages.length}</div>
+          </CardContent>
+        </Card>
+        
+        <Card className="border-gray-100 shadow-none rounded-none hover:shadow-sm transition-shadow">
+          <CardHeader className="p-4 pb-2">
+            <CardTitle className="text-sm flex items-center gap-2 font-light uppercase">
+              <Eye size={16} strokeWidth={1} className="text-gray-600" />
+              Profile Visits
+            </CardTitle>
+            <CardDescription className="text-xs">Buyers who viewed your profile</CardDescription>
+          </CardHeader>
+          <CardContent className="p-4 pt-0">
+            <div className="text-3xl font-light">{mockData.messages.length}</div>
+          </CardContent>
+        </Card>
+
+        <Card className="border-gray-100 shadow-none rounded-none hover:shadow-sm transition-shadow">
+          <CardHeader className="p-4 pb-2">
+            <CardTitle className="text-sm flex items-center gap-2 font-light uppercase">
+              <Package size={16} strokeWidth={1} className="text-gray-600" />
+              Active Products
+            </CardTitle>
+            <CardDescription className="text-xs">Currently active products</CardDescription>
+          </CardHeader>
+          <CardContent className="p-4 pt-0">
+            <div className="text-3xl font-light">{mockData.products.active}</div>
+          </CardContent>
+        </Card>
+      </div>
+
       {/* Product Stats and Notifications Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
@@ -205,4 +273,5 @@ const BrandDashboard = () => {
       </div>
     </div>;
 };
+
 export default BrandDashboard;
