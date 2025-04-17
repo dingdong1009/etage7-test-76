@@ -1,14 +1,9 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { 
-  Package, 
-  ShoppingCart, 
-  Bell, 
-  MessageSquare,
-  ChevronRight 
-} from "lucide-react";
+import { Package, ShoppingCart, Bell, MessageSquare, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import BuyerInsights from "@/components/brand/marketing/BuyerInsights";
 
 // Sample data - in a real app, this would come from your backend
 const mockData = {
@@ -88,86 +83,92 @@ const BrandDashboard = () => {
         </Card>
       </div>
 
-      {/* Recent Activity Sections */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Recent Orders */}
-        <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-4">
-                <ShoppingCart className="h-6 w-6 text-gray-400" />
-                <h3 className="text-lg font-light uppercase">Recent Orders</h3>
-              </div>
-              <Button variant="ghost" size="sm" className="text-xs" asChild>
-                <Link to="/brand/orders">
-                  View All <ChevronRight className="h-4 w-4 ml-1" />
-                </Link>
-              </Button>
-            </div>
-            <div className="space-y-4">
-              {mockData.recentOrders.map((order) => (
-                <div key={order.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
-                  <div>
-                    <p className="text-sm font-normal">{order.customer}</p>
-                    <p className="text-xs text-gray-500">{order.date}</p>
-                  </div>
-                  <div className="text-right">
-                    <p className="text-sm font-normal">{order.amount}</p>
-                    <p className="text-xs text-gray-500 uppercase">{order.status}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+      {/* Recent Activity and Buyer Insights */}
+      <div className="space-y-8">
+        {/* Buyer Insights Section */}
+        <BuyerInsights />
 
-        {/* Recent Messages */}
-        <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-4">
-                <MessageSquare className="h-6 w-6 text-gray-400" />
-                <h3 className="text-lg font-light uppercase">Recent Messages</h3>
+        {/* Recent Activity Sections */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Recent Orders */}
+          <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-4">
+                  <ShoppingCart className="h-6 w-6 text-gray-400" />
+                  <h3 className="text-lg font-light uppercase">Recent Orders</h3>
+                </div>
+                <Button variant="ghost" size="sm" className="text-xs" asChild>
+                  <Link to="/brand/orders">
+                    View All <ChevronRight className="h-4 w-4 ml-1" />
+                  </Link>
+                </Button>
               </div>
-              <Button variant="ghost" size="sm" className="text-xs" asChild>
-                <Link to="/brand/messages">
-                  View All <ChevronRight className="h-4 w-4 ml-1" />
-                </Link>
-              </Button>
-            </div>
-            <div className="space-y-4">
-              {mockData.messages.map((message) => (
-                <div key={message.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
-                  <div>
-                    <p className="text-sm font-normal">{message.from}</p>
-                    <p className="text-xs text-gray-500">{message.preview}</p>
+              <div className="space-y-4">
+                {mockData.recentOrders.map((order) => (
+                  <div key={order.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                    <div>
+                      <p className="text-sm font-normal">{order.customer}</p>
+                      <p className="text-xs text-gray-500">{order.date}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-normal">{order.amount}</p>
+                      <p className="text-xs text-gray-500 uppercase">{order.status}</p>
+                    </div>
                   </div>
-                  <p className="text-xs text-gray-500">{message.time}</p>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Notifications */}
-        <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors lg:col-span-2">
-          <CardContent className="p-6">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-4">
-                <Bell className="h-6 w-6 text-gray-400" />
-                <h3 className="text-lg font-light uppercase">Recent Notifications</h3>
+                ))}
               </div>
-            </div>
-            <div className="space-y-4">
-              {mockData.notifications.map((notification) => (
-                <div key={notification.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
-                  <p className="text-sm font-normal">{notification.message}</p>
-                  <p className="text-xs text-gray-500">{notification.time}</p>
+            </CardContent>
+          </Card>
+
+          {/* Recent Messages */}
+          <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-4">
+                  <MessageSquare className="h-6 w-6 text-gray-400" />
+                  <h3 className="text-lg font-light uppercase">Recent Messages</h3>
                 </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+                <Button variant="ghost" size="sm" className="text-xs" asChild>
+                  <Link to="/brand/messages">
+                    View All <ChevronRight className="h-4 w-4 ml-1" />
+                  </Link>
+                </Button>
+              </div>
+              <div className="space-y-4">
+                {mockData.messages.map((message) => (
+                  <div key={message.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                    <div>
+                      <p className="text-sm font-normal">{message.from}</p>
+                      <p className="text-xs text-gray-500">{message.preview}</p>
+                    </div>
+                    <p className="text-xs text-gray-500">{message.time}</p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Notifications */}
+          <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors lg:col-span-2">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-4">
+                  <Bell className="h-6 w-6 text-gray-400" />
+                  <h3 className="text-lg font-light uppercase">Recent Notifications</h3>
+                </div>
+              </div>
+              <div className="space-y-4">
+                {mockData.notifications.map((notification) => (
+                  <div key={notification.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                    <p className="text-sm font-normal">{notification.message}</p>
+                    <p className="text-xs text-gray-500">{notification.time}</p>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
