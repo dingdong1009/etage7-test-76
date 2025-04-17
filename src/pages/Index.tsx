@@ -3,8 +3,6 @@ import { ArrowRight, Check, ChevronDown, ChevronUp, ChevronRight } from "lucide-
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { PricingTable, PricingPlan } from "@/components/PricingTable";
-import { useIsMobile } from "@/hooks/use-mobile";
-
 const Index = () => {
   const [scrolled, setScrolled] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
@@ -13,8 +11,6 @@ const Index = () => {
   const [isBuyerAnimating, setIsBuyerAnimating] = useState(false);
   const brandContentRef = useRef<HTMLDivElement>(null);
   const buyerContentRef = useRef<HTMLDivElement>(null);
-  const isMobile = useIsMobile();
-
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
@@ -22,7 +18,6 @@ const Index = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
@@ -31,7 +26,6 @@ const Index = () => {
       });
     }
   };
-
   const pricingPlans: PricingPlan[] = [{
     name: "6-MONTH",
     price: "₽ 170'000",
@@ -45,7 +39,6 @@ const Index = () => {
     buttonText: "Subscribe 12-Month",
     highlight: true
   }];
-
   const togglePricing = () => {
     if (isAnimating) return;
     setIsAnimating(true);
@@ -89,7 +82,6 @@ const Index = () => {
       }
     }
   };
-
   const toggleBuyerInfo = () => {
     if (isBuyerAnimating) return;
     setIsBuyerAnimating(true);
@@ -133,7 +125,6 @@ const Index = () => {
       }
     }
   };
-
   return <div className="w-full">
       <section id="hero" className="relative h-screen bg-black text-white flex items-center">
         <div className="container-lg">
@@ -154,7 +145,7 @@ const Index = () => {
         </button>
       </section>
 
-      <section id="brand" className="relative min-h-screen bg-white text-black flex items-center overflow-hidden py-16">
+      <section id="brand" className="relative h-screen bg-white text-black flex items-center overflow-hidden">
         <div className="container-lg">
           <div className="max-w-3xl" ref={brandContentRef}>
             {!showPricing ? <>
@@ -182,7 +173,7 @@ const Index = () => {
                     <ChevronRight className={`ml-2 h-5 w-5 transform rotate-180 transition-transform duration-300`} /> BACK
                   </button>
                    
-                  <div className="grid grid-cols-1 gap-8 sm:gap-6 max-w-5xl mx-auto px-4 sm:px-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl">
                     {pricingPlans.map((plan, index) => <PricingTable key={index} plan={plan} />)}
                   </div>
                 </div>
@@ -310,10 +301,16 @@ const Index = () => {
                 Join Us <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
               </Link>
             </Button>
+{/*            <Button asChild className="bg-transparent text-white border border-white hover:bg-white/10 btn">
+//              <Link to="/buyers">
+//                FOR BUYERS <ArrowRight className="ml-2 h-4 w-4" strokeWidth={1} />
+//              </Link>
+            </Button>
+
+*/}
           </div>
         </div>
       </section>
     </div>;
 };
-
 export default Index;
