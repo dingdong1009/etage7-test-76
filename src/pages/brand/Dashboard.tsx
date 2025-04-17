@@ -134,27 +134,20 @@ const BrandDashboard = () => {
           </CardContent>
         </Card>
 
+        {/* Recent Notifications - Moved to third column */}
         <Card className="border border-gray-200 shadow-none rounded-none hover:border-black transition-colors">
           <CardContent className="p-6">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-4">
-                <MessageSquare className="h-6 w-6 text-gray-400" />
-                <h3 className="text-lg font-light uppercase">Recent Messages</h3>
+                <Bell className="h-6 w-6 text-gray-400" />
+                <h3 className="text-lg font-light uppercase">Recent Notifications</h3>
               </div>
-              <Button variant="ghost" size="sm" className="text-xs" asChild>
-                <Link to="/brand/messages">
-                  View All <ChevronRight className="h-4 w-4 ml-1" />
-                </Link>
-              </Button>
             </div>
             <div className="space-y-4">
-              {mockData.messages.map((message) => (
-                <div key={message.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
-                  <div>
-                    <p className="text-sm font-normal">{message.from}</p>
-                    <p className="text-xs text-gray-500">{message.preview}</p>
-                  </div>
-                  <p className="text-xs text-gray-500">{message.time}</p>
+              {mockData.notifications.map((notification) => (
+                <div key={notification.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
+                  <p className="text-sm font-normal">{notification.message}</p>
+                  <p className="text-xs text-gray-500">{notification.time}</p>
                 </div>
               ))}
             </div>
