@@ -129,15 +129,11 @@ const App = () => {
             {/* Admin routes */}
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
+              <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="users" element={<AdminUsers />} />
-              <Route path="contracts" element={<AdminContracts />} />
-              <Route path="pages" element={<AdminPages />} />
-              <Route path="announcements" element={<AdminAnnouncements />} />
-              <Route path="settings" element={<AdminSettings />} />
-              <Route path="subscriptions" element={<AdminSubscriptions />} />
-              <Route path="additional-services" element={<AdminAdditionalServices />} />
-              <Route path="resources" element={<AdminResources />} />
-              <Route path="marketing-credits" element={<MarketingCredits />} />
+              <Route path="paid-services" element={<PaidServices />} />
+              <Route path="agenda" element={<Agenda />} />
+              <Route path="administration" element={<Administration />} />
             </Route>
             
             {/* Sales routes */}

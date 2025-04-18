@@ -2,20 +2,20 @@
 import React from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const Users = () => {
+const PaidServices = () => {
   return (
     <div className="space-y-6">
-      <h1 className="text-3xl font-bold tracking-tight">Users</h1>
+      <h1 className="text-3xl font-bold tracking-tight">Paid Services</h1>
       <Card>
         <CardHeader>
-          <CardTitle>User Management</CardTitle>
+          <CardTitle>Paid Services Management</CardTitle>
         </CardHeader>
         <CardContent>
-          <p className="text-muted-foreground">Users content will be displayed here.</p>
+          <p className="text-muted-foreground">Paid services content will be displayed here.</p>
         </CardContent>
       </Card>
     </div>
   );
 };
 
-export default Users;
+export default PaidServices;
