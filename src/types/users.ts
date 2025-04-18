@@ -1,4 +1,3 @@
-
 export type UserType = "brand" | "buyer" | "salesManager";
 export type ViewMode = "list" | "view" | "edit" | "add";
 export type UserStatus = "active" | "pending" | "rejected" | "inactive";
@@ -88,14 +87,28 @@ export interface MonthlySubscriptionData {
 
 export interface RegistrationRequest {
   id: number;
-  type: "brand" | "buyer";
-  name: string;
+  companyName: string;
   contactPerson: string;
+  userType: UserType;
   email: string;
   phone: string;
-  status: "pending" | "approved" | "rejected";
+  description: string;
   registrationDate: string;
-  website?: string;
-  description?: string;
+  status: "pending" | "approved" | "rejected";
   assignedManager?: number;
+}
+
+export interface InvitedUser {
+  id: number;
+  invitedBy: string;
+  companyName: string;
+  contactPerson: string;
+  phone: string;
+  email: string;
+  dateInvited: string;
+  linkClicked: boolean;
+  registered: boolean;
+  converted: boolean;
+  assignedManager?: number;
+  status: UserStatus;
 }
