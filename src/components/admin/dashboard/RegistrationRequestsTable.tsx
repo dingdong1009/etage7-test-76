@@ -121,15 +121,15 @@ const RegistrationRequestsTable: React.FC<RegistrationRequestsTableProps> = ({
                 <TableRow key={request.id}>
                   <TableCell className="font-light">
                     <div className="flex items-center">
-                      {request.type === "brand" ? (
+                      {request.userType === "brand" ? (
                         <Building className="mr-2 h-4 w-4 text-gray-400" />
                       ) : (
                         <Store className="mr-2 h-4 w-4 text-gray-400" />
                       )}
-                      {request.type === "brand" ? "Brand" : "Buyer"}
+                      {request.userType === "brand" ? "Brand" : "Buyer"}
                     </div>
                   </TableCell>
-                  <TableCell className="font-light">{request.name}</TableCell>
+                  <TableCell className="font-light">{request.companyName}</TableCell>
                   <TableCell className="font-light">
                     <div className="flex flex-col space-y-1">
                       <div className="flex items-center">

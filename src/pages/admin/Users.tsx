@@ -9,8 +9,51 @@ import InvitedUsers from "@/components/admin/users/InvitedUsers";
 import SalesManagerList from "@/components/admin/users/SalesManagerList";
 import InviteUserForm from "@/components/admin/users/InviteUserForm";
 
+// Mock data for sales managers
+const mockSalesManagers: SalesManager[] = [
+  {
+    id: 1,
+    name: "Jessica Thompson",
+    status: "active",
+    email: "jessica@etage7.com",
+    phone: "+1 (555) 123-4567",
+    startDate: "March 2017",
+    yearsInCompany: 6,
+    salaryPerMonth: "$7,500",
+    totalCommissions: "$230,000",
+    ytdCommissions: "$78,500",
+    commissionRate: "3.2%",
+  },
+  {
+    id: 2,
+    name: "Marcus Rodriguez",
+    status: "active",
+    email: "marcus@etage7.com",
+    phone: "+1 (555) 234-5678",
+    startDate: "June 2019",
+    yearsInCompany: 4,
+    salaryPerMonth: "$6,500",
+    totalCommissions: "$120,000",
+    ytdCommissions: "$45,200",
+    commissionRate: "2.8%",
+  },
+];
+
 const Users = () => {
   const [activeTab, setActiveTab] = useState("pending");
+  const [statusFilter, setStatusFilter] = useState("all");
+  
+  const handleAddUser = () => {
+    console.log("Add new user");
+  };
+  
+  const handleViewUser = (userType: string, userId: number) => {
+    console.log("View user", userType, userId);
+  };
+  
+  const handleEditUser = (userType: string, userId: number) => {
+    console.log("Edit user", userType, userId);
+  };
 
   return (
     <div className="space-y-6">
@@ -74,7 +117,14 @@ const Users = () => {
           </TabsContent>
           
           <TabsContent value="sales">
-            <SalesManagerList />
+            <SalesManagerList 
+              salesManagers={mockSalesManagers} 
+              statusFilter={statusFilter} 
+              setStatusFilter={setStatusFilter}
+              handleAddUser={handleAddUser}
+              handleViewUser={handleViewUser}
+              handleEditUser={handleEditUser}
+            />
           </TabsContent>
           
           <TabsContent value="invite">

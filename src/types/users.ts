@@ -1,3 +1,4 @@
+
 export type UserType = "brand" | "buyer" | "salesManager";
 export type ViewMode = "list" | "view" | "edit" | "add";
 export type UserStatus = "active" | "pending" | "rejected" | "inactive";
@@ -20,6 +21,7 @@ export interface Brand {
   totalSales: string;
   assignedManager?: number;
   registrationDate?: string;
+  type?: "brand"; // Added type field for easier use in components
 }
 
 export interface Buyer {
@@ -40,6 +42,7 @@ export interface Buyer {
   annualPurchases: string;
   assignedManager?: number;
   registrationDate?: string;
+  type?: "buyer"; // Added type field for easier use in components
 }
 
 export interface SalesManager {
@@ -96,6 +99,9 @@ export interface RegistrationRequest {
   registrationDate: string;
   status: "pending" | "approved" | "rejected";
   assignedManager?: number;
+  website?: string;
+  name?: string; // Added name field to match usage in components
+  type?: "brand" | "buyer"; // Added type field to match usage in components
 }
 
 export interface InvitedUser {

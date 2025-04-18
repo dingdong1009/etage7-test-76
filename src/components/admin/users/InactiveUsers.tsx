@@ -16,6 +16,7 @@ const mockInactiveUsers: InactiveUser[] = [
     name: "Vintage Boutique",
     status: "inactive",
     plan: "Basic",
+    lastActivity: "2023-12-15",
     activeSince: "2023-06-15",
     assignedManager: 2,
     registrationDate: "2023-06-01",

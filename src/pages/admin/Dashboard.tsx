@@ -12,8 +12,8 @@ const AdminDashboard = () => {
   const [registrationRequests, setRegistrationRequests] = useState<RegistrationRequest[]>([
     {
       id: 1,
-      type: "brand",
-      name: "Nouveau Fashion",
+      userType: "brand",
+      companyName: "Nouveau Fashion",
       contactPerson: "Emma Johnson",
       email: "emma@nouveaufashion.com",
       phone: "+1 (555) 123-4567",
@@ -24,8 +24,8 @@ const AdminDashboard = () => {
     },
     {
       id: 2,
-      type: "buyer",
-      name: "Elite Department Stores",
+      userType: "buyer",
+      companyName: "Elite Department Stores",
       contactPerson: "Michael Smith",
       email: "michael@elitestores.com",
       phone: "+1 (555) 234-5678",
@@ -36,8 +36,8 @@ const AdminDashboard = () => {
     },
     {
       id: 3,
-      type: "brand",
-      name: "Heritage Apparel Co.",
+      userType: "brand",
+      companyName: "Heritage Apparel Co.",
       contactPerson: "David Wilson",
       email: "david@heritageapparel.com",
       phone: "+1 (555) 345-6789",
@@ -49,8 +49,8 @@ const AdminDashboard = () => {
     },
     {
       id: 4,
-      type: "buyer",
-      name: "Boutique Collection",
+      userType: "buyer",
+      companyName: "Boutique Collection",
       contactPerson: "Sophia Garcia",
       email: "sophia@boutiquecollection.com",
       phone: "+1 (555) 456-7890",
@@ -61,8 +61,8 @@ const AdminDashboard = () => {
     },
     {
       id: 5,
-      type: "brand",
-      name: "Modern Essentials",
+      userType: "brand",
+      companyName: "Modern Essentials",
       contactPerson: "James Brown",
       email: "james@modernessentials.com",
       phone: "+1 (555) 567-8901",

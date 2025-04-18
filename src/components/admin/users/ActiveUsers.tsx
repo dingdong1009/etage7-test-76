@@ -16,6 +16,7 @@ const mockActiveUsers: ActiveUser[] = [
     name: "Luxury Fashion Co",
     status: "active",
     plan: "Premium",
+    lastActivity: "2024-04-10",
     activeSince: "2024-01-15",
     assignedManager: 1,
     registrationDate: "2024-01-01",
