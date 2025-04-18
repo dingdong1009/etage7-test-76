@@ -1,9 +1,9 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
+
 import Layout from "./components/Layout";
 import Index from "./pages/Index";
 import BrandsPage from "./pages/BrandsPage";
@@ -31,13 +31,9 @@ import BrandPaidServices from "./pages/brand/PaidServices";
 import AdminLayout from "./components/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminUsers from "./pages/admin/Users";
-import AdminContracts from "./pages/admin/Contracts";
-import AdminPages from "./pages/admin/Pages";
-import AdminAnnouncements from "./pages/admin/Announcements";
-import AdminSettings from "./pages/admin/Settings";
-import AdminSubscriptions from "./pages/admin/Subscriptions";
-import AdminAdditionalServices from "./pages/admin/AdditionalServices";
-import AdminResources from "./pages/admin/Resources";
+import Administration from "./pages/admin/Administration";
+import Agenda from "./pages/admin/Agenda";
+import AdminPaidServices from "./pages/admin/PaidServices";
 
 // Brand components
 import BrandLayout from "./components/brand/BrandLayout";
@@ -71,11 +67,6 @@ import SalesUsers from "./pages/sales/Users";
 import SalesMessages from "./pages/sales/Messages";
 import SalesSettings from "./pages/sales/Settings";
 
-// Admin pages
-import AdminPaidServices from "./pages/admin/PaidServices";
-import Agenda from "./pages/admin/Agenda";
-import Administration from "./pages/admin/Administration";
-
 // Initialize QueryClient
 const queryClient = new QueryClient();
 
@@ -106,7 +97,6 @@ const App = () => {
               <Route path="*" element={<NotFound />} />
             </Route>
             
-            {/* Brand portal routes */}
             <Route path="/brand" element={<BrandLayout />}>
               <Route index element={<BrandDashboard />} />
               <Route path="products" element={<BrandProducts />} />
@@ -121,7 +111,6 @@ const App = () => {
               <Route path="settings" element={<BrandSettings />} />
             </Route>
             
-            {/* Buyer portal routes */}
             <Route path="/buyer" element={<BuyerLayout />}>
               <Route index element={<BuyerDashboard />} />
               <Route path="orders" element={<BuyerOrders />} />
@@ -132,7 +121,6 @@ const App = () => {
               <Route path="settings" element={<BuyerSettings />} />
             </Route>
             
-            {/* Admin routes */}
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
               <Route path="dashboard" element={<AdminDashboard />} />
@@ -140,17 +128,8 @@ const App = () => {
               <Route path="paid-services" element={<AdminPaidServices />} />
               <Route path="agenda" element={<Agenda />} />
               <Route path="administration" element={<Administration />} />
-              <Route path="contracts" element={<AdminContracts />} />
-              <Route path="pages" element={<AdminPages />} />
-              <Route path="announcements" element={<AdminAnnouncements />} />
-              <Route path="settings" element={<AdminSettings />} />
-              <Route path="subscriptions" element={<AdminSubscriptions />} />
-              <Route path="additional-services" element={<AdminAdditionalServices />} />
-              <Route path="resources" element={<AdminResources />} />
-              <Route path="marketing-credits" element={<MarketingCredits />} />
             </Route>
             
-            {/* Sales routes */}
             <Route path="/sales" element={<SalesLayout />}>
               <Route index element={<SalesDashboard />} />
               <Route path="performance" element={<SalesPerformance />} />
