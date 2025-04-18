@@ -1,7 +1,8 @@
-
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Legend, BarChart, Bar } from "recharts";
-import { Store, Users, BadgeDollarSign, ChartLine, User, Heart, ShoppingCart, Eye } from "lucide-react";
+import { Store, Users, BadgeDollarSign, ChartLine, Mail, MailOpen, Clock, UserCheck, UserX } from "lucide-react";
+import { InvitedUser } from "@/types/users";
+import InvitedUsersTable from "@/components/sales/dashboard/InvitedUsersTable";
 
 const SalesDashboard = () => {
   const stats = [
@@ -35,7 +36,6 @@ const SalesDashboard = () => {
     }
   ];
 
-  // Sample data for the charts - in a real application this would come from an API
   const monthlyBrandsData = [
     { name: 'Jan', brands: 10, buyers: 45 },
     { name: 'Feb', brands: 14, buyers: 52 },
@@ -54,6 +54,48 @@ const SalesDashboard = () => {
     { name: 'Jun', commission: 12450, orders: 156 }
   ];
 
+  const mockInvitedUsers: InvitedUser[] = [
+    {
+      id: 1,
+      invitedBy: "Sales Manager 1",
+      companyName: "New Fashion Brand",
+      contactPerson: "Sarah Johnson",
+      phone: "+1234567890",
+      email: "sarah@newfashion.com",
+      dateInvited: "2024-04-15",
+      linkClicked: true,
+      registered: false,
+      converted: false,
+      status: "pending"
+    },
+    {
+      id: 2,
+      invitedBy: "Sales Manager 1",
+      companyName: "Luxury Boutique",
+      contactPerson: "Michael Chen",
+      phone: "+1234567891",
+      email: "michael@luxuryboutique.com",
+      dateInvited: "2024-04-14",
+      linkClicked: true,
+      registered: true,
+      converted: true,
+      status: "active"
+    },
+    {
+      id: 3,
+      invitedBy: "Sales Manager 1",
+      companyName: "Style Emporium",
+      contactPerson: "Emma Davis",
+      phone: "+1234567892",
+      email: "emma@styleemporium.com",
+      dateInvited: "2024-04-13",
+      linkClicked: false,
+      registered: false,
+      converted: false,
+      status: "pending"
+    }
+  ];
+
   return (
     <div className="space-y-8">
       <div>
@@ -63,7 +105,6 @@ const SalesDashboard = () => {
         </p>
       </div>
 
-      {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, index) => (
           <Card key={index} className="border border-gray-200 shadow-none rounded-none hover:shadow-sm transition-shadow">
@@ -82,7 +123,6 @@ const SalesDashboard = () => {
         ))}
       </div>
 
-      {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="border-gray-200 shadow-none rounded-none">
           <CardHeader className="p-4 pb-2">
@@ -152,6 +192,10 @@ const SalesDashboard = () => {
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      <div className="border-t border-gray-100 pt-6">
+        <InvitedUsersTable invitedUsers={mockInvitedUsers} />
       </div>
     </div>
   );
