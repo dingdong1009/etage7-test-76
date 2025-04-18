@@ -1,3 +1,4 @@
+
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -24,7 +25,7 @@ import FaqPage from "./pages/FaqPage";
 import BrandStorefront from "./pages/brand/BrandStorefront";
 import Marketing from "./pages/brand/Marketing";
 import MarketingCredits from "./pages/admin/MarketingCredits";
-import PaidServices from "./pages/brand/PaidServices";
+import BrandPaidServices from "./pages/brand/PaidServices";
 
 // Admin components
 import AdminLayout from "./components/admin/AdminLayout";
@@ -70,7 +71,8 @@ import SalesUsers from "./pages/sales/Users";
 import SalesMessages from "./pages/sales/Messages";
 import SalesSettings from "./pages/sales/Settings";
 
-import PaidServices from "./pages/admin/PaidServices";
+// Admin pages
+import AdminPaidServices from "./pages/admin/PaidServices";
 import Agenda from "./pages/admin/Agenda";
 import Administration from "./pages/admin/Administration";
 
@@ -112,7 +114,7 @@ const App = () => {
               <Route path="orders/:orderId" element={<BrandOrderDetails />} />
               <Route path="lookbook" element={<BrandLookbook />} />
               <Route path="marketing" element={<Marketing />} />
-              <Route path="paid-services" element={<PaidServices />} />
+              <Route path="paid-services" element={<BrandPaidServices />} />
               <Route path="store" element={<BrandStore />} />
               <Route path="messages" element={<BrandMessages />} />
               <Route path="resources" element={<BrandResources />} />
@@ -135,7 +137,7 @@ const App = () => {
               <Route index element={<AdminDashboard />} />
               <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="users" element={<AdminUsers />} />
-              <Route path="paid-services" element={<PaidServices />} />
+              <Route path="paid-services" element={<AdminPaidServices />} />
               <Route path="agenda" element={<Agenda />} />
               <Route path="administration" element={<Administration />} />
               <Route path="contracts" element={<AdminContracts />} />
