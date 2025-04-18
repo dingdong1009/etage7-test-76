@@ -5,7 +5,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Eye, UserCheck, UserX } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { RegistrationRequest } from "@/types/users";
 
 const mockRegistrations: RegistrationRequest[] = [
@@ -18,7 +17,9 @@ const mockRegistrations: RegistrationRequest[] = [
     phone: "+1234567890",
     description: "High-end fashion brand",
     registrationDate: "2024-04-15",
-    status: "pending"
+    status: "pending",
+    name: "Fashion Corp", // Added for component compatibility
+    type: "brand" // Added for component compatibility
   },
   // Add more mock data as needed
 ];

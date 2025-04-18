@@ -28,7 +28,10 @@ const SalesManagerList = ({
 }: SalesManagerListProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   
-  const filteredUsers = salesManagers
+  // Ensure salesManagers is always an array, even if it's undefined
+  const managers = Array.isArray(salesManagers) ? salesManagers : [];
+  
+  const filteredUsers = managers
     .filter(user => statusFilter === "all" || user.status.toLowerCase() === statusFilter.toLowerCase())
     .filter(user => 
       searchQuery === "" || 

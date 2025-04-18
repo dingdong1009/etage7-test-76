@@ -65,7 +65,7 @@ export interface SalesManager {
   activeSince?: string;
   monthlyTarget?: string;
   quarterlyPerformance?: string;
-  lastActivity?: string;
+  lastActivity?: string; // Added as a required field to match component usage
   // New metrics for performance tracking
   totalSubscriptions?: number;
   renewalRate?: string;

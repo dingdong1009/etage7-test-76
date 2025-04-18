@@ -23,6 +23,7 @@ const mockSalesManagers: SalesManager[] = [
     totalCommissions: "$230,000",
     ytdCommissions: "$78,500",
     commissionRate: "3.2%",
+    lastActivity: "2024-03-15", // Added missing required field
   },
   {
     id: 2,
@@ -36,6 +37,7 @@ const mockSalesManagers: SalesManager[] = [
     totalCommissions: "$120,000",
     ytdCommissions: "$45,200",
     commissionRate: "2.8%",
+    lastActivity: "2024-03-20", // Added missing required field
   },
 ];
 
