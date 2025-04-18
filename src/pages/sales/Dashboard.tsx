@@ -1,6 +1,7 @@
+
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Legend, BarChart, Bar } from "recharts";
-import { Store, Users, BadgeDollarSign, ChartLine, Mail, MailOpen, Clock, UserCheck, UserX } from "lucide-react";
+import { Store, Users, BadgeDollarSign, ChartLine, Mail, MailOpen, Clock, UserCheck, UserX, ShoppingBag } from "lucide-react";
 import { InvitedUser } from "@/types/users";
 import InvitedUsersTable from "@/components/sales/dashboard/InvitedUsersTable";
 
@@ -24,7 +25,7 @@ const SalesDashboard = () => {
       title: "New Orders", 
       count: 156, 
       description: "This month", 
-      icon: ShoppingCart,
+      icon: ShoppingBag,
       trend: "+18% from last month"
     },
     { 
