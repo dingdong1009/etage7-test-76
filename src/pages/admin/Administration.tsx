@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -430,7 +429,7 @@ const Administration = () => {
                       <TableCell className="flex items-center">
                         {material.type === "video" && <Video className="h-4 w-4 mr-2 text-gray-500" strokeWidth={1.5} />}
                         {material.type === "article" && <FileText className="h-4 w-4 mr-2 text-gray-500" strokeWidth={1.5} />}
-                        {material.type === "pdf" && <FilePdf className="h-4 w-4 mr-2 text-gray-500" strokeWidth={1.5} />}
+                        {material.type === "pdf" && <FileText className="h-4 w-4 mr-2 text-gray-500" strokeWidth={1.5} />}
                         {material.title}
                       </TableCell>
                       <TableCell className="capitalize">{material.type}</TableCell>
