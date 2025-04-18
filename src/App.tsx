@@ -30,13 +30,8 @@ import PaidServices from "./pages/brand/PaidServices";
 import AdminLayout from "./components/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminUsers from "./pages/admin/Users";
-import AdminContracts from "./pages/admin/Contracts";
-import AdminPages from "./pages/admin/Pages";
-import AdminAnnouncements from "./pages/admin/Announcements";
-import AdminSettings from "./pages/admin/Settings";
-import AdminSubscriptions from "./pages/admin/Subscriptions";
-import AdminAdditionalServices from "./pages/admin/AdditionalServices";
-import AdminResources from "./pages/admin/Resources";
+import AdminAgenda from "./pages/admin/Agenda";
+import AdminAdministration from "./pages/admin/Administration";
 
 // Brand components
 import BrandLayout from "./components/brand/BrandLayout";
@@ -132,8 +127,8 @@ const App = () => {
               <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="users" element={<AdminUsers />} />
               <Route path="paid-services" element={<PaidServices />} />
-              <Route path="agenda" element={<Agenda />} />
-              <Route path="administration" element={<Administration />} />
+              <Route path="agenda" element={<AdminAgenda />} />
+              <Route path="administration" element={<AdminAdministration />} />
             </Route>
             
             {/* Sales routes */}
