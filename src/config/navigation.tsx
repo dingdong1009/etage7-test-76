@@ -1,4 +1,5 @@
-import { LayoutDashboard, Package, ShoppingCart, Megaphone, MessageSquare, Building, CreditCard, Calendar } from "lucide-react"
+
+import { LayoutDashboard, Package, ShoppingCart, Megaphone, MessageSquare, Building, CreditCard, Calendar, Settings, Users } from "lucide-react"
 
 export const mainNav = [
   {
