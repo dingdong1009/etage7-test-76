@@ -34,7 +34,6 @@ import {
   Upload,
   UserCheck,
   FileImage,
-  FilePdf,
   MessageSquare,
   Key
 } from "lucide-react";
