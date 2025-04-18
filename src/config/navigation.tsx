@@ -1,4 +1,4 @@
-import { LayoutDashboard, Package, ShoppingCart, Megaphone, MessageSquare, Settings, Users, Building, CreditCard } from "lucide-react"
+import { LayoutDashboard, Users, CreditCard, Calendar, Settings } from "lucide-react"
 
 export const mainNav = [
   {
@@ -122,18 +122,18 @@ export const adminNav = [
     icon: Users,
   },
   {
-    title: "Brands",
-    href: "/admin/brands",
-    icon: Building,
+    title: "Paid Services",
+    href: "/admin/paid-services",
+    icon: CreditCard,
   },
   {
-    title: "Orders",
-    href: "/admin/orders",
-    icon: ShoppingCart,
+    title: "Agenda",
+    href: "/admin/agenda",
+    icon: Calendar,
   },
   {
-    title: "Settings",
-    href: "/admin/settings",
+    title: "Administration",
+    href: "/admin/administration",
     icon: Settings,
   },
 ]
