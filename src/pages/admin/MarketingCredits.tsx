@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { 
   Card, 
@@ -32,6 +31,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  FormDescription,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -509,7 +509,7 @@ const MarketingCredits = () => {
                   </div>
                 </CardHeader>
                 <CardContent className="px-4 py-2">
-                  <div className="text-3xl font-light mb-2">€{pkg.price}</div>
+                  <div className="text-3xl font-light mb-2">���{pkg.price}</div>
                   <div className="flex items-center space-x-1 text-sm">
                     <Badge className="bg-transparent text-gray-600 p-0 font-normal">
                       {pkg.credits} credits
