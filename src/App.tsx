@@ -70,6 +70,10 @@ import SalesUsers from "./pages/sales/Users";
 import SalesMessages from "./pages/sales/Messages";
 import SalesSettings from "./pages/sales/Settings";
 
+import PaidServices from "./pages/admin/PaidServices";
+import Agenda from "./pages/admin/Agenda";
+import Administration from "./pages/admin/Administration";
+
 // Initialize QueryClient
 const queryClient = new QueryClient();
 
@@ -129,7 +133,11 @@ const App = () => {
             {/* Admin routes */}
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
+              <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="users" element={<AdminUsers />} />
+              <Route path="paid-services" element={<PaidServices />} />
+              <Route path="agenda" element={<Agenda />} />
+              <Route path="administration" element={<Administration />} />
               <Route path="contracts" element={<AdminContracts />} />
               <Route path="pages" element={<AdminPages />} />
               <Route path="announcements" element={<AdminAnnouncements />} />
