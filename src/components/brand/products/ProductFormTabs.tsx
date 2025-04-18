@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { 
   FileText, 
@@ -56,7 +55,6 @@ interface BulkTier {
   discountPercent: string;
 }
 
-// Define subcategories by main category
 const subcategoriesByCategory: Record<string, string[]> = {
   "woman": [
     "Dresses", "Tops", "T-shirts", "Sweaters", "Cardigans",
@@ -85,7 +83,6 @@ const subcategoriesByCategory: Record<string, string[]> = {
   ]
 };
 
-// Function to generate SKU based on category and random number
 const generateSku = (category: string = ""): string => {
   const prefix = category ? category.substring(0, 2).toUpperCase() : "PR";
   const randomNum = Math.floor(10000 + Math.random() * 90000);
@@ -93,19 +90,11 @@ const generateSku = (category: string = ""): string => {
   return `${prefix}-${year}-${randomNum}`;
 };
 
-// Function to determine the current or upcoming fashion season
 const getCurrentFashionSeason = (): string => {
   const date = new Date();
   const year = date.getFullYear();
   const month = date.getMonth(); // 0-11
   
-  // Fashion industry seasons are typically:
-  // Spring/Summer (SS): Starts in January for the upcoming summer
-  // Fall/Winter (FW): Starts in July for the upcoming winter
-  // Pre-Fall: May-June
-  // Resort/Cruise: November-December
-  
-  // For simplicity, we'll use these approximate divisions:
   if (month >= 0 && month <= 4) { // Jan-May
     return `Spring/Summer ${year}`;
   } else if (month >= 5 && month <= 6) { // Jun-Jul
@@ -131,12 +120,12 @@ export const ProductFormTabs = ({
   const [productName, setProductName] = useState("");
   const [sku, setSku] = useState("");
   const [isFeatured, setIsFeatured] = useState(false);
+  const [isExclusive, setIsExclusive] = useState(false);
   const [videoUrl, setVideoUrl] = useState("");
   const [websiteUrl, setWebsiteUrl] = useState("");
   const [currentSeason, setCurrentSeason] = useState(getCurrentFashionSeason());
   const [formChanged, setFormChanged] = useState(false);
   
-  // Auto-save functionality
   useEffect(() => {
     let autoSaveTimer: NodeJS.Timeout;
     
@@ -151,7 +140,6 @@ export const ProductFormTabs = ({
     };
   }, [formChanged]);
   
-  // Mark form as changed when relevant fields are updated
   useEffect(() => {
     setFormChanged(true);
   }, [
@@ -167,7 +155,6 @@ export const ProductFormTabs = ({
     bulkTiers
   ]);
 
-  // Generate SKU if empty when category changes
   useEffect(() => {
     if (!sku && selectedCategory) {
       setSku(generateSku(selectedCategory));
@@ -195,15 +182,12 @@ export const ProductFormTabs = ({
     setSelectedCategory(category);
     setSelectedSubcategory(""); // Reset subcategory when category changes
     
-    // If SKU is empty, generate one based on the new category
     if (!sku) {
       setSku(generateSku(category));
     }
   };
   
   const handleAutoSave = () => {
-    // Here we would normally save to a database
-    // For now we'll just show a toast notification
     toast.success("Product draft saved automatically", {
       position: "bottom-right",
       duration: 3000,
@@ -212,8 +196,6 @@ export const ProductFormTabs = ({
   };
   
   const analyzeImageColors = () => {
-    // This would normally call an AI service to analyze an image
-    // For this demo, we'll simulate by setting a random color
     const randomIndex = Math.floor(Math.random() * colorOptions.length);
     setSelectedColor(colorOptions[randomIndex].name);
     toast.success("Image analyzed and colors extracted", {
@@ -257,14 +239,25 @@ export const ProductFormTabs = ({
       </TabsList>
       
       <div className="flex justify-between items-center mb-4">
-        <div className="flex items-center gap-2">
-          <Checkbox 
-            id="isFeatured" 
-            checked={isFeatured}
-            onCheckedChange={(checked) => setIsFeatured(checked as boolean)}
-            className="border-gray-500 data-[state=checked]:bg-gray-800 data-[state=checked]:text-white"
-          />
-          <Label htmlFor="isFeatured" className="text-sm font-medium">Featured Product</Label>
+        <div className="flex items-center gap-4">
+          <div className="flex items-center gap-2">
+            <Checkbox 
+              id="isFeatured" 
+              checked={isFeatured}
+              onCheckedChange={(checked) => setIsFeatured(checked as boolean)}
+              className="border-gray-500 data-[state=checked]:bg-gray-800 data-[state=checked]:text-white"
+            />
+            <Label htmlFor="isFeatured" className="text-sm font-medium">Featured Product</Label>
+          </div>
+          <div className="flex items-center gap-2">
+            <Checkbox 
+              id="isExclusive" 
+              checked={isExclusive}
+              onCheckedChange={(checked) => setIsExclusive(checked as boolean)}
+              className="border-gray-500 data-[state=checked]:bg-gray-800 data-[state=checked]:text-white"
+            />
+            <Label htmlFor="isExclusive" className="text-sm font-medium">Exclusivity</Label>
+          </div>
         </div>
         <Button 
           variant="ghost" 
