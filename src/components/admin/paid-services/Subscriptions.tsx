@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -199,7 +198,9 @@ const Subscriptions = () => {
                     </Pie>
                     <Tooltip
                       formatter={(value, name, props) => {
-                        return [`${value} users (${((value / props.payload.maxUsers) * 100).toFixed(0)}% capacity)`, props.payload.name];
+                        const actualValue = Number(value);
+                        const maxValue = props.payload.maxUsers;
+                        return [`${actualValue} users (${((actualValue / maxValue) * 100).toFixed(0)}% capacity)`, props.payload.name];
                       }}
                     />
                     <Legend />

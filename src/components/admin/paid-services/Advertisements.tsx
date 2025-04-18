@@ -254,6 +254,7 @@ const Advertisements = () => {
               const totalImpressions = adsInPlacement.reduce((sum, ad) => sum + (ad.impressions || 0), 0);
               const totalClicks = adsInPlacement.reduce((sum, ad) => sum + (ad.clicks || 0), 0);
               const ctr = totalImpressions > 0 ? (totalClicks / totalImpressions * 100).toFixed(2) : "0.00";
+              const ctrNumber = parseFloat(ctr);
               
               return (
                 <div key={placement} className="p-4 border border-gray-200 rounded-lg">
@@ -262,8 +263,8 @@ const Advertisements = () => {
                       <h3 className="font-medium capitalize">{placement}</h3>
                       <p className="text-sm text-gray-500">{adsInPlacement.length} active ads</p>
                     </div>
-                    <Badge variant={ctr > 3 ? "outline" : "secondary"} className={
-                      ctr > 3 ? "bg-accent-mint text-gray-800 border-accent-mint" : ""
+                    <Badge variant={ctrNumber > 3 ? "outline" : "secondary"} className={
+                      ctrNumber > 3 ? "bg-accent-mint text-gray-800 border-accent-mint" : ""
                     }>
                       {ctr}% CTR
                     </Badge>
