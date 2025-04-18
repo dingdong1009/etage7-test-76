@@ -1,104 +1,270 @@
 
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart";
-import { BarChart, Bar, LineChart, Line, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Legend, PieChart, Pie, Cell } from "recharts";
-import { ChevronDown, Users, CreditCard, BadgePercent, BarChart3, ChartLine, PieChartIcon, Clock } from "lucide-react";
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Users, CreditCard, BadgePercent, BarChart3 } from "lucide-react";
+import { RegistrationRequest, SalesManager } from "@/types/users";
+import RegistrationRequestsTable from "@/components/admin/dashboard/RegistrationRequestsTable";
+import SalesPerformanceSection from "@/components/admin/dashboard/SalesPerformanceSection";
+import { toast } from "@/hooks/use-toast";
 
 const AdminDashboard = () => {
-  const [selectedSalesManager, setSelectedSalesManager] = useState("all");
+  // Mock data for registration requests
+  const [registrationRequests, setRegistrationRequests] = useState<RegistrationRequest[]>([
+    {
+      id: 1,
+      type: "brand",
+      name: "Nouveau Fashion",
+      contactPerson: "Emma Johnson",
+      email: "emma@nouveaufashion.com",
+      phone: "+1 (555) 123-4567",
+      status: "pending",
+      registrationDate: "2023-04-15",
+      website: "nouveaufashion.com",
+      description: "Contemporary sustainable fashion brand"
+    },
+    {
+      id: 2,
+      type: "buyer",
+      name: "Elite Department Stores",
+      contactPerson: "Michael Smith",
+      email: "michael@elitestores.com",
+      phone: "+1 (555) 234-5678",
+      status: "pending",
+      registrationDate: "2023-04-14",
+      website: "elitestores.com",
+      description: "Premium department store chain"
+    },
+    {
+      id: 3,
+      type: "brand",
+      name: "Heritage Apparel Co.",
+      contactPerson: "David Wilson",
+      email: "david@heritageapparel.com",
+      phone: "+1 (555) 345-6789",
+      status: "approved",
+      registrationDate: "2023-04-10",
+      assignedManager: 1,
+      website: "heritageapparel.com",
+      description: "Traditional clothing with modern designs"
+    },
+    {
+      id: 4,
+      type: "buyer",
+      name: "Boutique Collection",
+      contactPerson: "Sophia Garcia",
+      email: "sophia@boutiquecollection.com",
+      phone: "+1 (555) 456-7890",
+      status: "rejected",
+      registrationDate: "2023-04-08",
+      website: "boutiquecollection.com",
+      description: "Curated collection of boutique stores"
+    },
+    {
+      id: 5,
+      type: "brand",
+      name: "Modern Essentials",
+      contactPerson: "James Brown",
+      email: "james@modernessentials.com",
+      phone: "+1 (555) 567-8901",
+      status: "pending",
+      registrationDate: "2023-04-16",
+      website: "modernessentials.com",
+      description: "Minimalist everyday fashion basics"
+    }
+  ]);
+
+  // Mock data for sales managers with performance metrics
+  const [salesManagers, setSalesManagers] = useState<SalesManager[]>([
+    {
+      id: 1,
+      name: "Jessica Thompson",
+      status: "active",
+      email: "jessica@etage7.com",
+      phone: "+1 (555) 123-4567",
+      startDate: "March 2017",
+      yearsInCompany: 6,
+      salaryPerMonth: "$7,500",
+      totalCommissions: "$230,000",
+      ytdCommissions: "$78,500",
+      commissionRate: "3.2%",
+      seniorityLevel: "Senior",
+      region: "North America",
+      managedAccounts: 12,
+      activeSince: "March 2017",
+      monthlyTarget: "$500K",
+      quarterlyPerformance: "105%",
+      lastActivity: "30 minutes ago",
+      // Performance metrics
+      totalSubscriptions: 45,
+      renewalRate: "87%",
+      conversionRate: "65%",
+      monthlySubscriptions: [
+        { month: "Jan", subscriptions: 3, renewals: 85, leads: 5, conversions: 60 },
+        { month: "Feb", subscriptions: 5, renewals: 82, leads: 8, conversions: 63 },
+        { month: "Mar", subscriptions: 4, renewals: 88, leads: 7, conversions: 57 },
+        { month: "Apr", subscriptions: 6, renewals: 90, leads: 9, conversions: 67 },
+        { month: "May", subscriptions: 8, renewals: 86, leads: 12, conversions: 67 },
+        { month: "Jun", subscriptions: 7, renewals: 91, leads: 10, conversions: 70 }
+      ]
+    },
+    {
+      id: 2,
+      name: "Marcus Rodriguez",
+      status: "active",
+      email: "marcus@etage7.com",
+      phone: "+1 (555) 234-5678",
+      startDate: "June 2019",
+      yearsInCompany: 4,
+      salaryPerMonth: "$6,500",
+      totalCommissions: "$120,000",
+      ytdCommissions: "$45,200",
+      commissionRate: "2.8%",
+      seniorityLevel: "Mid-level",
+      region: "Europe",
+      managedAccounts: 8,
+      activeSince: "June 2019",
+      monthlyTarget: "$350K",
+      quarterlyPerformance: "98%",
+      lastActivity: "2 hours ago",
+      // Performance metrics
+      totalSubscriptions: 32,
+      renewalRate: "78%",
+      conversionRate: "58%",
+      monthlySubscriptions: [
+        { month: "Jan", subscriptions: 2, renewals: 75, leads: 4, conversions: 50 },
+        { month: "Feb", subscriptions: 4, renewals: 77, leads: 7, conversions: 57 },
+        { month: "Mar", subscriptions: 5, renewals: 79, leads: 9, conversions: 56 },
+        { month: "Apr", subscriptions: 6, renewals: 77, leads: 11, conversions: 55 },
+        { month: "May", subscriptions: 7, renewals: 80, leads: 12, conversions: 58 },
+        { month: "Jun", subscriptions: 8, renewals: 80, leads: 14, conversions: 57 }
+      ]
+    },
+    {
+      id: 3,
+      name: "Aisha Johnson",
+      status: "active",
+      email: "aisha@etage7.com",
+      phone: "+1 (555) 345-6789",
+      startDate: "January 2023",
+      yearsInCompany: 1,
+      salaryPerMonth: "$5,500",
+      totalCommissions: "$28,000",
+      ytdCommissions: "$16,300",
+      commissionRate: "2.0%",
+      seniorityLevel: "Junior",
+      region: "Asia Pacific",
+      managedAccounts: 5,
+      activeSince: "January 2023",
+      monthlyTarget: "$200K",
+      quarterlyPerformance: "87%",
+      lastActivity: "2 days ago",
+      // Performance metrics
+      totalSubscriptions: 18,
+      renewalRate: "70%",
+      conversionRate: "45%",
+      monthlySubscriptions: [
+        { month: "Jan", subscriptions: 1, renewals: 65, leads: 3, conversions: 33 },
+        { month: "Feb", subscriptions: 2, renewals: 68, leads: 5, conversions: 40 },
+        { month: "Mar", subscriptions: 3, renewals: 70, leads: 7, conversions: 43 },
+        { month: "Apr", subscriptions: 3, renewals: 71, leads: 7, conversions: 43 },
+        { month: "May", subscriptions: 4, renewals: 73, leads: 9, conversions: 44 },
+        { month: "Jun", subscriptions: 5, renewals: 74, leads: 10, conversions: 50 }
+      ]
+    },
+    {
+      id: 4,
+      name: "Richard Chen",
+      status: "active",
+      email: "richard@etage7.com",
+      phone: "+1 (555) 456-7890",
+      startDate: "April 2016",
+      yearsInCompany: 7,
+      salaryPerMonth: "$8,500",
+      totalCommissions: "$350,000",
+      ytdCommissions: "$112,500",
+      commissionRate: "3.5%",
+      seniorityLevel: "Senior",
+      region: "Global",
+      managedAccounts: 15,
+      activeSince: "April 2016",
+      monthlyTarget: "$650K",
+      quarterlyPerformance: "112%",
+      lastActivity: "1 day ago",
+      // Performance metrics
+      totalSubscriptions: 52,
+      renewalRate: "92%",
+      conversionRate: "73%",
+      monthlySubscriptions: [
+        { month: "Jan", subscriptions: 4, renewals: 90, leads: 6, conversions: 67 },
+        { month: "Feb", subscriptions: 7, renewals: 91, leads: 10, conversions: 70 },
+        { month: "Mar", subscriptions: 9, renewals: 93, leads: 12, conversions: 75 },
+        { month: "Apr", subscriptions: 10, renewals: 92, leads: 14, conversions: 71 },
+        { month: "May", subscriptions: 11, renewals: 94, leads: 15, conversions: 73 },
+        { month: "Jun", subscriptions: 11, renewals: 92, leads: 15, conversions: 73 }
+      ]
+    },
+    {
+      id: 5,
+      name: "Sarah Miller",
+      status: "inactive",
+      email: "sarah@etage7.com",
+      phone: "+1 (555) 567-8901",
+      startDate: "August 2020",
+      yearsInCompany: 3,
+      salaryPerMonth: "$6,200",
+      totalCommissions: "$82,000",
+      ytdCommissions: "$8,400",
+      commissionRate: "2.5%",
+      seniorityLevel: "Mid-level",
+      region: "Middle East",
+      managedAccounts: 7,
+      activeSince: "August 2020",
+      monthlyTarget: "$300K",
+      quarterlyPerformance: "92%",
+      lastActivity: "3 weeks ago",
+      // Performance metrics
+      totalSubscriptions: 12,
+      renewalRate: "65%",
+      conversionRate: "40%",
+      monthlySubscriptions: [
+        { month: "Jan", subscriptions: 3, renewals: 62, leads: 8, conversions: 38 },
+        { month: "Feb", subscriptions: 2, renewals: 65, leads: 6, conversions: 33 },
+        { month: "Mar", subscriptions: 2, renewals: 64, leads: 5, conversions: 40 },
+        { month: "Apr", subscriptions: 2, renewals: 67, leads: 5, conversions: 40 },
+        { month: "May", subscriptions: 2, renewals: 66, leads: 5, conversions: 40 },
+        { month: "Jun", subscriptions: 1, renewals: 68, leads: 3, conversions: 33 }
+      ]
+    }
+  ]);
 
   const stats = [
     { title: "Active Users", count: 1254, description: "Registered users", icon: Users },
     { title: "Subscriptions", count: 584, description: "Active plans", icon: CreditCard },
     { title: "Brands", count: 327, description: "Approved brands", icon: BadgePercent },
-    { title: "Buyers", count: 921, description: "Approved buyers", icon: Users }
+    { title: "Buyers", count: 921, description: "Approved buyers", icon: BarChart3 }
   ];
 
-  // Sample data for the charts - in a real application this would come from an API
-  const monthlyUserData = [
-    { name: 'Jan', users: 400 },
-    { name: 'Feb', users: 600 },
-    { name: 'Mar', users: 800 },
-    { name: 'Apr', users: 1000 },
-    { name: 'May', users: 1200 },
-    { name: 'Jun', users: 1254 }
-  ];
+  const handleStatusChange = (id: number, status: "pending" | "approved" | "rejected") => {
+    setRegistrationRequests(prev => 
+      prev.map(request => 
+        request.id === id ? { ...request, status } : request
+      )
+    );
+  };
 
-  const monthlySubscriptionData = [
-    { name: 'Jan', subscriptions: 200 },
-    { name: 'Feb', subscriptions: 300 },
-    { name: 'Mar', subscriptions: 350 },
-    { name: 'Apr', subscriptions: 450 },
-    { name: 'May', subscriptions: 520 },
-    { name: 'Jun', subscriptions: 584 }
-  ];
-
-  // New expiring subscriptions data
-  const expiringSubscriptionsData = [
-    { name: '7 days', count: 12, fill: '#FFDEE2' }, // soft pink
-    { name: '14 days', count: 18, fill: '#D3E4FD' }, // soft blue
-    { name: '30 days', count: 24, fill: '#D3E4FD' }, // soft blue
-    { name: '60 days', count: 35, fill: '#F1F0FB' }, // soft gray
-    { name: '90 days', count: 47, fill: '#F1F0FB' }  // soft gray
-  ];
-
-  const individualSalesData = {
-    'john': [
-      { month: 'Jan', sales: 18000 },
-      { month: 'Feb', sales: 20000 },
-      { month: 'Mar', sales: 22000 },
-      { month: 'Apr', sales: 19000 },
-      { month: 'May', sales: 21000 },
-      { month: 'Jun', sales: 20000 }
-    ],
-    'sarah': [
-      { month: 'Jan', sales: 12000 },
-      { month: 'Feb', sales: 14000 },
-      { month: 'Mar', sales: 16000 },
-      { month: 'Apr', sales: 14500 },
-      { month: 'May', sales: 15000 },
-      { month: 'Jun', sales: 14500 }
-    ],
-    'michael': [
-      { month: 'Jan', sales: 16000 },
-      { month: 'Feb', sales: 17000 },
-      { month: 'Mar', sales: 18000 },
-      { month: 'Apr', sales: 15000 },
-      { month: 'May', sales: 16500 },
-      { month: 'Jun', sales: 16500 }
-    ],
-    'emily': [
-      { month: 'Jan', sales: 17000 },
-      { month: 'Feb', sales: 18000 },
-      { month: 'Mar', sales: 19000 },
-      { month: 'Apr', sales: 18500 },
-      { month: 'May', sales: 19500 },
-      { month: 'Jun', sales: 18000 }
-    ],
-    'david': [
-      { month: 'Jan', sales: 10000 },
-      { month: 'Feb', sales: 11000 },
-      { month: 'Mar', sales: 12000 },
-      { month: 'Apr', sales: 10500 },
-      { month: 'May', sales: 11500 },
-      { month: 'Jun', sales: 10000 }
-    ],
-    'all': [
-      { month: 'Jan', sales: 73000 },
-      { month: 'Feb', sales: 80000 },
-      { month: 'Mar', sales: 87000 },
-      { month: 'Apr', sales: 77500 },
-      { month: 'May', sales: 83500 },
-      { month: 'Jun', sales: 79000 }
-    ]
+  const handleAssignManager = (id: number, managerId: number) => {
+    setRegistrationRequests(prev => 
+      prev.map(request => 
+        request.id === id ? { ...request, assignedManager: managerId } : request
+      )
+    );
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">DASHBOARD</h1>
       
+      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, index) => (
           <Card key={index} className="border border-gray-200 shadow-none rounded-none hover:shadow-md transition-shadow">
@@ -116,126 +282,19 @@ const AdminDashboard = () => {
         ))}
       </div>
       
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="border border-gray-200 shadow-none rounded-none hover:shadow-md transition-shadow">
-          <CardHeader className="px-6 py-4 border-b border-gray-100 flex flex-row items-center justify-between">
-            <CardTitle className="text-lg font-light">USER GROWTH</CardTitle>
-            <ChartLine className="h-4 w-4 text-gray-500" strokeWidth={1} />
-          </CardHeader>
-          <CardContent className="pt-4 p-6">
-            <ChartContainer config={{}}>
-              <LineChart data={monthlyUserData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis dataKey="name" stroke="#888" strokeWidth={0.5} fontSize={12} tickLine={false} />
-                <YAxis stroke="#888" strokeWidth={0.5} fontSize={12} tickLine={false} />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Legend />
-                <Line 
-                  type="monotone" 
-                  dataKey="users" 
-                  stroke="#000" 
-                  strokeWidth={1} 
-                  dot={{ stroke: '#000', strokeWidth: 1, fill: '#fff', r: 3 }} 
-                  activeDot={{ r: 5 }} 
-                />
-              </LineChart>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-        
-        <Card className="border border-gray-200 shadow-none rounded-none hover:shadow-md transition-shadow">
-          <CardHeader className="px-6 py-4 border-b border-gray-100 flex flex-row items-center justify-between">
-            <CardTitle className="text-lg font-light">SUBSCRIPTION GROWTH</CardTitle>
-            <CreditCard className="h-4 w-4 text-gray-500" strokeWidth={1} />
-          </CardHeader>
-          <CardContent className="pt-4 p-6">
-            <ChartContainer config={{}}>
-              <LineChart data={monthlySubscriptionData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis dataKey="name" stroke="#888" strokeWidth={0.5} fontSize={12} tickLine={false} />
-                <YAxis stroke="#888" strokeWidth={0.5} fontSize={12} tickLine={false} />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Legend />
-                <Line 
-                  type="monotone" 
-                  dataKey="subscriptions" 
-                  stroke="#000" 
-                  strokeWidth={1} 
-                  dot={{ stroke: '#000', strokeWidth: 1, fill: '#fff', r: 3 }} 
-                  activeDot={{ r: 5 }} 
-                />
-              </LineChart>
-            </ChartContainer>
-          </CardContent>
-        </Card>
+      {/* Registration Requests Table */}
+      <div className="border-t border-gray-100 pt-6">
+        <RegistrationRequestsTable 
+          registrationRequests={registrationRequests} 
+          salesManagers={salesManagers.map(m => ({ id: m.id, name: m.name }))}
+          onStatusChange={handleStatusChange}
+          onAssignManager={handleAssignManager}
+        />
       </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <Card className="border border-gray-200 shadow-none rounded-none hover:shadow-md transition-shadow">
-          <CardHeader className="px-6 py-4 border-b border-gray-100 flex flex-row items-center justify-between">
-            <CardTitle className="text-lg font-light">EXPIRING SUBSCRIPTIONS</CardTitle>
-            <Clock className="h-4 w-4 text-gray-500" strokeWidth={1} />
-          </CardHeader>
-          <CardContent className="pt-4 p-6">
-            <ChartContainer config={{}}>
-              <BarChart data={expiringSubscriptionsData} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis dataKey="name" stroke="#888" strokeWidth={0.5} fontSize={12} tickLine={false} />
-                <YAxis stroke="#888" strokeWidth={0.5} fontSize={12} tickLine={false} />
-                <Tooltip formatter={(value) => `${value} subscriptions`} />
-                <Legend />
-                <Bar dataKey="count" name="Expiring Subscriptions">
-                  {expiringSubscriptionsData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.fill} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ChartContainer>
-          </CardContent>
-        </Card>
-        
-        <Card className="border border-gray-200 shadow-none rounded-none hover:shadow-md transition-shadow">
-          <CardHeader className="px-6 py-4 border-b border-gray-100 flex flex-row items-center justify-between">
-            <div className="flex flex-col md:flex-row gap-2 md:items-center w-full">
-              <CardTitle className="text-lg font-light">INDIVIDUAL PERFORMANCE</CardTitle>
-              <Select value={selectedSalesManager} onValueChange={setSelectedSalesManager}>
-                <SelectTrigger className="w-[180px] h-8 border-gray-200 rounded-none text-xs font-light">
-                  <SelectValue placeholder="Select Manager" />
-                </SelectTrigger>
-                <SelectContent className="rounded-none">
-                  <SelectGroup className="uppercase text-xs font-light">
-                    <SelectItem value="all">ALL MANAGERS</SelectItem>
-                    <SelectItem value="john">JOHN</SelectItem>
-                    <SelectItem value="sarah">SARAH</SelectItem>
-                    <SelectItem value="michael">MICHAEL</SelectItem>
-                    <SelectItem value="emily">EMILY</SelectItem>
-                    <SelectItem value="david">DAVID</SelectItem>
-                  </SelectGroup>
-                </SelectContent>
-              </Select>
-            </div>
-            <PieChartIcon className="h-4 w-4 text-gray-500" strokeWidth={1} />
-          </CardHeader>
-          <CardContent className="pt-4 p-6">
-            <ChartContainer config={{}}>
-              <LineChart data={individualSalesData[selectedSalesManager]} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                <XAxis dataKey="month" stroke="#888" strokeWidth={0.5} fontSize={12} tickLine={false} />
-                <YAxis stroke="#888" strokeWidth={0.5} fontSize={12} tickLine={false} />
-                <Tooltip formatter={(value) => `$${value.toLocaleString()}`} />
-                <Legend />
-                <Line 
-                  type="monotone" 
-                  dataKey="sales" 
-                  stroke="#000" 
-                  strokeWidth={1} 
-                  dot={{ stroke: '#000', strokeWidth: 1, fill: '#fff', r: 3 }} 
-                  activeDot={{ r: 5 }} 
-                />
-              </LineChart>
-            </ChartContainer>
-          </CardContent>
-        </Card>
+      
+      {/* Sales Performance Section */}
+      <div className="border-t border-gray-100 pt-6">
+        <SalesPerformanceSection salesManagers={salesManagers} />
       </div>
     </div>
   );
