@@ -30,8 +30,13 @@ import PaidServices from "./pages/brand/PaidServices";
 import AdminLayout from "./components/admin/AdminLayout";
 import AdminDashboard from "./pages/admin/Dashboard";
 import AdminUsers from "./pages/admin/Users";
-import AdminAgenda from "./pages/admin/Agenda";
-import AdminAdministration from "./pages/admin/Administration";
+import AdminContracts from "./pages/admin/Contracts";
+import AdminPages from "./pages/admin/Pages";
+import AdminAnnouncements from "./pages/admin/Announcements";
+import AdminSettings from "./pages/admin/Settings";
+import AdminSubscriptions from "./pages/admin/Subscriptions";
+import AdminAdditionalServices from "./pages/admin/AdditionalServices";
+import AdminResources from "./pages/admin/Resources";
 
 // Brand components
 import BrandLayout from "./components/brand/BrandLayout";
@@ -124,11 +129,15 @@ const App = () => {
             {/* Admin routes */}
             <Route path="/admin" element={<AdminLayout />}>
               <Route index element={<AdminDashboard />} />
-              <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="users" element={<AdminUsers />} />
-              <Route path="paid-services" element={<PaidServices />} />
-              <Route path="agenda" element={<AdminAgenda />} />
-              <Route path="administration" element={<AdminAdministration />} />
+              <Route path="contracts" element={<AdminContracts />} />
+              <Route path="pages" element={<AdminPages />} />
+              <Route path="announcements" element={<AdminAnnouncements />} />
+              <Route path="settings" element={<AdminSettings />} />
+              <Route path="subscriptions" element={<AdminSubscriptions />} />
+              <Route path="additional-services" element={<AdminAdditionalServices />} />
+              <Route path="resources" element={<AdminResources />} />
+              <Route path="marketing-credits" element={<MarketingCredits />} />
             </Route>
             
             {/* Sales routes */}
