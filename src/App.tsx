@@ -24,7 +24,6 @@ import PressKitPage from "./pages/PressKitPage";
 import FaqPage from "./pages/FaqPage";
 import BrandStorefront from "./pages/brand/BrandStorefront";
 import Marketing from "./pages/brand/Marketing";
-import MarketingCredits from "./pages/admin/MarketingCredits";
 import BrandPaidServices from "./pages/brand/PaidServices";
 
 // Admin components
@@ -42,12 +41,8 @@ import BrandProducts from "./pages/brand/Products";
 import BrandOrders from "./pages/brand/Orders";
 import BrandOrderDetails from "./pages/brand/OrderDetails";
 import BrandLookbook from "./pages/brand/Lookbook";
-import BrandAdditionalServices from "./pages/brand/AdditionalServices";
 import BrandStore from "./pages/brand/Store";
 import BrandMessages from "./pages/brand/Messages";
-import BrandSubscriptions from "./pages/brand/Subscriptions";
-import BrandResources from "./pages/brand/Resources";
-import BrandSettings from "./pages/brand/Settings";
 
 // Buyer components
 import BuyerLayout from "./components/buyer/BuyerLayout";
@@ -104,11 +99,8 @@ const App = () => {
               <Route path="orders/:orderId" element={<BrandOrderDetails />} />
               <Route path="lookbook" element={<BrandLookbook />} />
               <Route path="marketing" element={<Marketing />} />
-              <Route path="paid-services" element={<BrandPaidServices />} />
               <Route path="store" element={<BrandStore />} />
               <Route path="messages" element={<BrandMessages />} />
-              <Route path="resources" element={<BrandResources />} />
-              <Route path="settings" element={<BrandSettings />} />
             </Route>
             
             <Route path="/buyer" element={<BuyerLayout />}>

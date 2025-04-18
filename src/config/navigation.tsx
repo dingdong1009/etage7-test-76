@@ -1,4 +1,4 @@
-import { LayoutDashboard, Package, ShoppingCart, Megaphone, MessageSquare, Settings, Users, Building, CreditCard, Calendar } from "lucide-react"
+import { LayoutDashboard, Package, ShoppingCart, Megaphone, MessageSquare, Building, CreditCard, Calendar } from "lucide-react"
 
 export const mainNav = [
   {
@@ -69,16 +69,6 @@ export const brandNav = [
     title: "Messages",
     href: "/brand/messages",
     icon: MessageSquare,
-  },
-  {
-    title: "Paid Services",
-    href: "/brand/paid-services",
-    icon: CreditCard,
-  },
-  {
-    title: "Settings",
-    href: "/brand/settings",
-    icon: Settings,
   },
 ];
 
