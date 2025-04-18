@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { 
   Card, 
@@ -34,8 +33,9 @@ import {
   Users
 } from "lucide-react";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
-// Mock email templates
 const mockTemplates = [
   { 
     id: 1, 
@@ -84,7 +84,6 @@ const mockTemplates = [
   },
 ];
 
-// Mock campaigns
 const mockCampaigns = [
   { 
     id: 1, 
@@ -129,7 +128,6 @@ const mockCampaigns = [
   },
 ];
 
-// Mock recipient groups
 const recipientGroups = [
   { id: 1, name: "All Buyers", count: 150 },
   { id: 2, name: "Following", count: 85 },
@@ -145,7 +143,8 @@ const EmailCampaigns = () => {
   const [selectedRecipientGroup, setSelectedRecipientGroup] = useState<number | null>(null);
   const [creditsRemaining, setCreditsRemaining] = useState(1);
   const [showCreditDialog, setShowCreditDialog] = useState(false);
-  
+  const [emailContent, setEmailContent] = useState('');
+
   const handleSendCampaign = () => {
     if (creditsRemaining < 1) {
       setShowCreditDialog(true);
@@ -244,7 +243,6 @@ const EmailCampaigns = () => {
           </TabsTrigger>
         </TabsList>
         
-        {/* Campaigns Tab Content */}
         <TabsContent value="campaigns" className="space-y-4">
           <div className="grid grid-cols-1 gap-4">
             {mockCampaigns.map((campaign) => (
@@ -371,7 +369,6 @@ const EmailCampaigns = () => {
           </div>
         </TabsContent>
         
-        {/* Templates Tab Content */}
         <TabsContent value="templates" className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {mockTemplates.map((template) => (
@@ -425,7 +422,6 @@ const EmailCampaigns = () => {
               </Card>
             ))}
             
-            {/* Add New Template */}
             <Card className="border-dashed border-gray-200 shadow-none rounded-none hover:shadow-sm transition-shadow cursor-pointer flex flex-col items-center justify-center aspect-[3/2] bg-gray-50">
               <Plus size={24} className="text-gray-400 mb-2" strokeWidth={1} />
               <p className="text-sm font-light text-gray-500">Create New Template</p>
@@ -433,7 +429,6 @@ const EmailCampaigns = () => {
           </div>
         </TabsContent>
         
-        {/* Recipients Tab Content */}
         <TabsContent value="recipients" className="space-y-4">
           <div className="grid grid-cols-1 gap-4">
             {recipientGroups.map((group) => (
@@ -474,7 +469,6 @@ const EmailCampaigns = () => {
               </Card>
             ))}
             
-            {/* Create New Group Button */}
             <Card className="border-dashed border-gray-200 shadow-none rounded-none hover:shadow-sm transition-shadow cursor-pointer">
               <CardContent className="p-6 flex flex-col items-center justify-center">
                 <Plus size={24} className="text-gray-400 mb-2" strokeWidth={1} />
@@ -485,7 +479,6 @@ const EmailCampaigns = () => {
         </TabsContent>
       </Tabs>
       
-      {/* New Campaign Dialog */}
       <Dialog open={isNewCampaignOpen} onOpenChange={setIsNewCampaignOpen}>
         <DialogContent className="sm:max-w-[700px] rounded-none p-0">
           <DialogHeader className="p-6 pb-2">
@@ -548,12 +541,21 @@ const EmailCampaigns = () => {
                 
                 <div className="space-y-2">
                   <Label htmlFor="message" className="text-xs font-light">Email Content</Label>
-                  <div className="min-h-[200px] bg-gray-50 border border-gray-200 rounded-none flex items-center justify-center">
-                    <div className="text-center p-4">
-                      <Edit className="mx-auto h-8 w-8 text-gray-400 mb-2" strokeWidth={1} />
-                      <p className="text-sm text-gray-500 font-light">Click to Edit Email Content</p>
-                      <p className="text-xs text-gray-400 mt-1">Visual editor will open</p>
-                    </div>
+                  <div className="min-h-[200px] bg-white border border-gray-200 rounded-none">
+                    <ReactQuill
+                      theme="snow"
+                      value={emailContent}
+                      onChange={setEmailContent}
+                      className="h-[150px]"
+                      modules={{
+                        toolbar: [
+                          [{ 'header': [1, 2, false] }],
+                          ['bold', 'italic', 'underline'],
+                          [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                          ['link', 'clean']
+                        ]
+                      }}
+                    />
                   </div>
                 </div>
               </div>
@@ -602,7 +604,6 @@ const EmailCampaigns = () => {
         </DialogContent>
       </Dialog>
       
-      {/* Buy Credits Dialog */}
       <Dialog open={showCreditDialog} onOpenChange={setShowCreditDialog}>
         <DialogContent className="sm:max-w-[400px] rounded-none">
           <DialogHeader>
