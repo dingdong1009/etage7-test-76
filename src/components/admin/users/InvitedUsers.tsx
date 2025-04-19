@@ -1,9 +1,11 @@
+
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Eye, Edit, Trash2 } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { InvitedUser } from "@/types/users";
 import { useToast } from "@/hooks/use-toast";
 
@@ -28,8 +30,10 @@ const mockInvitedUsers: InvitedUser[] = [
 const InvitedUsers = () => {
   const [users, setUsers] = useState<InvitedUser[]>(mockInvitedUsers);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleViewDetails = (id: number) => {
+    navigate(`/admin/users/invited/${id}`);
     toast({
       title: "Viewing user details",
       description: `Viewing details for user ${id}`,
@@ -37,6 +41,7 @@ const InvitedUsers = () => {
   };
 
   const handleEdit = (id: number) => {
+    navigate(`/admin/users/invited/${id}/edit`);
     toast({
       title: "Edit user",
       description: `Editing user ${id}`,
