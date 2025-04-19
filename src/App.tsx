@@ -58,7 +58,6 @@ import BuyerAdditionalServices from "./pages/buyer/AdditionalServices";
 import BuyerTeam from "./pages/buyer/Team";
 import BuyerResources from "./pages/buyer/Resources";
 import BuyerSettings from "./pages/buyer/Settings";
-import ProductDetails from "./pages/buyer/ProductDetails";
 
 // Sales components
 import SalesLayout from "./components/sales/SalesLayout";
@@ -119,7 +118,6 @@ const App = () => {
               <Route path="team" element={<BuyerTeam />} />
               <Route path="resources" element={<BuyerResources />} />
               <Route path="settings" element={<BuyerSettings />} />
-              <Route path="products/:productId" element={<ProductDetails />} />
             </Route>
             
             <Route path="/admin" element={<AdminLayout />}>

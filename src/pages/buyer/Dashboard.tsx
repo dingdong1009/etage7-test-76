@@ -16,8 +16,6 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
-import { ProductDetails } from "@/components/ui/product-details";
 
 interface DashboardProduct {
   id: string;
@@ -102,17 +100,10 @@ const Dashboard = () => {
   const [visibleProducts, setVisibleProducts] = useState<DashboardProduct[]>([]);
   const [showScrollTop, setShowScrollTop] = useState(false);
   
-  const [isFilterCollapsed, setIsFilterCollapsed] = useState(false);
-
-  const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
-  const [productDialogOpen, setProductDialogOpen] = useState(false);
-
   useEffect(() => {
     const handleScroll = () => {
       const scrollTop = window.scrollY;
       setShowScrollTop(scrollTop > 300);
-
-      setIsFilterCollapsed(scrollTop > 100);
 
       if (!hasMore) return;
 
@@ -502,555 +493,585 @@ const Dashboard = () => {
         </div>
       </div>
       
-      <div className={`transition-all duration-300 sticky top-0 bg-white z-50 ${isFilterCollapsed ? 'shadow-md' : ''}`}>
-        <Collapsible 
-          open={showAdvancedFilters} 
-          onOpenChange={setShowAdvancedFilters}
-          className={`w-full transition-all duration-300 ${
-            isFilterCollapsed ? 'transform' : ''
-          }`}
-        >
-          <div className="flex justify-between items-center mb-4">
-            <h3 className="text-lg font-light uppercase tracking-wide">Advanced Filters</h3>
-            <CollapsibleTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className={`h-8 w-8 p-0 transition-transform duration-300 ${
-                  isFilterCollapsed ? '-rotate-180' : ''
-                }`}
-              >
-                {showAdvancedFilters ? <ChevronUp size={16} /> : <ChevronRight size={16} />}
-              </Button>
-            </CollapsibleTrigger>
-          </div>
-          
-          <CollapsibleContent 
-            className={`w-full transition-all duration-300 ${
-              isFilterCollapsed ? 'max-h-0' : ''
-            }`}
-          >
-            <Card className="border border-gray-200 overflow-hidden transition-all duration-300 animate-fade-in">
-              <CardContent className="p-5">
-                <div className="mb-6">
-                  <div className="flex items-center gap-3 mb-2">
-                    <div className="relative flex-grow">
-                      <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 ${isSearching ? 'text-black animate-pulse' : 'text-gray-400'}`} />
-                      <input 
-                        type="text" 
-                        placeholder={searchPlaceholder} 
-                        value={searchTerm}
-                        onChange={handleSearch}
-                        className="pl-10 pr-3 py-3 w-full border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black text-sm"
-                      />
-                    </div>
-                    <div className="flex items-center gap-2 whitespace-nowrap">
-                      <Switch 
-                        id="ai-search"
-                        checked={isAiSearchEnabled}
-                        onCheckedChange={toggleAiSearch}
-                      />
-                      <Label htmlFor="ai-search" className="text-sm text-gray-600">AI Search</Label>
-                    </div>
+      <Collapsible open={showAdvancedFilters} onOpenChange={setShowAdvancedFilters} className="w-full">
+        <div className="flex justify-between items-center mb-4">
+          <h3 className="text-lg font-light uppercase tracking-wide">Advanced Filters</h3>
+          <CollapsibleTrigger asChild>
+            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+              {showAdvancedFilters ? <ChevronUp size={16} /> : <ChevronRight size={16} />}
+            </Button>
+          </CollapsibleTrigger>
+        </div>
+        
+        <CollapsibleContent className="w-full">
+          <Card className="border border-gray-200 overflow-hidden transition-all duration-300 animate-fade-in">
+            <CardContent className="p-5">
+              <div className="mb-6">
+                <div className="flex items-center gap-3 mb-2">
+                  <div className="relative flex-grow">
+                    <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 ${isSearching ? 'text-black animate-pulse' : 'text-gray-400'}`} />
+                    <input 
+                      type="text" 
+                      placeholder={searchPlaceholder} 
+                      value={searchTerm}
+                      onChange={handleSearch}
+                      className="pl-10 pr-3 py-3 w-full border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black text-sm"
+                    />
                   </div>
-                  {isAiSearchEnabled && (
-                    <p className="text-xs text-gray-500 ml-1">Ask questions like "Show me cotton dresses with fast shipping" or "Find blue items under 200 EUR"</p>
+                  <div className="flex items-center gap-2 whitespace-nowrap">
+                    <Switch 
+                      id="ai-search"
+                      checked={isAiSearchEnabled}
+                      onCheckedChange={toggleAiSearch}
+                    />
+                    <Label htmlFor="ai-search" className="text-sm text-gray-600">AI Search</Label>
+                  </div>
+                </div>
+                {isAiSearchEnabled && (
+                  <p className="text-xs text-gray-500 ml-1">Ask questions like "Show me cotton dresses with fast shipping" or "Find blue items under 200 EUR"</p>
+                )}
+              </div>
+
+              <div className="border-b border-gray-200 mb-4">
+                <div className="flex space-x-4 overflow-x-auto pb-2">
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'categories' ? 'border-b-2 border-black' : ''}`}
+                    onClick={() => {
+                      setActiveFilterTab('categories');
+                      setShowSubcategories(false);
+                    }}
+                  >
+                    Categories
+                  </Button>
+                  {showSubcategories && (
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'subcategories' ? 'border-b-2 border-black' : ''}`}
+                      onClick={() => setActiveFilterTab('subcategories')}
+                    >
+                      Subcategories
+                    </Button>
                   )}
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'materials' ? 'border-b-2 border-black' : ''}`}
+                    onClick={() => setActiveFilterTab('materials')}
+                  >
+                    Materials
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'collections' ? 'border-b-2 border-black' : ''}`}
+                    onClick={() => setActiveFilterTab('collections')}
+                  >
+                    Collections
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'specifications' ? 'border-b-2 border-black' : ''}`}
+                    onClick={() => setActiveFilterTab('specifications')}
+                  >
+                    Specifications
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'commercial' ? 'border-b-2 border-black' : ''}`}
+                    onClick={() => setActiveFilterTab('commercial')}
+                  >
+                    Commercial Terms
+                  </Button>
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'ai' ? 'border-b-2 border-black' : ''}`}
+                    onClick={() => setActiveFilterTab('ai')}
+                  >
+                    AI Assistant
+                  </Button>
                 </div>
+              </div>
 
-                <div className="border-b border-gray-200 mb-4">
-                  <div className="flex space-x-4 overflow-x-auto pb-2">
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'categories' ? 'border-b-2 border-black' : ''}`}
-                      onClick={() => {
-                        setActiveFilterTab('categories');
-                        setShowSubcategories(false);
-                      }}
-                    >
-                      Categories
-                    </Button>
-                    {showSubcategories && (
-                      <Button 
-                        variant="ghost" 
-                        size="sm" 
-                        className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'subcategories' ? 'border-b-2 border-black' : ''}`}
-                        onClick={() => setActiveFilterTab('subcategories')}
-                      >
-                        Subcategories
-                      </Button>
-                    )}
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'materials' ? 'border-b-2 border-black' : ''}`}
-                      onClick={() => setActiveFilterTab('materials')}
-                    >
-                      Materials
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'collections' ? 'border-b-2 border-black' : ''}`}
-                      onClick={() => setActiveFilterTab('collections')}
-                    >
-                      Collections
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'specifications' ? 'border-b-2 border-black' : ''}`}
-                      onClick={() => setActiveFilterTab('specifications')}
-                    >
-                      Specifications
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'commercial' ? 'border-b-2 border-black' : ''}`}
-                      onClick={() => setActiveFilterTab('commercial')}
-                    >
-                      Commercial Terms
-                    </Button>
-                    <Button 
-                      variant="ghost" 
-                      size="sm" 
-                      className={`px-3 py-1 h-auto rounded-none ${activeFilterTab === 'ai' ? 'border-b-2 border-black' : ''}`}
-                      onClick={() => setActiveFilterTab('ai')}
-                    >
-                      AI Assistant
-                    </Button>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-6">
-                    {activeFilterTab === 'categories' && (
-                      <div className="space-y-6">
-                        <h4 className="text-sm uppercase text-gray-500 font-medium">Categories</h4>
-                        <div className="grid grid-cols-2 gap-2">
-                          {categories.filter(c => c !== "All Categories").map((category) => (
-                            <Button 
-                              key={category}
-                              variant={selectedCategory === category ? "black" : "outline"}
-                              size="sm"
-                              className="justify-start text-sm"
-                              onClick={() => handleCategorySelect(category)}
-                            >
-                              {category}
-                            </Button>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {activeFilterTab === 'subcategories' && selectedCategory !== "All Categories" && (
-                      <div className="space-y-6">
-                        <div className="flex items-center mb-2">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="space-y-6">
+                  {activeFilterTab === 'categories' && (
+                    <div className="space-y-6">
+                      <h4 className="text-sm uppercase text-gray-500 font-medium">Categories</h4>
+                      <div className="grid grid-cols-2 gap-2">
+                        {categories.filter(c => c !== "All Categories").map((category) => (
                           <Button 
-                            variant="outline" 
-                            size="sm" 
-                            className="text-xs px-2 py-1 h-auto"
-                            onClick={() => {
-                              setShowSubcategories(false);
-                              setActiveFilterTab("categories");
-                              setSelectedSubCategory("");
-                            }}
+                            key={category}
+                            variant={selectedCategory === category ? "black" : "outline"}
+                            size="sm"
+                            className="justify-start text-sm"
+                            onClick={() => handleCategorySelect(category)}
                           >
-                            <ChevronRight size={14} className="rotate-180 mr-1" />
-                            Back to Categories
+                            {category}
                           </Button>
-                          <span className="ml-2 text-sm font-light">{selectedCategory}</span>
-                        </div>
-                        <div className="grid grid-cols-2 gap-2">
-                          {categoryData[selectedCategory as keyof typeof categoryData]?.map((subCategory) => (
-                            <Button 
-                              key={subCategory}
-                              variant={selectedSubCategory === subCategory ? "black" : "outline"}
-                              size="sm"
-                              className="justify-start text-sm"
-                              onClick={() => handleSubCategorySelect(subCategory)}
-                            >
-                              {subCategory}
-                            </Button>
-                          ))}
-                        </div>
+                        ))}
                       </div>
-                    )}
+                    </div>
+                  )}
 
-                    {activeFilterTab === 'materials' && (
-                      <div className="space-y-6">
-                        <h4 className="text-sm uppercase text-gray-500 font-medium">Materials</h4>
-                        <div className="grid grid-cols-2 gap-2">
-                          {materialOptions.map((material) => (
-                            <Button 
-                              key={material}
-                              variant={selectedMaterials.includes(material) ? "black" : "outline"}
-                              size="sm"
-                              className="justify-start text-sm"
-                              onClick={() => toggleMaterial(material)}
-                            >
-                              {material}
-                            </Button>
-                          ))}
-                        </div>
+                  {activeFilterTab === 'subcategories' && selectedCategory !== "All Categories" && (
+                    <div className="space-y-6">
+                      <div className="flex items-center mb-2">
+                        <Button 
+                          variant="outline" 
+                          size="sm" 
+                          className="text-xs px-2 py-1 h-auto"
+                          onClick={() => {
+                            setShowSubcategories(false);
+                            setActiveFilterTab("categories");
+                            setSelectedSubCategory("");
+                          }}
+                        >
+                          <ChevronRight size={14} className="rotate-180 mr-1" />
+                          Back to Categories
+                        </Button>
+                        <span className="ml-2 text-sm font-light">{selectedCategory}</span>
                       </div>
-                    )}
+                      <div className="grid grid-cols-2 gap-2">
+                        {categoryData[selectedCategory as keyof typeof categoryData]?.map((subCategory) => (
+                          <Button 
+                            key={subCategory}
+                            variant={selectedSubCategory === subCategory ? "black" : "outline"}
+                            size="sm"
+                            className="justify-start text-sm"
+                            onClick={() => handleSubCategorySelect(subCategory)}
+                          >
+                            {subCategory}
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
 
-                    {activeFilterTab === 'collections' && (
-                      <div className="space-y-6">
-                        <h4 className="text-sm uppercase text-gray-500 font-medium">Season</h4>
+                  {activeFilterTab === 'materials' && (
+                    <div className="space-y-6">
+                      <h4 className="text-sm uppercase text-gray-500 font-medium">Materials</h4>
+                      <div className="grid grid-cols-2 gap-2">
+                        {materialOptions.map((material) => (
+                          <Button 
+                            key={material}
+                            variant={selectedMaterials.includes(material) ? "black" : "outline"}
+                            size="sm"
+                            className="justify-start text-sm"
+                            onClick={() => toggleMaterial(material)}
+                          >
+                            {material}
+                          </Button>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {activeFilterTab === 'collections' && (
+                    <div className="space-y-6">
+                      <h4 className="text-sm uppercase text-gray-500 font-medium">Season</h4>
+                      <div className="grid grid-cols-1 gap-2">
+                        {seasonOptions.map((season) => (
+                          <div key={season} className="flex items-center space-x-2">
+                            <Checkbox 
+                              id={`season-${season}`}
+                              checked={selectedSeasons.includes(season)}
+                              onCheckedChange={() => toggleFilterOption(season, selectedSeasons, setSelectedSeasons)}
+                            />
+                            <Label 
+                              htmlFor={`season-${season}`}
+                              className="text-sm font-light cursor-pointer"
+                            >
+                              {season}
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
+                      
+                      <h4 className="text-sm uppercase text-gray-500 font-medium pt-4">Colors</h4>
+                      <div className="grid grid-cols-3 gap-2">
+                        {colorOptions.map((color) => (
+                          <div key={color} className="flex items-center space-x-2">
+                            <Checkbox 
+                              id={`color-${color}`}
+                              checked={selectedColors.includes(color)}
+                              onCheckedChange={() => toggleFilterOption(color, selectedColors, setSelectedColors)}
+                            />
+                            <Label 
+                              htmlFor={`color-${color}`}
+                              className="text-sm font-light cursor-pointer"
+                            >
+                              {color}
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {activeFilterTab === 'specifications' && (
+                    <div className="space-y-6">
+                      <h4 className="text-sm uppercase text-gray-500 font-medium">Sizes</h4>
+                      <div className="grid grid-cols-4 gap-2">
+                        {sizeOptions.map((size) => (
+                          <Button 
+                            key={size}
+                            variant={selectedSizes.includes(size) ? "black" : "outline"}
+                            size="sm"
+                            className="justify-center text-sm"
+                            onClick={() => toggleFilterOption(size, selectedSizes, setSelectedSizes)}
+                          >
+                            {size}
+                          </Button>
+                        ))}
+                      </div>
+                      
+                      <h4 className="text-sm uppercase text-gray-500 font-medium pt-4">Sustainability</h4>
+                      <div className="grid grid-cols-1 gap-2">
+                        {sustainabilityCertOptions.map((cert) => (
+                          <div key={cert} className="flex items-center space-x-2">
+                            <Checkbox 
+                              id={`cert-${cert}`}
+                              checked={selectedCertifications.includes(cert)}
+                              onCheckedChange={() => toggleFilterOption(cert, selectedCertifications, setSelectedCertifications)}
+                            />
+                            <Label 
+                              htmlFor={`cert-${cert}`}
+                              className="text-sm font-light cursor-pointer"
+                            >
+                              {cert}
+                            </Label>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {activeFilterTab === 'commercial' && (
+                    <div className="space-y-6">
+                      <div>
+                        <h4 className="text-sm uppercase text-gray-500 font-medium mb-3">Minimum Order Quantity</h4>
+                        <div className="flex justify-between text-sm font-light">
+                          <span>{minOrderRange[0]} units</span>
+                          <span>{minOrderRange[1]} units</span>
+                        </div>
+                        <Slider
+                          defaultValue={[0, 100]}
+                          min={0}
+                          max={100}
+                          step={5}
+                          value={minOrderRange}
+                          onValueChange={setMinOrderRange}
+                          className="py-4"
+                        />
+                      </div>
+                      
+                      <div>
+                        <h4 className="text-sm uppercase text-gray-500 font-medium mb-3">Lead Time</h4>
                         <div className="grid grid-cols-1 gap-2">
-                          {seasonOptions.map((season) => (
-                            <div key={season} className="flex items-center space-x-2">
+                          {leadTimeOptions.map((leadTime) => (
+                            <div key={leadTime} className="flex items-center space-x-2">
                               <Checkbox 
-                                id={`season-${season}`}
-                                checked={selectedSeasons.includes(season)}
-                                onCheckedChange={() => toggleFilterOption(season, selectedSeasons, setSelectedSeasons)}
+                                id={`leadtime-${leadTime}`}
+                                checked={selectedLeadTimes.includes(leadTime)}
+                                onCheckedChange={() => toggleFilterOption(leadTime, selectedLeadTimes, setSelectedLeadTimes)}
                               />
                               <Label 
-                                htmlFor={`season-${season}`}
+                                htmlFor={`leadtime-${leadTime}`}
                                 className="text-sm font-light cursor-pointer"
                               >
-                                {season}
-                              </Label>
-                            </div>
-                          ))}
-                        </div>
-                        
-                        <h4 className="text-sm uppercase text-gray-500 font-medium pt-4">Colors</h4>
-                        <div className="grid grid-cols-3 gap-2">
-                          {colorOptions.map((color) => (
-                            <div key={color} className="flex items-center space-x-2">
-                              <Checkbox 
-                                id={`color-${color}`}
-                                checked={selectedColors.includes(color)}
-                                onCheckedChange={() => toggleFilterOption(color, selectedColors, setSelectedColors)}
-                              />
-                              <Label 
-                                htmlFor={`color-${color}`}
-                                className="text-sm font-light cursor-pointer"
-                              >
-                                {color}
+                                {leadTime}
                               </Label>
                             </div>
                           ))}
                         </div>
                       </div>
-                    )}
-
-                    {activeFilterTab === 'specifications' && (
-                      <div className="space-y-6">
-                        <h4 className="text-sm uppercase text-gray-500 font-medium">Sizes</h4>
-                        <div className="grid grid-cols-4 gap-2">
-                          {sizeOptions.map((size) => (
-                            <Button 
-                              key={size}
-                              variant={selectedSizes.includes(size) ? "black" : "outline"}
-                              size="sm"
-                              className="justify-center text-sm"
-                              onClick={() => toggleFilterOption(size, selectedSizes, setSelectedSizes)}
-                            >
-                              {size}
-                            </Button>
-                          ))}
-                        </div>
-                        
-                        <h4 className="text-sm uppercase text-gray-500 font-medium pt-4">Sustainability</h4>
-                        <div className="grid grid-cols-1 gap-2">
-                          {sustainabilityCertOptions.map((cert) => (
-                            <div key={cert} className="flex items-center space-x-2">
-                              <Checkbox 
-                                id={`cert-${cert}`}
-                                checked={selectedCertifications.includes(cert)}
-                                onCheckedChange={() => toggleFilterOption(cert, selectedCertifications, setSelectedCertifications)}
-                              />
-                              <Label 
-                                htmlFor={`cert-${cert}`}
-                                className="text-sm font-light cursor-pointer"
-                              >
-                                {cert}
-                              </Label>
-                            </div>
-                          ))}
-                        </div>
-                      </div>
-                    )}
-
-                    {activeFilterTab === 'commercial' && (
-                      <div className="space-y-6">
-                        <div>
-                          <h4 className="text-sm uppercase text-gray-500 font-medium mb-3">Minimum Order Quantity</h4>
-                          <div className="flex justify-between text-sm font-light">
-                            <span>{minOrderRange[0]} units</span>
-                            <span>{minOrderRange[1]} units</span>
-                          </div>
-                          <Slider
-                            defaultValue={[0, 100]}
-                            min={0}
-                            max={100}
-                            step={5}
-                            value={minOrderRange}
-                            onValueChange={setMinOrderRange}
-                            className="py-4"
-                          />
-                        </div>
-                        
-                        <div>
-                          <h4 className="text-sm uppercase text-gray-500 font-medium mb-3">Lead Time</h4>
-                          <div className="grid grid-cols-1 gap-2">
-                            {leadTimeOptions.map((leadTime) => (
-                              <div key={leadTime} className="flex items-center space-x-2">
-                                <Checkbox 
-                                  id={`leadtime-${leadTime}`}
-                                  checked={selectedLeadTimes.includes(leadTime)}
-                                  onCheckedChange={() => toggleFilterOption(leadTime, selectedLeadTimes, setSelectedLeadTimes)}
-                                />
-                                <Label 
-                                  htmlFor={`leadtime-${leadTime}`}
-                                  className="text-sm font-light cursor-pointer"
-                                >
-                                  {leadTime}
-                                </Label>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                        
-                        <div>
-                          <div className="flex items-center justify-between">
-                            <h4 className="text-sm uppercase text-gray-500 font-medium mb-3">Shipping From</h4>
-                          </div>
-                          <div className="grid grid-cols-2 gap-2">
-                            {shippingFromOptions.map((origin) => (
-                              <div key={origin} className="flex items-center space-x-2">
-                                <Checkbox 
-                                  id={`origin-${origin}`}
-                                  checked={selectedShippingOrigins.includes(origin)}
-                                  onCheckedChange={() => toggleFilterOption(origin, selectedShippingOrigins, setSelectedShippingOrigins)}
-                                />
-                                <Label 
-                                  htmlFor={`origin-${origin}`}
-                                  className="text-sm font-light cursor-pointer"
-                                >
-                                  {origin}
-                                </Label>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                  
-                  <div className="space-y-6">
-                    {activeFilterTab === 'categories' && (
-                      <div className="space-y-6">
-                        <div>
-                          <h4 className="text-sm uppercase text-gray-500 font-medium mb-3">Price Range</h4>
-                          <div className="flex justify-between text-sm font-light">
-                            <span>{priceRange[0]} ₽</span>
-                            <span>{priceRange[1]} ₽</span>
-                          </div>
-                          <Slider
-                            defaultValue={[0, 1000]}
-                            min={0}
-                            max={1000}
-                            step={50}
-                            value={priceRange}
-                            onValueChange={setPriceRange}
-                            className="py-4"
-                          />
-                        </div>
-                        
-                        <div className="flex items-center space-x-2 pt-2">
-                          <Switch 
-                            id="in-stock"
-                            checked={inStockOnly}
-                            onCheckedChange={setInStockOnly}
-                          />
-                          <Label htmlFor="in-stock" className="text-sm">In stock only</Label>
-                        </div>
-                      </div>
-                    )}
-
-                    {activeFilterTab === 'commercial' && (
-                      <div className="space-y-6">
-                        <div className="flex items-center space-x-2">
-                          <Switch 
+                      
+                      <div>
+                        <div className="flex items-center justify-between">
+                          <Label htmlFor="exclusivity" className="text-sm uppercase text-gray-500 font-medium">
+                            Exclusivity Available
+                          </Label>
+                          <Switch
                             id="exclusivity"
                             checked={exclusivityOnly}
                             onCheckedChange={setExclusivityOnly}
                           />
-                          <Label htmlFor="exclusivity" className="text-sm">Exclusivity options only</Label>
                         </div>
-                        <p className="text-xs text-gray-500">
-                          Show only products that offer exclusivity arrangements for specific regions or markets
-                        </p>
+                        <p className="text-xs text-gray-500 mt-1">Only show products with exclusivity options</p>
                       </div>
-                    )}
+                    </div>
+                  )}
 
-                    {activeFilterTab === 'ai' && (
-                      <div className="space-y-6">
-                        <div className="flex items-center space-x-2">
-                          <Switch 
+                  {activeFilterTab === 'ai' && (
+                    <div className="space-y-6">
+                      <div className="pt-2">
+                        <div className="flex items-center justify-between mb-2">
+                          <Label htmlFor="ai-assist" className="text-sm uppercase text-gray-500 font-medium">
+                            AI Shopping Assistant
+                          </Label>
+                          <Switch
                             id="ai-assist"
                             checked={isAiAssistEnabled}
                             onCheckedChange={setIsAiAssistEnabled}
                           />
-                          <Label htmlFor="ai-assist" className="text-sm">Enable AI Buying Assistant</Label>
                         </div>
-                        <p className="text-xs text-gray-500">
-                          Our AI assistant can analyze current trends and market data to recommend products that might perform well for your store profile
-                        </p>
+                        <p className="text-xs text-gray-500 mb-4">Enable AI to help you find the best products based on your preferences and buying history</p>
+                        
                         {isAiAssistEnabled && (
-                          <div className="mt-4 p-4 bg-gray-50 border border-gray-200">
-                            <h5 className="text-sm font-medium mb-2">AI Recommendations</h5>
-                            <p className="text-sm text-gray-600">
-                              Based on your past orders and current market trends, consider exploring:
-                            </p>
-                            <ul className="mt-2 space-y-1 text-sm text-gray-600">
-                              <li className="flex items-center">
-                                <ChevronRight className="h-3 w-3 mr-1" />
-                                Leather accessories in neutral tones
-                              </li>
-                              <li className="flex items-center">
-                                <ChevronRight className="h-3 w-3 mr-1" />
-                                Sustainable cotton basics
-                              </li>
-                              <li className="flex items-center">
-                                <ChevronRight className="h-3 w-3 mr-1" />
-                                Statement pieces from Fall/Winter 2024
-                              </li>
-                            </ul>
+                          <div className="bg-gray-50 border border-gray-200 p-4 rounded-none mb-4">
+                            <p className="text-sm font-light">The AI assistant will analyze your filters, past purchases, and current market trends to suggest the most relevant products for your store.</p>
                           </div>
                         )}
                       </div>
-                    )}
+                    </div>
+                  )}
+                </div>
 
-                    <div className="pt-8 flex items-center justify-end space-x-3">
-                      <Button 
-                        variant="outline"
-                        size="sm"
-                        onClick={resetFilters}
-                        className="text-sm"
-                      >
-                        <FilterX size={14} className="mr-1" /> Reset All
-                      </Button>
-                      
-                      <Button 
-                        size="sm"
-                        className="text-sm bg-black hover:bg-gray-900"
-                      >
-                        Apply Filters
-                      </Button>
+                <div className="space-y-6">
+                  <div className="space-y-6">
+                    <div className="flex justify-between">
+                      <h4 className="text-sm uppercase text-gray-500 font-medium">Price Range</h4>
+                      <span className="text-sm font-light">
+                        {priceRange[0]} - {priceRange[1]} EUR
+                      </span>
+                    </div>
+                    <Slider
+                      defaultValue={[0, 1000]}
+                      min={0}
+                      max={1000}
+                      step={50}
+                      value={priceRange}
+                      onValueChange={setPriceRange}
+                      className="py-4"
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <h4 className="text-sm uppercase text-gray-500 font-medium">Shipping From</h4>
+                    <div className="grid grid-cols-2 gap-2">
+                      {shippingFromOptions.map((region) => (
+                        <div key={region} className="flex items-center space-x-2">
+                          <Checkbox 
+                            id={`region-${region}`}
+                            checked={selectedShippingOrigins.includes(region)}
+                            onCheckedChange={() => toggleFilterOption(region, selectedShippingOrigins, setSelectedShippingOrigins)}
+                          />
+                          <Label 
+                            htmlFor={`region-${region}`}
+                            className="text-sm font-light cursor-pointer"
+                          >
+                            {region}
+                          </Label>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          </CollapsibleContent>
-        </Collapsible>
-      </div>
 
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {visibleProducts.map((product) => (
-          <div key={product.id} className="group relative">
-            <Card className="overflow-hidden rounded-none border-gray-100 shadow-none hover:shadow-sm transition-shadow">
-              <div className="aspect-[3/4] bg-gray-50 relative">
-                <div className="absolute inset-0 flex items-center justify-center text-gray-400 text-sm">
-                  {product.imagePlaceholder}
-                </div>
-                <div className="absolute top-3 right-3">
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    className="h-8 w-8 rounded-full bg-white/80 hover:bg-white text-gray-800"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      toggleFavorite(product.id);
-                    }}
-                  >
-                    <Heart 
-                      size={18} 
-                      className={product.favorite ? "fill-black text-black" : ""} 
+                  <div className="flex items-center justify-between">
+                    <Label htmlFor="in-stock" className="text-sm uppercase text-gray-500 font-medium">
+                      In Stock Only
+                    </Label>
+                    <Switch
+                      id="in-stock"
+                      checked={inStockOnly}
+                      onCheckedChange={setInStockOnly}
                     />
-                  </Button>
+                  </div>
+                  
+                  {activeFiltersCount > 0 && (
+                    <div className="mt-4 pt-4 border-t border-gray-200">
+                      <div className="flex justify-between items-center mb-2">
+                        <h4 className="text-sm uppercase text-gray-500 font-medium">Applied Filters</h4>
+                        <Button 
+                          variant="ghost" 
+                          size="sm" 
+                          onClick={resetFilters}
+                          className="h-8 text-xs text-gray-500 hover:text-black flex items-center gap-1"
+                        >
+                          <FilterX size={14} />
+                          Clear All
+                        </Button>
+                      </div>
+                      <div className="flex flex-wrap gap-2 mt-2">
+                        {selectedCategory !== "All Categories" && (
+                          <div className="bg-gray-100 px-2 py-1 text-xs flex items-center gap-1">
+                            <span>Category: {selectedCategory}</span>
+                            <X 
+                              size={12} 
+                              className="cursor-pointer"
+                              onClick={() => setSelectedCategory("All Categories")}
+                            />
+                          </div>
+                        )}
+                        {selectedSubCategory && (
+                          <div className="bg-gray-100 px-2 py-1 text-xs flex items-center gap-1">
+                            <span>Subcategory: {selectedSubCategory}</span>
+                            <X 
+                              size={12} 
+                              className="cursor-pointer"
+                              onClick={() => setSelectedSubCategory("")}
+                            />
+                          </div>
+                        )}
+                        {selectedMaterials.map(material => (
+                          <div key={material} className="bg-gray-100 px-2 py-1 text-xs flex items-center gap-1">
+                            <span>Material: {material}</span>
+                            <X 
+                              size={12} 
+                              className="cursor-pointer"
+                              onClick={() => toggleMaterial(material)}
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </div>
-                <Dialog open={selectedProduct === product.id && productDialogOpen} onOpenChange={setProductDialogOpen}>
-                  <DialogTrigger asChild>
-                    <Button 
-                      variant="outline" 
-                      className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/80 hover:bg-white border-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
-                      onClick={() => {
-                        setSelectedProduct(product.id);
-                        setProductDialogOpen(true);
-                      }}
-                    >
-                      Quick view
-                    </Button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-4xl h-[90vh] overflow-y-auto">
-                    <ProductDetails isDialog productId={product.id} onClose={() => setProductDialogOpen(false)} />
-                  </DialogContent>
-                </Dialog>
               </div>
-              <CardContent className="p-4">
-                <div className="space-y-1">
-                  <p className="text-sm text-gray-500">{product.category} • {product.subCategory}</p>
-                  <h3 className="font-light text-base">{product.name}</h3>
-                  <div className="flex justify-between items-end">
-                    <p className="font-light">{product.price}</p>
+
+              <div className="flex justify-between mt-6">
+                <Button 
+                  variant="outline"
+                  size="sm"
+                  onClick={resetFilters}
+                >
+                  Reset Filters
+                </Button>
+                <Button
+                  variant="black"
+                  size="sm"
+                  onClick={() => {
+                    // Keep filters open but apply them
+                  }}
+                >
+                  Apply Filters
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </CollapsibleContent>
+      </Collapsible>
+      
+      {aiResults && (
+        <div className="bg-gray-50 border border-gray-200 p-4 rounded-none mb-4 animate-fade-in">
+          <div className="flex items-start gap-3">
+            <div className="bg-black text-white p-2 rounded-none">
+              <SlidersHorizontal size={16} />
+            </div>
+            <div>
+              <h4 className="font-medium text-sm mb-1">AI Shopping Assistant</h4>
+              <p className="text-sm text-gray-600">{aiResults}</p>
+            </div>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              className="ml-auto h-6 w-6 p-0"
+              onClick={() => {
+                setAiResults(null);
+                setIsAiAssistEnabled(false);
+              }}
+            >
+              <X size={14} />
+            </Button>
+          </div>
+        </div>
+      )}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {visibleProducts.length > 0 ? (
+          visibleProducts.map((product) => (
+            <Card key={product.id} className="border-0 rounded-none overflow-hidden group">
+              <CardContent className="p-0">
+                <div className="aspect-[3/4] bg-gray-50 flex items-center justify-center relative overflow-hidden">
+                  <div className="text-gray-400 text-xs">{product.imagePlaceholder}</div>
+                  <div className="absolute inset-0 bg-black/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                  <div className="absolute top-0 right-0 p-3">
+                    <Button 
+                      variant="ghost" 
+                      size="icon" 
+                      className="h-8 w-8 rounded-full bg-white/70 hover:bg-white"
+                      onClick={() => toggleFavorite(product.id)}
+                    >
+                      <Heart 
+                        size={16} 
+                        className={product.favorite ? "fill-black text-black" : "text-gray-600"}
+                      />
+                    </Button>
+                  </div>
+                  <div className="absolute bottom-0 left-0 right-0 flex justify-between p-3 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                    <Button className="bg-black text-white text-xs px-3 py-1.5 hover:bg-gray-900">
+                      Add to Bag
+                    </Button>
+                    <Button variant="outline" className="bg-white text-black text-xs px-3 py-1.5">
+                      Quick View
+                    </Button>
+                  </div>
+                </div>
+                <div className="pt-4 px-1 space-y-1">
+                  <p className="text-xs text-gray-500 uppercase tracking-wide">
+                    {product.category}{product.subCategory ? ` / ${product.subCategory}` : ''}
+                  </p>
+                  <h3 className="font-light text-sm tracking-tight">{product.name}</h3>
+                  <p className="text-sm">{product.price}</p>
+                  <div className="flex justify-between items-center">
                     <p className="text-xs text-gray-500">{product.material}</p>
+                    <p className={`text-xs ${product.availability === "In Stock" ? "text-gray-500" : "text-gray-400"}`}>
+                      {product.availability}
+                    </p>
                   </div>
                 </div>
               </CardContent>
             </Card>
+          ))
+        ) : (
+          <div className="col-span-full py-12 text-center">
+            <p className="text-gray-500">No products found matching your criteria.</p>
+            <Button 
+              variant="outline" 
+              className="mt-4"
+              onClick={resetFilters}
+            >
+              Clear Filters
+            </Button>
           </div>
-        ))}
+        )}
       </div>
-      
-      {isSearching && (
-        <div className="py-8 text-center">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-black"></div>
-          <p className="mt-4 text-gray-600">Searching for products...</p>
-        </div>
-      )}
-      
-      {!isSearching && filteredProducts.length === 0 && (
-        <div className="py-12 text-center">
-          <div className="mx-auto w-16 h-16 mb-4 rounded-full bg-gray-100 flex items-center justify-center">
-            <X className="h-8 w-8 text-gray-400" />
+
+      {filteredProducts.length > 0 && (
+        <div className="flex justify-center pt-8">
+          <div className="flex gap-2">
+            {[1, 2, 3].map((page) => (
+              <Button 
+                key={page} 
+                variant={page === 1 ? "default" : "outline"}
+                size="sm"
+                className={page === 1 
+                  ? "bg-black text-white border-black" 
+                  : "bg-white border-gray-200 hover:border-gray-400 transition-colors"
+                }
+              >
+                {page}
+              </Button>
+            ))}
           </div>
-          <h3 className="text-lg font-light mb-1">No products found</h3>
-          <p className="text-gray-500">Try changing your filters or search term</p>
-          <Button 
-            variant="outline"
-            size="sm"
-            onClick={resetFilters}
-            className="mt-4"
-          >
-            <FilterX size={16} className="mr-2" /> Clear Filters
-          </Button>
         </div>
       )}
-      
-      {hasMore && visibleProducts.length > 0 && (
-        <div className="py-8 text-center">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-300"></div>
-          <p className="mt-4 text-gray-500">Loading more products...</p>
-        </div>
-      )}
-      
-      {showScrollTop && (
-        <Button
-          className="fixed bottom-8 right-8 h-10 w-10 rounded-full shadow-md bg-white hover:bg-gray-50 text-black border border-gray-200"
-          onClick={scrollToTop}
-        >
-          <ChevronUp size={20} />
-        </Button>
-      )}
+
+      <button
+        onClick={scrollToTop}
+        className={`fixed bottom-6 right-6 p-3 z-50 bg-black shadow-md rounded-full hover:bg-gray-800 transition-all duration-300 ${
+          showScrollTop ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
+        }`}
+        aria-label="Scroll to top"
+      >
+        <ChevronUp size={20} strokeWidth={1} className="text-white" />
+      </button>
     </div>
   );
 };
