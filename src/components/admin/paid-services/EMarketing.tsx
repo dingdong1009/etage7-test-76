@@ -265,9 +265,7 @@ const EMarketing = () => {
                                 <Edit className="h-4 w-4" strokeWidth={1.5} />
                               </Button>
                             )}
-                            <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-200">
-                              <Copy className="h-4 w-4" strokeWidth={1.5} />
-                            </Button>
+
                           </TableCell>
                         </TableRow>
                       );

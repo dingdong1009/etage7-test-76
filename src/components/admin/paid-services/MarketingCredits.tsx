@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, Edit, Trash } from "lucide-react";
+import { Plus, Edit, Trash2, ToggleRight } from "lucide-react";
 import { mockCreditPackages, mockBrandCredits } from "@/mock/marketingCredits";
 import type { CreditPackage } from "@/types/mockData";
 
@@ -80,12 +80,15 @@ const MarketingCredits = () => {
                       <TableCell>{pkg.credits}</TableCell>
                       <TableCell>${pkg.price}</TableCell>
                       <TableCell className="flex gap-2">
-                        <Button variant="outline" size="icon">
-                          <Edit className="h-4 w-4" />
+                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-red-100">
+                          <Edit className="h-4 w-4" strokeWidth={1.5} />
                         </Button>
-                        <Button variant="outline" size="icon">
-                          <Trash className="h-4 w-4" />
+                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-red-100">
+                          <ToggleRight className="h-4 w-4" strokeWidth={1.5} />
                         </Button>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-red-100">
+                              <Trash2 className="h-4 w-4 text-red-500" strokeWidth={1.5} />
+                            </Button>
                       </TableCell>
                     </TableRow>
                   ))}
