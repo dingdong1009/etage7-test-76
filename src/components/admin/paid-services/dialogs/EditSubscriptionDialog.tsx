@@ -9,13 +9,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import type { Subscription } from "@/types/services/paidServices";
+import type { Subscription, ServiceFrequency } from "@/types/services/paidServices";
 
 const subscriptionSchema = z.object({
   name: z.string().min(3, "Plan name must be at least 3 characters"),
   description: z.string().min(10, "Description must be at least 10 characters"),
   price: z.string().min(1, "Price is required"),
-  frequency: z.enum(["monthly", "semi-annual", "annual"]),
+  frequency: z.enum(["monthly", "semi-annual", "annual", "one-time"]),
   maxUsers: z.string().min(1, "Maximum users is required"),
   features: z.string().min(1, "At least one feature is required"),
   trialDays: z.string().optional(),
@@ -130,6 +130,7 @@ const EditSubscriptionDialog: React.FC<EditSubscriptionDialogProps> = ({
                         <SelectItem value="monthly">Monthly</SelectItem>
                         <SelectItem value="semi-annual">Semi-Annual</SelectItem>
                         <SelectItem value="annual">Annual</SelectItem>
+                        <SelectItem value="one-time">One-Time</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

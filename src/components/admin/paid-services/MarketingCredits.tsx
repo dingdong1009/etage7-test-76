@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Plus, Edit, Trash2, ToggleRight, ToggleLeft } from "lucide-react";
 import { mockCreditPackages, mockBrandCredits } from "@/mock/marketingCredits";
 import { toast } from "@/hooks/use-toast";
-import NewServiceDialog from "@/components/admin/services/NewServiceDialog";
+import EditMarketingDialog from "@/components/admin/paid-services/dialogs/EditMarketingDialog";
 import type { CreditPackage } from "@/types/mockData";
 
 const MarketingCredits = () => {
@@ -176,9 +176,10 @@ const MarketingCredits = () => {
         </Card>
       </div>
 
-      <NewServiceDialog 
+      <EditMarketingDialog 
         isOpen={isDialogOpen}
         setIsOpen={setIsDialogOpen}
+        package={selectedPackage}
         onSubmit={(data) => {
           console.log('Form submitted:', data);
           setIsDialogOpen(false);
