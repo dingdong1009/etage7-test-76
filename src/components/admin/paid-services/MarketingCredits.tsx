@@ -108,6 +108,7 @@ const MarketingCredits = () => {
                     <TableHead>Name</TableHead>
                     <TableHead>Credits</TableHead>
                     <TableHead>Price ($)</TableHead>
+                    <TableHead>Status</TableHead>
                     <TableHead>Actions</TableHead>
                   </TableRow>
                 </TableHeader>
@@ -117,6 +118,11 @@ const MarketingCredits = () => {
                       <TableCell>{pkg.name}</TableCell>
                       <TableCell>{pkg.credits}</TableCell>
                       <TableCell>${pkg.price}</TableCell>
+                      <TableCell>
+                        <span className={`text-sm ${pkg.isActive ? 'text-green-600' : 'text-gray-500'}`}>
+                          {pkg.isActive ? 'Active' : 'Inactive'}
+                        </span>
+                      </TableCell>
                       <TableCell className="flex gap-2">
                         <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-200" onClick={() => handleEdit(pkg)}>
                           <Edit className="h-4 w-4" strokeWidth={1.5} />
@@ -152,6 +158,7 @@ const MarketingCredits = () => {
                   <TableHead>Brand</TableHead>
                   <TableHead>Available Credits</TableHead>
                   <TableHead>Used Credits</TableHead>
+                  <TableHead>Total $ Spent</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -160,6 +167,7 @@ const MarketingCredits = () => {
                     <TableCell>{credit.brandName}</TableCell>
                     <TableCell>{credit.creditsPurchased - credit.creditsUsed}</TableCell>
                     <TableCell>{credit.creditsUsed}</TableCell>
+                    <TableCell>${(credit.creditsPurchased * 0.10).toFixed(2)}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>
