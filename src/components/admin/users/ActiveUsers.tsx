@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Eye, UserCheck, UserX } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Brand, Buyer } from "@/types/users";
+import { Brand, Buyer, UserStatus } from "@/types/users"; // Import UserStatus type
 
 type ActiveUser = (Brand | Buyer) & { type: "brand" | "buyer" };
 
@@ -14,7 +14,7 @@ const mockActiveUsers: ActiveUser[] = [
     id: 1,
     type: "brand",
     name: "Luxury Fashion Co",
-    status: "active",
+    status: "active" as UserStatus, // Explicitly cast to UserStatus
     plan: "Premium",
     lastActivity: "2024-04-10",
     activeSince: "2024-01-15",
@@ -53,7 +53,14 @@ const ActiveUsers = () => {
 
   const handleDeactivate = (id: number) => {
     const updatedUsers = users.map(user => 
-      user.id === id ? { ...user, status: "inactive" } : user
+      user.id === id ? { ...user, status: "inactive" as UserStatus } : user // Explicitly cast to UserStatus
+    );
+    setUsers(updatedUsers);
+  };
+
+  const handleActivate = (id: number) => {
+    const updatedUsers = users.map(user => 
+      user.id === id ? { ...user, status: "active" as UserStatus } : user // Add function to reactivate users
     );
     setUsers(updatedUsers);
   };
@@ -130,7 +137,7 @@ const ActiveUsers = () => {
                         <Button
                           variant="ghost"
                           size="icon"
-                          onClick={() => {/* Reactivate logic if needed */}}
+                          onClick={() => handleActivate(user.id)}
                           className="h-8 w-8 p-0 hover:bg-green-100"
                         >
                           <UserCheck className="h-4 w-4 text-green-500" strokeWidth={1.5} />
