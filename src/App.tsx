@@ -59,9 +59,6 @@ import BuyerTeam from "./pages/buyer/Team";
 import BuyerResources from "./pages/buyer/Resources";
 import BuyerSettings from "./pages/buyer/Settings";
 import ProductDetails from "./pages/buyer/ProductDetails";
-import StartOrder from "./pages/buyer/StartOrder";
-import ContactBrand from "./pages/buyer/ContactBrand";
-import RequestSamples from "./pages/buyer/RequestSamples";
 
 // Sales components
 import SalesLayout from "./components/sales/SalesLayout";
@@ -123,9 +120,6 @@ const App = () => {
               <Route path="resources" element={<BuyerResources />} />
               <Route path="settings" element={<BuyerSettings />} />
               <Route path="product/:productId" element={<ProductDetails />} />
-              <Route path="product/:productId/start-order" element={<StartOrder />} />
-              <Route path="product/:productId/contact" element={<ContactBrand />} />
-              <Route path="product/:productId/request-samples" element={<RequestSamples />} />
             </Route>
             
             <Route path="/admin" element={<AdminLayout />}>
