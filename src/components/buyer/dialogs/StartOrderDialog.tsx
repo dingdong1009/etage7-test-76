@@ -1,16 +1,16 @@
 
 import { Button } from "@/components/ui/button";
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Table,
@@ -103,16 +103,16 @@ export function StartOrderDialog() {
   };
 
   return (
-    <Dialog>
-      <DialogTrigger asChild>
+    <Sheet>
+      <SheetTrigger asChild>
         <Button className="w-full bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase">
           Start an Order
         </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[800px]">
-        <DialogHeader>
-          <DialogTitle className="text-xl font-normal tracking-tight">New Order</DialogTitle>
-        </DialogHeader>
+      </SheetTrigger>
+      <SheetContent className="w-[800px] sm:w-[800px] overflow-y-auto">
+        <SheetHeader>
+          <SheetTitle className="text-xl font-normal tracking-tight">New Order</SheetTitle>
+        </SheetHeader>
         <form onSubmit={handleSubmit} className="space-y-6 py-4">
           <div className="space-y-4">
             <Table>
@@ -236,7 +236,7 @@ export function StartOrderDialog() {
             </div>
           </div>
         </form>
-      </DialogContent>
-    </Dialog>
+      </SheetContent>
+    </Sheet>
   );
 }
