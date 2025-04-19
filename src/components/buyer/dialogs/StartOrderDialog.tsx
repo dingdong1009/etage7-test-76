@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import {
   Sheet,
@@ -109,7 +108,7 @@ export function StartOrderDialog() {
           Start an Order
         </Button>
       </SheetTrigger>
-      <SheetContent className="w-[800px] sm:w-[800px] overflow-y-auto">
+      <SheetContent className="w-[1000px] sm:w-[1000px] overflow-y-auto">
         <SheetHeader>
           <SheetTitle className="text-xl font-normal tracking-tight">New Order</SheetTitle>
         </SheetHeader>
