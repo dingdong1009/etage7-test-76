@@ -11,6 +11,12 @@ import {
 import { ScrollIndicator } from "@/components/ScrollIndicator";
 import { useScrollProgress } from "@/hooks/useScrollProgress";
 import { useRef } from "react";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableRow,
+} from "@/components/ui/table";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
@@ -29,7 +35,6 @@ const ProductDetails = () => {
 
   return (
     <div className="min-h-screen bg-white">
-      {/* Back Navigation */}
       <div className="fixed top-0 left-0 right-0 z-40 border-gray-100 pl-8 pt-40">
         <div className="container py-1">
           <Button 
@@ -45,7 +50,6 @@ const ProductDetails = () => {
 
       <div className="pt-1">
         <div className="flex flex-col lg:flex-row">
-          {/* Image Section */}
           <div className="relative w-full lg:w-3/5">
             <ScrollArea ref={scrollRef} className="h-screen">
               <div className="space-y-1">
@@ -67,13 +71,11 @@ const ProductDetails = () => {
             />
           </div>
 
-          {/* Product Info Section */}
           <ScrollArea className="w-full lg:w-2/5 pl-8">
             <div className="lg:sticky lg:top-10">
               <h1 className="text-xl font-normal uppercase tracking-tighter">Product Name</h1>
               <p className="text-gray-500 mb-6">€2,400 / Wholesale price</p>
 
-              {/* Color Selection */}
               <div className="mb-8">
                 <h3 className="text-sm uppercase mb-4">Color</h3>
                 <div className="flex gap-2">
@@ -101,7 +103,6 @@ const ProductDetails = () => {
                 </div>
               </div>
 
-              {/* Action Buttons */}
               <div className="space-y-4 mb-8">
                 <Button className="w-full bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase">
                   Contact Brand
@@ -114,12 +115,53 @@ const ProductDetails = () => {
                 </Button>
               </div>
 
-              {/* Product Details Accordion */}
-            <div className="border-t pt-4">
-              <p className="text-lg uppercase">Brand & CO Studio </p>
-              <p className="text-gray-700 my-2 font-normal text-sm">The production of the Prada Galleria bag blends industrial precision and the refined accuracy of craftsmanship that can only be performed by hand. The design of this style has a reinterpreted silhouette with an elegant, elongated shape. Giving rise to the definition of “timeless”, the Galleria bag has become a hallmark of the Prada identity.</p>
+              <div className="border-t pt-4">
+                <p className="text-lg uppercase">Brand & CO Studio</p>
+                <p className="text-gray-700 my-2 font-normal text-sm">The production of the Prada Galleria bag blends industrial precision and the refined accuracy of craftsmanship that can only be performed by hand. The design of this style has a reinterpreted silhouette with an elegant, elongated shape. Giving rise to the definition of "timeless", the Galleria bag has become a hallmark of the Prada identity.</p>
 
-            </div>
+                <div className="mt-6">
+                  <Table>
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="font-light text-xs uppercase py-2">Materials</TableCell>
+                        <TableCell className="text-xs py-2">70% Silk, 30% Cotton</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-light text-xs uppercase py-2">Origin</TableCell>
+                        <TableCell className="text-xs py-2">Italy</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-light text-xs uppercase py-2">Care Instructions</TableCell>
+                        <TableCell className="text-xs py-2">Dry clean only</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-light text-xs uppercase py-2">Season</TableCell>
+                        <TableCell className="text-xs py-2">Spring/Summer 2025</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-light text-xs uppercase py-2">Weight</TableCell>
+                        <TableCell className="text-xs py-2">0.5 kg</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-light text-xs uppercase py-2">Dimensions</TableCell>
+                        <TableCell className="text-xs py-2">30 x 20 x 10 cm</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-light text-xs uppercase py-2">Size Guide</TableCell>
+                        <TableCell className="text-xs py-2">S (36), M (38), L (40)</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-light text-xs uppercase py-2">Lead Time</TableCell>
+                        <TableCell className="text-xs py-2">30 days</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-light text-xs uppercase py-2">Sustainability</TableCell>
+                        <TableCell className="text-xs py-2">GOTS certified organic cotton</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </div>
+              </div>
             </div>
           </ScrollArea>
         </div>
