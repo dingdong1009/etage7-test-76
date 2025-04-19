@@ -31,8 +31,8 @@ const ProductDetails = () => {
 
       <div className="pt-16">
         <div className="flex flex-col lg:flex-row">
-          {/* Image Section - Scrollable */}
-          <div className="w-full lg:w-3/5 h-screen overflow-y-auto">
+          {/* Image Section - Scrollable with scrollbar hidden */}
+          <div className="w-full lg:w-3/5 h-screen overflow-y-auto scrollbar-hide">
             <div className="space-y-1">
               {[1, 2, 3, 4, 5].map((index) => (
                 <div 
@@ -45,8 +45,8 @@ const ProductDetails = () => {
             </div>
           </div>
 
-          {/* Product Info Section - Sticky */}
-          <div className="w-full lg:w-2/5 p-8 lg:p-12">
+          {/* Product Info Section - Sticky with scrollbar hidden if needed */}
+          <div className="w-full lg:w-2/5 p-8 lg:p-12 overflow-y-auto scrollbar-hide">
             <div className="lg:sticky lg:top-16">
               <h1 className="text-2xl font-light mb-2">Product Name</h1>
               <p className="text-gray-500 mb-6">€2,400</p>
