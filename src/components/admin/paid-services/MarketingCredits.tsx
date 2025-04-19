@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -714,4 +715,818 @@ const MarketingCredits = () => {
           </Card>
           
           <Card className="border border-gray-200 shadow-none rounded-lg">
-            <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80 flex flex-row items-center justify-
+            <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80 flex flex-row items-center justify-between">
+              <CardTitle className="text-lg font-normal text-gray-900 uppercase">
+                Promotional Codes
+              </CardTitle>
+              <Button 
+                className="bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal text-xs"
+                onClick={() => setShowPromoDialog(true)}
+              >
+                <Plus className="h-3.5 w-3.5 mr-1" />
+                New Promo
+              </Button>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="space-y-4">
+                <div className="p-4 border border-gray-200 rounded-lg">
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="text-sm font-medium uppercase">WELCOME25</h3>
+                    <Badge variant="secondary" className="text-xs bg-green-50 text-green-700 border-none">Active</Badge>
+                  </div>
+                  <div className="text-sm text-gray-500 mb-4">
+                    <p>25% off first credit purchase</p>
+                    <p className="text-xs mt-1">Expires: 12/31/2024</p>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs text-gray-500">Used: 45 times</span>
+                    <div className="flex space-x-2">
+                      <Button size="sm" variant="outline" className="text-xs">
+                        Edit
+                      </Button>
+                      <Button size="sm" variant="outline" className="text-xs text-red-600 hover:text-red-700">
+                        Deactivate
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="p-4 border border-gray-200 rounded-lg">
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="text-sm font-medium uppercase">SUMMER2024</h3>
+                    <Badge variant="secondary" className="text-xs bg-green-50 text-green-700 border-none">Active</Badge>
+                  </div>
+                  <div className="text-sm text-gray-500 mb-4">
+                    <p>15% off any credit package</p>
+                    <p className="text-xs mt-1">Expires: 09/30/2024</p>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs text-gray-500">Used: 28 times</span>
+                    <div className="flex space-x-2">
+                      <Button size="sm" variant="outline" className="text-xs">
+                        Edit
+                      </Button>
+                      <Button size="sm" variant="outline" className="text-xs text-red-600 hover:text-red-700">
+                        Deactivate
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+                
+                <div className="p-4 border border-gray-200 rounded-lg">
+                  <div className="flex justify-between items-center mb-2">
+                    <h3 className="text-sm font-medium uppercase">SPRING10</h3>
+                    <Badge variant="secondary" className="text-xs bg-gray-100 text-gray-500 border-none">Inactive</Badge>
+                  </div>
+                  <div className="text-sm text-gray-500 mb-4">
+                    <p>10% off any credit package</p>
+                    <p className="text-xs mt-1">Expired: 03/31/2024</p>
+                  </div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-xs text-gray-500">Used: 56 times</span>
+                    <div className="flex space-x-2">
+                      <Button size="sm" variant="outline" className="text-xs">
+                        View
+                      </Button>
+                      <Button size="sm" variant="outline" className="text-xs text-green-600 hover:text-green-700">
+                        Reactivate
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="border border-gray-200 shadow-none rounded-lg">
+            <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
+              <CardTitle className="text-lg font-normal text-gray-900 uppercase">
+                Package Performance
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="space-y-6">
+                {creditPackages.map(pkg => (
+                  <div key={`perf-${pkg.id}`} className="space-y-2">
+                    <div className="flex justify-between items-center">
+                      <h3 className="font-medium">{pkg.name}</h3>
+                      <span className="text-sm text-gray-500">${pkg.price}</span>
+                    </div>
+                    <div className="h-2 bg-gray-100 rounded-full overflow-hidden">
+                      <div 
+                        className={`h-full ${
+                          pkg.popular ? 'bg-accent-mint' : 'bg-gray-400'
+                        }`}
+                        style={{ 
+                          width: `${pkg.popular ? '68' : pkg.id === 1 ? '42' : '25'}%` 
+                        }}
+                      ></div>
+                    </div>
+                    <div className="flex justify-between text-xs text-gray-500">
+                      <span>
+                        {pkg.popular ? '68' : pkg.id === 1 ? '42' : '25'}% of total sales
+                      </span>
+                      <span>
+                        {pkg.popular ? '325' : pkg.id === 1 ? '201' : '120'} purchases
+                      </span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              
+              <div className="mt-8 pt-6 border-t border-gray-100">
+                <h3 className="font-medium mb-4">Monthly Purchase Trend</h3>
+                <div className="h-[200px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={[
+                      { month: "Jan", professional: 45, starter: 32, enterprise: 10 },
+                      { month: "Feb", professional: 52, starter: 28, enterprise: 14 },
+                      { month: "Mar", professional: 49, starter: 35, enterprise: 12 },
+                      { month: "Apr", professional: 63, starter: 42, enterprise: 18 },
+                      { month: "May", professional: 59, starter: 40, enterprise: 15 }
+                    ]}>
+                      <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                      <XAxis dataKey="month" tickLine={false} axisLine={false} />
+                      <YAxis tickLine={false} axisLine={false} />
+                      <Tooltip />
+                      <Line type="monotone" dataKey="starter" name="Starter" stroke="#82ca9d" strokeWidth={2} />
+                      <Line type="monotone" dataKey="professional" name="Professional" stroke="#8884d8" strokeWidth={2} />
+                      <Line type="monotone" dataKey="enterprise" name="Enterprise" stroke="#ff7300" strokeWidth={2} />
+                    </LineChart>
+                  </ResponsiveContainer>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </TabsContent>
+      
+      <TabsContent value="analytics" className="mt-0">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+          <Card className="border border-gray-200 shadow-none rounded-lg">
+            <CardHeader className="px-6 py-4 border-b border-gray-100 bg-gray-50/80">
+              <CardTitle className="text-lg font-normal text-gray-900 uppercase">
+                Credit Usage by Campaign Type
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'Email Campaigns', value: 42, color: '#8884d8' },
+                        { name: 'Social Media Promos', value: 28, color: '#82ca9d' },
+                        { name: 'Featured Products', value: 18, color: '#ffc658' },
+                        { name: 'Newsletter Inclusion', value: 12, color: '#ff8042' }
+                      ]}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      {[
+                        { name: 'Email Campaigns', value: 42, color: '#8884d8' },
+                        { name: 'Social Media Promos', value: 28, color: '#82ca9d' },
+                        { name: 'Featured Products', value: 18, color: '#ffc658' },
+                        { name: 'Newsletter Inclusion', value: 12, color: '#ff8042' }
+                      ].map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4 mt-6">
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <h3 className="text-lg font-light">42%</h3>
+                  <p className="text-sm text-gray-500">Email Campaigns</p>
+                  <div className="text-xs text-gray-400 mt-1">16,800 credits used</div>
+                </div>
+                
+                <div className="p-4 bg-gray-50 rounded-lg">
+                  <h3 className="text-lg font-light">28%</h3>
+                  <p className="text-sm text-gray-500">Social Media Promos</p>
+                  <div className="text-xs text-gray-400 mt-1">11,200 credits used</div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+          
+          <Card className="border border-gray-200 shadow-none rounded-lg">
+            <CardHeader className="px-6 py-4 border-b border-gray-100 bg-gray-50/80">
+              <CardTitle className="text-lg font-normal text-gray-900 uppercase">
+                Credit Sales vs Usage
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-6">
+              <div className="h-[350px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={[
+                    { month: "Jan", sold: 12000, used: 8000 },
+                    { month: "Feb", sold: 15000, used: 10000 },
+                    { month: "Mar", sold: 13000, used: 12000 },
+                    { month: "Apr", sold: 18000, used: 13000 },
+                    { month: "May", sold: 22000, used: 15000 }
+                  ]}>
+                    <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
+                    <XAxis dataKey="month" tickLine={false} axisLine={false} />
+                    <YAxis tickLine={false} axisLine={false} />
+                    <Tooltip />
+                    <Line 
+                      type="monotone" 
+                      dataKey="sold" 
+                      name="Credits Sold" 
+                      stroke="#8884d8"
+                      strokeWidth={2}
+                      activeDot={{ r: 6 }}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="used" 
+                      name="Credits Used" 
+                      stroke="#82ca9d"
+                      strokeWidth={2}
+                      activeDot={{ r: 6 }}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+              
+              <div className="mt-6">
+                <div className="flex justify-between mb-2">
+                  <span className="text-sm font-medium">Usage Efficiency</span>
+                  <span className="text-sm font-medium">72%</span>
+                </div>
+                <div className="w-full bg-gray-100 h-2 rounded-full">
+                  <div 
+                    className="h-full rounded-full bg-accent-mint"
+                    style={{ width: "72%" }}
+                  ></div>
+                </div>
+                <div className="mt-2 text-xs text-gray-500">
+                  72% of purchased credits have been utilized within the same month
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+        
+        <Card className="border border-gray-200 shadow-none rounded-lg mt-6">
+          <CardHeader className="px-6 py-4 border-b border-gray-100 bg-gray-50/80 flex flex-row items-center justify-between">
+            <CardTitle className="text-lg font-normal text-gray-900 uppercase">
+              Campaign Performance Analysis
+            </CardTitle>
+            <Select defaultValue="30days">
+              <SelectTrigger className="w-[150px] text-xs uppercase font-light border-gray-200">
+                <SelectValue placeholder="Time period" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="7days" className="text-xs uppercase font-light">Last 7 days</SelectItem>
+                <SelectItem value="30days" className="text-xs uppercase font-light">Last 30 days</SelectItem>
+                <SelectItem value="90days" className="text-xs uppercase font-light">Last 90 days</SelectItem>
+                <SelectItem value="year" className="text-xs uppercase font-light">Last year</SelectItem>
+              </SelectContent>
+            </Select>
+          </CardHeader>
+          <CardContent className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow className="uppercase">
+                  <TableHead className="font-normal text-xs">Campaign</TableHead>
+                  <TableHead className="font-normal text-xs">User</TableHead>
+                  <TableHead className="font-normal text-xs">Type</TableHead>
+                  <TableHead className="font-normal text-xs">Credits Used</TableHead>
+                  <TableHead className="font-normal text-xs">Open Rate</TableHead>
+                  <TableHead className="font-normal text-xs">Click Rate</TableHead>
+                  <TableHead className="font-normal text-xs">ROI Score</TableHead>
+                  <TableHead className="font-normal text-xs">Date</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                <TableRow>
+                  <TableCell className="font-light">Spring Collection Announcement</TableCell>
+                  <TableCell className="font-light">brand-1</TableCell>
+                  <TableCell>
+                    <Badge variant="secondary" className="bg-accent-mint/20 text-gray-800 border-none">
+                      Email
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="font-light">1,200</TableCell>
+                  <TableCell className="font-light">42%</TableCell>
+                  <TableCell className="font-light">12%</TableCell>
+                  <TableCell>
+                    <div className="flex items-center">
+                      <div className="w-16 bg-gray-100 h-2 rounded-full mr-2">
+                        <div className="h-full rounded-full bg-green-400" style={{ width: "75%" }}></div>
+                      </div>
+                      <span className="text-xs">7.5</span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="font-light text-sm">Mar 20, 2024</TableCell>
+                </TableRow>
+                
+                <TableRow>
+                  <TableCell className="font-light">New Product Line</TableCell>
+                  <TableCell className="font-light">brand-2</TableCell>
+                  <TableCell>
+                    <Badge variant="secondary" className="bg-accent-mint/20 text-gray-800 border-none">
+                      Email
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="font-light">2,000</TableCell>
+                  <TableCell className="font-light">38%</TableCell>
+                  <TableCell className="font-light">9%</TableCell>
+                  <TableCell>
+                    <div className="flex items-center">
+                      <div className="w-16 bg-gray-100 h-2 rounded-full mr-2">
+                        <div className="h-full rounded-full bg-yellow-400" style={{ width: "65%" }}></div>
+                      </div>
+                      <span className="text-xs">6.5</span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="font-light text-sm">Apr 05, 2024</TableCell>
+                </TableRow>
+                
+                <TableRow>
+                  <TableCell className="font-light">Limited Time Offer</TableCell>
+                  <TableCell className="font-light">brand-1</TableCell>
+                  <TableCell>
+                    <Badge variant="secondary" className="bg-gray-100 text-gray-700 border-none">
+                      Social
+                    </Badge>
+                  </TableCell>
+                  <TableCell className="font-light">1,500</TableCell>
+                  <TableCell className="font-light">-</TableCell>
+                  <TableCell className="font-light">15%</TableCell>
+                  <TableCell>
+                    <div className="flex items-center">
+                      <div className="w-16 bg-gray-100 h-2 rounded-full mr-2">
+                        <div className="h-full rounded-full bg-green-400" style={{ width: "82%" }}></div>
+                      </div>
+                      <span className="text-xs">8.2</span>
+                    </div>
+                  </TableCell>
+                  <TableCell className="font-light text-sm">Apr 12, 2024</TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </CardContent>
+          <div className="px-6 py-4 border-t border-gray-100 flex justify-between items-center">
+            <div className="text-sm text-gray-500">
+              Showing 3 of 24 campaigns
+            </div>
+            <Button variant="outline" size="sm" className="text-xs uppercase font-light">
+              View All Campaigns
+            </Button>
+          </div>
+        </Card>
+      </TabsContent>
+      
+      <TabsContent value="settings" className="mt-0">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <Card className="border border-gray-200 shadow-none rounded-lg">
+              <CardHeader className="px-6 py-4 border-b border-gray-100 bg-gray-50/80">
+                <CardTitle className="text-lg font-normal text-gray-900 uppercase">
+                  Credit System Configuration
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="space-y-6">
+                  <div>
+                    <h3 className="text-sm font-medium mb-4">Credit Pricing Structure</h3>
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <Label htmlFor="base-rate" className="text-xs">Base Rate (per 1000 credits)</Label>
+                          <div className="flex items-center mt-1">
+                            <span className="mr-1 text-gray-500">$</span>
+                            <Input id="base-rate" value="49.00" className="w-24 h-9" />
+                          </div>
+                        </div>
+                        <div>
+                          <Label htmlFor="volume-discount" className="text-xs">Volume Discount Threshold</Label>
+                          <div className="flex items-center mt-1">
+                            <Input id="volume-discount" value="5000" className="w-24 h-9" />
+                            <span className="ml-1 text-gray-500">credits</span>
+                          </div>
+                        </div>
+                        <div>
+                          <Label htmlFor="discount-rate" className="text-xs">Discount Rate</Label>
+                          <div className="flex items-center mt-1">
+                            <Input id="discount-rate" value="15" className="w-24 h-9" />
+                            <span className="ml-1 text-gray-500">%</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="pt-6 border-t border-gray-100">
+                    <h3 className="text-sm font-medium mb-4">Credit Expiration</h3>
+                    <div className="space-y-4">
+                      <div className="flex items-start space-x-4">
+                        <div className="flex items-center h-5 mt-1">
+                          <input
+                            id="enable-expiry"
+                            type="checkbox"
+                            checked
+                            className="h-4 w-4 rounded border-gray-300"
+                          />
+                        </div>
+                        <div>
+                          <Label htmlFor="enable-expiry" className="text-sm font-medium">
+                            Enable credit expiration
+                          </Label>
+                          <p className="text-sm text-gray-500">
+                            Credits will expire after the specified period if not used
+                          </p>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center pl-8">
+                        <div>
+                          <Label htmlFor="expiry-period" className="text-xs">Default Expiration Period</Label>
+                          <div className="flex items-center mt-1">
+                            <Input id="expiry-period" type="number" value="12" className="w-16 h-9" />
+                            <Select defaultValue="months">
+                              <SelectTrigger className="w-[100px] ml-2 h-9 text-xs border-gray-200">
+                                <SelectValue placeholder="Unit" />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="days" className="text-xs">Days</SelectItem>
+                                <SelectItem value="months" className="text-xs">Months</SelectItem>
+                                <SelectItem value="years" className="text-xs">Years</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="pt-6 border-t border-gray-100">
+                    <h3 className="text-sm font-medium mb-4">Credit Usage Rules</h3>
+                    <div className="space-y-4">
+                      <div>
+                        <Label htmlFor="email-credits" className="text-xs">Email Campaign Cost (per recipient)</Label>
+                        <div className="flex items-center mt-1">
+                          <Input id="email-credits" type="number" value="5" className="w-16 h-9" />
+                          <span className="ml-1 text-gray-500">credits</span>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="social-credits" className="text-xs">Social Media Promotion Cost</Label>
+                        <div className="flex items-center mt-1">
+                          <Input id="social-credits" type="number" value="100" className="w-16 h-9" />
+                          <span className="ml-1 text-gray-500">credits per post</span>
+                        </div>
+                      </div>
+                      
+                      <div>
+                        <Label htmlFor="featured-credits" className="text-xs">Featured Product Placement Cost</Label>
+                        <div className="flex items-center mt-1">
+                          <Input id="featured-credits" type="number" value="500" className="w-16 h-9" />
+                          <span className="ml-1 text-gray-500">credits per day</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+              <div className="px-6 py-4 border-t border-gray-100 flex justify-end">
+                <div className="flex space-x-2">
+                  <Button variant="outline" className="text-xs uppercase font-light">
+                    Reset to Defaults
+                  </Button>
+                  <Button className="bg-black hover:bg-gray-800 text-white text-xs uppercase font-light">
+                    Save Changes
+                  </Button>
+                </div>
+              </div>
+            </Card>
+          </div>
+          
+          <div>
+            <Card className="border border-gray-200 shadow-none rounded-lg">
+              <CardHeader className="px-6 py-4 border-b border-gray-100 bg-gray-50/80">
+                <CardTitle className="text-lg font-normal text-gray-900 uppercase">
+                  Notification Settings
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="space-y-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="text-sm font-medium">Low Credit Alerts</h3>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Notify users when credits fall below threshold
+                      </p>
+                    </div>
+                    <div className="flex h-6 items-center">
+                      <input
+                        id="low-credit-alerts"
+                        type="checkbox"
+                        checked
+                        className="h-4 w-4 rounded border-gray-300"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
+                    <div>
+                      <h3 className="text-sm font-medium">Expiry Reminders</h3>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Send reminders before credits expire
+                      </p>
+                    </div>
+                    <div className="flex h-6 items-center">
+                      <input
+                        id="expiry-reminders"
+                        type="checkbox"
+                        checked
+                        className="h-4 w-4 rounded border-gray-300"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
+                    <div>
+                      <h3 className="text-sm font-medium">Usage Reports</h3>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Send monthly reports to users
+                      </p>
+                    </div>
+                    <div className="flex h-6 items-center">
+                      <input
+                        id="usage-reports"
+                        type="checkbox"
+                        checked
+                        className="h-4 w-4 rounded border-gray-300"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="pt-4 border-t border-gray-100 flex items-center justify-between">
+                    <div>
+                      <h3 className="text-sm font-medium">Admin Transaction Alerts</h3>
+                      <p className="text-xs text-gray-500 mt-1">
+                        Get notified on large credit purchases
+                      </p>
+                    </div>
+                    <div className="flex h-6 items-center">
+                      <input
+                        id="transaction-alerts"
+                        type="checkbox"
+                        checked
+                        className="h-4 w-4 rounded border-gray-300"
+                      />
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+            
+            <Card className="border border-gray-200 shadow-none rounded-lg mt-6">
+              <CardHeader className="px-6 py-4 border-b border-gray-100 bg-gray-50/80">
+                <CardTitle className="text-lg font-normal text-gray-900 uppercase">
+                  System Actions
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="p-6">
+                <div className="space-y-4">
+                  <Button variant="outline" className="w-full justify-start">
+                    <Download className="mr-2 h-4 w-4" strokeWidth={1.5} />
+                    Export All Credit Data
+                  </Button>
+                  
+                  <Button variant="outline" className="w-full justify-start">
+                    <CreditCard className="mr-2 h-4 w-4" strokeWidth={1.5} />
+                    Manage Payment Gateways
+                  </Button>
+                  
+                  <Button variant="outline" className="w-full justify-start">
+                    <Settings className="mr-2 h-4 w-4" strokeWidth={1.5} />
+                    Configure Automatic Top-ups
+                  </Button>
+                  
+                  <Button variant="outline" className="w-full justify-start" disabled>
+                    <BarChart className="mr-2 h-4 w-4" strokeWidth={1.5} />
+                    Generate Annual Report
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </TabsContent>
+      
+      {/* Add Credits Dialog */}
+      <Dialog open={showAddCreditsDialog} onOpenChange={setShowAddCreditsDialog}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-normal uppercase">Add Credits</DialogTitle>
+            <DialogDescription>
+              Add marketing credits to a user account.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 gap-4 items-center">
+              <Label htmlFor="user-id" className="text-right text-xs uppercase font-light">
+                User ID
+              </Label>
+              <div className="col-span-3">
+                <Input id="user-id" placeholder="Enter user ID or name" className="h-9 text-sm" />
+              </div>
+            </div>
+            <div className="grid grid-cols-4 gap-4 items-center">
+              <Label htmlFor="credit-amount" className="text-right text-xs uppercase font-light">
+                Amount
+              </Label>
+              <div className="col-span-3">
+                <Input id="credit-amount" type="number" defaultValue={1000} className="h-9 text-sm" />
+              </div>
+            </div>
+            <div className="grid grid-cols-4 gap-4 items-center">
+              <Label htmlFor="credit-reason" className="text-right text-xs uppercase font-light">
+                Reason
+              </Label>
+              <div className="col-span-3">
+                <Select defaultValue="purchase">
+                  <SelectTrigger className="h-9 text-sm">
+                    <SelectValue placeholder="Select reason" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="purchase">Purchase</SelectItem>
+                    <SelectItem value="promo">Promotional</SelectItem>
+                    <SelectItem value="comp">Complimentary</SelectItem>
+                    <SelectItem value="adjustment">Adjustment</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="grid grid-cols-4 gap-4 items-center">
+              <Label htmlFor="credit-note" className="text-right text-xs uppercase font-light">
+                Note
+              </Label>
+              <div className="col-span-3">
+                <Input id="credit-note" placeholder="Add a note (optional)" className="h-9 text-sm" />
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowAddCreditsDialog(false)}>Cancel</Button>
+            <Button onClick={handleAddCredits} className="bg-black text-white">
+              Add Credits
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      
+      {/* Create Package Dialog */}
+      <Dialog open={showCreatePackageDialog} onOpenChange={setShowCreatePackageDialog}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-normal uppercase">Create Package</DialogTitle>
+            <DialogDescription>
+              Create a new credit package for users to purchase.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 gap-4 items-center">
+              <Label htmlFor="package-name" className="text-right text-xs uppercase font-light">
+                Name
+              </Label>
+              <div className="col-span-3">
+                <Input id="package-name" placeholder="Package name" className="h-9 text-sm" />
+              </div>
+            </div>
+            <div className="grid grid-cols-4 gap-4 items-center">
+              <Label htmlFor="package-credits" className="text-right text-xs uppercase font-light">
+                Credits
+              </Label>
+              <div className="col-span-3">
+                <Input id="package-credits" type="number" placeholder="Number of credits" className="h-9 text-sm" />
+              </div>
+            </div>
+            <div className="grid grid-cols-4 gap-4 items-center">
+              <Label htmlFor="package-price" className="text-right text-xs uppercase font-light">
+                Price ($)
+              </Label>
+              <div className="col-span-3">
+                <Input id="package-price" type="number" placeholder="Price in USD" className="h-9 text-sm" />
+              </div>
+            </div>
+            <div className="grid grid-cols-4 gap-4 items-center">
+              <Label htmlFor="package-popular" className="text-right text-xs uppercase font-light">
+                Popular
+              </Label>
+              <div className="col-span-3 flex items-center">
+                <input
+                  id="package-popular"
+                  type="checkbox"
+                  className="h-4 w-4 rounded border-gray-300"
+                />
+                <label htmlFor="package-popular" className="ml-2 text-sm">
+                  Mark as popular package
+                </label>
+              </div>
+            </div>
+            <div className="grid grid-cols-4 gap-4 items-center">
+              <Label htmlFor="package-description" className="text-right text-xs uppercase font-light">
+                Description
+              </Label>
+              <div className="col-span-3">
+                <Input id="package-description" placeholder="Short description (optional)" className="h-9 text-sm" />
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowCreatePackageDialog(false)}>Cancel</Button>
+            <Button onClick={handleCreatePackage} className="bg-black text-white">
+              Create Package
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+      
+      {/* Create Promo Dialog */}
+      <Dialog open={showPromoDialog} onOpenChange={setShowPromoDialog}>
+        <DialogContent className="sm:max-w-[425px]">
+          <DialogHeader>
+            <DialogTitle className="text-xl font-normal uppercase">Create Promotion</DialogTitle>
+            <DialogDescription>
+              Create a new promotional code for credit purchases.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid grid-cols-4 gap-4 items-center">
+              <Label htmlFor="promo-code" className="text-right text-xs uppercase font-light">
+                Code
+              </Label>
+              <div className="col-span-3">
+                <Input id="promo-code" placeholder="e.g. SUMMER25" className="h-9 text-sm uppercase" />
+              </div>
+            </div>
+            <div className="grid grid-cols-4 gap-4 items-center">
+              <Label htmlFor="discount-type" className="text-right text-xs uppercase font-light">
+                Type
+              </Label>
+              <div className="col-span-3">
+                <Select defaultValue="percentage">
+                  <SelectTrigger className="h-9 text-sm">
+                    <SelectValue placeholder="Select discount type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="percentage">Percentage (%)</SelectItem>
+                    <SelectItem value="fixed">Fixed Amount ($)</SelectItem>
+                    <SelectItem value="free">Free Credits</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+            <div className="grid grid-cols-4 gap-4 items-center">
+              <Label htmlFor="discount-value" className="text-right text-xs uppercase font-light">
+                Value
+              </Label>
+              <div className="col-span-3">
+                <Input id="discount-value" type="number" placeholder="Discount amount" className="h-9 text-sm" />
+              </div>
+            </div>
+            <div className="grid grid-cols-4 gap-4 items-center">
+              <Label htmlFor="expiry-date" className="text-right text-xs uppercase font-light">
+                Expires
+              </Label>
+              <div className="col-span-3">
+                <Input id="expiry-date" type="date" className="h-9 text-sm" />
+              </div>
+            </div>
+            <div className="grid grid-cols-4 gap-4 items-center">
+              <Label htmlFor="usage-limit" className="text-right text-xs uppercase font-light">
+                Limit
+              </Label>
+              <div className="col-span-3">
+                <Input id="usage-limit" type="number" placeholder="Max number of uses" className="h-9 text-sm" />
+              </div>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setShowPromoDialog(false)}>Cancel</Button>
+            <Button onClick={handleCreatePromo} className="bg-black text-white">
+              Create Promotion
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </div>
+  );
+};
+
+export default MarketingCredits;

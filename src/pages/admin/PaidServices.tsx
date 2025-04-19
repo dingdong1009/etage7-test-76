@@ -1,7 +1,6 @@
 
 import { useState } from "react";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Card } from "@/components/ui/card";
 import Subscriptions from "@/components/admin/paid-services/Subscriptions";
 import ConsultingServices from "@/components/admin/paid-services/ConsultingServices";
 import MarketingCredits from "@/components/admin/paid-services/MarketingCredits";
@@ -80,9 +79,9 @@ const PaidServices = () => {
           <TabsContent value="create">
             <CreateService />
           </TabsContent>
-          </Tabs>
-        </div>
-        </div>
+        </Tabs>
+      </div>
+    </div>
   );
 };
 
