@@ -76,7 +76,7 @@
   .scrollbar-hide::-webkit-scrollbar {
     display: none; /* Chrome, Safari, Opera */
   }
-}
+
   }
   body {
     @apply bg-background text-foreground;
