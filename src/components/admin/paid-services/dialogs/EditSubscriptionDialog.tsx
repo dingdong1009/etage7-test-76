@@ -9,59 +9,66 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import type { Subscription } from "@/types/services/paidServices";
 
-const newSubscriptionSchema = z.object({
+const subscriptionSchema = z.object({
   name: z.string().min(3, "Plan name must be at least 3 characters"),
   description: z.string().min(10, "Description must be at least 10 characters"),
   price: z.string().min(1, "Price is required"),
-  billingCycle: z.enum(["monthly", "quarterly", "annually"]),
-  features: z.string().min(1, "At least one feature is required"),
+  frequency: z.enum(["monthly", "semi-annual", "annual"]),
   maxUsers: z.string().min(1, "Maximum users is required"),
-  trialDays: z.string().optional()
+  features: z.string().min(1, "At least one feature is required"),
+  trialDays: z.string().optional(),
+  autoRenewal: z.boolean().default(true)
 });
 
-export type NewSubscriptionFormValues = z.infer<typeof newSubscriptionSchema>;
+type SubscriptionFormValues = z.infer<typeof subscriptionSchema>;
 
-interface NewServiceDialogProps {
+interface EditSubscriptionDialogProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
-  onSubmit: (data: NewSubscriptionFormValues) => void;
+  subscription?: Subscription;
+  onSubmit: (data: SubscriptionFormValues) => void;
 }
 
-const NewServiceDialog: React.FC<NewServiceDialogProps> = ({
+const EditSubscriptionDialog: React.FC<EditSubscriptionDialogProps> = ({
   isOpen,
   setIsOpen,
+  subscription,
   onSubmit
 }) => {
-  const subscriptionForm = useForm<NewSubscriptionFormValues>({
-    resolver: zodResolver(newSubscriptionSchema),
+  const form = useForm<SubscriptionFormValues>({
+    resolver: zodResolver(subscriptionSchema),
     defaultValues: {
-      name: "",
-      description: "",
-      price: "",
-      billingCycle: "monthly",
-      features: "",
-      maxUsers: "",
-      trialDays: ""
+      name: subscription?.name || "",
+      description: subscription?.description || "",
+      price: subscription?.price.toString() || "",
+      frequency: subscription?.frequency || "monthly",
+      maxUsers: subscription?.maxUsers.toString() || "",
+      features: subscription?.features.join("\n") || "",
+      trialDays: subscription?.trialDays?.toString() || "",
+      autoRenewal: subscription?.autoRenewal || true
     }
   });
 
-  const handleSubmit = (data: NewSubscriptionFormValues) => {
+  const handleSubmit = (data: SubscriptionFormValues) => {
     onSubmit(data);
-    subscriptionForm.reset();
+    form.reset();
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Create Subscription Plan</DialogTitle>
+          <DialogTitle>
+            {subscription ? "Edit Subscription Plan" : "Create Subscription Plan"}
+          </DialogTitle>
         </DialogHeader>
         
-        <Form {...subscriptionForm}>
-          <form onSubmit={subscriptionForm.handleSubmit(handleSubmit)} className="space-y-4">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
             <FormField
-              control={subscriptionForm.control}
+              control={form.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
@@ -75,7 +82,7 @@ const NewServiceDialog: React.FC<NewServiceDialogProps> = ({
             />
             
             <FormField
-              control={subscriptionForm.control}
+              control={form.control}
               name="description"
               render={({ field }) => (
                 <FormItem>
@@ -94,7 +101,7 @@ const NewServiceDialog: React.FC<NewServiceDialogProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
-                control={subscriptionForm.control}
+                control={form.control}
                 name="price"
                 render={({ field }) => (
                   <FormItem>
@@ -108,8 +115,8 @@ const NewServiceDialog: React.FC<NewServiceDialogProps> = ({
               />
               
               <FormField
-                control={subscriptionForm.control}
-                name="billingCycle"
+                control={form.control}
+                name="frequency"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Billing Cycle</FormLabel>
@@ -121,8 +128,8 @@ const NewServiceDialog: React.FC<NewServiceDialogProps> = ({
                       </FormControl>
                       <SelectContent>
                         <SelectItem value="monthly">Monthly</SelectItem>
-                        <SelectItem value="quarterly">Quarterly</SelectItem>
-                        <SelectItem value="annually">Annually</SelectItem>
+                        <SelectItem value="semi-annual">Semi-Annual</SelectItem>
+                        <SelectItem value="annual">Annual</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -133,7 +140,7 @@ const NewServiceDialog: React.FC<NewServiceDialogProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
-                control={subscriptionForm.control}
+                control={form.control}
                 name="maxUsers"
                 render={({ field }) => (
                   <FormItem>
@@ -147,7 +154,7 @@ const NewServiceDialog: React.FC<NewServiceDialogProps> = ({
               />
               
               <FormField
-                control={subscriptionForm.control}
+                control={form.control}
                 name="trialDays"
                 render={({ field }) => (
                   <FormItem>
@@ -162,7 +169,7 @@ const NewServiceDialog: React.FC<NewServiceDialogProps> = ({
             </div>
             
             <FormField
-              control={subscriptionForm.control}
+              control={form.control}
               name="features"
               render={({ field }) => (
                 <FormItem>
@@ -188,8 +195,8 @@ const NewServiceDialog: React.FC<NewServiceDialogProps> = ({
               >
                 Cancel
               </Button>
-              <Button type="submit">
-                Create Plan
+              <Button type="submit" className="bg-black hover:bg-gray-800">
+                {subscription ? "Update Plan" : "Create Plan"}
               </Button>
             </DialogFooter>
           </form>
@@ -199,4 +206,4 @@ const NewServiceDialog: React.FC<NewServiceDialogProps> = ({
   );
 };
 
-export default NewServiceDialog;
+export default EditSubscriptionDialog;

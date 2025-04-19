@@ -8,8 +8,8 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recha
 import { Edit, Trash2, Eye, Plus, ToggleRight, ToggleLeft } from "lucide-react";
 import { Subscription } from "@/types/services/paidServices";
 import { toast } from "@/hooks/use-toast";
-import NewServiceDialog from "@/components/admin/services/NewServiceDialog";
 import { useNavigate } from "react-router-dom";
+import EditSubscriptionDialog from "@/components/admin/paid-services/dialogs/EditSubscriptionDialog";
 
 interface SubscriptionsProps {
   onAddClick: () => void;
@@ -221,16 +221,17 @@ const Subscriptions = ({ onAddClick }: SubscriptionsProps) => {
         </div>
       </div>
 
-      <NewServiceDialog 
+      <EditSubscriptionDialog 
         isOpen={isDialogOpen}
         setIsOpen={setIsDialogOpen}
+        subscription={selectedService}
         onSubmit={(data) => {
           console.log('Form submitted:', data);
           setIsDialogOpen(false);
           if (dialogMode === "edit") {
             toast({
               title: "Service Updated",
-              description: "The service has been successfully updated",
+              description: "The subscription plan has been successfully updated",
             });
           }
         }}

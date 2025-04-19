@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Edit, Trash2, Eye, Plus, ToggleRight, ToggleLeft } from "lucide-react";
 import { ConsultingService } from "@/types/services/paidServices";
 import { toast } from "@/hooks/use-toast";
-import NewServiceDialog from "@/components/admin/services/NewServiceDialog";
+import EditConsultingDialog from "@/components/admin/paid-services/dialogs/EditConsultingDialog";
 
 interface ConsultingServicesProps {
   onAddClick: () => void;
@@ -151,16 +151,17 @@ const ConsultingServices = ({ onAddClick }: ConsultingServicesProps) => {
         </div>
       </div>
 
-      <NewServiceDialog 
+      <EditConsultingDialog 
         isOpen={isDialogOpen}
         setIsOpen={setIsDialogOpen}
+        service={selectedService}
         onSubmit={(data) => {
           console.log('Form submitted:', data);
           setIsDialogOpen(false);
           if (dialogMode === "edit") {
             toast({
               title: "Service Updated",
-              description: "The service has been successfully updated",
+              description: "The consulting service has been successfully updated",
             });
           }
         }}
