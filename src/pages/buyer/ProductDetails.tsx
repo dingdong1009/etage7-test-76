@@ -17,6 +17,9 @@ import {
   TableCell,
   TableRow,
 } from "@/components/ui/table";
+import { StartOrderDialog } from "@/components/buyer/dialogs/StartOrderDialog";
+import { ContactBrandDialog } from "@/components/buyer/dialogs/ContactBrandDialog";
+import { RequestSamplesDialog } from "@/components/buyer/dialogs/RequestSamplesDialog";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
@@ -135,15 +138,9 @@ const ProductDetails = () => {
               </div>
 
               <div className="space-y-4 mb-8">
-                <Button className="w-full bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase">
-                  Start an Order
-                </Button>
-                <Button variant="outline" className="w-full border-gray-300 font-normal uppercase ">
-                  Contact Brand
-                </Button>
-                <Button variant="outline" className="w-full border-gray-300 font-normal uppercase">
-                  Request for Samples
-                </Button>
+                <StartOrderDialog />
+                <ContactBrandDialog />
+                <RequestSamplesDialog />
               </div>
 
               <div className="border- pt-4">
