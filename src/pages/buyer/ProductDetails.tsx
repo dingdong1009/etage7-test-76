@@ -64,7 +64,7 @@ const ProductDetails = () => {
               totalItems={5}
               currentIndex={currentIndex}
               onBubbleClick={scrollToImage}
-              className="right-4 top-1/2 transform -translate-y-1/2"
+              className="right-8 top-0 h-full flex items-center"
             />
           </div>
 

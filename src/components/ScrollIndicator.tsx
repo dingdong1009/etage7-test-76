@@ -16,20 +16,22 @@ export const ScrollIndicator = ({
   className
 }: ScrollIndicatorProps) => {
   return (
-    <div className={cn("fixed flex flex-col gap-2 items-center", className)}>
-      {Array.from({ length: totalItems }, (_, i) => (
-        <button
-          key={i}
-          onClick={() => onBubbleClick(i)}
-          className={cn(
-            "w-2 h-2 rounded-full transition-all duration-300",
-            currentIndex === i 
-              ? "bg-black scale-125" 
-              : "bg-gray-300 hover:bg-gray-400"
-          )}
-          aria-label={`Go to image ${i + 1}`}
-        />
-      ))}
+    <div className={cn("absolute flex flex-col gap-2 items-center pointer-events-none", className)}>
+      <div className="flex flex-col gap-2 items-center pointer-events-auto">
+        {Array.from({ length: totalItems }, (_, i) => (
+          <button
+            key={i}
+            onClick={() => onBubbleClick(i)}
+            className={cn(
+              "w-2 h-2 rounded-full transition-all duration-300",
+              currentIndex === i 
+                ? "bg-white scale-125" 
+                : "bg-white/50 hover:bg-white/75"
+            )}
+            aria-label={`Go to image ${i + 1}`}
+          />
+        ))}
+      </div>
     </div>
   );
 };
