@@ -1,8 +1,7 @@
-
 import { ArrowLeft } from "lucide-react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
+import { ScrollArea } from "@/components/ScrollArea";
 import {
   Accordion,
   AccordionContent,
@@ -31,8 +30,8 @@ const ProductDetails = () => {
 
       <div className="pt-16">
         <div className="flex flex-col lg:flex-row">
-          {/* Image Section - Scrollable with scrollbar hidden */}
-          <div className="w-full lg:w-3/5 h-screen overflow-y-auto scrollbar-hide">
+          {/* Image Section */}
+          <ScrollArea className="w-full lg:w-3/5 h-screen">
             <div className="space-y-1">
               {[1, 2, 3, 4, 5].map((index) => (
                 <div 
@@ -43,10 +42,10 @@ const ProductDetails = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </ScrollArea>
 
-          {/* Product Info Section - Sticky with scrollbar hidden if needed */}
-          <div className="w-full lg:w-2/5 p-8 lg:p-12 overflow-y-auto scrollbar-hide">
+          {/* Product Info Section */}
+          <ScrollArea className="w-full lg:w-2/5 p-8 lg:p-12">
             <div className="lg:sticky lg:top-16">
               <h1 className="text-2xl font-light mb-2">Product Name</h1>
               <p className="text-gray-500 mb-6">€2,400</p>
@@ -110,7 +109,7 @@ const ProductDetails = () => {
                 </AccordionItem>
               </Accordion>
             </div>
-          </div>
+          </ScrollArea>
         </div>
       </div>
     </div>
