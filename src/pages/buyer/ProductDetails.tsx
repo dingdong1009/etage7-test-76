@@ -1,5 +1,4 @@
-
-import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, BookmarkCheck, CalendarDays, Percent, Medal } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ScrollArea";
@@ -82,7 +81,24 @@ const ProductDetails = () => {
                   <button className="w-6 h-6 rounded-full bg-[#8B4513] border-2 border-transparent"></button>
                   <button className="w-6 h-6 rounded-full bg-[#D3D3D3] border-2 border-transparent"></button>
                 </div>
-                <div className="mt-8">ready to order</div>
+                <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div className="flex flex-col items-center gap-2">
+                    <BookmarkCheck className="h-6 w-6 text-black" />
+                    <span className="text-xs uppercase">In Stock</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <CalendarDays className="h-6 w-6 text-gray-300" />
+                    <span className="text-xs uppercase text-gray-300">Pre-Order</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <Percent className="h-6 w-6 text-black" />
+                    <span className="text-xs uppercase">Commission</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-2">
+                    <Medal className="h-6 w-6 text-gray-300" />
+                    <span className="text-xs uppercase text-gray-300">Exclusivity</span>
+                  </div>
+                </div>
               </div>
 
               {/* Action Buttons */}
