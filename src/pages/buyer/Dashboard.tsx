@@ -78,7 +78,7 @@ const Dashboard = () => {
   
   const [sortBy, setSortBy] = useState<string>("Newest");
   const [searchTerm, setSearchTerm] = useState<string>("");
-  const [showAdvancedFilters, setShowAdvancedFilters] = useState<boolean>(true);
+  const [showAdvancedFilters, setShowAdvancedFilters] = useState<boolean>(false);
   const [showSubcategories, setShowSubcategories] = useState<boolean>(false);
   const [isAiAssistEnabled, setIsAiAssistEnabled] = useState<boolean>(false);
   const [aiResults, setAiResults] = useState<string | null>(null);
@@ -418,87 +418,15 @@ const Dashboard = () => {
         </div> 
       </section>
 
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <h1 className="text-4xl md:text-6xl font-light tracking-tighter">PRODUCTS</h1>
-        
-        <div className="flex items-center space-x-3">
-          <div className="relative">
-            <Search className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500 ${isSearching ? 'text-black animate-pulse' : 'text-gray-400'}`} />
-            <input 
-              type="text" 
-              placeholder={searchPlaceholder} 
-              value={searchTerm}
-              onChange={handleSearch}
-              className="pl-10 w-full md:w-[250px] border border-gray-200"
-            />
-          </div>
-          <div className="flex gap-3">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="border border-gray-200 hover:bg-gray-50 w-full sm:w-auto">
-                  {selectedCategory}
-                  <ChevronRight size={16} className="ml-1 rotate-90" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuLabel>Categories</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                {categories.map((category) => (
-                  <DropdownMenuItem 
-                    key={category}
-                    onClick={() => handleCategorySelect(category)}
-                    className="cursor-pointer"
-                  >
-                    {category}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-            
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" size="sm" className="border border-gray-200 hover:bg-gray-50 w-full sm:w-auto">
-                  <SlidersHorizontal size={14} className="mr-1" />
-                  {sortBy}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuLabel>Sort By</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                {["Newest", "Price: High to Low", "Price: Low to High"].map((option) => (
-                  <DropdownMenuItem
-                    key={option}
-                    onClick={() => setSortBy(option)}
-                    className="cursor-pointer"
-                  >
-                    {option}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <Button 
-              variant="outline" 
-              size="sm" 
-              className={`border ${showAdvancedFilters ? 'bg-gray-50 border-gray-300' : 'border-gray-200'} hover:bg-gray-50 w-full sm:w-auto relative`}
-              onClick={() => setShowAdvancedFilters(!showAdvancedFilters)}
-            >
-              {showAdvancedFilters ? 'Hide Filters' : 'Show Filters'}
-              {activeFiltersCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-gray-800 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs">
-                  {activeFiltersCount}
-                </span>
-              )}
-            </Button>
-          </div>
-        </div>
-      </div>
-      
       <Collapsible open={showAdvancedFilters} onOpenChange={setShowAdvancedFilters} className="w-full">
-        <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-light uppercase tracking-wide">Advanced Filters</h3>
+        <div className="flex items-center mb-4 space-x-5">
           <CollapsibleTrigger asChild>
-            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+            <Button variant="ghost" size="sm" className="bg-black text-white text-sm font-light uppercase tracking-wide">Advanced Filters 
+              {showAdvancedFilters ? <ChevronUp size={16} /> : <ChevronRight size={16} />}
+            </Button>
+          </CollapsibleTrigger>
+          <CollapsibleTrigger asChild>
+            <Button variant="ghost" size="sm" className="bg-black text-white text-sm font-light uppercase tracking-wide">Categories
               {showAdvancedFilters ? <ChevronUp size={16} /> : <ChevronRight size={16} />}
             </Button>
           </CollapsibleTrigger>

@@ -1,5 +1,5 @@
 
-import { ArrowLeft, ChevronRight } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ScrollArea";
@@ -36,9 +36,9 @@ const ProductDetails = () => {
           <Button 
             variant="ghost" 
             onClick={() => navigate(-1)}
-            className=" font-normal uppercase text-sm flex items-center gap-2 bg-gray-100 text-black hover:bg-black hover:text-white"
+            className=" font-normal uppercase text-sm flex items-center gap-2 bg-black border text-white hover:bg-gray-100 hover:text-black"
           >
-            <ArrowLeft size={16} strokeWidth={1} />
+            <ChevronLeft size={16} strokeWidth={1} />
             Back to Dashboard
           </Button>
         </div>
