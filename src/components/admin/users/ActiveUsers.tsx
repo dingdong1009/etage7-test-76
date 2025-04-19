@@ -1,11 +1,11 @@
-
 import { useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Eye, UserCheck, UserX } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Brand, Buyer, UserStatus } from "@/types/users"; // Import UserStatus type
+import { Brand, Buyer, UserStatus } from "@/types/users";
+import { useNavigate } from "react-router-dom";
 
 type ActiveUser = (Brand | Buyer) & { type: "brand" | "buyer" };
 
@@ -14,7 +14,7 @@ const mockActiveUsers: ActiveUser[] = [
     id: 1,
     type: "brand",
     name: "Luxury Fashion Co",
-    status: "active" as UserStatus, // Explicitly cast to UserStatus
+    status: "active" as UserStatus,
     plan: "Premium",
     lastActivity: "2024-04-10",
     activeSince: "2024-01-15",
@@ -30,7 +30,6 @@ const mockActiveUsers: ActiveUser[] = [
     avgOrderValue: "$1000",
     totalSales: "$100000",
   },
-  // Add more mock data as needed
 ];
 
 const getStatusBadge = (status: string) => {
@@ -42,25 +41,26 @@ const getStatusBadge = (status: string) => {
     default:
       return <Badge variant="outline">{status}</Badge>;
   }
-}; 
+};
 
 const ActiveUsers = () => {
   const [users, setUsers] = useState<ActiveUser[]>(mockActiveUsers);
+  const navigate = useNavigate();
 
   const handleViewDetails = (id: number) => {
-    console.log("View details", id);
+    navigate(`/admin/users/active/${id}`);
   };
 
   const handleDeactivate = (id: number) => {
     const updatedUsers = users.map(user => 
-      user.id === id ? { ...user, status: "inactive" as UserStatus } : user // Explicitly cast to UserStatus
+      user.id === id ? { ...user, status: "inactive" as UserStatus } : user
     );
     setUsers(updatedUsers);
   };
 
   const handleActivate = (id: number) => {
     const updatedUsers = users.map(user => 
-      user.id === id ? { ...user, status: "active" as UserStatus } : user // Add function to reactivate users
+      user.id === id ? { ...user, status: "active" as UserStatus } : user
     );
     setUsers(updatedUsers);
   };
