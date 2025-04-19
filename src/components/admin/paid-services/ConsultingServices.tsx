@@ -1,11 +1,10 @@
-
 import { useState } from "react";
 import { mockConsultingServices } from "@/mock/paidServices";
 import { Card, CardContent } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Edit, Trash2, Eye, Plus, ToggleRight } from "lucide-react";
+import { Edit, Trash2, Eye, Plus, ToggleRight, ToggleLeft } from "lucide-react";
 import { ConsultingService } from "@/types/services/paidServices";
 import { toast } from "@/hooks/use-toast";
 import NewServiceDialog from "@/components/admin/services/NewServiceDialog";
@@ -128,7 +127,11 @@ const ConsultingServices = ({ onAddClick }: ConsultingServicesProps) => {
                           className="h-8 w-8 p-0 hover:bg-red-200"
                           onClick={() => handleToggleStatus(service.id)}
                         >
-                          <ToggleRight className="h-4 w-4 text-red-500" strokeWidth={1.5} />
+                          {service.status === "active" ? (
+                            <ToggleRight className="h-4 w-4 text-red-500" strokeWidth={1.5} />
+                          ) : (
+                            <ToggleLeft className="h-4 w-4 text-gray-500" strokeWidth={1.5} />
+                          )}
                         </Button>
                         <Button 
                           variant="ghost" 

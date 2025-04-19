@@ -5,7 +5,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
-import { Edit, Trash2, Eye, Plus, ToggleRight } from "lucide-react";
+import { Edit, Trash2, Eye, Plus, ToggleRight, ToggleLeft } from "lucide-react";
 import { Subscription } from "@/types/services/paidServices";
 import { toast } from "@/hooks/use-toast";
 import NewServiceDialog from "@/components/admin/services/NewServiceDialog";
@@ -153,7 +153,11 @@ const Subscriptions = ({ onAddClick }: SubscriptionsProps) => {
                           className="h-8 w-8 p-0 hover:bg-red-200"
                           onClick={() => handleToggleStatus(service.id)}
                         >
-                          <ToggleRight className="h-4 w-4 text-red-500" strokeWidth={1.5} />
+                          {service.status === "active" ? (
+                            <ToggleRight className="h-4 w-4 text-red-500" strokeWidth={1.5} />
+                          ) : (
+                            <ToggleLeft className="h-4 w-4 text-gray-500" strokeWidth={1.5} />
+                          )}
                         </Button>
                         <Button 
                           variant="ghost" 
