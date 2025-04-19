@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -27,7 +26,8 @@ const ViewRegistrationDetails = () => {
       registrationDate: "2024-04-15",
       status: "pending",
       name: "Fashion Corp",
-      type: "brand"
+      type: "brand",
+      website: "https://fashioncorp.com"
     };
     setRequest(mockRequest);
     setLoading(false);
@@ -106,13 +106,28 @@ const ViewRegistrationDetails = () => {
           </CardContent>
         </Card>
 
-        {request?.description && (
+        {(request?.description || request?.website) && (
           <Card className="col-span-1 lg:col-span-2">
             <CardHeader>
               <CardTitle className="text-xl uppercase font-thin">Description</CardTitle>
             </CardHeader>
-            <CardContent>
-              <p className="font-light">{request.description}</p>
+            <CardContent className="space-y-2">
+              {request.description && (
+                <p className="font-light">{request.description}</p>
+              )}
+              {request.website && (
+                <div>
+                  <p className="text-sm text-gray-500">Website</p>
+                  <a 
+                    href={request.website} 
+                    target="_blank" 
+                    rel="noopener noreferrer" 
+                    className="text-blue-600 hover:underline"
+                  >
+                    {request.website}
+                  </a>
+                </div>
+              )}
             </CardContent>
           </Card>
         )}
