@@ -16,7 +16,7 @@ const mockActiveUsers: ActiveUser[] = [
     name: "Luxury Fashion Co",
     status: "active",
     plan: "Premium",
-    lastActivity: "2024-04-10", // Required field for Brand
+    lastActivity: "2024-04-10",
     activeSince: "2024-01-15",
     assignedManager: 1,
     registrationDate: "2024-01-01",
@@ -32,27 +32,30 @@ const mockActiveUsers: ActiveUser[] = [
   },
   // Add more mock data as needed
 ];
+
 const getStatusBadge = (status: string) => {
   switch (status) {
     case "active":
       return <Badge variant="outline" className="bg-[#F2FCE2] text-gray-700 border-gray-200">Active</Badge>;
+    case "inactive":
+      return <Badge variant="outline" className="bg-gray-100 text-gray-700 border-gray-200">Inactive</Badge>;
     default:
       return <Badge variant="outline">{status}</Badge>;
   }
 }; 
+
 const ActiveUsers = () => {
-  const [users] = useState<ActiveUser[]>(mockActiveUsers);
+  const [users, setUsers] = useState<ActiveUser[]>(mockActiveUsers);
 
   const handleViewDetails = (id: number) => {
     console.log("View details", id);
   };
 
-  const handleActivate = (id: number) => {
-    console.log("Activate", id);
-  };
-
   const handleDeactivate = (id: number) => {
-    console.log("Deactivate", id);
+    const updatedUsers = users.map(user => 
+      user.id === id ? { ...user, status: "inactive" } : user
+    );
+    setUsers(updatedUsers);
   };
 
   return (
@@ -65,74 +68,82 @@ const ActiveUsers = () => {
       </div>
 
       <div>
-
-      <Card className="border border-gray-200 shadow-none rounded-lg">
-
-      <CardContent className="p-0">
-        <Table>
-          <TableHeader>
-            <TableRow>
-              <TableHead className="font-normal text-xs uppercase">Type</TableHead>
-              <TableHead className="font-normal text-xs uppercase">Company</TableHead>
-              <TableHead className="font-normal text-xs uppercase">Name</TableHead>
-              <TableHead className="font-normal text-xs uppercase">Contact</TableHead>
-              <TableHead className="font-normal text-xs uppercase">Registration Date</TableHead>
-              <TableHead className="font-normal text-xs uppercase">Status</TableHead>
-              <TableHead className="font-normal text-xs uppercase">Plan</TableHead>
-              <TableHead className="font-normal text-xs uppercase">Sales Manager</TableHead>
-              <TableHead className="font-normal text-xs uppercase text-right">Actions</TableHead>
-            </TableRow>
-          </TableHeader>
-          <TableBody>
-            {users.map((user) => (
-              <TableRow key={user.id} className="font-light">
-                <TableCell>
-                  <Badge variant="secondary" className="capitalize border-gray-200">
-                    {user.type}
-                  </Badge>
-                </TableCell>
-                <TableCell>{user.name}</TableCell>
-                <TableCell className="font-light">{user.contactPerson}</TableCell>
-                <div className="flex flex-col space-y-1 pt-5">
-                  <div className="flex items-center">
-                    <span className="text-xs">{user.email}</span>
-                  </div>
-                  <div className="flex items-center">
-                    <span className="text-xs">{user.phone}</span>
-                    </div>
-                  </div>
-                  <TableCell>{user.registrationDate}</TableCell>
-                  <TableCell>{getStatusBadge(user.status)}</TableCell>
-
-
-                <TableCell>{user.plan}</TableCell>
-                <TableCell>Manager {user.assignedManager}</TableCell>
-
-                <TableCell className="text-right space-x-2">
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleViewDetails(user.id)}
-                    className="h-8 w-8 p-0 hover:bg-gray-200"
-                  >
-                    <Eye className="h-4 w-4" strokeWidth={1.5}  />
-                  </Button>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleDeactivate(user.id)}
-                    className="h-8 w-8 p-0 hover:bg-red-100"
-                  >
-                    <UserX className="h-4 w-4 text-red-500" strokeWidth={1.5}  />
-                  </Button>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </CardContent>
-    </Card>
-    </div>
+        <Card className="border border-gray-200 shadow-none rounded-lg">
+          <CardContent className="p-0">
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="font-normal text-xs uppercase">Type</TableHead>
+                  <TableHead className="font-normal text-xs uppercase">Company</TableHead>
+                  <TableHead className="font-normal text-xs uppercase">Name</TableHead>
+                  <TableHead className="font-normal text-xs uppercase">Contact</TableHead>
+                  <TableHead className="font-normal text-xs uppercase">Registration Date</TableHead>
+                  <TableHead className="font-normal text-xs uppercase">Status</TableHead>
+                  <TableHead className="font-normal text-xs uppercase">Plan</TableHead>
+                  <TableHead className="font-normal text-xs uppercase">Sales Manager</TableHead>
+                  <TableHead className="font-normal text-xs uppercase text-right">Actions</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {users.map((user) => (
+                  <TableRow key={user.id} className="font-light">
+                    <TableCell>
+                      <Badge variant="secondary" className="capitalize border-gray-200">
+                        {user.type}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{user.name}</TableCell>
+                    <TableCell className="font-light">{user.contactPerson}</TableCell>
+                    <TableCell>
+                      <div className="flex flex-col space-y-1 pt-5">
+                        <div className="flex items-center">
+                          <span className="text-xs">{user.email}</span>
+                        </div>
+                        <div className="flex items-center">
+                          <span className="text-xs">{user.phone}</span>
+                        </div>
+                      </div>
+                    </TableCell>
+                    <TableCell>{user.registrationDate}</TableCell>
+                    <TableCell>{getStatusBadge(user.status)}</TableCell>
+                    <TableCell>{user.plan}</TableCell>
+                    <TableCell>Manager {user.assignedManager}</TableCell>
+                    <TableCell className="text-right space-x-2">
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => handleViewDetails(user.id)}
+                        className="h-8 w-8 p-0 hover:bg-gray-200"
+                      >
+                        <Eye className="h-4 w-4" strokeWidth={1.5} />
+                      </Button>
+                      {user.status === "active" ? (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => handleDeactivate(user.id)}
+                          className="h-8 w-8 p-0 hover:bg-red-100"
+                        >
+                          <UserX className="h-4 w-4 text-red-500" strokeWidth={1.5} />
+                        </Button>
+                      ) : (
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          onClick={() => {/* Reactivate logic if needed */}}
+                          className="h-8 w-8 p-0 hover:bg-green-100"
+                        >
+                          <UserCheck className="h-4 w-4 text-green-500" strokeWidth={1.5} />
+                        </Button>
+                      )}
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };
