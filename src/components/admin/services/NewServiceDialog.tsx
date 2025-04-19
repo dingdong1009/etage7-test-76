@@ -10,23 +10,22 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-// Schema for the new service form validation
-const newServiceSchema = z.object({
-  name: z.string().min(3, "Service name must be at least 3 characters"),
+const newSubscriptionSchema = z.object({
+  name: z.string().min(3, "Plan name must be at least 3 characters"),
   description: z.string().min(10, "Description must be at least 10 characters"),
-  category: z.string().min(1, "Category is required"),
   price: z.string().min(1, "Price is required"),
-  duration: z.string().min(1, "Duration is required"),
-  targetUserType: z.enum(["brand", "buyer", "both"]),
-  features: z.string().min(1, "At least one feature is required")
+  billingCycle: z.enum(["monthly", "quarterly", "annually"]),
+  features: z.string().min(1, "At least one feature is required"),
+  maxUsers: z.string().min(1, "Maximum users is required"),
+  trialDays: z.string().optional()
 });
 
-export type NewServiceFormValues = z.infer<typeof newServiceSchema>;
+export type NewSubscriptionFormValues = z.infer<typeof newSubscriptionSchema>;
 
 interface NewServiceDialogProps {
   isOpen: boolean;
   setIsOpen: (open: boolean) => void;
-  onSubmit: (data: NewServiceFormValues) => void;
+  onSubmit: (data: NewSubscriptionFormValues) => void;
 }
 
 const NewServiceDialog: React.FC<NewServiceDialogProps> = ({
@@ -34,41 +33,41 @@ const NewServiceDialog: React.FC<NewServiceDialogProps> = ({
   setIsOpen,
   onSubmit
 }) => {
-  const newServiceForm = useForm<NewServiceFormValues>({
-    resolver: zodResolver(newServiceSchema),
+  const subscriptionForm = useForm<NewSubscriptionFormValues>({
+    resolver: zodResolver(newSubscriptionSchema),
     defaultValues: {
       name: "",
       description: "",
-      category: "",
       price: "",
-      duration: "",
-      targetUserType: "both",
-      features: ""
+      billingCycle: "monthly",
+      features: "",
+      maxUsers: "",
+      trialDays: ""
     }
   });
 
-  const handleSubmit = (data: NewServiceFormValues) => {
+  const handleSubmit = (data: NewSubscriptionFormValues) => {
     onSubmit(data);
-    newServiceForm.reset();
+    subscriptionForm.reset();
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
-          <DialogTitle>Add New Service</DialogTitle>
+          <DialogTitle>Create Subscription Plan</DialogTitle>
         </DialogHeader>
         
-        <Form {...newServiceForm}>
-          <form onSubmit={newServiceForm.handleSubmit(handleSubmit)} className="space-y-4">
+        <Form {...subscriptionForm}>
+          <form onSubmit={subscriptionForm.handleSubmit(handleSubmit)} className="space-y-4">
             <FormField
-              control={newServiceForm.control}
+              control={subscriptionForm.control}
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Service Name</FormLabel>
+                  <FormLabel>Plan Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="e.g., Brand Positioning" {...field} />
+                    <Input placeholder="e.g., Basic Plan" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -76,14 +75,14 @@ const NewServiceDialog: React.FC<NewServiceDialogProps> = ({
             />
             
             <FormField
-              control={newServiceForm.control}
+              control={subscriptionForm.control}
               name="description"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea 
-                      placeholder="Describe the service in detail..." 
+                      placeholder="Describe the subscription plan benefits..." 
                       className="min-h-[100px]" 
                       {...field} 
                     />
@@ -95,39 +94,37 @@ const NewServiceDialog: React.FC<NewServiceDialogProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
-                control={newServiceForm.control}
-                name="category"
+                control={subscriptionForm.control}
+                name="price"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Category</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select category" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="Strategy">Strategy</SelectItem>
-                        <SelectItem value="Marketing">Marketing</SelectItem>
-                        <SelectItem value="Sales">Sales</SelectItem>
-                        <SelectItem value="Analysis">Analysis</SelectItem>
-                        <SelectItem value="Curation">Curation</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <FormLabel>Price</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g., 29.99" type="number" step="0.01" {...field} />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
               
               <FormField
-                control={newServiceForm.control}
-                name="price"
+                control={subscriptionForm.control}
+                name="billingCycle"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Price</FormLabel>
-                    <FormControl>
-                      <Input placeholder="e.g., $1,200+" {...field} />
-                    </FormControl>
+                    <FormLabel>Billing Cycle</FormLabel>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select billing cycle" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="monthly">Monthly</SelectItem>
+                        <SelectItem value="quarterly">Quarterly</SelectItem>
+                        <SelectItem value="annually">Annually</SelectItem>
+                      </SelectContent>
+                    </Select>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -136,13 +133,13 @@ const NewServiceDialog: React.FC<NewServiceDialogProps> = ({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <FormField
-                control={newServiceForm.control}
-                name="duration"
+                control={subscriptionForm.control}
+                name="maxUsers"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Duration</FormLabel>
+                    <FormLabel>Maximum Users</FormLabel>
                     <FormControl>
-                      <Input placeholder="e.g., 2-3 weeks" {...field} />
+                      <Input placeholder="e.g., 5" type="number" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -150,23 +147,14 @@ const NewServiceDialog: React.FC<NewServiceDialogProps> = ({
               />
               
               <FormField
-                control={newServiceForm.control}
-                name="targetUserType"
+                control={subscriptionForm.control}
+                name="trialDays"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Target User Type</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select user type" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="brand">Brand</SelectItem>
-                        <SelectItem value="buyer">Buyer</SelectItem>
-                        <SelectItem value="both">Both</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <FormLabel>Trial Period (Days)</FormLabel>
+                    <FormControl>
+                      <Input placeholder="e.g., 14" type="number" {...field} />
+                    </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -174,14 +162,14 @@ const NewServiceDialog: React.FC<NewServiceDialogProps> = ({
             </div>
             
             <FormField
-              control={newServiceForm.control}
+              control={subscriptionForm.control}
               name="features"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Service Features</FormLabel>
+                  <FormLabel>Plan Features</FormLabel>
                   <FormControl>
                     <Textarea 
-                      placeholder="Enter each feature on a separate line" 
+                      placeholder="Enter each feature on a new line" 
                       className="min-h-[100px]" 
                       {...field} 
                     />
@@ -201,7 +189,7 @@ const NewServiceDialog: React.FC<NewServiceDialogProps> = ({
                 Cancel
               </Button>
               <Button type="submit">
-                Create Service
+                Create Plan
               </Button>
             </DialogFooter>
           </form>
