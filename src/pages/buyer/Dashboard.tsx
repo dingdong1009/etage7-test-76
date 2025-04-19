@@ -16,8 +16,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Dialog } from "@/components/ui/dialog";
-import ProductDetails from "@/pages/buyer/ProductDetails"; // Fixed import path
+import { Dialog, DialogTrigger, DialogContent } from "@/components/ui/dialog";
+import { ProductDetails } from "@/components/ui/product-details";
 
 interface DashboardProduct {
   id: string;
@@ -105,6 +105,7 @@ const Dashboard = () => {
   const [isFilterCollapsed, setIsFilterCollapsed] = useState(false);
 
   const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
+  const [productDialogOpen, setProductDialogOpen] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -819,3 +820,239 @@ const Dashboard = () => {
                         
                         <div>
                           <div className="flex items-center justify-between">
+                            <h4 className="text-sm uppercase text-gray-500 font-medium mb-3">Shipping From</h4>
+                          </div>
+                          <div className="grid grid-cols-2 gap-2">
+                            {shippingFromOptions.map((origin) => (
+                              <div key={origin} className="flex items-center space-x-2">
+                                <Checkbox 
+                                  id={`origin-${origin}`}
+                                  checked={selectedShippingOrigins.includes(origin)}
+                                  onCheckedChange={() => toggleFilterOption(origin, selectedShippingOrigins, setSelectedShippingOrigins)}
+                                />
+                                <Label 
+                                  htmlFor={`origin-${origin}`}
+                                  className="text-sm font-light cursor-pointer"
+                                >
+                                  {origin}
+                                </Label>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="space-y-6">
+                    {activeFilterTab === 'categories' && (
+                      <div className="space-y-6">
+                        <div>
+                          <h4 className="text-sm uppercase text-gray-500 font-medium mb-3">Price Range</h4>
+                          <div className="flex justify-between text-sm font-light">
+                            <span>{priceRange[0]} ₽</span>
+                            <span>{priceRange[1]} ₽</span>
+                          </div>
+                          <Slider
+                            defaultValue={[0, 1000]}
+                            min={0}
+                            max={1000}
+                            step={50}
+                            value={priceRange}
+                            onValueChange={setPriceRange}
+                            className="py-4"
+                          />
+                        </div>
+                        
+                        <div className="flex items-center space-x-2 pt-2">
+                          <Switch 
+                            id="in-stock"
+                            checked={inStockOnly}
+                            onCheckedChange={setInStockOnly}
+                          />
+                          <Label htmlFor="in-stock" className="text-sm">In stock only</Label>
+                        </div>
+                      </div>
+                    )}
+
+                    {activeFilterTab === 'commercial' && (
+                      <div className="space-y-6">
+                        <div className="flex items-center space-x-2">
+                          <Switch 
+                            id="exclusivity"
+                            checked={exclusivityOnly}
+                            onCheckedChange={setExclusivityOnly}
+                          />
+                          <Label htmlFor="exclusivity" className="text-sm">Exclusivity options only</Label>
+                        </div>
+                        <p className="text-xs text-gray-500">
+                          Show only products that offer exclusivity arrangements for specific regions or markets
+                        </p>
+                      </div>
+                    )}
+
+                    {activeFilterTab === 'ai' && (
+                      <div className="space-y-6">
+                        <div className="flex items-center space-x-2">
+                          <Switch 
+                            id="ai-assist"
+                            checked={isAiAssistEnabled}
+                            onCheckedChange={setIsAiAssistEnabled}
+                          />
+                          <Label htmlFor="ai-assist" className="text-sm">Enable AI Buying Assistant</Label>
+                        </div>
+                        <p className="text-xs text-gray-500">
+                          Our AI assistant can analyze current trends and market data to recommend products that might perform well for your store profile
+                        </p>
+                        {isAiAssistEnabled && (
+                          <div className="mt-4 p-4 bg-gray-50 border border-gray-200">
+                            <h5 className="text-sm font-medium mb-2">AI Recommendations</h5>
+                            <p className="text-sm text-gray-600">
+                              Based on your past orders and current market trends, consider exploring:
+                            </p>
+                            <ul className="mt-2 space-y-1 text-sm text-gray-600">
+                              <li className="flex items-center">
+                                <ChevronRight className="h-3 w-3 mr-1" />
+                                Leather accessories in neutral tones
+                              </li>
+                              <li className="flex items-center">
+                                <ChevronRight className="h-3 w-3 mr-1" />
+                                Sustainable cotton basics
+                              </li>
+                              <li className="flex items-center">
+                                <ChevronRight className="h-3 w-3 mr-1" />
+                                Statement pieces from Fall/Winter 2024
+                              </li>
+                            </ul>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    <div className="pt-8 flex items-center justify-end space-x-3">
+                      <Button 
+                        variant="outline"
+                        size="sm"
+                        onClick={resetFilters}
+                        className="text-sm"
+                      >
+                        <FilterX size={14} className="mr-1" /> Reset All
+                      </Button>
+                      
+                      <Button 
+                        size="sm"
+                        className="text-sm bg-black hover:bg-gray-900"
+                      >
+                        Apply Filters
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </CollapsibleContent>
+        </Collapsible>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {visibleProducts.map((product) => (
+          <div key={product.id} className="group relative">
+            <Card className="overflow-hidden rounded-none border-gray-100 shadow-none hover:shadow-sm transition-shadow">
+              <div className="aspect-[3/4] bg-gray-50 relative">
+                <div className="absolute inset-0 flex items-center justify-center text-gray-400 text-sm">
+                  {product.imagePlaceholder}
+                </div>
+                <div className="absolute top-3 right-3">
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="h-8 w-8 rounded-full bg-white/80 hover:bg-white text-gray-800"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleFavorite(product.id);
+                    }}
+                  >
+                    <Heart 
+                      size={18} 
+                      className={product.favorite ? "fill-black text-black" : ""} 
+                    />
+                  </Button>
+                </div>
+                <Dialog open={selectedProduct === product.id && productDialogOpen} onOpenChange={setProductDialogOpen}>
+                  <DialogTrigger asChild>
+                    <Button 
+                      variant="outline" 
+                      className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/80 hover:bg-white border-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                      onClick={() => {
+                        setSelectedProduct(product.id);
+                        setProductDialogOpen(true);
+                      }}
+                    >
+                      Quick view
+                    </Button>
+                  </DialogTrigger>
+                  <DialogContent className="max-w-4xl h-[90vh] overflow-y-auto">
+                    <ProductDetails isDialog productId={product.id} onClose={() => setProductDialogOpen(false)} />
+                  </DialogContent>
+                </Dialog>
+              </div>
+              <CardContent className="p-4">
+                <div className="space-y-1">
+                  <p className="text-sm text-gray-500">{product.category} • {product.subCategory}</p>
+                  <h3 className="font-light text-base">{product.name}</h3>
+                  <div className="flex justify-between items-end">
+                    <p className="font-light">{product.price}</p>
+                    <p className="text-xs text-gray-500">{product.material}</p>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        ))}
+      </div>
+      
+      {isSearching && (
+        <div className="py-8 text-center">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-black"></div>
+          <p className="mt-4 text-gray-600">Searching for products...</p>
+        </div>
+      )}
+      
+      {!isSearching && filteredProducts.length === 0 && (
+        <div className="py-12 text-center">
+          <div className="mx-auto w-16 h-16 mb-4 rounded-full bg-gray-100 flex items-center justify-center">
+            <X className="h-8 w-8 text-gray-400" />
+          </div>
+          <h3 className="text-lg font-light mb-1">No products found</h3>
+          <p className="text-gray-500">Try changing your filters or search term</p>
+          <Button 
+            variant="outline"
+            size="sm"
+            onClick={resetFilters}
+            className="mt-4"
+          >
+            <FilterX size={16} className="mr-2" /> Clear Filters
+          </Button>
+        </div>
+      )}
+      
+      {hasMore && visibleProducts.length > 0 && (
+        <div className="py-8 text-center">
+          <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-300"></div>
+          <p className="mt-4 text-gray-500">Loading more products...</p>
+        </div>
+      )}
+      
+      {showScrollTop && (
+        <Button
+          className="fixed bottom-8 right-8 h-10 w-10 rounded-full shadow-md bg-white hover:bg-gray-50 text-black border border-gray-200"
+          onClick={scrollToTop}
+        >
+          <ChevronUp size={20} />
+        </Button>
+      )}
+    </div>
+  );
+};
+
+export default Dashboard;
