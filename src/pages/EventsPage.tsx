@@ -180,7 +180,7 @@ const EventsPage = () => {
                 Dates with events are highlighted on the calendar.
               </div>
               
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {eventsData.map(event => (
                   <Button 
                     key={event.id} 
@@ -210,7 +210,7 @@ const EventsPage = () => {
               {selectedEvent ? (
                 <div>
                   <h3 className="text-xl font-semibold mb-2">{selectedEvent.title}</h3>
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     <div>
                       <Badge variant="outline" className="mb-2">
                         {format(selectedEvent.date, "EEEE, MMMM d, yyyy")}

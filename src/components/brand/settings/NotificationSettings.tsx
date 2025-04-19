@@ -55,7 +55,7 @@ const NotificationSettings: React.FC = () => {
         <div className="space-y-8">
           <div>
             <h3 className="text-lg font-light mb-4">Email Notifications</h3>
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label htmlFor="email-orders">Order Updates</Label>
@@ -116,7 +116,7 @@ const NotificationSettings: React.FC = () => {
           
           <div>
             <h3 className="text-lg font-light mb-4">Push Notifications</h3>
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label htmlFor="push-orders">Order Updates</Label>
@@ -177,7 +177,7 @@ const NotificationSettings: React.FC = () => {
           
           <div>
             <h3 className="text-lg font-light mb-4">SMS Notifications</h3>
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label htmlFor="sms-orders">Order Updates</Label>

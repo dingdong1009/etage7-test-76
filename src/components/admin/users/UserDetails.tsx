@@ -101,7 +101,7 @@ const UserDetails = ({ user, activeTab, handleGoBack, handleEditUser }: UserDeta
             <h3 className="text-lg font-semibold mb-4">
               {isSalesManager(user) ? "Manager Information" : "Company Information"}
             </h3>
-            <div className="space-y-4">
+            <div className="space-y-6">
               {isSalesManager(user) ? (
                 renderField("Name", user.name, editableFields.includes("name"))
               ) : (
@@ -142,7 +142,7 @@ const UserDetails = ({ user, activeTab, handleGoBack, handleEditUser }: UserDeta
           
           <div>
             <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
-            <div className="space-y-4">
+            <div className="space-y-6">
               {(isBrand(user) || isBuyer(user)) && renderField("Contact Person", user.contactPerson)}
               
               {renderField("Email", user.email, editableFields.includes("email"))}

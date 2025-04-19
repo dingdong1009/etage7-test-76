@@ -290,7 +290,7 @@ const Settings = () => {
                 
                 <Separator className="my-6" />
                 
-                <div className="space-y-4">
+                <div className="space-y-6">
                   <h3 className="text-lg font-light">Two-Factor Authentication</h3>
                   <div className="flex items-center justify-between">
                     <div>

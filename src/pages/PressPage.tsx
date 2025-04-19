@@ -62,7 +62,7 @@ const PressPage = () => {
               <p className="text-gray-600 mb-6">
                 Welcome to the ETAGE7 press room. Find the latest news, press releases, media resources, and contact information for press inquiries.
               </p>
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <Link to="/press-kit">
                   <Button 
                     variant="outline" 

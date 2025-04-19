@@ -13,81 +13,76 @@ const PaidServices = () => {
   const [activeTab, setActiveTab] = useState("subscriptions");
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col gap-2">
+    <div className="space-y-6 pt-5">
         <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">PAID SERVICES</h1>
-        <p className="text-lg text-gray-600 mb-8">Manage subscriptions and additional services offered on the platform.</p>
-      </div>
 
-      <Card className="border border-gray-200 shadow-none rounded-none">
+      <div className="pt-10">
         <Tabs defaultValue="subscriptions" value={activeTab} onValueChange={setActiveTab} className="w-full">
-          <div className="border-b border-gray-200">
-            <TabsList className="bg-transparent w-full justify-start overflow-x-auto">
+        <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
               <TabsTrigger 
                 value="subscriptions" 
-                className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-4 data-[state=active]:shadow-none"
-              >
+                className="text-xs font-normal uppercase border-r border-white data-[state=active]:bg-black data-[state=active]:text-white rounded-none hover:bg-black hover:text-white px-6 py-2 data-[state=active]:shadow-none data-[state=active]:border-r data-[state=active]:border-white"
+                >
                 Subscriptions
               </TabsTrigger>
               <TabsTrigger 
                 value="consulting" 
-                className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-4 data-[state=active]:shadow-none"
-              >
+                className="text-xs font-normal uppercase border-x border-white data-[state=active]:bg-black data-[state=active]:text-white rounded-none hover:bg-black hover:text-white px-6 py-2 data-[state=active]:shadow-none data-[state=active]:border-x data-[state=active]:border-white"
+                >
                 Consulting Services
               </TabsTrigger>
               <TabsTrigger 
                 value="marketing" 
-                className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-4 data-[state=active]:shadow-none"
-              >
+                className="text-xs font-normal uppercase border-x border-white data-[state=active]:bg-black data-[state=active]:text-white rounded-none hover:bg-black hover:text-white px-6 py-2 data-[state=active]:shadow-none data-[state=active]:border-x data-[state=active]:border-white"
+                >
                 Marketing Credits
               </TabsTrigger>
               <TabsTrigger 
                 value="advertisement" 
-                className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-4 data-[state=active]:shadow-none"
-              >
+                className="text-xs font-normal uppercase border-x border-white data-[state=active]:bg-black data-[state=active]:text-white rounded-none hover:bg-black hover:text-white px-6 py-2 data-[state=active]:shadow-none data-[state=active]:border-x data-[state=active]:border-white"
+                >
                 Advertisement
               </TabsTrigger>
               <TabsTrigger 
                 value="emarketing" 
-                className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-4 data-[state=active]:shadow-none"
-              >
+                className="text-xs font-normal uppercase border-x border-white data-[state=active]:bg-black data-[state=active]:text-white rounded-none hover:bg-black hover:text-white px-6 py-2 data-[state=active]:shadow-none data-[state=active]:border-x data-[state=active]:border-white"
+                >
                 eMarketing
               </TabsTrigger>
               <TabsTrigger 
                 value="create" 
-                className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-4 data-[state=active]:shadow-none"
-              >
+                className="text-xs font-normal uppercase border-l border-white data-[state=active]:bg-black data-[state=active]:text-white rounded-none hover:bg-black hover:text-white px-6 py-2 data-[state=active]:shadow-none data-[state=active]:border-l data-[state=active]:border-white"
+                >
                 Create New Service
               </TabsTrigger>
             </TabsList>
-          </div>
 
-          <TabsContent value="subscriptions" className="p-6">
+          <TabsContent value="subscriptions">
             <Subscriptions />
           </TabsContent>
           
-          <TabsContent value="consulting" className="p-6">
+          <TabsContent value="consulting">
             <ConsultingServices />
           </TabsContent>
           
-          <TabsContent value="marketing" className="p-6">
+          <TabsContent value="marketing">
             <MarketingCredits />
           </TabsContent>
           
-          <TabsContent value="advertisement" className="p-6">
+          <TabsContent value="advertisement">
             <Advertisements />
           </TabsContent>
           
-          <TabsContent value="emarketing" className="p-6">
+          <TabsContent value="emarketing">
             <EMarketing />
           </TabsContent>
           
-          <TabsContent value="create" className="p-6">
+          <TabsContent value="create">
             <CreateService />
           </TabsContent>
-        </Tabs>
-      </Card>
-    </div>
+          </Tabs>
+        </div>
+        </div>
   );
 };
 

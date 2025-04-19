@@ -72,7 +72,7 @@ const BookingDetailsDialog: React.FC<BookingDetailsDialogProps> = ({
           <DialogTitle>Booking Details</DialogTitle>
         </DialogHeader>
         
-        <div className="space-y-4">
+        <div className="space-y-6">
           <div className="flex justify-between">
             <StatusBadge status={booking.status} />
             <ClientTypeBadge type={booking.userType} />

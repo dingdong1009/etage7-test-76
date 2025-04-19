@@ -151,18 +151,11 @@ const CreateService = () => {
   };
   
   return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-light">Create New Paid Service</h2>
-      
+    <div className="space-y-4 pt-3">
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-normal uppercase tracking-tighter">RCreate New Paid Service</h2>
+      </div>
       <Card className="border border-gray-200 shadow-none rounded-lg">
-        <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
-          <CardTitle className="text-lg font-medium text-gray-900">
-            Service Type
-          </CardTitle>
-          <CardDescription>
-            Select the type of service you want to create
-          </CardDescription>
-        </CardHeader>
         <CardContent className="p-6">
           <Tabs 
             defaultValue="subscription" 
@@ -173,7 +166,7 @@ const CreateService = () => {
             <TabsList className="grid grid-cols-1 md:grid-cols-3 gap-4 bg-transparent h-auto p-0">
               <TabsTrigger 
                 value="subscription" 
-                className="border bg-white data-[state=active]:border-black border-gray-200 rounded-lg flex items-center gap-3 h-auto py-4 px-4 data-[state=active]:bg-gray-50"
+                className="border bg-white data-[state=active]:border-black border-gray-200 rounded-lg flex items-center gap-3 h-auto py-4 px-4 data-[state=active]:bg-gray-200"
               >
                 <div className="h-10 w-10 rounded-full bg-gray-50 flex items-center justify-center">
                   <CreditCard className="h-5 w-5" />
@@ -185,7 +178,7 @@ const CreateService = () => {
               </TabsTrigger>
               <TabsTrigger 
                 value="consulting" 
-                className="border bg-white data-[state=active]:border-black border-gray-200 rounded-lg flex items-center gap-3 h-auto py-4 px-4 data-[state=active]:bg-gray-50"
+                className="border bg-white data-[state=active]:border-black border-gray-200 rounded-lg flex items-center gap-3 h-auto py-4 px-4 data-[state=active]:bg-gray-200"
               >
                 <div className="h-10 w-10 rounded-full bg-gray-50 flex items-center justify-center">
                   <MessageSquare className="h-5 w-5" />
@@ -197,7 +190,7 @@ const CreateService = () => {
               </TabsTrigger>
               <TabsTrigger 
                 value="advertisement" 
-                className="border bg-white data-[state=active]:border-black border-gray-200 rounded-lg flex items-center gap-3 h-auto py-4 px-4 data-[state=active]:bg-gray-50"
+                className="border bg-white data-[state=active]:border-black border-gray-200 rounded-lg flex items-center gap-3 h-auto py-4 px-4 data-[state=active]:bg-gray-200"
               >
                 <div className="h-10 w-10 rounded-full bg-gray-50 flex items-center justify-center">
                   <BarChart className="h-5 w-5" />
@@ -235,7 +228,7 @@ const CreateService = () => {
                             <FormLabel>Price</FormLabel>
                             <FormControl>
                               <div className="relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">₽</span>
                                 <Input type="text" placeholder="29.99" className="pl-8" {...field} />
                               </div>
                             </FormControl>
@@ -419,7 +412,7 @@ const CreateService = () => {
                     </div>
                     
                     <div className="flex justify-end">
-                      <Button type="submit">Create Subscription</Button>
+                      <Button className="bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase" type="submit">Create Subscription</Button>
                     </div>
                   </form>
                 </Form>
@@ -450,7 +443,7 @@ const CreateService = () => {
                             <FormLabel>Price</FormLabel>
                             <FormControl>
                               <div className="relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">₽</span>
                                 <Input type="text" placeholder="299.00" className="pl-8" {...field} />
                               </div>
                             </FormControl>
@@ -595,7 +588,7 @@ const CreateService = () => {
                     />
                     
                     <div className="flex justify-end">
-                      <Button type="submit">Create Consulting Service</Button>
+                      <Button className="bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase" type="submit">Create Consulting Service</Button>
                     </div>
                   </form>
                 </Form>
@@ -626,7 +619,7 @@ const CreateService = () => {
                             <FormLabel>Price</FormLabel>
                             <FormControl>
                               <div className="relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">₽</span>
                                 <Input type="text" placeholder="499.00" className="pl-8" {...field} />
                               </div>
                             </FormControl>
@@ -817,7 +810,7 @@ const CreateService = () => {
                     </div>
                     
                     <div className="flex justify-end">
-                      <Button type="submit">Create Advertisement</Button>
+                      <Button className="bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase" type="submit">Create Advertisement</Button>
                     </div>
                   </form>
                 </Form>

@@ -6,7 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Input } from "@/components/ui/input";
-import { Search, Plus, ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { Search, Plus, Eye, Edit, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import { MarketingCredit } from "@/types/services/paidServices";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
@@ -132,8 +132,8 @@ const MarketingCredits = () => {
   
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
-        <h2 className="text-2xl font-light">Marketing Credits Management</h2>
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-normal tracking-tighter uppercase">Marketing Credits Management</h2>
         <div className="flex items-center gap-2">
           <div className="relative">
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
@@ -144,7 +144,7 @@ const MarketingCredits = () => {
               onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-          <Button className="gap-2">
+          <Button className="bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase">
             <Plus size={16} />
             Add Credits
           </Button>
@@ -154,38 +154,27 @@ const MarketingCredits = () => {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <Card className="border border-gray-200 shadow-none rounded-lg">
           <CardContent className="p-6">
-            <div className="flex items-center">
-              <div className="w-12 h-12 bg-accent-mint/20 rounded-full flex items-center justify-center mr-4">
-                <div className="w-6 h-6 text-gray-800">💰</div>
-              </div>
-              <div>
-                <div className="text-sm text-gray-500">Total Credits</div>
-                <div className="text-2xl font-light">{totalCredits}</div>
-              </div>
+            <div className="flex justify-between items-center mb-1">
+              <span className="text-sm text-gray-500">Total credit purchased</span>
+              <span className="text-xs font-medium text-gray-400">From {30} users</span>
             </div>
+            <div className="text-2xl font-light">{totalCredits}</div>
+          </CardContent>
+        </Card>
+        <Card className="border border-gray-200 shadow-none rounded-lg">
+          <CardContent className="p-6">
+            <div className="flex justify-between items-center mb-1">
+              <span className="text-sm text-gray-500">Total credit Used</span>
+              <span className="text-xs font-medium text-gray-400">From {20} users</span>
+            </div>
+            <div className="text-2xl font-light">{totalUsed}</div>
           </CardContent>
         </Card>
         <Card className="border border-gray-200 shadow-none rounded-lg">
           <CardContent className="p-6">
             <div className="flex items-center">
-              <div className="w-12 h-12 bg-accent-mint/20 rounded-full flex items-center justify-center mr-4">
-                <div className="w-6 h-6 text-gray-800">📊</div>
-              </div>
               <div>
-                <div className="text-sm text-gray-500">Used Credits</div>
-                <div className="text-2xl font-light">{totalUsed}</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="border border-gray-200 shadow-none rounded-lg">
-          <CardContent className="p-6">
-            <div className="flex items-center">
-              <div className="w-12 h-12 bg-accent-mint/20 rounded-full flex items-center justify-center mr-4">
-                <div className="w-6 h-6 text-gray-800">⭐</div>
-              </div>
-              <div>
-                <div className="text-sm text-gray-500">Remaining Credits</div>
+                <div className="text-sm text-gray-500 capitalize">Total Remaining Credits</div>
                 <div className="text-2xl font-light">{remainingCredits}</div>
               </div>
             </div>
@@ -196,44 +185,47 @@ const MarketingCredits = () => {
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         <div className="xl:col-span-2">
           <Card className="border border-gray-200 shadow-none rounded-lg">
-            <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
-              <CardTitle className="text-lg font-medium text-gray-900">
+            <CardHeader className="px-3 py-3 border-b border-gray-100 bg-gray-50/80">
+              <CardTitle className="text-lg font-normal text-gray-900 uppercase">
                 Credit Allocations
               </CardTitle>
             </CardHeader>
             <CardContent className="p-0">
               <Table>
                 <TableHeader>
-                  <TableRow className="hover:bg-transparent bg-gray-50">
-                    <TableHead className="font-medium">ID</TableHead>
-                    <TableHead className="font-medium">User Type</TableHead>
-                    <TableHead className="font-medium">Total</TableHead>
-                    <TableHead className="font-medium">Used</TableHead>
-                    <TableHead className="font-medium">Remaining</TableHead>
-                    <TableHead className="font-medium">Expiry</TableHead>
-                    <TableHead className="text-right font-medium">Actions</TableHead>
+                  <TableRow className="uppercase">
+                    <TableHead className="font-normal text-xs">ID</TableHead>
+                    <TableHead className="font-normal text-xs">User Type</TableHead>
+                    <TableHead className="font-normal text-xs">Total</TableHead>
+                    <TableHead className="font-normal text-xs">Used</TableHead>
+                    <TableHead className="font-normal text-xs">Remaining</TableHead>
+                    <TableHead className="font-normal text-xs">Expiry</TableHead>
+                    <TableHead className="text-right font-normal text-xs uppercase">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {credits.map((credit) => (
                     <TableRow key={credit.id} className="border-t border-gray-100">
-                      <TableCell className="font-medium">{credit.id}</TableCell>
+                      <TableCell className="font-light uppercase">{credit.id}</TableCell>
                       <TableCell>
-                        <Badge variant="secondary" className="capitalize">
+                        <Badge variant="secondary" className="capitalize border-gray-200">
                           {credit.userType}
                         </Badge>
                       </TableCell>
-                      <TableCell>{credit.totalCredits}</TableCell>
-                      <TableCell>{credit.usedCredits}</TableCell>
-                      <TableCell>{credit.totalCredits - credit.usedCredits}</TableCell>
-                      <TableCell>
+                      <TableCell className="font-light">{credit.totalCredits}</TableCell>
+                      <TableCell className="font-light">{credit.usedCredits}</TableCell>
+                      <TableCell className="font-light">{credit.totalCredits - credit.usedCredits}</TableCell>
+                      <TableCell className="font-light">
                         {credit.expiryDate
                           ? new Date(credit.expiryDate).toLocaleDateString()
                           : "Never"}
                       </TableCell>
                       <TableCell className="text-right">
-                        <Button variant="outline" size="sm" className="text-xs">
-                          Manage
+                      <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-200">
+                          <Eye className="h-4 w-4" strokeWidth={1.5}  />
+                        </Button>
+                      <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-200">
+                          <Edit className="h-4 w-4" strokeWidth={1.5} />
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -246,17 +238,17 @@ const MarketingCredits = () => {
         
         <div>
           <Card className="border border-gray-200 shadow-none rounded-lg">
-            <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
-              <CardTitle className="text-lg font-medium text-gray-900">
+            <CardHeader className="px-3 py-3 border-b border-gray-100 bg-gray-50/80">
+              <CardTitle className="text-lg font-normal text-gray-900 uppercase">
                 Credit Usage
               </CardTitle>
             </CardHeader>
             <CardContent className="p-6">
               <div className="h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">
-                  <LineChart data={monthlyData}>
+                  <LineChart data={monthlyData} className="font-thin text-sm ">
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="month" />
+                    <XAxis dataKey="month"  />
                     <YAxis />
                     <Tooltip />
                     <Line type="monotone" dataKey="used" name="Credits Used" stroke="#8884d8" />
@@ -271,7 +263,7 @@ const MarketingCredits = () => {
       
       <Card className="border border-gray-200 shadow-none rounded-lg">
         <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
-          <CardTitle className="text-lg font-medium text-gray-900">
+          <CardTitle className="text-lg font-normal text-gray-900 uppercase">
             Recent Transactions
           </CardTitle>
         </CardHeader>
@@ -283,7 +275,7 @@ const MarketingCredits = () => {
               <TabsTrigger value="debits">Debits</TabsTrigger>
             </TabsList>
             <TabsContent value="all" className="mt-0">
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {credits.flatMap(credit =>
                   credit.transactions.map(transaction => (
                     <div key={transaction.id} className="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
@@ -313,7 +305,7 @@ const MarketingCredits = () => {
               </div>
             </TabsContent>
             <TabsContent value="credits" className="mt-0">
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {credits.flatMap(credit =>
                   credit.transactions
                     .filter(t => t.type === 'credit')
@@ -339,7 +331,7 @@ const MarketingCredits = () => {
               </div>
             </TabsContent>
             <TabsContent value="debits" className="mt-0">
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {credits.flatMap(credit =>
                   credit.transactions
                     .filter(t => t.type === 'debit')

@@ -205,7 +205,7 @@ const BrandDashboard = () => {
                 </Link>
               </Button>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-6">
               {mockData.recentOrders.map(order => <div key={order.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
                   <div>
                     <p className="text-sm font-normal">{order.customer}</p>
@@ -229,7 +229,7 @@ const BrandDashboard = () => {
                 <h3 className="text-lg font-light uppercase">Recent Notifications</h3>
               </div>
             </div>
-            <div className="space-y-4">
+            <div className="space-y-6">
               {mockData.notifications.map(notification => <div key={notification.id} className="flex items-center justify-between py-2 border-b border-gray-100 last:border-0">
                   <p className="text-sm font-normal">{notification.message}</p>
                   <p className="text-xs text-gray-500">{notification.time}</p>

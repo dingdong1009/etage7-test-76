@@ -172,7 +172,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
   ];
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <Card className="border border-gray-200">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle className="text-1xl md:text-2xl uppercase font-thin mb-6">
@@ -200,7 +200,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
           {!previewMode ? (
             <>
               <div className="grid md:grid-cols-2 gap-6">
-                <div className="space-y-4">
+                <div className="space-y-6">
                   <div className="space-y-2">
                     <Label htmlFor="title">Lookbook Title</Label>
                     <Input
@@ -321,7 +321,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                     </div>
                     
                     <div className="grid md:grid-cols-2 gap-6">
-                      <div className="space-y-4">
+                      <div className="space-y-6">
                         <div className="relative">
                           <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
                           <Input
@@ -376,7 +376,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                         </div>
                       </div>
                       
-                      <div className="space-y-4">
+                      <div className="space-y-6">
                         <h4 className="font-medium">Linked Products for Page {currentPage}</h4>
                         
                         <div className="border rounded-md">
@@ -429,7 +429,7 @@ const LookbookCreator: React.FC<LookbookCreatorProps> = ({ lookbook, onClose }) 
                 </TabsContent>
 
                 <TabsContent value="settings" className="mt-6">
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     <div className="grid md:grid-cols-2 gap-4">
                       <div className="space-y-2">
                         <Label htmlFor="seasonTag">Season Tag</Label>

@@ -37,7 +37,7 @@ const BrandList = ({
     );
     
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 pt-3">
       <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-6">
         <div className="relative w-full max-w-sm">
           <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
@@ -119,7 +119,7 @@ const BrandList = ({
                         <Button 
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 p-0 hover:bg-gray-100"
+                          className="h-8 w-8 p-0 hover:bg-gray-200"
                           onClick={() => handleViewUser("brand", user.id)}
                           title="View"
                         >
@@ -128,7 +128,7 @@ const BrandList = ({
                         <Button 
                           variant="ghost"
                           size="icon"
-                          className="h-8 w-8 p-0 hover:bg-gray-100"
+                          className="h-8 w-8 p-0 hover:bg-gray-200"
                           onClick={() => handleEditUser("brand", user.id)}
                           title="Edit"
                         >

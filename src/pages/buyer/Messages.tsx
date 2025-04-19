@@ -193,7 +193,7 @@ const BuyerMessages = () => {
                 </div>
                 
                 <div className="p-4 overflow-y-auto h-[calc(80vh-320px)] bg-gray-50/30">
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     {sampleMessages.map(message => (
                       <div 
                         key={message.id}

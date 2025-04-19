@@ -50,7 +50,7 @@ const InvitedUsersTable: React.FC<InvitedUsersTableProps> = ({ invitedUsers }) =
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <h2 className="text-xl font-light tracking-tighter">INVITATIONS STATUS</h2>
       
       <Card className="border border-gray-200 shadow-none rounded-lg">

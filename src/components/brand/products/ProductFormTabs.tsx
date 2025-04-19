@@ -797,7 +797,7 @@ export const ProductFormTabs = ({
       </TabsContent>
 
       <TabsContent value="details" className="space-y-6 mt-4">
-        <div className="space-y-4">
+        <div className="space-y-6">
           <div>
             <Label htmlFor="shortDescription" className="text-sm font-medium">
               Short Description*

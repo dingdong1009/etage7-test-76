@@ -68,7 +68,10 @@
   * {
     @apply border-border;
   }
-  
+  html, body {
+    overscroll-behavior: none;  /* Prevents bouncing/jumping on scroll */
+    overflow-x: hidden;  /* Prevents horizontal scrolling */
+  }
   body {
     @apply bg-background text-foreground;
     font-family: 'Neue Montreal', 'Helvetica Neue', sans-serif;

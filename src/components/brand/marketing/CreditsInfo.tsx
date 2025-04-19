@@ -198,7 +198,7 @@ const CreditsInfo = () => {
           </DialogHeader>
           
           <div className="grid gap-4 py-4">
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div className="grid grid-cols-3 gap-2">
                 <Card className="border-gray-200 shadow-none rounded-none p-4 text-center cursor-pointer hover:border-black transition-colors">
                   <p className="text-lg font-light">5</p>

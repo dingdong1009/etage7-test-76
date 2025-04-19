@@ -51,7 +51,7 @@ const PaidServices = () => {
             </CardHeader>
             <CardContent className="p-6 grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Current Subscription */}
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <h3 className="text-lg font-light">Active Subscription</h3>
                 <div className="p-4 border border-gray-200 space-y-3">
                   <div className="flex items-start justify-between">
@@ -71,7 +71,7 @@ const PaidServices = () => {
               </div>
 
               {/* Active Services */}
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <h3 className="text-lg font-light">Active Services</h3>
                 <div className="p-4 border border-gray-200 space-y-3">
                   <div className="space-y-3">

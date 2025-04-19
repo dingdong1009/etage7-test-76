@@ -97,7 +97,7 @@ const SalesPerformanceSection: React.FC<SalesPerformanceSectionProps> = ({
   };
   return <div className="space-y-6">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-        <h2 className="text-xl font-light tracking-tighter">SALES MANAGER PERFORMANCE</h2>
+        <h2 className="text-xl font-normal tracking-tighter">SALES MANAGER PERFORMANCE</h2>
         <div className="flex items-center gap-2">
           <Select value={selectedManager} onValueChange={setSelectedManager}>
             <SelectTrigger className="w-[200px] h-9 text-xs font-light border-gray-200 rounded-none">
@@ -118,13 +118,13 @@ const SalesPerformanceSection: React.FC<SalesPerformanceSectionProps> = ({
       <div>
         <Tabs value={activeMetric} onValueChange={setActiveMetric} className="w-full">
           <TabsList className="border-b border-gray-200 w-full flex justify-start overflow-x-auto pb-0 mb-6 bg-transparent">
-            <TabsTrigger value="subscriptions" className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none">
+            <TabsTrigger value="subscriptions" className="text-xs font-normal uppercase border-r border-white data-[state=active]:bg-black data-[state=active]:text-white rounded-none hover:bg-black hover:text-white px-6 py-2 data-[state=active]:shadow-none data-[state=active]:border-r data-[state=active]:border-white">
               Subscriptions
             </TabsTrigger>
-            <TabsTrigger value="renewalRate" className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none">
+            <TabsTrigger value="renewalRate" className="text-xs font-normal uppercase border-x border-white data-[state=active]:bg-black data-[state=active]:text-white rounded-none hover:bg-black hover:text-white px-6 py-2 data-[state=active]:shadow-none data-[state=active]:border-x data-[state=active]:border-white">
               Renewal Rate
             </TabsTrigger>
-            <TabsTrigger value="conversionRate" className="text-xs font-light uppercase data-[state=active]:border-b-2 data-[state=active]:border-black rounded-none px-6 py-2 data-[state=active]:shadow-none">
+            <TabsTrigger value="conversionRate" className="text-xs font-normal uppercase border-l border-white data-[state=active]:bg-black data-[state=active]:text-white rounded-none hover:bg-black hover:text-white px-6 py-2 data-[state=active]:shadow-none data-[state=active]:border-l data-[state=active]:border-white">
               Conversion Rate
             </TabsTrigger>
           </TabsList>

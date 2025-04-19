@@ -423,7 +423,7 @@ const EmailCampaigns = () => {
             ))}
             
             <Card className="border-dashed border-gray-200 shadow-none rounded-none hover:shadow-sm transition-shadow cursor-pointer flex flex-col items-center justify-center aspect-[3/2] bg-gray-50">
-              <Plus size={24} className="text-gray-400 mb-2" strokeWidth={1} />
+              <Plus size={16} className="text-gray-400 mb-2" strokeWidth={1} />
               <p className="text-sm font-light text-gray-500">Create New Template</p>
             </Card>
           </div>
@@ -471,7 +471,7 @@ const EmailCampaigns = () => {
             
             <Card className="border-dashed border-gray-200 shadow-none rounded-none hover:shadow-sm transition-shadow cursor-pointer">
               <CardContent className="p-6 flex flex-col items-center justify-center">
-                <Plus size={24} className="text-gray-400 mb-2" strokeWidth={1} />
+                <Plus size={16} className="text-gray-400 mb-2" strokeWidth={1} />
                 <p className="text-sm font-light text-gray-500">Create New Recipient Group</p>
               </CardContent>
             </Card>
@@ -489,7 +489,7 @@ const EmailCampaigns = () => {
           </DialogHeader>
           
           <div className="px-6 py-4 border-y border-gray-100">
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div className="grid gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="campaign-name" className="text-xs font-light">Campaign Name</Label>
@@ -614,7 +614,7 @@ const EmailCampaigns = () => {
           </DialogHeader>
           
           <div className="grid gap-4 py-4">
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div className="grid grid-cols-3 gap-2">
                 <Card className="border-gray-200 shadow-none rounded-none p-4 text-center cursor-pointer hover:border-black transition-colors">
                   <p className="text-lg font-light">5</p>

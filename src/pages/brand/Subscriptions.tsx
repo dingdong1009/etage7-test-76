@@ -148,7 +148,7 @@ const BrandSubscriptions = () => {
                 <CardTitle className="text-base font-light">Subscription Status</CardTitle>
               </CardHeader>
               <CardContent className="p-4">
-                <div className="space-y-4">
+                <div className="space-y-6">
                   <div className="p-3 border border-gray-200 flex items-center gap-3">
                     <div className="h-10 w-10 rounded-full flex items-center justify-center bg-gray-50">
                       <CreditCard size={16} />

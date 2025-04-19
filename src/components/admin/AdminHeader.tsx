@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, MessageSquare } from "lucide-react";
+import { Bell, Menu, } from "lucide-react";
 import { adminNav } from "@/config/navigation";
 import { 
   Tooltip, 
@@ -44,7 +44,7 @@ const AdminHeader = () => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <Link to="/admin/messages" className="relative">
-                  <MessageSquare size={20} className="text-gray-600 hover:text-white cursor-pointer" />
+                  <Bell size={20} className="text-white hover:text-white cursor-pointer" />
                   {messageCount > 0 && (
                     <Badge 
                       className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-white text-black text-xs rounded-full"
@@ -60,11 +60,11 @@ const AdminHeader = () => {
             </Tooltip>
           </TooltipProvider>
           
-          <Link to="/" className="text-gray-600 hover:text-white text-xs font-normal">
+          <Link to="/" className="text-white hover:text-white text-xs hover:underline font-normal">
             BACK TO SITE 
           </Link>
           <span className="text-gray-400 font-light">|</span>
-          <span className="text-gray-600 text-xs text-white font-light">ADMIN</span>
+          <span className="text-gray-600 text-xs text-white font-normal">ADMIN</span>
         </div>
       </div>
       

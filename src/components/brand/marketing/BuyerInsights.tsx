@@ -188,7 +188,7 @@ const BuyerInsights = () => {
               <CardTitle className="text-sm font-light uppercase">Recent Followers</CardTitle>
             </CardHeader>
             <CardContent className="p-4">
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {mockFollowers.slice(0, 3).map(follower => <div key={follower.id} className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Avatar className="h-8 w-8">
@@ -211,7 +211,7 @@ const BuyerInsights = () => {
               <CardTitle className="text-sm font-light uppercase">Recent Likes</CardTitle>
             </CardHeader>
             <CardContent className="p-4">
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {mockLikes.slice(0, 3).map(like => <div key={like.id} className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Avatar className="h-8 w-8">
@@ -234,7 +234,7 @@ const BuyerInsights = () => {
               <CardTitle className="text-sm font-light uppercase">Recent Cart Additions</CardTitle>
             </CardHeader>
             <CardContent className="p-4">
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {mockCarts.slice(0, 3).map(cart => <div key={cart.id} className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Avatar className="h-8 w-8">
@@ -257,7 +257,7 @@ const BuyerInsights = () => {
               <CardTitle className="text-sm font-light uppercase">Recent Profile Visits</CardTitle>
             </CardHeader>
             <CardContent className="p-4">
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {mockVisits.slice(0, 3).map(visit => <div key={visit.id} className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Avatar className="h-8 w-8">
@@ -414,7 +414,7 @@ const BuyerInsights = () => {
                   <CardTitle className="text-sm font-light uppercase">Recent Followers</CardTitle>
                 </CardHeader>
                 <CardContent className="p-4">
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     {mockFollowers.slice(0, 3).map(follower => <div key={follower.id} className="flex items-center justify-between">
                         <div className="flex items-center space-x-2">
                           <Avatar className="h-8 w-8">
@@ -437,7 +437,7 @@ const BuyerInsights = () => {
                   <CardTitle className="text-sm font-light uppercase">Recent Likes</CardTitle>
                 </CardHeader>
                 <CardContent className="p-4">
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     {mockLikes.slice(0, 3).map(like => <div key={like.id} className="flex items-center justify-between">
                         <div className="flex items-center space-x-2">
                           <Avatar className="h-8 w-8">
@@ -460,7 +460,7 @@ const BuyerInsights = () => {
                   <CardTitle className="text-sm font-light uppercase">Recent Cart Additions</CardTitle>
                 </CardHeader>
                 <CardContent className="p-4">
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     {mockCarts.slice(0, 3).map(cart => <div key={cart.id} className="flex items-center justify-between">
                         <div className="flex items-center space-x-2">
                           <Avatar className="h-8 w-8">
@@ -483,7 +483,7 @@ const BuyerInsights = () => {
                   <CardTitle className="text-sm font-light uppercase">Recent Profile Visits</CardTitle>
                 </CardHeader>
                 <CardContent className="p-4">
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     {mockVisits.slice(0, 3).map(visit => <div key={visit.id} className="flex items-center justify-between">
                         <div className="flex items-center space-x-2">
                           <Avatar className="h-8 w-8">

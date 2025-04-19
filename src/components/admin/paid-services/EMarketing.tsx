@@ -128,19 +128,23 @@ const EMarketing = () => {
   
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
-        <h2 className="text-2xl font-light">eMarketing Management</h2>
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-normal tracking-tighter uppercase">eMarketing Management</h2>
         <div className="flex items-center gap-2">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
-            <Input
-              placeholder="Search..."
-              className="pl-10 w-full md:w-[250px]"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
+            <TabsList>
+            <TabsTrigger value="campaigns" className="text-xs font-normal uppercase border-r border-white data-[state=active]:bg-black data-[state=active]:text-white rounded-none hover:bg-black hover:text-white px-6 py-2 data-[state=active]:shadow-none data-[state=active]:border-r data-[state=active]:border-white">
+              Campaigns
+            </TabsTrigger>
+            <TabsTrigger value="templates" className="text-xs font-normal uppercase border-x border-white data-[state=active]:bg-black data-[state=active]:text-white rounded-none hover:bg-black hover:text-white px-6 py-2 data-[state=active]:shadow-none data-[state=active]:border-x data-[state=active]:border-white">
+              Email Templates
+            </TabsTrigger>
+            <TabsTrigger value="analytics" className="text-xs font-normal uppercase border-l border-white data-[state=active]:bg-black data-[state=active]:text-white rounded-none hover:bg-black hover:text-white px-6 py-2 data-[state=active]:shadow-none data-[state=active]:border-l data-[state=active]:border-white">
+              Analytics
+            </TabsTrigger>
+          </TabsList>
           </div>
-          <Button className="gap-2" onClick={() => setActiveTab("templates")}>
+          <Button className="bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase" onClick={() => setActiveTab("templates")}>
             <Plus size={16} />
             {activeTab === "campaigns" ? "New Campaign" : "New Template"}
           </Button>
@@ -148,21 +152,6 @@ const EMarketing = () => {
       </div>
       
       <Tabs defaultValue="campaigns" value={activeTab} onValueChange={setActiveTab}>
-        <TabsList>
-          <TabsTrigger value="campaigns" className="flex items-center gap-2">
-            <Mail className="h-4 w-4" />
-            Campaigns
-          </TabsTrigger>
-          <TabsTrigger value="templates" className="flex items-center gap-2">
-            <FileText className="h-4 w-4" />
-            Email Templates
-          </TabsTrigger>
-          <TabsTrigger value="analytics" className="flex items-center gap-2">
-            <BarChart3 className="h-4 w-4" />
-            Analytics
-          </TabsTrigger>
-        </TabsList>
-        
         <div className="mt-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
             <Card className="border border-gray-200 shadow-none rounded-lg">
@@ -211,24 +200,21 @@ const EMarketing = () => {
           <TabsContent value="campaigns">
             <Card className="border border-gray-200 shadow-none rounded-lg">
               <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
-                <CardTitle className="text-lg font-medium text-gray-900">
+                <CardTitle className="text-lg font-normal uppercase text-gray-900">
                   Email Campaigns ({campaigns.length})
                 </CardTitle>
-                <CardDescription>
-                  Manage your email marketing campaigns
-                </CardDescription>
               </CardHeader>
               <CardContent className="p-0">
                 <Table>
                   <TableHeader>
-                    <TableRow className="hover:bg-transparent bg-gray-50">
-                      <TableHead className="font-medium">Campaign Name</TableHead>
-                      <TableHead className="font-medium">Template</TableHead>
-                      <TableHead className="font-medium">Recipients</TableHead>
-                      <TableHead className="font-medium">Open Rate</TableHead>
-                      <TableHead className="font-medium">Status</TableHead>
-                      <TableHead className="font-medium">Date</TableHead>
-                      <TableHead className="text-right font-medium">Actions</TableHead>
+                    <TableRow>
+                      <TableHead className="font-normal text-xs uppercase">Campaign Name</TableHead>
+                      <TableHead className="font-normal text-xs uppercase">Template</TableHead>
+                      <TableHead className="font-normal text-xs uppercase">Recipients</TableHead>
+                      <TableHead className="font-normal text-xs uppercase">Open Rate</TableHead>
+                      <TableHead className="font-normal text-xs uppercase">Status</TableHead>
+                      <TableHead className="font-normal text-xs uppercase">Date</TableHead>
+                      <TableHead className="text-right font-normal text-xs uppercase">Actions</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -240,30 +226,30 @@ const EMarketing = () => {
                         
                       return (
                         <TableRow key={campaign.id} className="border-t border-gray-100">
-                          <TableCell className="font-medium">{campaign.name}</TableCell>
-                          <TableCell>{template?.name || "Unknown Template"}</TableCell>
-                          <TableCell>{campaign.recipients.toLocaleString()}</TableCell>
+                          <TableCell className="font-light">{campaign.name}</TableCell>
+                          <TableCell className="font-light">{template?.name || "Unknown Template"}</TableCell>
+                          <TableCell className="font-light">{campaign.recipients.toLocaleString()}</TableCell>
                           <TableCell>
                             {campaign.status === "sent" ? `${openRate}%` : "-"}
                           </TableCell>
                           <TableCell>
                             {campaign.status === "sent" && (
-                              <Badge variant="outline" className="bg-accent-mint text-gray-800 border-accent-mint">
+                              <Badge variant="outline" className="bg-accent-mint text-gray-800 capitalize border-gray-200">
                                 Sent
                               </Badge>
                             )}
                             {campaign.status === "scheduled" && (
-                              <Badge variant="outline" className="bg-accent-yellow text-gray-800 border-accent-yellow">
+                              <Badge variant="outline" className="bg-accent-yellow text-gray-800 capitalize border-gray-200">
                                 Scheduled
                               </Badge>
                             )}
                             {campaign.status === "draft" && (
-                              <Badge variant="outline" className="bg-gray-100 text-gray-800 border-gray-200">
+                              <Badge variant="outline" className="bg-gray-100 text-gray-800 capitalize border-gray-200">
                                 Draft
                               </Badge>
                             )}
                           </TableCell>
-                          <TableCell>
+                          <TableCell className="font-light">
                             {campaign.sentAt 
                               ? new Date(campaign.sentAt).toLocaleDateString()
                               : campaign.scheduledFor
@@ -271,16 +257,16 @@ const EMarketing = () => {
                                 : "-"}
                           </TableCell>
                           <TableCell className="text-right space-x-2">
-                            <Button variant="ghost" size="icon" className="hover:bg-gray-100">
-                              <Eye className="h-4 w-4" />
+                            <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-200">
+                              <Eye className="h-4 w-4" strokeWidth={1.5} />
                             </Button>
                             {campaign.status !== "sent" && (
-                              <Button variant="ghost" size="icon" className="hover:bg-gray-100">
-                                <Edit className="h-4 w-4" />
+                              <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-200">
+                                <Edit className="h-4 w-4" strokeWidth={1.5} />
                               </Button>
                             )}
-                            <Button variant="ghost" size="icon" className="hover:bg-gray-100">
-                              <Copy className="h-4 w-4" />
+                            <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-200">
+                              <Copy className="h-4 w-4" strokeWidth={1.5} />
                             </Button>
                           </TableCell>
                         </TableRow>
@@ -355,7 +341,7 @@ const EMarketing = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="p-6">
-                <div className="space-y-4">
+                <div className="space-y-6">
                   {campaigns
                     .filter(c => c.status === "sent")
                     .map(campaign => {
@@ -429,7 +415,7 @@ const EMarketing = () => {
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-6">
-                <div className="space-y-4">
+                <div className="space-y-6">
                   {campaigns
                     .filter(c => c.status === "scheduled")
                     .map(campaign => (

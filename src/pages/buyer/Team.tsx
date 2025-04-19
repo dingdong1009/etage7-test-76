@@ -387,7 +387,7 @@ const Team = () => {
           </DialogHeader>
           
           {viewMember && (
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <h3 className="text-sm font-medium text-gray-500">Name</h3>
@@ -459,7 +459,7 @@ const Team = () => {
           </DialogHeader>
           
           {editMember && (
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div className="grid grid-cols-1 gap-4">
                 <div>
                   <label className="text-sm font-medium text-gray-700">Name</label>

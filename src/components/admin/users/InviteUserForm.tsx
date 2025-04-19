@@ -40,7 +40,7 @@ const InviteUserForm = () => {
   return (
     <Card className="border border-gray-200 shadow-none rounded-lg max-w-2xl mx-auto">
       <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
-        <CardTitle className="text-lg font-medium text-gray-900">
+        <CardTitle className="text-xl font-normal tracking-tighter uppercase">
           Invite New User
         </CardTitle>
       </CardHeader>
@@ -164,7 +164,7 @@ const InviteUserForm = () => {
             />
 
             <div className="flex justify-end">
-              <Button type="submit" className="bg-black hover:bg-gray-800">
+              <Button type="submit" className="bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase">
                 Send Invitation
               </Button>
             </div>

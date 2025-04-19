@@ -118,7 +118,7 @@ const Dashboard = () => {
         name: `Product ${index + 1}`,
         category,
         subCategory,
-        price: `${Math.floor(Math.random() * 1000) + 500} EUR`,
+        price: `${Math.floor(Math.random() * 1000) + 500} ₽`,
         imagePlaceholder: `${Math.floor(Math.random() * 200) + 200}x${Math.floor(Math.random() * 100) + 250}`,
         favorite: false,
         material: materialOptions[Math.floor(Math.random() * materialOptions.length)],
@@ -386,7 +386,7 @@ const Dashboard = () => {
   return (
     <div className="space-y-6">
       <section 
-        className={`bg-black text-white px-4 transition-all duration-700 ease-in-out ${expanded ? 'py-[390.5px]' : 'py-24'}`}
+        className={`bg-black text-white px-4 transition-all duration-700 ease-in-out ${expanded ? 'py-[390px]' : 'py-24'}`}
         onMouseEnter={() => setExpanded(true)}
         onMouseLeave={() => setExpanded(false)}
       >
@@ -406,15 +406,15 @@ const Dashboard = () => {
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
         <h1 className="text-4xl md:text-6xl font-light tracking-tighter">PRODUCTS</h1>
         
-        <div className="flex flex-col sm:flex-row w-full md:w-auto gap-3">
-          <div className="relative flex-grow">
-            <Search className={`absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 ${isSearching ? 'text-black animate-pulse' : 'text-gray-400'}`} />
+        <div className="flex items-center space-x-3">
+          <div className="relative">
+            <Search className={`absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500 ${isSearching ? 'text-black animate-pulse' : 'text-gray-400'}`} />
             <input 
               type="text" 
               placeholder={searchPlaceholder} 
               value={searchTerm}
               onChange={handleSearch}
-              className="pl-10 pr-3 py-3 w-full border border-gray-200 focus:outline-none focus:ring-1 focus:ring-black text-sm"
+              className="pl-10 w-full md:w-[250px] border border-gray-200"
             />
           </div>
           <div className="flex gap-3">
@@ -587,7 +587,7 @@ const Dashboard = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-6">
                   {activeFilterTab === 'categories' && (
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                       <h4 className="text-sm uppercase text-gray-500 font-medium">Categories</h4>
                       <div className="grid grid-cols-2 gap-2">
                         {categories.filter(c => c !== "All Categories").map((category) => (
@@ -606,7 +606,7 @@ const Dashboard = () => {
                   )}
 
                   {activeFilterTab === 'subcategories' && selectedCategory !== "All Categories" && (
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                       <div className="flex items-center mb-2">
                         <Button 
                           variant="outline" 
@@ -640,7 +640,7 @@ const Dashboard = () => {
                   )}
 
                   {activeFilterTab === 'materials' && (
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                       <h4 className="text-sm uppercase text-gray-500 font-medium">Materials</h4>
                       <div className="grid grid-cols-2 gap-2">
                         {materialOptions.map((material) => (
@@ -659,7 +659,7 @@ const Dashboard = () => {
                   )}
 
                   {activeFilterTab === 'collections' && (
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                       <h4 className="text-sm uppercase text-gray-500 font-medium">Season</h4>
                       <div className="grid grid-cols-1 gap-2">
                         {seasonOptions.map((season) => (
@@ -701,7 +701,7 @@ const Dashboard = () => {
                   )}
 
                   {activeFilterTab === 'specifications' && (
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                       <h4 className="text-sm uppercase text-gray-500 font-medium">Sizes</h4>
                       <div className="grid grid-cols-4 gap-2">
                         {sizeOptions.map((size) => (
@@ -795,7 +795,7 @@ const Dashboard = () => {
                   )}
 
                   {activeFilterTab === 'ai' && (
-                    <div className="space-y-4">
+                    <div className="space-y-6">
                       <div className="pt-2">
                         <div className="flex items-center justify-between mb-2">
                           <Label htmlFor="ai-assist" className="text-sm uppercase text-gray-500 font-medium">
@@ -820,7 +820,7 @@ const Dashboard = () => {
                 </div>
 
                 <div className="space-y-6">
-                  <div className="space-y-4">
+                  <div className="space-y-6">
                     <div className="flex justify-between">
                       <h4 className="text-sm uppercase text-gray-500 font-medium">Price Range</h4>
                       <span className="text-sm font-light">

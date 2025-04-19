@@ -4,7 +4,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
-import { Edit, Trash, Eye, Plus } from "lucide-react";
+import { Edit, Trash2, Eye, Plus } from "lucide-react";
 import { Subscription } from "@/types/services/paidServices";
 
 // Mock data for subscriptions
@@ -89,8 +89,9 @@ const Subscriptions = () => {
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-2xl font-light">Subscription Management</h2>
-        <Button className="gap-2">
+        <h2 className="text-xl font-normal tracking-tighter uppercase">Subscription Plans ({subscriptions.length})
+        </h2>
+        <Button className="bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase">
           <Plus size={16} />
           Add Subscription
         </Button>
@@ -99,36 +100,31 @@ const Subscriptions = () => {
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
         <div className="xl:col-span-2">
           <Card className="border border-gray-200 shadow-none rounded-lg">
-            <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
-              <CardTitle className="text-lg font-medium text-gray-900">
-                Subscription Plans ({subscriptions.length})
-              </CardTitle>
-            </CardHeader>
             <CardContent className="p-0">
               <Table>
                 <TableHeader>
-                  <TableRow className="hover:bg-transparent bg-gray-50">
-                    <TableHead className="w-[200px] font-medium">Name</TableHead>
-                    <TableHead className="font-medium">Price</TableHead>
-                    <TableHead className="font-medium">Frequency</TableHead>
-                    <TableHead className="font-medium">Users</TableHead>
-                    <TableHead className="font-medium">Auto Renew</TableHead>
-                    <TableHead className="font-medium">Status</TableHead>
-                    <TableHead className="text-right font-medium">Actions</TableHead>
+                  <TableRow>
+                    <TableHead className="w-[200px] font-normal text-xs uppercase">Name</TableHead>
+                    <TableHead className="font-normal text-xs uppercase">Price</TableHead>
+                    <TableHead className="font-normal text-xs uppercase">Frequency</TableHead>
+                    <TableHead className="font-normal text-xs uppercase">Users</TableHead>
+                    <TableHead className="font-normal text-xs uppercase">Auto Renew</TableHead>
+                    <TableHead className="font-normal text-xs uppercase">Status</TableHead>
+                    <TableHead className="text-right font-normal text-xs uppercase">Actions</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {subscriptions.map((subscription) => (
                     <TableRow key={subscription.id} className="border-t border-gray-100">
-                      <TableCell>{subscription.name}</TableCell>
-                      <TableCell>${subscription.price}</TableCell>
-                      <TableCell className="capitalize">{subscription.frequency}</TableCell>
-                      <TableCell>
+                      <TableCell className="font-light">{subscription.name}</TableCell>
+                      <TableCell className="font-light">${subscription.price}</TableCell>
+                      <TableCell className="capitalize font-light">{subscription.frequency}</TableCell>
+                      <TableCell className="font-light">
                         {subscription.userCount}/{subscription.maxUsers}
                       </TableCell>
                       <TableCell>
                         {subscription.autoRenewal ? (
-                          <Badge variant="outline" className="bg-accent-mint text-gray-800 border-accent-mint">
+                          <Badge variant="outline" className="bg-accent-mint text-gray-800  border-gray-200">
                             Yes
                           </Badge>
                         ) : (
@@ -139,7 +135,7 @@ const Subscriptions = () => {
                       </TableCell>
                       <TableCell>
                         {subscription.status === "active" ? (
-                          <Badge variant="outline" className="bg-accent-mint text-gray-800 border-accent-mint">
+                          <Badge variant="outline" className="bg-accent-mint text-gray-800  border-gray-200">
                             Active
                           </Badge>
                         ) : (
@@ -149,14 +145,14 @@ const Subscriptions = () => {
                         )}
                       </TableCell>
                       <TableCell className="text-right space-x-2">
-                        <Button variant="ghost" size="icon" className="hover:bg-gray-100">
-                          <Eye className="h-4 w-4" />
+                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-200">
+                          <Eye className="h-4 w-4" strokeWidth={1.5}  />
                         </Button>
-                        <Button variant="ghost" size="icon" className="hover:bg-gray-100">
-                          <Edit className="h-4 w-4" />
+                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-200">
+                          <Edit className="h-4 w-4" strokeWidth={1.5}  />
                         </Button>
-                        <Button variant="ghost" size="icon" className="hover:bg-gray-100">
-                          <Trash className="h-4 w-4" />
+                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-red-200">
+                          <Trash2 className="h-4 w-4 text-red-400" strokeWidth={1.5} />
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -170,14 +166,14 @@ const Subscriptions = () => {
         <div>
           <Card className="border border-gray-200 shadow-none rounded-lg">
             <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
-              <CardTitle className="text-lg font-medium text-gray-900">
+              <CardTitle className="text-lg font-normal uppercase text-gray-900">
                 User Distribution
               </CardTitle>
             </CardHeader>
             <CardContent className="p-6">
               <div className="text-center mb-4">
                 <div className="text-3xl font-light">{totalUsers}</div>
-                <div className="text-sm text-gray-500">Total Active Users</div>
+                <div className="text-xs text-gray-500">Total Active Users</div>
               </div>
               <div className="h-[300px]">
                 <ResponsiveContainer width="100%" height="100%">

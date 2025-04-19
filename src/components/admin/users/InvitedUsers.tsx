@@ -5,11 +5,13 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Eye, Edit, Trash2, UserCheck, UserX } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { InvitedUser } from "@/types/users";
+import { InvitedUser, Brand, Buyer } from "@/types/users";
+
 
 const mockInvitedUsers: InvitedUser[] = [
   {
     id: 1,
+    type: "brand",
     invitedBy: "Sales Manager 1",
     companyName: "New Fashion Brand",
     contactPerson: "Sarah Johnson",
@@ -48,42 +50,60 @@ const InvitedUsers = () => {
   };
 
   return (
+    <div className="space-y-4 pt-3">
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-normal tracking-tighter">INVITED USERS ({users.length})</h2>
+        <div className="flex items-center gap-2">
+
+        </div>
+      </div>
+
+     <div>
     <Card className="border border-gray-200 shadow-none rounded-lg">
-      <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
-        <CardTitle className="text-lg font-medium text-gray-900">
-          Invited Users ({users.length})
-        </CardTitle>
-      </CardHeader>
       <CardContent className="p-0">
         <Table>
           <TableHeader>
-            <TableRow className="hover:bg-transparent bg-gray-50">
-              <TableHead className="w-[200px] font-medium">Company</TableHead>
-              <TableHead className="font-medium">Contact</TableHead>
-              <TableHead className="font-medium">Invited By</TableHead>
-              <TableHead className="font-medium">Date Invited</TableHead>
-              <TableHead className="font-medium">Status</TableHead>
-              <TableHead className="font-medium">Progress</TableHead>
-              <TableHead className="text-right font-medium">Actions</TableHead>
+          <TableRow >
+              <TableHead className="font-normal text-xs uppercase">Type</TableHead>
+              <TableHead className="font-normal text-xs uppercase">Company</TableHead>
+              <TableHead className="font-normal text-xs uppercase">Name</TableHead>
+              <TableHead className="font-normal text-xs uppercase">Contact</TableHead>
+              <TableHead className="font-normal text-xs uppercase">Invited By</TableHead>
+              <TableHead className="font-normal text-xs uppercase">Date Invited</TableHead>
+              <TableHead className="font-normal text-xs uppercase">Status</TableHead>
+              <TableHead className="font-normal text-xs uppercase">Progress</TableHead>
+              <TableHead className="text-right font-normal text-xs uppercase">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {users.map((user) => (
-              <TableRow key={user.id} className="border-t border-gray-100">
+              <TableRow key={user.id} className="font-light">
+              <TableCell>
+                <Badge variant="secondary" className="capitalize border-gray-200">
+                  {user.type}
+                </Badge>
+              </TableCell>
                 <TableCell>{user.companyName}</TableCell>
                 <TableCell>
                   <div>{user.contactPerson}</div>
-                  <div className="text-sm text-gray-500">{user.email}</div>
                 </TableCell>
+                <div className="flex flex-col space-y-1 pt-5">
+                  <div className="flex items-center">
+                    <span className="text-xs">{user.email}</span>
+                  </div>
+                  <div className="flex items-center">
+                    <span className="text-xs">{user.phone}</span>
+                    </div>
+                  </div>
                 <TableCell>{user.invitedBy}</TableCell>
                 <TableCell>{user.dateInvited}</TableCell>
                 <TableCell>
-                  <Badge variant="outline" className="bg-accent-yellow text-gray-800 border-accent-yellow">
+                  <Badge variant="secondary" className="capitalize border-gray-200">
                     {user.status}
                   </Badge>
                 </TableCell>
                 <TableCell>
-                  <div className="space-y-1 text-sm">
+                  <div className="space-y-1 text-xs">
                     <div className={user.linkClicked ? "text-green-600" : "text-gray-500"}>
                       ✓ Link Clicked
                     </div>
@@ -100,25 +120,25 @@ const InvitedUsers = () => {
                     variant="ghost"
                     size="icon"
                     onClick={() => handleViewDetails(user.id)}
-                    className="hover:bg-gray-100"
+                    className="h-8 w-8 p-0 hover:bg-gray-200"
                   >
-                    <Eye className="h-4 w-4" />
+                    <Eye className="h-4 w-4" strokeWidth={1.5}  />
                   </Button>
                   <Button
                     variant="ghost"
                     size="icon"
                     onClick={() => handleEdit(user.id)}
-                    className="hover:bg-gray-100"
+                    className="h-8 w-8 p-0 hover:bg-gray-200"
                   >
-                    <Edit className="h-4 w-4" />
+                    <Edit className="h-4 w-4" strokeWidth={1.5}  />
                   </Button>
                   <Button
                     variant="ghost"
                     size="icon"
                     onClick={() => handleDelete(user.id)}
-                    className="hover:bg-gray-100"
+                    className="h-8 w-8 p-0 hover:bg-red-100"
                   >
-                    <Trash2 className="h-4 w-4" />
+                    <Trash2 className="h-4 w-4 text-red-500" strokeWidth={1.5}  />
                   </Button>
                 </TableCell>
               </TableRow>
@@ -127,6 +147,8 @@ const InvitedUsers = () => {
         </Table>
       </CardContent>
     </Card>
+    </div>
+    </div>
   );
 };
 

@@ -151,7 +151,7 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
                 <h3 className="text-lg font-semibold mb-4">
                   {isSalesManager(user) ? "Manager Information" : "Company Information"}
                 </h3>
-                <div className="space-y-4">
+                <div className="space-y-6">
                   <FormField
                     control={editUserForm.control}
                     name="name"
@@ -405,7 +405,7 @@ const UserEditForm = ({ user, activeTab, handleGoBack, handleEditUserSubmit }: U
               
               <div>
                 <h3 className="text-lg font-semibold mb-4">Contact Information</h3>
-                <div className="space-y-4">
+                <div className="space-y-6">
                   {(isBrand(user) || isBuyer(user)) && (
                     <FormField
                       control={editUserForm.control}

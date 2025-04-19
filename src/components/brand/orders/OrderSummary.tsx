@@ -54,7 +54,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ order }) => {
       
       <CardContent>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div>
               <h3 className="font-medium text-gray-800">Customer Details</h3>
               <p>{order.customer}</p>
@@ -77,7 +77,7 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({ order }) => {
             </div>
           </div>
           
-          <div className="space-y-4">
+          <div className="space-y-6">
             <div>
               <h3 className="font-medium text-gray-800">Order Details</h3>
               <p>Order Number: {order.id}</p>

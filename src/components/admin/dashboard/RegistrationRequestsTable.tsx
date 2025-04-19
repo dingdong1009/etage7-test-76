@@ -78,9 +78,9 @@ const RegistrationRequestsTable: React.FC<RegistrationRequestsTableProps> = ({
   };
   
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <div className="flex justify-between items-center">
-        <h2 className="text-xl font-light tracking-tighter">REGISTRATION REQUESTS</h2>
+        <h2 className="text-xl font-normal tracking-tighter">REGISTRATION REQUESTS (5)</h2>
         <div className="flex items-center gap-2">
           <Select value={statusFilter} onValueChange={setStatusFilter}>
             <SelectTrigger className="w-[140px] h-9 font-light text-xs uppercase border-gray-200 rounded-none">
@@ -100,13 +100,13 @@ const RegistrationRequestsTable: React.FC<RegistrationRequestsTableProps> = ({
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="font-light text-xs uppercase">Type</TableHead>
-              <TableHead className="font-light text-xs uppercase">Name</TableHead>
-              <TableHead className="font-light text-xs uppercase">Contact</TableHead>
-              <TableHead className="font-light text-xs uppercase">Registration Date</TableHead>
-              <TableHead className="font-light text-xs uppercase">Status</TableHead>
-              <TableHead className="font-light text-xs uppercase">Assigned To</TableHead>
-              <TableHead className="font-light text-xs uppercase text-right">Actions</TableHead>
+              <TableHead className="font-normal text-xs uppercase">Type</TableHead>
+              <TableHead className="font-normal text-xs uppercase">Name</TableHead>
+              <TableHead className="font-normal text-xs uppercase">Contact</TableHead>
+              <TableHead className="font-normal text-xs uppercase">Registration Date</TableHead>
+              <TableHead className="font-normal text-xs uppercase">Status</TableHead>
+              <TableHead className="font-normal text-xs uppercase">Assigned To</TableHead>
+              <TableHead className="font-normal text-xs uppercase text-right">Actions</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -120,31 +120,27 @@ const RegistrationRequestsTable: React.FC<RegistrationRequestsTableProps> = ({
               filteredRequests.map((request) => (
                 <TableRow key={request.id}>
                   <TableCell className="font-light">
+                  <Badge variant="secondary" className="capitalize font-light">
+
                     <div className="flex items-center">
-                      {request.userType === "brand" ? (
-                        <Building className="mr-2 h-4 w-4 text-gray-400" />
-                      ) : (
-                        <Store className="mr-2 h-4 w-4 text-gray-400" />
-                      )}
+                      {request.userType === "brand"}
                       {request.userType === "brand" ? "Brand" : "Buyer"}
                     </div>
-                  </TableCell>
+                    </Badge>
+                 </TableCell>
                   <TableCell className="font-light">{request.companyName}</TableCell>
                   <TableCell className="font-light">
                     <div className="flex flex-col space-y-1">
                       <div className="flex items-center">
-                        <Mail className="mr-2 h-4 w-4 text-gray-400" />
                         <span className="text-xs">{request.email}</span>
                       </div>
                       <div className="flex items-center">
-                        <Phone className="mr-2 h-4 w-4 text-gray-400" />
                         <span className="text-xs">{request.phone}</span>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell className="font-light">
                     <div className="flex items-center">
-                      <Calendar className="mr-2 h-4 w-4 text-gray-400" />
                       {request.registrationDate}
                     </div>
                   </TableCell>

@@ -410,7 +410,7 @@ const FollowUps = () => {
             
             {/* Add New Template */}
             <Card className="border-dashed border-gray-200 shadow-none rounded-none hover:shadow-sm transition-shadow cursor-pointer flex flex-col items-center justify-center p-8 bg-gray-50">
-              <Plus size={24} className="text-gray-400 mb-2" strokeWidth={1} />
+              <Plus size={16} className="text-gray-400 mb-2" strokeWidth={1} />
               <p className="text-sm font-light text-gray-500">Create New Template</p>
             </Card>
           </div>

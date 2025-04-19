@@ -80,7 +80,7 @@ const NotificationsHandler = ({ targets, onSend, onClose }: NotificationsHandler
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <div>
         <h3 className="text-sm font-medium mb-2">Send notifications to:</h3>
         

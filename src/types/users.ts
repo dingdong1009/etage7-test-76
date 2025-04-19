@@ -117,4 +117,5 @@ export interface InvitedUser {
   converted: boolean;
   assignedManager?: number;
   status: UserStatus;
+  type?: "brand" | "buyer"; // Added type field to match usage in components
 }

@@ -58,7 +58,7 @@ export const ProductFilters = ({
             </Button>
           </PopoverTrigger>
           <PopoverContent className="w-72 p-4">
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div>
                 <Label className="text-sm">Category</Label>
                 <Select value={categoryFilter} onValueChange={setCategoryFilter}>

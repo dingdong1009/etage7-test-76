@@ -101,21 +101,13 @@ const Advertisements = () => {
   
   return (
     <div className="space-y-6">
-      <div className="flex flex-col md:flex-row justify-between md:items-center gap-4">
-        <h2 className="text-2xl font-light">Advertisement Management</h2>
+      <div className="flex justify-between items-center  space-x-3">
+      <h2 className="text-xl font-normal tracking-tighter uppercase">Advertisement Management</h2>
         <div className="flex items-center gap-2">
-          <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-500" />
-            <Input
-              placeholder="Search advertisements..."
-              className="pl-10 w-full md:w-[250px]"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
-            />
-          </div>
-          <Button className="gap-2">
+
+          <Button className="bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase">
             <Plus size={16} />
-            New Ad
+            Add new Package
           </Button>
         </div>
       </div>
@@ -149,7 +141,8 @@ const Advertisements = () => {
           </CardContent>
         </Card>
       </div>
-      
+
+ {/* For future      
       <Card className="border border-gray-200 shadow-none rounded-lg">
         <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
           <div className="flex flex-col md:flex-row justify-between md:items-center">
@@ -239,14 +232,14 @@ const Advertisements = () => {
           </TabsContent>
         </CardContent>
       </Card>
-      
+      */}
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="border border-gray-200 shadow-none rounded-lg">
           <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
-            <CardTitle className="text-lg font-medium text-gray-900">
+            <CardTitle className="text-lg font-normal uppercase text-gray-900">
               Popular Ad Placements
             </CardTitle>
-            <CardDescription>Performance by placement location</CardDescription>
           </CardHeader>
           <CardContent className="p-6 space-y-4">
             {['homepage', 'search', 'dashboard', 'curated'].map(placement => {
@@ -260,7 +253,7 @@ const Advertisements = () => {
                 <div key={placement} className="p-4 border border-gray-200 rounded-lg">
                   <div className="flex justify-between items-start">
                     <div>
-                      <h3 className="font-medium capitalize">{placement}</h3>
+                      <h4 className="font-medium capitalize">{placement}</h4>
                       <p className="text-sm text-gray-500">{adsInPlacement.length} active ads</p>
                     </div>
                     <Badge variant={ctrNumber > 3 ? "outline" : "secondary"} className={
@@ -294,13 +287,12 @@ const Advertisements = () => {
         
         <Card className="border border-gray-200 shadow-none rounded-lg">
           <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
-            <CardTitle className="text-lg font-medium text-gray-900">
+            <CardTitle className="text-lg font-normal uppercase text-gray-900">
               Ad Package Management
             </CardTitle>
-            <CardDescription>Manage advertisement packages</CardDescription>
           </CardHeader>
           <CardContent className="p-6">
-            <div className="space-y-4">
+            <div className="space-y-6">
               <div className="p-4 border border-gray-200 rounded-lg flex items-center justify-between hover:border-black transition-colors">
                 <div>
                   <h3 className="font-medium">Basic Visibility Package</h3>
