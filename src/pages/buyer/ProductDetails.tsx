@@ -1,4 +1,4 @@
-import { ArrowLeft, ChevronLeft, ChevronRight, BookmarkCheck, CalendarDays, Percent, Medal } from "lucide-react";
+import { ArrowLeft, ChevronLeft, SquareArrowOutUpRight, BookmarkCheck, CalendarDays, Percent, Medal } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ScrollArea";
@@ -77,44 +77,44 @@ const ProductDetails = () => {
               <p className="text-gray-500 mb-6">€2,400 / Wholesale price</p>
 
               <div className="mb-8">
-                <h3 className="text-sm uppercase mb-4">Color</h3>
+                <h3 className="text-sm font-normal uppercase mb-2">Color</h3>
                 <div className="flex gap-2">
                   <button className="w-6 h-6 rounded-full bg-black border-2 border-gray-300"></button>
                   <button className="w-6 h-6 rounded-full bg-[#8B4513] border-2 border-transparent"></button>
                   <button className="w-6 h-6 rounded-full bg-[#D3D3D3] border-2 border-transparent"></button>
                 </div>
-                <div className="mt-6">
-                  <h3 className="text-sm uppercase mb-4">Size Guide</h3>
-                  <Table className="border border-gray-100">
+                <div className="mt-8">
+                  <h3 className="text-sm font-normal uppercase mb-2">Size Guide</h3>
+                  <Table className="border-y border-gray-100">
                     <TableBody>
                       <TableRow>
-                        <TableCell className="font-medium text-xs uppercase">IT/FR</TableCell>
+                        <TableCell className="font-normal text-xs uppercase">IT/FR</TableCell>
                         <TableCell className="text-xs">36</TableCell>
                         <TableCell className="text-xs">38</TableCell>
-                        <TableCell className="text-xs">40</TableCell>
+                        <TableCell className="text-xs text-gray-200">40</TableCell>
                         <TableCell className="text-xs">42</TableCell>
-                        <TableCell className="text-xs">44</TableCell>
+                        <TableCell className="text-xs text-gray-200">44</TableCell>
                       </TableRow>
                       <TableRow>
-                        <TableCell className="font-medium text-xs uppercase">UK</TableCell>
+                        <TableCell className="font-normal text-xs uppercase">UK</TableCell>
                         <TableCell className="text-xs">4</TableCell>
                         <TableCell className="text-xs">6</TableCell>
-                        <TableCell className="text-xs">8</TableCell>
+                        <TableCell className="text-xs text-gray-200">8</TableCell>
                         <TableCell className="text-xs">10</TableCell>
-                        <TableCell className="text-xs">12</TableCell>
+                        <TableCell className="text-xs text-gray-200">12</TableCell>
                       </TableRow>
                       <TableRow>
-                        <TableCell className="font-medium text-xs uppercase">US</TableCell>
-                        <TableCell className="text-xs">2</TableCell>
+                        <TableCell className="font-normal text-xs uppercase">US</TableCell>
+                        <TableCell className="text-xs ">2</TableCell>
                         <TableCell className="text-xs">4</TableCell>
-                        <TableCell className="text-xs">6</TableCell>
+                        <TableCell className="text-xs text-gray-200">6</TableCell>
                         <TableCell className="text-xs">8</TableCell>
-                        <TableCell className="text-xs">10</TableCell>
+                        <TableCell className="text-xs text-gray-200">10</TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
                 </div>
-                <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div className="my-12 grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="flex flex-col items-center gap-2">
                     <BookmarkCheck className="h-6 w-6 text-black" />
                     <span className="text-xs uppercase">In Stock</span>
@@ -136,18 +136,18 @@ const ProductDetails = () => {
 
               <div className="space-y-4 mb-8">
                 <Button className="w-full bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase">
-                  Contact Brand
+                  Start an Order
                 </Button>
                 <Button variant="outline" className="w-full border-gray-300 font-normal uppercase ">
-                  Request Samples
+                  Contact Brand
                 </Button>
                 <Button variant="outline" className="w-full border-gray-300 font-normal uppercase">
-                  Visit Store
+                  Request for Samples
                 </Button>
               </div>
 
-              <div className="border-t pt-4">
-                <p className="text-lg uppercase">Brand & CO Studio</p>
+              <div className="border- pt-4">
+                <p className="text-lg uppercase">Brand & CO Studio</p> 
                 <p className="text-gray-700 my-2 font-normal text-sm">The production of the Prada Galleria bag blends industrial precision and the refined accuracy of craftsmanship that can only be performed by hand. The design of this style has a reinterpreted silhouette with an elegant, elongated shape. Giving rise to the definition of "timeless", the Galleria bag has become a hallmark of the Prada identity.</p>
 
                 <div className="mt-6">
@@ -186,8 +186,12 @@ const ProductDetails = () => {
                         <TableCell className="text-xs py-2">30 days</TableCell>
                       </TableRow>
                       <TableRow>
-                        <TableCell className="font-light text-xs uppercase py-2">Sustainability</TableCell>
-                        <TableCell className="text-xs py-2">GOTS certified organic cotton</TableCell>
+                        <TableCell className="font-light text-xs uppercase py-2">MOQ</TableCell>
+                        <TableCell className="text-xs py-2">20</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-light text-xs uppercase py-2 border-b">Bulk Pricing</TableCell>
+                        <TableCell className="text-xs py-2 border-b">Yes</TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>
