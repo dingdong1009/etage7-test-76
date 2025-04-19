@@ -1,3 +1,4 @@
+
 import { ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
@@ -8,9 +9,24 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { ScrollIndicator } from "@/components/ScrollIndicator";
+import { useScrollProgress } from "@/hooks/useScrollProgress";
+import { useRef } from "react";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const currentIndex = useScrollProgress(scrollRef);
+
+  const scrollToImage = (index: number) => {
+    if (scrollRef.current) {
+      const itemHeight = scrollRef.current.scrollHeight / 5;
+      scrollRef.current.scrollTo({
+        top: itemHeight * index,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -31,18 +47,26 @@ const ProductDetails = () => {
       <div className="pt-1">
         <div className="flex flex-col lg:flex-row">
           {/* Image Section */}
-          <ScrollArea className="w-full lg:w-3/5 h-screen">
-            <div className="space-y-1">
-              {[1, 2, 3, 4, 5].map((index) => (
-                <div 
-                  key={index}
-                  className="aspect-[3/4] bg-gray-50 flex items-center justify-center"
-                >
-                  <span className="text-gray-400 text-sm">Product Image {index}</span>
-                </div>
-              ))}
-            </div>
-          </ScrollArea>
+          <div className="relative w-full lg:w-3/5">
+            <ScrollArea ref={scrollRef} className="h-screen">
+              <div className="space-y-1">
+                {[1, 2, 3, 4, 5].map((index) => (
+                  <div 
+                    key={index}
+                    className="aspect-[3/4] bg-gray-50 flex items-center justify-center"
+                  >
+                    <span className="text-gray-400 text-sm">Product Image {index}</span>
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
+            <ScrollIndicator 
+              totalItems={5}
+              currentIndex={currentIndex}
+              onBubbleClick={scrollToImage}
+              className="right-4 top-1/2 transform -translate-y-1/2"
+            />
+          </div>
 
           {/* Product Info Section */}
           <ScrollArea className="w-full lg:w-2/5 p-8 lg:p-12">
