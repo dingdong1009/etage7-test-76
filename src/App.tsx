@@ -37,6 +37,7 @@ import ViewRegistrationDetails from "./pages/admin/users/ViewRegistrationDetails
 import ViewActiveUserDetails from "./pages/admin/users/ViewActiveUserDetails";
 import ViewSalesManagerDetails from "./pages/admin/users/ViewSalesManagerDetails";
 import EditSalesManagerDetails from "./pages/admin/users/EditSalesManagerDetails";
+import AddSalesManager from "./pages/admin/users/AddSalesManager";
 
 // Brand components
 import BrandLayout from "./components/brand/BrandLayout";
@@ -130,6 +131,7 @@ const App = () => {
               <Route path="paid-services" element={<AdminPaidServices />} />
               <Route path="agenda" element={<Agenda />} />
               <Route path="administration" element={<Administration />} />
+              <Route path="users/sales/add" element={<AddSalesManager />} />
               <Route path="users/sales/:userId" element={<ViewSalesManagerDetails />} />
               <Route path="users/sales/:userId/edit" element={<EditSalesManagerDetails />} />
             </Route>
