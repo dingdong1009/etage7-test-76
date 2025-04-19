@@ -1,5 +1,5 @@
 
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ChevronRight } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ScrollArea";
@@ -31,12 +31,12 @@ const ProductDetails = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Back Navigation */}
-      <div className="fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-100 pt-28">
+      <div className="fixed top-0 left-0 right-0 z-40 border-gray-100 pl-8 pt-40">
         <div className="container py-1">
           <Button 
             variant="ghost" 
             onClick={() => navigate(-1)}
-            className="text-sm flex items-center gap-2 bg-black text-white hover:bg-gray-200 hover:text-black"
+            className=" font-normal uppercase text-sm flex items-center gap-2 bg-gray-100 text-black hover:bg-black hover:text-white"
           >
             <ArrowLeft size={16} strokeWidth={1} />
             Back to Dashboard
@@ -69,9 +69,9 @@ const ProductDetails = () => {
           </div>
 
           {/* Product Info Section */}
-          <ScrollArea className="w-full lg:w-2/5 p-8 lg:p-12">
-            <div className="lg:sticky lg:top-16">
-              <h1 className="text-2xl font-light mb-2">Product Name</h1>
+          <ScrollArea className="w-full lg:w-2/5 pl-8">
+            <div className="lg:sticky lg:top-1">
+              <h1 className="text-xl font-normal uppercase tracking-tighter">Product Name</h1>
               <p className="text-gray-500 mb-6">€2,400</p>
 
               {/* Color Selection */}
@@ -82,56 +82,28 @@ const ProductDetails = () => {
                   <button className="w-6 h-6 rounded-full bg-[#8B4513] border-2 border-transparent"></button>
                   <button className="w-6 h-6 rounded-full bg-[#D3D3D3] border-2 border-transparent"></button>
                 </div>
+                <div className="mt-8">ready to order</div>
               </div>
 
               {/* Action Buttons */}
               <div className="space-y-4 mb-8">
-                <Button className="w-full bg-black text-white hover:bg-gray-900">
+                <Button className="w-full bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase">
                   Contact Brand
                 </Button>
-                <Button variant="outline" className="w-full border-gray-300">
+                <Button variant="outline" className="w-full border-gray-300 font-normal uppercase ">
                   Request Samples
                 </Button>
-                <Button variant="outline" className="w-full border-gray-300">
+                <Button variant="outline" className="w-full border-gray-300 font-normal uppercase">
                   Visit Store
                 </Button>
               </div>
 
               {/* Product Details Accordion */}
-              <Accordion type="single" collapsible className="w-full">
-                <AccordionItem value="description" className="border-t border-gray-200">
-                  <AccordionTrigger className="text-sm hover:no-underline">
-                    Description
-                  </AccordionTrigger>
-                  <AccordionContent className="text-sm text-gray-600">
-                    This iconic bag is made of fine leather and features the brand's signature details.
-                    Perfect for everyday use, it combines elegance with functionality.
-                  </AccordionContent>
-                </AccordionItem>
+            <div className="border-t pt-4">
+              <p className="text-lg uppercase">Brand & CO Studio </p>
+              <p className="text-gray-700 my-2 font-normal text-sm">The production of the Prada Galleria bag blends industrial precision and the refined accuracy of craftsmanship that can only be performed by hand. The design of this style has a reinterpreted silhouette with an elegant, elongated shape. Giving rise to the definition of “timeless”, the Galleria bag has become a hallmark of the Prada identity.</p>
 
-                <AccordionItem value="details" className="border-t border-gray-200">
-                  <AccordionTrigger className="text-sm hover:no-underline">
-                    Product Details
-                  </AccordionTrigger>
-                  <AccordionContent className="text-sm">
-                    <ul className="space-y-2 text-gray-600">
-                      <li>Material: Premium leather</li>
-                      <li>Dimensions: W36 x H24 x D17 cm</li>
-                      <li>Made in Italy</li>
-                      <li>Style ID: 1BA457_2CYS_F0009</li>
-                    </ul>
-                  </AccordionContent>
-                </AccordionItem>
-
-                <AccordionItem value="shipping" className="border-t border-gray-200">
-                  <AccordionTrigger className="text-sm hover:no-underline">
-                    Shipping & Returns
-                  </AccordionTrigger>
-                  <AccordionContent className="text-sm text-gray-600">
-                    Free shipping worldwide. Returns accepted within 14 days of delivery.
-                  </AccordionContent>
-                </AccordionItem>
-              </Accordion>
+            </div>
             </div>
           </ScrollArea>
         </div>

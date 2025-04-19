@@ -39,9 +39,9 @@ const BuyerHeader = () => {
     { name: "Dashboard", path: "/buyer", tooltip: "Buyer dashboard overview" },
     { name: "Orders", path: "/buyer/orders", tooltip: "View and manage orders" },
     { name: "Messages", path: "/buyer/messages", tooltip: "Communication with brands" },
-    { name: "Additional Services", path: "/buyer/additional-services", tooltip: "Book consulting services" },
-    { name: "Team", path: "/buyer/team", tooltip: "Manage your team" },
-    { name: "Resources", path: "/buyer/resources", tooltip: "Educational resources" },
+//    { name: "Additional Services", path: "/buyer/additional-services", tooltip: "Book consulting services" },
+//    { name: "Team", path: "/buyer/team", tooltip: "Manage your team" },
+//    { name: "Resources", path: "/buyer/resources", tooltip: "Educational resources" },
     { name: "Settings", path: "/buyer/settings", tooltip: "Account settings" },
   ];
 
@@ -86,7 +86,7 @@ const BuyerHeader = () => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <div className="relative">
-                  <ShoppingBag size={20} className="text-gray-600 hover:text-black cursor-pointer" />
+                  <ShoppingBag size={20} className="text-white  cursor-pointer" />
                   {cartItemsCount > 0 && (
                     <Badge 
                       className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-white text-black text-xs rounded-full"
@@ -106,7 +106,7 @@ const BuyerHeader = () => {
             <Tooltip>
               <TooltipTrigger asChild>
                 <div className="relative">
-                  <Bell size={20} className="text-gray-600 hover:text-black cursor-pointer" />
+                  <Bell size={20} className="text-white cursor-pointer" />
                   {notificationCount > 0 && (
                     <Badge 
                       className="absolute -top-2 -right-2 h-5 w-5 flex items-center justify-center p-0 bg-white text-black text-xs rounded-full"
@@ -122,7 +122,7 @@ const BuyerHeader = () => {
             </Tooltip>
           </TooltipProvider>
           
-          <Link to="/" className="text-gray-600 hover:text-white text-xs font-normal">
+          <Link to="/" className="text-white hover:underline text-xs font-normal">
             BACK TO SITE 
           </Link>
           <span className="text-gray-400 font-light">|</span>
