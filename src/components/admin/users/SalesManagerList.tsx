@@ -1,13 +1,13 @@
-
 import { useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Eye, Edit, Plus, Search, UserX } from "lucide-react";
+import { Eye, Edit, Plus, Search, UserX, UserCheck } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { SalesManager } from "@/types/users";
+import { useNavigate } from "react-router-dom";
 
 interface SalesManagerListProps {
   salesManagers: SalesManager[];
@@ -17,9 +17,6 @@ interface SalesManagerListProps {
   handleViewUser: (userType: string, userId: number) => void;
   handleEditUser: (userType: string, userId: number) => void;
 }
-const handleDeactivate = (id: number) => {
-  console.log("Deactivate", id);
-};
 
 const SalesManagerList = ({
   salesManagers,
@@ -30,9 +27,8 @@ const SalesManagerList = ({
   handleEditUser
 }: SalesManagerListProps) => {
   const [searchQuery, setSearchQuery] = useState("");
-  
-  // Ensure salesManagers is always an array, even if it's undefined
-  const managers = Array.isArray(salesManagers) ? salesManagers : [];
+  const [managers, setManagers] = useState(salesManagers);
+  const navigate = useNavigate();
   
   const filteredUsers = managers
     .filter(user => statusFilter === "all" || user.status.toLowerCase() === statusFilter.toLowerCase())
@@ -41,6 +37,26 @@ const SalesManagerList = ({
       user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       user.email.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+  const handleViewDetails = (id: number) => {
+    navigate(`/admin/users/sales/${id}`);
+  };
+
+  const handleEdit = (id: number) => {
+    navigate(`/admin/users/sales/${id}/edit`);
+  };
+
+  const handleToggleStatus = (id: number) => {
+    setManagers(prev => prev.map(manager => {
+      if (manager.id === id) {
+        return {
+          ...manager,
+          status: manager.status === 'active' ? 'inactive' : 'active' as 'active' | 'inactive'
+        };
+      }
+      return manager;
+    }));
+  };
     
   return (
     <div className="space-y-6">
@@ -78,8 +94,8 @@ const SalesManagerList = ({
       </div>
       
       <div>
-      <Card className="border border-gray-200 shadow-none rounded-lg">
-        <CardContent className="p-0">
+        <Card className="border border-gray-200 shadow-none rounded-lg">
+          <CardContent className="p-0">
             <Table>
               <TableHeader>
                 <TableRow>
@@ -123,11 +139,11 @@ const SalesManagerList = ({
                         </Badge>
                       </TableCell>
                       <TableCell className="text-right space-x-2">
-                      <Button 
+                        <Button 
                           variant="ghost"
                           size="icon"
                           className="h-8 w-8 p-0 hover:bg-gray-200"
-                          onClick={() => handleViewUser("manager", user.id)}
+                          onClick={() => handleViewDetails(user.id)}
                           title="View"
                         >
                           <Eye className="h-4 w-4" strokeWidth={1.5} />
@@ -136,28 +152,36 @@ const SalesManagerList = ({
                           variant="ghost"
                           size="icon"
                           className="h-8 w-8 p-0 hover:bg-gray-200"
-                          onClick={() => handleEditUser("manager", user.id)}
+                          onClick={() => handleEdit(user.id)}
                           title="Edit"
                         >
-                          <Edit className="h-4 w-4" strokeWidth={1.5}  />
+                          <Edit className="h-4 w-4" strokeWidth={1.5} />
                         </Button>
                         <Button
                           variant="ghost"
                           size="icon"
-                          onClick={() => handleDeactivate(user.id)}
-                          className="h-8 w-8 p-0 hover:bg-red-100"
+                          onClick={() => handleToggleStatus(user.id)}
+                          className={`h-8 w-8 p-0 ${
+                            user.status === 'active' 
+                              ? 'hover:bg-red-100' 
+                              : 'hover:bg-green-100'
+                          }`}
                         >
-                          <UserX className="h-4 w-4 text-red-500" strokeWidth={1.5}  />
-                    </Button>
+                          {user.status === 'active' ? (
+                            <UserX className="h-4 w-4 text-red-500" strokeWidth={1.5} />
+                          ) : (
+                            <UserCheck className="h-4 w-4 text-green-500" strokeWidth={1.5} />
+                          )}
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))
                 )}
               </TableBody>
             </Table>
-        </CardContent>
-      </Card>
-    </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
   );
 };

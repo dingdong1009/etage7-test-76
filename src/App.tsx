@@ -35,6 +35,8 @@ import Agenda from "./pages/admin/Agenda";
 import AdminPaidServices from "./pages/admin/PaidServices";
 import ViewRegistrationDetails from "./pages/admin/users/ViewRegistrationDetails";
 import ViewActiveUserDetails from "./pages/admin/users/ViewActiveUserDetails";
+import ViewSalesManagerDetails from "./pages/admin/users/ViewSalesManagerDetails";
+import EditSalesManagerDetails from "./pages/admin/users/EditSalesManagerDetails";
 
 // Brand components
 import BrandLayout from "./components/brand/BrandLayout";
@@ -128,6 +130,8 @@ const App = () => {
               <Route path="paid-services" element={<AdminPaidServices />} />
               <Route path="agenda" element={<Agenda />} />
               <Route path="administration" element={<Administration />} />
+              <Route path="users/sales/:userId" element={<ViewSalesManagerDetails />} />
+              <Route path="users/sales/:userId/edit" element={<EditSalesManagerDetails />} />
             </Route>
             
             <Route path="/sales" element={<SalesLayout />}>
