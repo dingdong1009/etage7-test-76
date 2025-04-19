@@ -9,16 +9,19 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 interface ProductDetailsProps {
   isDialog?: boolean;
   onClose?: () => void;
+  productId?: string;  // Make sure we accept productId as a prop
 }
 
-const ProductDetails = ({ isDialog, onClose }: ProductDetailsProps) => {
-  const { productId } = useParams();
+const ProductDetails = ({ isDialog, onClose, productId }: ProductDetailsProps) => {
+  // Use either the passed-in productId or get it from URL params
+  const { productId: urlProductId } = useParams();
+  const activeProductId = productId || urlProductId;
   const [quantity, setQuantity] = React.useState(1);
   const [selectedImage, setSelectedImage] = React.useState(0);
 
   // Mock product data - in a real app, this would come from an API
   const product = {
-    id: productId,
+    id: activeProductId,
     name: "Sample Product",
     price: "€1,500",
     description: "Elegant and timeless design crafted with premium materials.",
