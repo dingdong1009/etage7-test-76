@@ -80,13 +80,13 @@ const MarketingCredits = () => {
                       <TableCell>{pkg.credits}</TableCell>
                       <TableCell>${pkg.price}</TableCell>
                       <TableCell className="flex gap-2">
-                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-red-100">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-200">
                           <Edit className="h-4 w-4" strokeWidth={1.5} />
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-red-100">
-                          <ToggleRight className="h-4 w-4" strokeWidth={1.5} />
+                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-red-200">
+                          <ToggleRight className="h-4 w-4 text-red-500" strokeWidth={1.5} />
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-red-100">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-red-200">
                               <Trash2 className="h-4 w-4 text-red-500" strokeWidth={1.5} />
                             </Button>
                       </TableCell>
