@@ -57,7 +57,11 @@ const SalesManagerList = ({
       return manager;
     }));
   };
-    
+
+  const handleAddManager = () => {
+    navigate("/admin/users/sales/add");
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex justify-between items-center">
@@ -87,7 +91,10 @@ const SalesManagerList = ({
               <SelectItem value="inactive" className="text-xs uppercase font-light">Inactive</SelectItem>
             </SelectContent>
           </Select>
-          <Button className="bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase" onClick={handleAddUser}>
+          <Button 
+            className="bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase" 
+            onClick={handleAddManager}
+          >
             <Plus className="mr-1 h-4 w-4" /> Add Manager
           </Button>
         </div>
