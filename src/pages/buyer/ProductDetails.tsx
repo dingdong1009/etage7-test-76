@@ -1,4 +1,4 @@
-import { Instagram, Globe, Telegram, Whatsapp } from "lucide-react";
+import { Instagram, Globe, ChevronLeft, BookmarkCheck, CalendarDays, Percent, Medal } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ScrollArea";
@@ -17,6 +17,7 @@ import {
   TableCell,
   TableRow,
 } from "@/components/ui/table";
+import { Archive } from "@/components/buyer/messages/Icons";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
@@ -146,10 +147,10 @@ const ProductDetails = () => {
                     <Instagram className="h-6 w-6 text-black hover:text-gray-600 transition-colors" />
                   </a>
                   <a href="#" target="_blank" rel="noopener noreferrer" className="flex-1">
-                    <Telegram className="h-6 w-6 text-black hover:text-gray-600 transition-colors" />
+                    <Archive className="h-6 w-6 text-black hover:text-gray-600 transition-colors" />
                   </a>
                   <a href="#" target="_blank" rel="noopener noreferrer" className="flex-1">
-                    <Whatsapp className="h-6 w-6 text-black hover:text-gray-600 transition-colors" />
+                    <Archive className="h-6 w-6 text-black hover:text-gray-600 transition-colors" />
                   </a>
                   <a href="#" target="_blank" rel="noopener noreferrer" className="flex-1">
                     <Globe className="h-6 w-6 text-black hover:text-gray-600 transition-colors" />
