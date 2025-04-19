@@ -4,8 +4,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Plus, Edit, Trash2, ToggleRight } from "lucide-react";
+import { Plus, Edit, Trash2, ToggleRight, ToggleLeft } from "lucide-react";
 import { mockCreditPackages, mockBrandCredits } from "@/mock/marketingCredits";
+import { toast } from "@/hooks/use-toast";
+import NewServiceDialog from "@/components/admin/services/NewServiceDialog";
 import type { CreditPackage } from "@/types/mockData";
 
 const MarketingCredits = () => {
@@ -15,6 +17,8 @@ const MarketingCredits = () => {
     credits: 0,
     price: 0,
   });
+  const [selectedPackage, setSelectedPackage] = useState<CreditPackage | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
 
   const handleAddPackage = () => {
     if (newPackage.name && newPackage.credits && newPackage.price) {
@@ -29,6 +33,40 @@ const MarketingCredits = () => {
       setPackages([...packages, packageToAdd]);
       setNewPackage({ name: "", credits: 0, price: 0 });
     }
+  };
+
+  const handleEdit = (pkg: CreditPackage) => {
+    setSelectedPackage(pkg);
+    setIsDialogOpen(true);
+    toast({
+      title: "Edit Mode",
+      description: "Editing package details",
+    });
+  };
+
+  const handleToggleStatus = (pkg: CreditPackage) => {
+    setPackages(prev =>
+      prev.map(p => {
+        if (p.id === pkg.id) {
+          const newStatus = p.isActive ? false : true;
+          toast({
+            title: "Status Updated",
+            description: `Package is now ${newStatus ? 'active' : 'inactive'}`,
+          });
+          return { ...p, isActive: newStatus };
+        }
+        return p;
+      })
+    );
+  };
+
+  const handleDelete = (pkg: CreditPackage) => {
+    setPackages(prev => prev.filter(p => p.id !== pkg.id));
+    toast({
+      title: "Package Deleted",
+      description: "The package has been successfully removed",
+      variant: "destructive",
+    });
   };
 
   return (
@@ -80,15 +118,19 @@ const MarketingCredits = () => {
                       <TableCell>{pkg.credits}</TableCell>
                       <TableCell>${pkg.price}</TableCell>
                       <TableCell className="flex gap-2">
-                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-200">
+                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-200" onClick={() => handleEdit(pkg)}>
                           <Edit className="h-4 w-4" strokeWidth={1.5} />
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-red-200">
-                          <ToggleRight className="h-4 w-4 text-red-500" strokeWidth={1.5} />
+                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-red-200" onClick={() => handleToggleStatus(pkg)}>
+                          {pkg.isActive ? (
+                            <ToggleRight className="h-4 w-4 text-red-500" strokeWidth={1.5} />
+                          ) : (
+                            <ToggleLeft className="h-4 w-4 text-gray-500" strokeWidth={1.5} />
+                          )}
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-red-200">
-                              <Trash2 className="h-4 w-4 text-red-500" strokeWidth={1.5} />
-                            </Button>
+                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-red-200" onClick={() => handleDelete(pkg)}>
+                          <Trash2 className="h-4 w-4 text-red-500" strokeWidth={1.5} />
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}
@@ -125,6 +167,19 @@ const MarketingCredits = () => {
           </CardContent>
         </Card>
       </div>
+
+      <NewServiceDialog 
+        isOpen={isDialogOpen}
+        setIsOpen={setIsDialogOpen}
+        onSubmit={(data) => {
+          console.log('Form submitted:', data);
+          setIsDialogOpen(false);
+          toast({
+            title: "Package Updated",
+            description: "The package has been successfully updated",
+          });
+        }}
+      />
     </div>
   );
 };
