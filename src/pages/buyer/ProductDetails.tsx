@@ -135,13 +135,24 @@ const ProductDetails = () => {
               </div>
 
               <div className="space-y-4 mb-8">
-                <Button className="w-full bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase">
+                <Button 
+                  onClick={() => navigate('start-order')}
+                  className="w-full bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase"
+                >
                   Start an Order
                 </Button>
-                <Button variant="outline" className="w-full border-gray-300 font-normal uppercase ">
+                <Button 
+                  onClick={() => navigate('contact')}
+                  variant="outline" 
+                  className="w-full border-gray-300 font-normal uppercase"
+                >
                   Contact Brand
                 </Button>
-                <Button variant="outline" className="w-full border-gray-300 font-normal uppercase">
+                <Button 
+                  onClick={() => navigate('request-samples')}
+                  variant="outline" 
+                  className="w-full border-gray-300 font-normal uppercase"
+                >
                   Request for Samples
                 </Button>
               </div>
