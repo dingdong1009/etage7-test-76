@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Heart, Search, SlidersHorizontal, ArrowRight, X, FilterX, ChevronUp } from "lucide-react";
+import { Link } from "react-router-dom";
 import { 
   DropdownMenu, 
   DropdownMenuContent, 
@@ -1008,8 +1009,10 @@ const Dashboard = () => {
                     <Button className="bg-black text-white text-xs px-3 py-1.5 hover:bg-gray-900">
                       Add to Bag
                     </Button>
-                    <Button variant="outline" className="bg-white text-black text-xs px-3 py-1.5">
-                      Quick View
+                    <Button variant="outline" className="bg-white text-black text-xs px-3 py-1.5" asChild>
+                      <Link to={`/buyer/product/${product.id}`}>
+                        Quick View
+                      </Link>
                     </Button>
                   </div>
                 </div>
