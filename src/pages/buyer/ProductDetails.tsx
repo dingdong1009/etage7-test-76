@@ -13,14 +13,14 @@ const ProductDetails = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="min-h-screen bg-white pt-20">
+    <div className="min-h-screen bg-white">
       {/* Back Navigation */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-white border-b border-gray-100">
-        <div className="container py-4">
+      <div className="fixed top-0 left-0 right-0 z-40 bg-white border-b border-gray-100 pt-28">
+        <div className="container py-1">
           <Button 
             variant="ghost" 
             onClick={() => navigate(-1)}
-            className="text-sm flex items-center gap-2 hover:bg-gray-50"
+            className="text-sm flex items-center gap-2 bg-black text-white hover:bg-gray-200 hover:text-black"
           >
             <ArrowLeft size={16} strokeWidth={1} />
             Back to Dashboard
@@ -28,7 +28,7 @@ const ProductDetails = () => {
         </div>
       </div>
 
-      <div className="pt-16">
+      <div className="pt-1">
         <div className="flex flex-col lg:flex-row">
           {/* Image Section */}
           <ScrollArea className="w-full lg:w-3/5 h-screen">
