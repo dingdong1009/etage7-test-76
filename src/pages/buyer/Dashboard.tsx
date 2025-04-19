@@ -16,6 +16,8 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Dialog } from "@/components/ui/dialog";
+import { ProductDetails } from "@/components/ui/product-details";
 
 interface DashboardProduct {
   id: string;
@@ -101,6 +103,8 @@ const Dashboard = () => {
   const [showScrollTop, setShowScrollTop] = useState(false);
   
   const [isFilterCollapsed, setIsFilterCollapsed] = useState(false);
+
+  const [selectedProduct, setSelectedProduct] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -1030,7 +1034,11 @@ const Dashboard = () => {
                     <Button className="bg-black text-white text-xs px-3 py-1.5 hover:bg-gray-900">
                       Add to Bag
                     </Button>
-                    <Button variant="outline" className="bg-white text-black text-xs px-3 py-1.5">
+                    <Button 
+                      variant="outline" 
+                      className="bg-white text-black text-xs px-3 py-1.5"
+                      onClick={() => setSelectedProduct(product.id)}
+                    >
                       Quick View
                     </Button>
                   </div>
@@ -1094,6 +1102,10 @@ const Dashboard = () => {
       >
         <ChevronUp size={20} strokeWidth={1} className="text-white" />
       </button>
+
+      <Dialog open={!!selectedProduct} onOpenChange={() => setSelectedProduct(null)}>
+        <ProductDetails isDialog productId={selectedProduct || ""} onClose={() => setSelectedProduct(null)} />
+      </Dialog>
     </div>
   );
 };
