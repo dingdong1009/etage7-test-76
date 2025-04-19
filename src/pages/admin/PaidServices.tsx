@@ -11,9 +11,15 @@ import CreateService from "@/components/admin/paid-services/CreateService";
 const PaidServices = () => {
   const [activeTab, setActiveTab] = useState("subscriptions");
 
+  const handleAddNewService = (serviceType: string) => {
+    setActiveTab("create");
+    // The CreateService component will receive this value to pre-select the service type
+    localStorage.setItem("selectedServiceType", serviceType);
+  };
+
   return (
     <div className="space-y-6 pt-5">
-        <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">PAID SERVICES</h1>
+      <h1 className="text-4xl md:text-5xl lg:text-7xl font-light tracking-tighter uppercase mb-6">PAID SERVICES</h1>
 
       <div className="pt-10">
         <Tabs defaultValue="subscriptions" value={activeTab} onValueChange={setActiveTab} className="w-full">
@@ -57,11 +63,11 @@ const PaidServices = () => {
             </TabsList>
 
           <TabsContent value="subscriptions">
-            <Subscriptions />
+            <Subscriptions onAddClick={() => handleAddNewService("subscription")} />
           </TabsContent>
           
           <TabsContent value="consulting">
-            <ConsultingServices />
+            <ConsultingServices onAddClick={() => handleAddNewService("consulting")} />
           </TabsContent>
           
           <TabsContent value="marketing">
@@ -69,7 +75,7 @@ const PaidServices = () => {
           </TabsContent>
           
           <TabsContent value="advertisement">
-            <Advertisements />
+            <Advertisements onAddClick={() => handleAddNewService("advertisement")} />
           </TabsContent>
           
           <TabsContent value="emarketing">

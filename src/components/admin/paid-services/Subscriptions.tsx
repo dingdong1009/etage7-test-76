@@ -7,71 +7,11 @@ import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recha
 import { Edit, Trash2, Eye, Plus } from "lucide-react";
 import { Subscription } from "@/types/services/paidServices";
 
-// Mock data for subscriptions
-const mockSubscriptions: Subscription[] = [
-  {
-    id: "sub-1",
-    name: "Basic Plan",
-    description: "Standard features for small brands",
-    price: 29.99,
-    features: ["10 product listings", "Basic analytics", "Email support"],
-    type: "subscription",
-    frequency: "monthly",
-    autoRenewal: true,
-    status: "active",
-    createdAt: "2023-09-15T12:00:00Z",
-    updatedAt: "2024-02-20T09:30:00Z",
-    userCount: 87,
-    maxUsers: 100
-  },
-  {
-    id: "sub-2",
-    name: "Professional",
-    description: "Advanced features for growing brands",
-    price: 99.99,
-    features: ["50 product listings", "Advanced analytics", "Priority support", "Marketing tools"],
-    type: "subscription",
-    frequency: "monthly",
-    autoRenewal: true,
-    status: "active",
-    createdAt: "2023-07-10T10:00:00Z",
-    updatedAt: "2024-03-05T14:20:00Z",
-    userCount: 45,
-    maxUsers: 50
-  },
-  {
-    id: "sub-3",
-    name: "Enterprise",
-    description: "Full service package for established brands",
-    price: 299.99,
-    features: ["Unlimited product listings", "Custom analytics", "24/7 support", "Advanced marketing tools", "API access"],
-    type: "subscription",
-    frequency: "annual",
-    autoRenewal: true,
-    status: "active",
-    createdAt: "2023-05-22T08:30:00Z",
-    updatedAt: "2024-04-01T11:45:00Z",
-    userCount: 12,
-    maxUsers: 25
-  },
-  {
-    id: "sub-4",
-    name: "Starter",
-    description: "Entry level package for new brands",
-    price: 19.99,
-    features: ["5 product listings", "Basic support"],
-    type: "subscription",
-    frequency: "monthly",
-    autoRenewal: true,
-    status: "inactive",
-    createdAt: "2023-11-05T14:20:00Z",
-    updatedAt: "2024-01-15T09:10:00Z",
-    userCount: 0,
-    maxUsers: 10
-  }
-];
+interface SubscriptionsProps {
+  onAddClick: () => void;
+}
 
-const Subscriptions = () => {
+const Subscriptions = ({ onAddClick }: SubscriptionsProps) => {
   const [subscriptions] = useState<Subscription[]>(mockSubscriptions);
   
   // Calculate statistics for the chart
@@ -88,10 +28,12 @@ const Subscriptions = () => {
   
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h2 className="text-xl font-normal tracking-tighter uppercase">Subscription Plans ({subscriptions.length})
-        </h2>
-        <Button className="bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase">
+      <div className="flex justify-between items-center space-x-3">
+        <h2 className="text-xl font-normal tracking-tighter uppercase">Subscription Management</h2>
+        <Button 
+          className="bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase"
+          onClick={onAddClick}
+        >
           <Plus size={16} />
           Add Subscription
         </Button>

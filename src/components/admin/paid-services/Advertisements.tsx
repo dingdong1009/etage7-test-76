@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -10,7 +9,10 @@ import { Search, Plus, Eye, Edit, Trash } from "lucide-react";
 import { Advertisement } from "@/types/services/paidServices";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from "recharts";
 
-// Mock data for advertisements
+interface AdvertisementsProps {
+  onAddClick: () => void;
+}
+
 const mockAdvertisements: Advertisement[] = [
   {
     id: "ad-1",
@@ -82,7 +84,6 @@ const mockAdvertisements: Advertisement[] = [
   }
 ];
 
-// Performance data for chart
 const performanceData = mockAdvertisements.map(ad => ({
   name: ad.name,
   impressions: ad.impressions,
@@ -90,26 +91,25 @@ const performanceData = mockAdvertisements.map(ad => ({
   ctr: Number((ad.clicks! / ad.impressions! * 100).toFixed(1))
 }));
 
-const Advertisements = () => {
+const Advertisements = ({ onAddClick }: AdvertisementsProps) => {
   const [advertisements] = useState<Advertisement[]>(mockAdvertisements);
   const [searchQuery, setSearchQuery] = useState("");
   
-  // Calculate totals
   const totalImpressions = advertisements.reduce((sum, ad) => sum + (ad.impressions || 0), 0);
   const totalClicks = advertisements.reduce((sum, ad) => sum + (ad.clicks || 0), 0);
   const averageCTR = totalImpressions > 0 ? (totalClicks / totalImpressions * 100).toFixed(2) : "0.00";
   
   return (
     <div className="space-y-6">
-      <div className="flex justify-between items-center  space-x-3">
-      <h2 className="text-xl font-normal tracking-tighter uppercase">Advertisement Management</h2>
-        <div className="flex items-center gap-2">
-
-          <Button className="bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase">
-            <Plus size={16} />
-            Add new Package
-          </Button>
-        </div>
+      <div className="flex justify-between items-center space-x-3">
+        <h2 className="text-xl font-normal tracking-tighter uppercase">Advertisement Management</h2>
+        <Button 
+          className="bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase"
+          onClick={onAddClick}
+        >
+          <Plus size={16} />
+          Add new Package
+        </Button>
       </div>
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -141,98 +141,6 @@ const Advertisements = () => {
           </CardContent>
         </Card>
       </div>
-
- {/* For future      
-      <Card className="border border-gray-200 shadow-none rounded-lg">
-        <CardHeader className="px-6 py-5 border-b border-gray-100 bg-gray-50/80">
-          <div className="flex flex-col md:flex-row justify-between md:items-center">
-            <CardTitle className="text-lg font-medium text-gray-900">
-              Advertisement Performance
-            </CardTitle>
-            <Tabs defaultValue="chart" className="w-fit">
-              <TabsList className="bg-transparent">
-                <TabsTrigger value="chart">Chart</TabsTrigger>
-                <TabsTrigger value="table">Table</TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </div>
-        </CardHeader>
-        <CardContent className="p-6">
-          <TabsContent value="chart" className="mt-0">
-            <div className="h-[350px]">
-              <ResponsiveContainer width="100%" height="100%">
-                <BarChart
-                  data={performanceData}
-                  margin={{ top: 20, right: 30, left: 20, bottom: 60 }}
-                >
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" angle={-45} textAnchor="end" height={80} />
-                  <YAxis yAxisId="left" />
-                  <YAxis yAxisId="right" orientation="right" domain={[0, 10]} />
-                  <Tooltip />
-                  <Legend />
-                  <Bar yAxisId="left" dataKey="impressions" name="Impressions" fill="#8884d8" />
-                  <Bar yAxisId="left" dataKey="clicks" name="Clicks" fill="#82ca9d" />
-                  <Bar yAxisId="right" dataKey="ctr" name="CTR (%)" fill="#ffc658" />
-                </BarChart>
-              </ResponsiveContainer>
-            </div>
-          </TabsContent>
-          <TabsContent value="table" className="mt-0">
-            <Table>
-              <TableHeader>
-                <TableRow className="hover:bg-transparent bg-gray-50">
-                  <TableHead className="w-[200px] font-medium">Advertisement</TableHead>
-                  <TableHead className="font-medium">Placement</TableHead>
-                  <TableHead className="font-medium">Impressions</TableHead>
-                  <TableHead className="font-medium">Clicks</TableHead>
-                  <TableHead className="font-medium">CTR</TableHead>
-                  <TableHead className="font-medium">Status</TableHead>
-                  <TableHead className="text-right font-medium">Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {advertisements.map((ad) => (
-                  <TableRow key={ad.id} className="border-t border-gray-100">
-                    <TableCell className="font-medium">{ad.name}</TableCell>
-                    <TableCell className="capitalize">{ad.placement}</TableCell>
-                    <TableCell>{ad.impressions?.toLocaleString()}</TableCell>
-                    <TableCell>{ad.clicks?.toLocaleString()}</TableCell>
-                    <TableCell>
-                      {ad.impressions && ad.clicks
-                        ? (ad.clicks / ad.impressions * 100).toFixed(2) + "%"
-                        : "0.00%"}
-                    </TableCell>
-                    <TableCell>
-                      {ad.status === "active" ? (
-                        <Badge variant="outline" className="bg-accent-mint text-gray-800 border-accent-mint">
-                          Active
-                        </Badge>
-                      ) : (
-                        <Badge variant="outline" className="bg-gray-100 text-gray-800 border-gray-200">
-                          Inactive
-                        </Badge>
-                      )}
-                    </TableCell>
-                    <TableCell className="text-right space-x-2">
-                      <Button variant="ghost" size="icon" className="hover:bg-gray-100">
-                        <Eye className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="icon" className="hover:bg-gray-100">
-                        <Edit className="h-4 w-4" />
-                      </Button>
-                      <Button variant="ghost" size="icon" className="hover:bg-gray-100">
-                        <Trash className="h-4 w-4" />
-                      </Button>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TabsContent>
-        </CardContent>
-      </Card>
-      */}
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <Card className="border border-gray-200 shadow-none rounded-lg">
