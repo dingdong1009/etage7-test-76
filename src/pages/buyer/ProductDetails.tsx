@@ -83,6 +83,37 @@ const ProductDetails = () => {
                   <button className="w-6 h-6 rounded-full bg-[#8B4513] border-2 border-transparent"></button>
                   <button className="w-6 h-6 rounded-full bg-[#D3D3D3] border-2 border-transparent"></button>
                 </div>
+                <div className="mt-6">
+                  <h3 className="text-sm uppercase mb-4">Size Guide</h3>
+                  <Table className="border border-gray-100">
+                    <TableBody>
+                      <TableRow>
+                        <TableCell className="font-medium text-xs uppercase">IT/FR</TableCell>
+                        <TableCell className="text-xs">36</TableCell>
+                        <TableCell className="text-xs">38</TableCell>
+                        <TableCell className="text-xs">40</TableCell>
+                        <TableCell className="text-xs">42</TableCell>
+                        <TableCell className="text-xs">44</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium text-xs uppercase">UK</TableCell>
+                        <TableCell className="text-xs">4</TableCell>
+                        <TableCell className="text-xs">6</TableCell>
+                        <TableCell className="text-xs">8</TableCell>
+                        <TableCell className="text-xs">10</TableCell>
+                        <TableCell className="text-xs">12</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell className="font-medium text-xs uppercase">US</TableCell>
+                        <TableCell className="text-xs">2</TableCell>
+                        <TableCell className="text-xs">4</TableCell>
+                        <TableCell className="text-xs">6</TableCell>
+                        <TableCell className="text-xs">8</TableCell>
+                        <TableCell className="text-xs">10</TableCell>
+                      </TableRow>
+                    </TableBody>
+                  </Table>
+                </div>
                 <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
                   <div className="flex flex-col items-center gap-2">
                     <BookmarkCheck className="h-6 w-6 text-black" />
