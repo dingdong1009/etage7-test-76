@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, Heart, Search, SlidersHorizontal, ArrowRight, X, FilterX, ChevronUp } from "lucide-react";
@@ -95,50 +95,79 @@ const Dashboard = () => {
     setExpanded(!expanded);
   };
 
-  useEffect(() => {
-    const initialProducts = Array(12).fill(null).map((_, index) => {
-      const categoryIndex = Math.floor(Math.random() * 5);
-      const category = ['Dresses', 'Tops', 'Skirts', 'Bags', 'Shoes'][categoryIndex];
-      const subCategories = categoryData[category as keyof typeof categoryData] || [];
-      const subCategory = subCategories[Math.floor(Math.random() * subCategories.length)];
-      const season = seasonOptions[Math.floor(Math.random() * seasonOptions.length)];
-      const color = colorOptions[Math.floor(Math.random() * colorOptions.length)];
-      const size = sizeOptions[Math.floor(Math.random() * sizeOptions.length)];
-      const brand = `Brand ${Math.floor(Math.random() * 10) + 1}`;
-      const sustainableCert = Math.random() > 0.5 ? 
-        [sustainabilityCertOptions[Math.floor(Math.random() * sustainabilityCertOptions.length)]] : 
-        [];
-      const minimumOrder = Math.floor(Math.random() * 50) + 5;
-      const leadTime = leadTimeOptions[Math.floor(Math.random() * leadTimeOptions.length)];
-      const shippingFrom = shippingFromOptions[Math.floor(Math.random() * shippingFromOptions.length)];
-      const exclusivity = Math.random() > 0.8;
-      
-      return {
-        id: `product-${index + 1}`,
-        name: `Product ${index + 1}`,
-        category,
-        subCategory,
-        price: `${Math.floor(Math.random() * 1000) + 500} ₽`,
-        imagePlaceholder: `${Math.floor(Math.random() * 200) + 200}x${Math.floor(Math.random() * 100) + 250}`,
-        favorite: false,
-        material: materialOptions[Math.floor(Math.random() * materialOptions.length)],
-        availability: Math.random() > 0.2 ? "In Stock" : "Out of Stock",
-        season,
-        color,
-        size,
-        brand,
-        sustainableCert,
-        minimumOrder,
-        leadTime,
-        shippingFrom,
-        exclusivity
-      };
-    });
-    
-    setProducts(initialProducts);
-    setFilteredProducts(initialProducts);
-  }, []);
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [visibleProducts, setVisibleProducts] = useState<DashboardProduct[]>([]);
+  const [showScrollTop, setShowScrollTop] = useState(false);
   
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setShowScrollTop(scrollTop > 300);
+
+      if (!hasMore) return;
+
+      const scrollHeight = document.documentElement.scrollHeight;
+      const windowHeight = window.innerHeight;
+      const scrolledToBottom = Math.ceil(scrollTop + windowHeight) >= scrollHeight - 100;
+
+      if (scrolledToBottom) {
+        setPage(prev => prev + 1);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasMore]);
+
+  useEffect(() => {
+    const loadInitialProducts = () => {
+      const initialProducts = Array(8).fill(null).map((_, index) => {
+        const categoryIndex = Math.floor(Math.random() * 5);
+        const category = ['Dresses', 'Tops', 'Skirts', 'Bags', 'Shoes'][categoryIndex];
+        const subCategories = categoryData[category as keyof typeof categoryData] || [];
+        const subCategory = subCategories[Math.floor(Math.random() * subCategories.length)];
+        const season = seasonOptions[Math.floor(Math.random() * seasonOptions.length)];
+        const color = colorOptions[Math.floor(Math.random() * colorOptions.length)];
+        const size = sizeOptions[Math.floor(Math.random() * sizeOptions.length)];
+        const brand = `Brand ${Math.floor(Math.random() * 10) + 1}`;
+        const sustainableCert = Math.random() > 0.5 ? 
+          [sustainabilityCertOptions[Math.floor(Math.random() * sustainabilityCertOptions.length)]] : 
+          [];
+        const minimumOrder = Math.floor(Math.random() * 50) + 5;
+        const leadTime = leadTimeOptions[Math.floor(Math.random() * leadTimeOptions.length)];
+        const shippingFrom = shippingFromOptions[Math.floor(Math.random() * shippingFromOptions.length)];
+        const exclusivity = Math.random() > 0.8;
+        
+        return {
+          id: `product-${index + 1}`,
+          name: `Product ${index + 1}`,
+          category,
+          subCategory,
+          price: `${Math.floor(Math.random() * 1000) + 500} ₽`,
+          imagePlaceholder: `${Math.floor(Math.random() * 200) + 200}x${Math.floor(Math.random() * 100) + 250}`,
+          favorite: false,
+          material: materialOptions[Math.floor(Math.random() * materialOptions.length)],
+          availability: Math.random() > 0.2 ? "In Stock" : "Out of Stock",
+          season,
+          color,
+          size,
+          brand,
+          sustainableCert,
+          minimumOrder,
+          leadTime,
+          shippingFrom,
+          exclusivity
+        };
+      });
+      
+      setProducts(initialProducts);
+      setVisibleProducts(initialProducts.slice(0, 8));
+    };
+    
+    loadInitialProducts();
+  }, []);
+
   useEffect(() => {
     let result = [...products];
     
@@ -249,37 +278,15 @@ const Dashboard = () => {
     }
     
     setFilteredProducts(result);
-    
-    if (isAiAssistEnabled && result.length > 0) {
-      let aiSuggestion = "Based on your preferences, we recommend exploring ";
-      
-      if (selectedCategory !== "All Categories") {
-        aiSuggestion += `${selectedCategory}`;
-        if (selectedSubCategory) {
-          aiSuggestion += ` in ${selectedSubCategory} style`;
-        }
-      } else if (selectedMaterials.length > 0) {
-        aiSuggestion += `items in ${selectedMaterials.join(" or ")} material`;
-      } else if (selectedColors.length > 0) {
-        aiSuggestion += `items in ${selectedColors.join(" or ")} color`;
-      } else if (selectedSeasons.length > 0) {
-        aiSuggestion += `items from ${selectedSeasons[0]} collection`;
-      } else {
-        aiSuggestion += "our trending items with fast shipping options";
-      }
-      
-      aiSuggestion += ". These items are popular with buyers with similar preferences.";
-      setAiResults(aiSuggestion);
-    } else {
-      setAiResults(null);
-    }
+    setVisibleProducts(result.slice(0, page * 8));
+    setHasMore(result.length > page * 8);
   }, [
     selectedCategory, selectedSubCategory, selectedMaterials, priceRange, inStockOnly,
     selectedSeasons, selectedColors, selectedSizes, selectedBrands, selectedCertifications,
     minOrderRange, selectedLeadTimes, selectedShippingOrigins, exclusivityOnly,
-    searchTerm, sortBy, products, isAiAssistEnabled
+    searchTerm, sortBy, products, page
   ]);
-  
+
   const toggleFilterOption = (option: string, currentSelection: string[], setSelection: (selection: string[]) => void) => {
     if (currentSelection.includes(option)) {
       setSelection(currentSelection.filter(item => item !== option));
@@ -381,6 +388,13 @@ const Dashboard = () => {
     const newState = !isAiSearchEnabled;
     setIsAiSearchEnabled(newState);
     setSearchPlaceholder(newState ? "Ask AI about products..." : "Search products...");
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   };
 
   return (
@@ -970,8 +984,8 @@ const Dashboard = () => {
       )}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
+        {visibleProducts.length > 0 ? (
+          visibleProducts.map((product) => (
             <Card key={product.id} className="border-0 rounded-none overflow-hidden group">
               <CardContent className="p-0">
                 <div className="aspect-[3/4] bg-gray-50 flex items-center justify-center relative overflow-hidden">
@@ -1048,6 +1062,16 @@ const Dashboard = () => {
           </div>
         </div>
       )}
+
+      <button
+        onClick={scrollToTop}
+        className={`fixed bottom-6 right-6 p-3 z-50 bg-black shadow-md rounded-full hover:bg-gray-800 transition-all duration-300 ${
+          showScrollTop ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10 pointer-events-none"
+        }`}
+        aria-label="Scroll to top"
+      >
+        <ChevronUp size={20} strokeWidth={1} className="text-white" />
+      </button>
     </div>
   );
 };
