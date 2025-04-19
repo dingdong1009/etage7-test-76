@@ -5,18 +5,61 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PieChart, Pie, Cell, ResponsiveContainer, Tooltip, Legend } from "recharts";
-import { Edit, Trash2, Eye, Plus, UserX, ToggleRight } from "lucide-react";
+import { Edit, Trash2, Eye, Plus, ToggleRight } from "lucide-react";
 import { Subscription } from "@/types/services/paidServices";
+import { toast } from "@/hooks/use-toast";
+import NewServiceDialog from "@/components/admin/services/NewServiceDialog";
+import { useNavigate } from "react-router-dom";
 
 interface SubscriptionsProps {
   onAddClick: () => void;
 }
 
 const Subscriptions = ({ onAddClick }: SubscriptionsProps) => {
-  const [subscriptions] = useState<Subscription[]>(mockSubscriptions);
-  
-  // Calculate statistics for the chart
-  const activeSubscriptions = subscriptions.filter(sub => sub.status === "active");
+  const [services, setServices] = useState<Subscription[]>(mockSubscriptions);
+  const [selectedService, setSelectedService] = useState<Subscription | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [dialogMode, setDialogMode] = useState<"view" | "edit">("view");
+  const navigate = useNavigate();
+
+  const handleViewDetails = (service: Subscription) => {
+    setSelectedService(service);
+    setDialogMode("view");
+    setIsDialogOpen(true);
+  };
+
+  const handleEdit = (service: Subscription) => {
+    setSelectedService(service);
+    setDialogMode("edit");
+    setIsDialogOpen(true);
+  };
+
+  const handleToggleStatus = (serviceId: string) => {
+    setServices(prev =>
+      prev.map(service => {
+        if (service.id === serviceId) {
+          const newStatus = service.status === "active" ? "inactive" : "active";
+          toast({
+            title: "Status Updated",
+            description: `Service status changed to ${newStatus}`,
+          });
+          return { ...service, status: newStatus };
+        }
+        return service;
+      })
+    );
+  };
+
+  const handleDelete = (serviceId: string) => {
+    setServices(prev => prev.filter(service => service.id !== serviceId));
+    toast({
+      title: "Service Deleted",
+      description: "The service has been successfully deleted",
+      variant: "destructive",
+    });
+  };
+
+  const activeSubscriptions = services.filter(sub => sub.status === "active");
   const totalUsers = activeSubscriptions.reduce((sum, sub) => sum + sub.userCount, 0);
 
   const chartData = activeSubscriptions.map(sub => ({
@@ -57,17 +100,17 @@ const Subscriptions = ({ onAddClick }: SubscriptionsProps) => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {subscriptions.map((subscription) => (
-                    <TableRow key={subscription.id} className="border-t border-gray-100">
-                      <TableCell className="font-light">{subscription.name}</TableCell>
-                      <TableCell className="font-light">${subscription.price}</TableCell>
-                      <TableCell className="capitalize font-light">{subscription.frequency}</TableCell>
+                  {services.map((service) => (
+                    <TableRow key={service.id} className="border-t border-gray-100">
+                      <TableCell className="font-light">{service.name}</TableCell>
+                      <TableCell className="font-light">${service.price}</TableCell>
+                      <TableCell className="capitalize font-light">{service.frequency}</TableCell>
                       <TableCell className="font-light">
-                        {subscription.userCount}/{subscription.maxUsers}
+                        {service.userCount}/{service.maxUsers}
                       </TableCell>
                       <TableCell>
-                        {subscription.autoRenewal ? (
-                          <Badge variant="outline" className="bg-accent-mint text-gray-800  border-gray-200">
+                        {service.autoRenewal ? (
+                          <Badge variant="outline" className="bg-accent-mint text-gray-800 border-gray-200">
                             Yes
                           </Badge>
                         ) : (
@@ -77,8 +120,8 @@ const Subscriptions = ({ onAddClick }: SubscriptionsProps) => {
                         )}
                       </TableCell>
                       <TableCell>
-                        {subscription.status === "active" ? (
-                          <Badge variant="outline" className="bg-accent-mint text-gray-800  border-gray-200">
+                        {service.status === "active" ? (
+                          <Badge variant="outline" className="bg-accent-mint text-gray-800 border-gray-200">
                             Active
                           </Badge>
                         ) : (
@@ -88,16 +131,36 @@ const Subscriptions = ({ onAddClick }: SubscriptionsProps) => {
                         )}
                       </TableCell>
                       <TableCell className="text-right space-x-2">
-                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-200">
-                          <Eye className="h-4 w-4" strokeWidth={1.5}  />
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="h-8 w-8 p-0 hover:bg-gray-200"
+                          onClick={() => handleViewDetails(service)}
+                        >
+                          <Eye className="h-4 w-4" strokeWidth={1.5} />
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-gray-200">
-                          <Edit className="h-4 w-4" strokeWidth={1.5}  />
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="h-8 w-8 p-0 hover:bg-gray-200"
+                          onClick={() => handleEdit(service)}
+                        >
+                          <Edit className="h-4 w-4" strokeWidth={1.5} />
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-red-200">
-                          <ToggleRight className="h-4 w-4 text-red-500" strokeWidth={1.5}  />
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="h-8 w-8 p-0 hover:bg-red-200"
+                          onClick={() => handleToggleStatus(service.id)}
+                        >
+                          <ToggleRight className="h-4 w-4 text-red-500" strokeWidth={1.5} />
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-8 w-8 p-0 hover:bg-red-200">
+                        <Button 
+                          variant="ghost" 
+                          size="icon" 
+                          className="h-8 w-8 p-0 hover:bg-red-200"
+                          onClick={() => handleDelete(service.id)}
+                        >
                           <Trash2 className="h-4 w-4 text-red-500" strokeWidth={1.5} />
                         </Button>
                       </TableCell>
@@ -153,6 +216,21 @@ const Subscriptions = ({ onAddClick }: SubscriptionsProps) => {
           </Card>
         </div>
       </div>
+
+      <NewServiceDialog 
+        isOpen={isDialogOpen}
+        setIsOpen={setIsDialogOpen}
+        onSubmit={(data) => {
+          console.log('Form submitted:', data);
+          setIsDialogOpen(false);
+          if (dialogMode === "edit") {
+            toast({
+              title: "Service Updated",
+              description: "The service has been successfully updated",
+            });
+          }
+        }}
+      />
     </div>
   );
 };
