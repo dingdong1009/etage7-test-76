@@ -38,6 +38,8 @@ export const ProductFilters = ({
   statusFilter,
   setStatusFilter
 }: ProductFiltersProps) => {
+  const [showFilters, setShowFilters] = useState(false);
+
   return (
     <div className="flex flex-col md:flex-row gap-4 mb-6">
       <div className="relative flex-grow">
@@ -50,81 +52,94 @@ export const ProductFilters = ({
         />
       </div>
       <div className="flex flex-wrap gap-2">
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="outline" size="sm" className="h-10 flex gap-1.5">
-              <Filter className="h-4 w-4" />
-              Filter
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-72 p-4">
-            <div className="space-y-6">
-              <div>
-                <Label className="text-sm">Category</Label>
-                <Select value={categoryFilter} onValueChange={setCategoryFilter}>
-                  <SelectTrigger className="mt-1.5">
-                    <SelectValue placeholder="All categories" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="">All categories</SelectItem>
-                    <SelectItem value="Outerwear">Outerwear</SelectItem>
-                    <SelectItem value="Tops">Tops</SelectItem>
-                    <SelectItem value="Bottoms">Bottoms</SelectItem>
-                    <SelectItem value="Dresses">Dresses</SelectItem>
-                    <SelectItem value="Accessories">Accessories</SelectItem>
-                  </SelectContent>
-                </Select>
+        <Button 
+          variant="outline" 
+          size="sm" 
+          className="h-10 flex gap-1.5"
+          onClick={() => setShowFilters(!showFilters)}
+        >
+          <Filter className="h-4 w-4" />
+          {showFilters ? 'Hide Filters' : 'Show Filters'}
+        </Button>
+
+        {showFilters && (
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" size="sm" className="h-10 flex gap-1.5">
+                <Filter className="h-4 w-4" />
+                Advanced Filters
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-72 p-4">
+              <div className="space-y-6">
+                <div>
+                  <Label className="text-sm">Category</Label>
+                  <Select value={categoryFilter} onValueChange={setCategoryFilter}>
+                    <SelectTrigger className="mt-1.5">
+                      <SelectValue placeholder="All categories" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">All categories</SelectItem>
+                      <SelectItem value="Outerwear">Outerwear</SelectItem>
+                      <SelectItem value="Tops">Tops</SelectItem>
+                      <SelectItem value="Bottoms">Bottoms</SelectItem>
+                      <SelectItem value="Dresses">Dresses</SelectItem>
+                      <SelectItem value="Accessories">Accessories</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label className="text-sm">Season</Label>
+                  <Select value={seasonFilter} onValueChange={setSeasonFilter}>
+                    <SelectTrigger className="mt-1.5">
+                      <SelectValue placeholder="All seasons" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">All seasons</SelectItem>
+                      <SelectItem value="Spring/Summer 2025">Spring/Summer 2025</SelectItem>
+                      <SelectItem value="Fall/Winter 2024">Fall/Winter 2024</SelectItem>
+                      <SelectItem value="Resort 2025">Resort 2025</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div>
+                  <Label className="text-sm">Status</Label>
+                  <Select value={statusFilter} onValueChange={setStatusFilter}>
+                    <SelectTrigger className="mt-1.5">
+                      <SelectValue placeholder="All statuses" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="">All statuses</SelectItem>
+                      <SelectItem value="active">Active</SelectItem>
+                      <SelectItem value="draft">Draft</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex justify-between">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    onClick={() => {
+                      setCategoryFilter("");
+                      setSeasonFilter("");
+                      setStatusFilter("");
+                    }}
+                  >
+                    Reset
+                  </Button>
+                  <Button 
+                    size="sm" 
+                    className="bg-black hover:bg-black-600"
+                  >
+                    Apply Filters
+                  </Button>
+                </div>
               </div>
-              <div>
-                <Label className="text-sm">Season</Label>
-                <Select value={seasonFilter} onValueChange={setSeasonFilter}>
-                  <SelectTrigger className="mt-1.5">
-                    <SelectValue placeholder="All seasons" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="">All seasons</SelectItem>
-                    <SelectItem value="Spring/Summer 2025">Spring/Summer 2025</SelectItem>
-                    <SelectItem value="Fall/Winter 2024">Fall/Winter 2024</SelectItem>
-                    <SelectItem value="Resort 2025">Resort 2025</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div>
-                <Label className="text-sm">Status</Label>
-                <Select value={statusFilter} onValueChange={setStatusFilter}>
-                  <SelectTrigger className="mt-1.5">
-                    <SelectValue placeholder="All statuses" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="">All statuses</SelectItem>
-                    <SelectItem value="active">Active</SelectItem>
-                    <SelectItem value="draft">Draft</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="flex justify-between">
-                <Button 
-                  variant="outline" 
-                  size="sm" 
-                  onClick={() => {
-                    setCategoryFilter("");
-                    setSeasonFilter("");
-                    setStatusFilter("");
-                  }}
-                >
-                  Reset
-                </Button>
-                <Button 
-                  size="sm" 
-                  className="bg-black hover:bg-black-600"
-                >
-                  Apply Filters
-                </Button>
-              </div>
-            </div>
-          </PopoverContent>
-        </Popover>
+            </PopoverContent>
+          </Popover>
+        )}
       </div>
     </div>
   );
 };
+
