@@ -1,4 +1,4 @@
-import { Instagram, Globe, ChevronLeft, BookmarkCheck, CalendarDays, Percent, Medal } from "lucide-react";
+import { ArrowLeft, ChevronLeft, ChevronRight, BookmarkCheck, CalendarDays, Percent, Medal } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ScrollArea";
@@ -17,7 +17,6 @@ import {
   TableCell,
   TableRow,
 } from "@/components/ui/table";
-import { Archive } from "@/components/buyer/messages/Icons";
 
 const ProductDetails = () => {
   const navigate = useNavigate();
@@ -139,23 +138,12 @@ const ProductDetails = () => {
                 <Button className="w-full bg-black hover:bg-gray-100 border hover:text-black hover:border text-white font-normal uppercase">
                   Contact Brand
                 </Button>
-                <Button variant="outline" className="w-full border-gray-300 font-normal uppercase">
+                <Button variant="outline" className="w-full border-gray-300 font-normal uppercase ">
                   Request Samples
                 </Button>
-                <div className="flex justify-between items-center w-full space-x-4">
-                  <a href="#" target="_blank" rel="noopener noreferrer" className="flex-1">
-                    <Instagram className="h-6 w-6 text-black hover:text-gray-600 transition-colors" />
-                  </a>
-                  <a href="#" target="_blank" rel="noopener noreferrer" className="flex-1">
-                    <Archive className="h-6 w-6 text-black hover:text-gray-600 transition-colors" />
-                  </a>
-                  <a href="#" target="_blank" rel="noopener noreferrer" className="flex-1">
-                    <Archive className="h-6 w-6 text-black hover:text-gray-600 transition-colors" />
-                  </a>
-                  <a href="#" target="_blank" rel="noopener noreferrer" className="flex-1">
-                    <Globe className="h-6 w-6 text-black hover:text-gray-600 transition-colors" />
-                  </a>
-                </div>
+                <Button variant="outline" className="w-full border-gray-300 font-normal uppercase">
+                  Visit Store
+                </Button>
               </div>
 
               <div className="border-t pt-4">
