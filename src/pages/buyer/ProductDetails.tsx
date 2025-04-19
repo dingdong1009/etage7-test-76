@@ -70,7 +70,7 @@ const ProductDetails = () => {
 
           {/* Product Info Section */}
           <ScrollArea className="w-full lg:w-2/5 pl-8">
-            <div className="lg:sticky lg:top-48">
+            <div className="lg:sticky lg:top-10">
               <h1 className="text-xl font-normal uppercase tracking-tighter">Product Name</h1>
               <p className="text-gray-500 mb-6">€2,400 / Wholesale price</p>
 
