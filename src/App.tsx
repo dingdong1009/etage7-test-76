@@ -61,6 +61,8 @@ import SalesPerformance from "./pages/sales/Performance";
 import SalesUsers from "./pages/sales/Users";
 import SalesMessages from "./pages/sales/Messages";
 import SalesSettings from "./pages/sales/Settings";
+import ViewInvitedUser from "./pages/admin/users/ViewInvitedUser";
+import EditInvitedUser from "./pages/admin/users/EditInvitedUser";
 
 // Initialize QueryClient
 const queryClient = new QueryClient();
@@ -117,6 +119,8 @@ const App = () => {
               <Route index element={<AdminDashboard />} />
               <Route path="dashboard" element={<AdminDashboard />} />
               <Route path="users" element={<AdminUsers />} />
+              <Route path="users/invited/:userId" element={<ViewInvitedUser />} />
+              <Route path="users/invited/:userId/edit" element={<EditInvitedUser />} />
               <Route path="paid-services" element={<AdminPaidServices />} />
               <Route path="agenda" element={<Agenda />} />
               <Route path="administration" element={<Administration />} />

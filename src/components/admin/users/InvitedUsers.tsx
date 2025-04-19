@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -28,8 +29,10 @@ const mockInvitedUsers: InvitedUser[] = [
 const InvitedUsers = () => {
   const [users, setUsers] = useState<InvitedUser[]>(mockInvitedUsers);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   const handleViewDetails = (id: number) => {
+    navigate(`/admin/users/invited/${id}`);
     toast({
       title: "Viewing user details",
       description: `Viewing details for user ${id}`,
@@ -37,6 +40,7 @@ const InvitedUsers = () => {
   };
 
   const handleEdit = (id: number) => {
+    navigate(`/admin/users/invited/${id}/edit`);
     toast({
       title: "Edit user",
       description: `Editing user ${id}`,
