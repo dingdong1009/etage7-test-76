@@ -120,10 +120,10 @@ const ViewActiveUserDetails = () => {
               <div>
                 <p className="text-sm text-gray-500">Website</p>
                 <a 
-                  href={user.website} 
+                  href={user.website.startsWith('http') ? user.website : `https://${user.website}`} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="text-blue-600 hover:underline"
+                  className="text-gray-700 hover:underline"
                 >
                   {user.website}
                 </a>
@@ -141,20 +141,34 @@ const ViewActiveUserDetails = () => {
               <p className="text-sm text-gray-500">Market Segment</p>
               <p className="font-medium">{user?.marketSegment}</p>
             </div>
-            {'productsCount' in user && (
+            {user?.type === "brand" && user.productsCount !== undefined && (
               <div>
                 <p className="text-sm text-gray-500">Products Count</p>
                 <p className="font-medium">{user.productsCount}</p>
+              </div>
+            )}
+            {user?.type === "buyer" && user.storeCount !== undefined && (
+              <div>
+                <p className="text-sm text-gray-500">Store Count</p>
+                <p className="font-medium">{user.storeCount}</p>
               </div>
             )}
             <div>
               <p className="text-sm text-gray-500">Average Order Value</p>
               <p className="font-medium">{user?.avgOrderValue}</p>
             </div>
-            <div>
-              <p className="text-sm text-gray-500">Total Sales</p>
-              <p className="font-medium">{user?.totalSales}</p>
-            </div>
+            {user?.type === "brand" && 'totalSales' in user && (
+              <div>
+                <p className="text-sm text-gray-500">Total Sales</p>
+                <p className="font-medium">{user.totalSales}</p>
+              </div>
+            )}
+            {user?.type === "buyer" && 'annualPurchases' in user && (
+              <div>
+                <p className="text-sm text-gray-500">Annual Purchases</p>
+                <p className="font-medium">{user.annualPurchases}</p>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
